@@ -13,8 +13,9 @@ internal static class GetProductByIdEndpoint
 		return app.MapGet("api/products/{id:guid}", Handle)
 			.WithName(nameof(GetProductById))
 			.WithTags(nameof(Product))
-			.Produces(StatusCodes.Status404NotFound)
-			.Produces(StatusCodes.Status400BadRequest)
+			.ProducesProblem(StatusCodes.Status404NotFound)
+			.ProducesProblem(StatusCodes.Status400BadRequest)
+			.ProducesProblem(StatusCodes.Status400BadRequest)
 			.Produces(StatusCodes.Status200OK);
 	}
 

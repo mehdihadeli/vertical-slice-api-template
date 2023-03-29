@@ -14,7 +14,7 @@ internal static class CreateProductEndpoint
 		return app.MapPost("api/products", Handle)
 			.WithName(nameof(CreateProduct))
 			.WithTags(nameof(Product))
-			.Produces(StatusCodes.Status404NotFound)
+			.ProducesProblem(StatusCodes.Status404NotFound)
 			.Produces(StatusCodes.Status201Created);
 	}
 
