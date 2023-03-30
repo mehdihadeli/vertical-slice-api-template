@@ -10,9 +10,9 @@ internal static class GetProductByIdEndpoint
 {
 	public static RouteHandlerBuilder MapGetProductByIdEndpoint(this IEndpointRouteBuilder app)
 	{
-		return app.MapGet("api/products/{id:guid}", Handle)
+		return app.MapGet("/{id:guid}", Handle)
 			.WithName(nameof(GetProductById))
-			.WithTags(nameof(Product))
+			.WithTags(Configuratinos.Tag)
 			.ProducesProblem(StatusCodes.Status404NotFound)
 			.ProducesProblem(StatusCodes.Status400BadRequest)
 			.ProducesProblem(StatusCodes.Status400BadRequest)

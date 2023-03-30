@@ -1,24 +1,33 @@
 using Catalogs.Products.Features.CreatingProduct;
 using Catalogs.Products.Features.GettingProductById;
+using Catalogs.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Shared.Web;
 
-internal static class Configuratinos
+internal class Configuratinos : IModuleConfiguration
 {
-	public static WebApplicationBuilder AddProductServices(this WebApplicationBuilder builder)
+	public const string Tag = "Products";
+	public const string ProductsPrefixUri = $"{Configurations.CatalogModulePrefixUri}/products";
+	public WebApplicationBuilder AddModuleServices(WebApplicationBuilder builder)
 	{
 		return builder;
 	}
 
-	public static Task<WebApplication> ConfigureProduct(this WebApplication app)
+	public Task<WebApplication> ConfigureModule(WebApplication app)
 	{
 		return Task.FromResult(app);
 	}
 
-	public static IEndpointRouteBuilder MapProductEndpoints(this IEndpointRouteBuilder endpoints)
+	public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
 	{
-		endpoints.MapCreateProductEndpoint();
-		endpoints.MapGetProductByIdEndpoint();
+		var products = endpoints.NewVersionedApi(Tag);
+		var productsV1 = products.MapGroup(ProductsPrefixUri)
+			.HasDeprecatedApiVersion(0.9)
+			.HasApiVersion(1.0);
+
+		productsV1.MapCreateProductEndpoint();
+		productsV1.MapGetProductByIdEndpoint();
 
 		return endpoints;
 	}

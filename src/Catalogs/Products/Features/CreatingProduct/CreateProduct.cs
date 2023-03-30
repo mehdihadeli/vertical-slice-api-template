@@ -1,4 +1,3 @@
-using Carter.ModelBinding;
 using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
@@ -39,7 +38,7 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
 		var result = await _validator.ValidateAsync(request, cancellationToken);
 		if (!result.IsValid)
 		{
-			throw new BadRequestException(string.Join(',', result.GetValidationProblems().SelectMany(x => x.Value)));
+			throw new BadRequestException(string.Join(',', result.Errors.Select(x => x.ErrorMessage)));
 		}
 
 		var product = new Product

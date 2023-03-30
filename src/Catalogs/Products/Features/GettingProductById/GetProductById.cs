@@ -1,5 +1,4 @@
 using AutoMapper;
-using Carter.ModelBinding;
 using Catalogs.Products.Dtos;
 using Catalogs.Products.ReadModel;
 using Catalogs.Shared.Data;
@@ -41,7 +40,7 @@ internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProduc
 		var result = await _validator.ValidateAsync(request, cancellationToken);
 		if (!result.IsValid)
 		{
-			throw new BadRequestException(string.Join(',', result.GetValidationProblems().SelectMany(x => x.Value)));
+			throw new BadRequestException(string.Join(',', result.Errors.Select(x => x.ErrorMessage)));
 		}
 
 		var productReadModel = await _catalogsDbContext.Products.Select(

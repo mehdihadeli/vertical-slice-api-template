@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
+using Shared.Web.Extensions;
 
 namespace Catalogs.Shared;
 
 public static class Configurations
 {
-	public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
+	public const string CatalogModulePrefixUri = "api/v{version:apiVersion}/catalogs";
+	public static WebApplicationBuilder AddCatalogServices(this WebApplicationBuilder builder)
 	{
 		builder.Services.AddDbContext<CatalogsDbContext>(options => options.UseInMemoryDatabase("catalogs"));
 		builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(CatalogsAssemblyInfo).Assembly));
@@ -21,19 +23,19 @@ public static class Configurations
 		builder.Services.AddCustomValidators(typeof(CatalogsAssemblyInfo).Assembly);
 		builder.Services.AddValidatorsFromAssembly(typeof(CatalogsAssemblyInfo).Assembly);
 
-		builder.AddProductServices();
+		builder.AddModulesServices();
 
 		return builder;
 	}
 
-	public static Task<WebApplication> ConfigureServices(this WebApplication app)
+	public static Task<WebApplication> ConfigureCatalogServices(this WebApplication app)
 	{
-		return app.ConfigureProduct();
+		return app.ConfigureModules();
 	}
 
-	public static IEndpointRouteBuilder MapEndpoints(this IEndpointRouteBuilder endpoints)
+	public static IEndpointRouteBuilder MapCatalogEndpoints(this IEndpointRouteBuilder endpoints)
 	{
-		return endpoints.MapProductEndpoints();
+		return endpoints.MapModulesEndpoints();
 	}
 
 	private static IServiceCollection AddCustomValidators(

@@ -11,9 +11,9 @@ internal static class CreateProductEndpoint
 {
 	public static RouteHandlerBuilder MapCreateProductEndpoint(this IEndpointRouteBuilder app)
 	{
-		return app.MapPost("api/products", Handle)
+		return app.MapPost("/", Handle)
 			.WithName(nameof(CreateProduct))
-			.WithTags(nameof(Product))
+			.WithTags(Configuratinos.Tag)
 			.ProducesProblem(StatusCodes.Status404NotFound)
 			.Produces(StatusCodes.Status201Created);
 	}
