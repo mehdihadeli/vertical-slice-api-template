@@ -1,8 +1,6 @@
-using Sieve.Attributes;
+namespace Catalogs.Products.Dtos;
 
-namespace Catalogs.Products.ReadModel;
-
-public class ProductReadModel
+public record ProductDto
 {
 	public required decimal Price { get; init; }
 	public required Guid CategoryId { get; init; }

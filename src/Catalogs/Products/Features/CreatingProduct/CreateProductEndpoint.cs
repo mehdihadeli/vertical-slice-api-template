@@ -4,18 +4,23 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Shared.Web.Extensions;
 
 namespace Catalogs.Products.Features.CreatingProduct;
 
 internal static class CreateProductEndpoint
 {
-	public static RouteHandlerBuilder MapCreateProductEndpoint(this IEndpointRouteBuilder app)
+	internal static RouteHandlerBuilder MapCreateProductEndpoint(this IEndpointRouteBuilder app)
 	{
 		return app.MapPost("/", Handle)
 			.WithName(nameof(CreateProduct))
-			.WithTags(Configuratinos.Tag)
-			.ProducesProblem(StatusCodes.Status404NotFound)
-			.Produces(StatusCodes.Status201Created);
+			.WithTags(ProductConfigurations.Tag)
+			.WithSummaryAndDescription("Creating a New Product", "Creating a New Product")
+			.Produces("Product created successfully.", StatusCodes.Status201Created)
+			.ProducesValidationProblem("Invalid input for creating product.", StatusCodes.Status400BadRequest)
+			.ProducesProblem("UnAuthorized request.", StatusCodes.Status401Unauthorized)
+			.WithDisplayName("Create a new product.")
+			.MapToApiVersion(1.0);
 	}
 
 	private static async Task<IResult> Handle(

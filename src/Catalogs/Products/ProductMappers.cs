@@ -12,5 +12,6 @@ public class ProductMappers : Profile
 		CreateMap<CreateProductRequest, CreateProduct>();
 		CreateMap<Product, ProductReadModel>();
 		CreateMap<ProductReadModel, ProductLiteDto>();
+		CreateMap<ProductReadModel, ProductDto>();
 	}
 }

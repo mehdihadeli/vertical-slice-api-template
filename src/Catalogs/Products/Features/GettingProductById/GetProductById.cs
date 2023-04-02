@@ -1,10 +1,8 @@
 using AutoMapper;
+using Catalogs.Products.Data.Executors;
 using Catalogs.Products.Dtos;
-using Catalogs.Products.ReadModel;
-using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Shared.Core.Exceptions;
 
 namespace Catalogs.Products.Features.GettingProductById;
@@ -21,16 +19,16 @@ internal class Validator : AbstractValidator<GetProductById>
 
 internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProductByIdResult>
 {
-	private readonly CatalogsDbContext _catalogsDbContext;
+	private readonly GetProductByIdExecutor _getProductByIdExecutor;
 	private readonly IValidator<GetProductById> _validator;
 	private readonly IMapper _mapper;
 
 	public GetProductByIdHandler(
-		CatalogsDbContext catalogsDbContext,
+		GetProductByIdExecutor getProductByIdExecutor,
 		IValidator<GetProductById> validator,
 		IMapper mapper)
 	{
-		_catalogsDbContext = catalogsDbContext;
+		_getProductByIdExecutor = getProductByIdExecutor;
 		_validator = validator;
 		_mapper = mapper;
 	}
@@ -43,14 +41,7 @@ internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProduc
 			throw new BadRequestException(string.Join(',', result.Errors.Select(x => x.ErrorMessage)));
 		}
 
-		var productReadModel = await _catalogsDbContext.Products.Select(
-									   x => new ProductReadModel
-										    {
-											    Id = x.Id,
-											    Name = x.Name
-										    })
-								   .AsNoTracking()
-								   .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+		var productReadModel = await _getProductByIdExecutor(request.Id, cancellationToken);
 
 		if (productReadModel is null)
 		{

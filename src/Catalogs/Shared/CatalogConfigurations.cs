@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using Shared.Web.Extensions;
+using Sieve.Services;
 
 namespace Catalogs.Shared;
 
-public static class Configurations
+public static class CatalogConfigurations
 {
 	public const string CatalogModulePrefixUri = "api/v{version:apiVersion}/catalogs";
 	public static WebApplicationBuilder AddCatalogServices(this WebApplicationBuilder builder)
@@ -19,7 +20,7 @@ public static class Configurations
 		builder.Services.AddDbContext<CatalogsDbContext>(options => options.UseInMemoryDatabase("catalogs"));
 		builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(CatalogsAssemblyInfo).Assembly));
 		builder.Services.AddAutoMapper(x => { x.AddProfile<ProductMappers>(); });
-
+		builder.Services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
 		builder.Services.AddCustomValidators(typeof(CatalogsAssemblyInfo).Assembly);
 		builder.Services.AddValidatorsFromAssembly(typeof(CatalogsAssemblyInfo).Assembly);
 

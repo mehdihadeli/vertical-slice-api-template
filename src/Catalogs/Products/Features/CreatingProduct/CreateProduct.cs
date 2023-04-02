@@ -1,13 +1,16 @@
-using Catalogs.Shared.Data;
+using Catalogs.Products.Data.Executors;
 using FluentValidation;
 using MediatR;
 using Shared.Core.Exceptions;
 
 namespace Catalogs.Products.Features.CreatingProduct;
 
-public record CreateProduct
-	(string Name, Guid CategoryId, decimal Price, string? Description) : IRequest<CreateProductResult>
+public record CreateProduct: IRequest<CreateProductResult>
 {
+	public required string Name { get; init; }
+	public required Guid CategoryId { get; init; }
+	public required decimal Price { get; init; }
+	public string? Description { get; init; } = default!;
 	public Guid Id { get; } = Guid.NewGuid();
 }
 
@@ -24,12 +27,14 @@ internal class Validator : AbstractValidator<CreateProduct>
 
 internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProductResult>
 {
-	private readonly CatalogsDbContext _catalogsDbContext;
+	private readonly CreateAndSaveProductExecutor _createAndSaveProductExecutor;
 	private readonly IValidator<CreateProduct> _validator;
 
-	public CreateProductHandler(CatalogsDbContext catalogsDbContext, IValidator<CreateProduct> validator)
+	public CreateProductHandler(
+		CreateAndSaveProductExecutor createAndSaveProductExecutor,
+		IValidator<CreateProduct> validator)
 	{
-		_catalogsDbContext = catalogsDbContext;
+		_createAndSaveProductExecutor = createAndSaveProductExecutor;
 		_validator = validator;
 	}
 
@@ -50,9 +55,7 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
 						  Description = request.Description,
 					  };
 
-		_catalogsDbContext.Products.Add(product);
-
-		await _catalogsDbContext.SaveChangesAsync(cancellationToken);
+		await _createAndSaveProductExecutor(product, cancellationToken);
 
 		return new CreateProductResult(product.Id);
 	}
