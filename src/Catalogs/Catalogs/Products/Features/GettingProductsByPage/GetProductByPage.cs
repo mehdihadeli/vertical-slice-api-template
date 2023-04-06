@@ -13,7 +13,7 @@ namespace Catalogs.Products.Features.GettingProductsByPage;
 
 public record GetProductByPage : PageQuery<GetProductsResult>;
 
-public class Validator : AbstractValidator<GetProductByPage>
+internal class Validator : AbstractValidator<GetProductByPage>
 {
     public Validator()
     {

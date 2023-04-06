@@ -5,9 +5,9 @@ using Catalogs.Products.ReadModel;
 
 namespace Catalogs.Products;
 
-public class ProductMappers : Profile
+public class ProductMappingProfiles : Profile
 {
-    public ProductMappers()
+    public ProductMappingProfiles()
     {
         CreateMap<CreateProductRequest, CreateProduct>()
             .ConvertUsing(x => new CreateProduct(x.Name, x.CategoryId, x.Price, x.Description));

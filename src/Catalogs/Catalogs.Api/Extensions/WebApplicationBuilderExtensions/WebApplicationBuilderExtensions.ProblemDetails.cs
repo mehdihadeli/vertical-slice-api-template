@@ -17,7 +17,7 @@ public static partial class WebApplicationBuilderExtensions
                 }
 
                 var problemCorrelationId = Guid.NewGuid().ToString();
-                //log problemCorrelationId into logging system
+                // log problemCorrelationId into logging system
                 ctx.ProblemDetails.Instance = problemCorrelationId;
             };
             // x.Map<ConflictException>(

@@ -1,4 +1,4 @@
-namespace Catalogs.ApiClient.Catalogs.Dtos;
+namespace ApiClient.Catalogs.Dtos;
 
 public record ProductDto
 {

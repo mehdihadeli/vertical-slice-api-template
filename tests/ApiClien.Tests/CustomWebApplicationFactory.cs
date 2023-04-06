@@ -1,5 +1,5 @@
+using ApiClient.Catalogs;
 using Catalogs.ApiClient;
-using Catalogs.ApiClient.Catalogs;
 using Catalogs.ApiClient.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -21,6 +21,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             wb.ConfigureTestServices(services =>
             {
                 services.AddCustomHttpClients();
+                services.AddMappings();
                 services.AddTransient<ICatalogsApiClient>(x =>
                 {
                     // replace our CatalogsApiClient, internal httpclient with factory httpclient

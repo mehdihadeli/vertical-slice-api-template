@@ -1,5 +1,5 @@
+using ApiClient.Catalogs;
 using Ardalis.GuardClauses;
-using Catalogs.ApiClient.Catalogs;
 using Microsoft.Extensions.Options;
 using Shared.Web;
 using Shared.Web.Extensions.ServiceCollection;
@@ -25,6 +25,15 @@ public static class ServiceCollectionExtensions
             return new CatalogsApiClient(httpClient);
         });
 
+        return services;
+    }
+
+    public static IServiceCollection AddMappings(this IServiceCollection services)
+    {
+        services.AddAutoMapper(x =>
+        {
+            x.AddProfile<CatalogsMappingProfile>();
+        });
         return services;
     }
 }

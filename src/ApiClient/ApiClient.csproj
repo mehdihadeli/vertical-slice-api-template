@@ -1,23 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="NSwag.ApiDescription.Client" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="NSwag.MSBuild" Version="13.18.2">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="..\Catalogs\Catalogs.Api\swagger.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Always" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Shared\Shared.csproj" />
-    </ItemGroup>
-
-<!--  https://medium.com/@woeterman_94/how-to-generate-a-swagger-json-file-on-build-in-net-core-fa74eec3df1-->
-    <Target Name="NSwag" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-        <Exec Command="dotnet tool restore" />
-        <Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net70) run nswag.json /variables:Configuration=$(Configuration)" />
-    </Target>
+  <!--  https://learn.microsoft.com/en-us/aspnet/core/web-api/microsoft.dotnet-openapi-->
+  <!--  https://devblogs.microsoft.com/dotnet/generating-http-api-clients-using-visual-studio-connected-services/-->
+  <!--  https://github.com/dotnet/aspnetcore/blob/main/src/Tools/Extensions.ApiDescription.Client/src/build/Microsoft.Extensions.ApiDescription.Client.props#L65-->
+  <!--  https://gist.github.com/stevetalkscode/69719465d8271f1e9fa412626fdadfcd-->
+  <!--  For existing options like Namespace command args in options tag doesn't work-->
+  <!--  dotnet openapi add url http://localhost:5158/swagger/v1/swagger.json-->
+  <!--  dotnet openapi refresh http://localhost:5158/swagger/v1/swagger.json-->
+  <ItemGroup>
+    <OpenApiReference Include="swagger.json" SourceUrl="http://localhost:5158/swagger/v1/swagger.json">
+      <Namespace>Catalogs.ApiClient</Namespace>
+      <ClassName>CatalogsApiClient</ClassName>
+      <OutputPath>Client.g.cs</OutputPath>
+      <Options>/ClassStyle:Record /DateTimeType:System.DateTime /UseBaseUrl:false /GenerateBaseUrlProperty:true /ExceptionClass:ApiException /GenerateClientInterfaces:true</Options>
+    </OpenApiReference>
+  </ItemGroup>
 </Project>

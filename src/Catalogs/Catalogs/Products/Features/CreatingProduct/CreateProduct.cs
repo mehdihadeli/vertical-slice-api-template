@@ -5,7 +5,7 @@ using Shared.Core.Exceptions;
 
 namespace Catalogs.Products.Features.CreatingProduct;
 
-public record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
+internal record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
     : IRequest<CreateProductResult>
 {
     public Guid Id { get; } = Guid.NewGuid();

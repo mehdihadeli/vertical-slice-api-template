@@ -1,6 +1,7 @@
+using ApiClient.Catalogs.Dtos;
 using Ardalis.GuardClauses;
 using AutoMapper;
-using Catalogs.ApiClient.Catalogs.Dtos;
+using Catalogs.ApiClient;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Timeout;
@@ -9,7 +10,7 @@ using Shared.Core.Exceptions;
 using Shared.Core.Wrappers;
 using Shared.Web;
 
-namespace Catalogs.ApiClient.Catalogs;
+namespace ApiClient.Catalogs;
 
 public class CatalogsService : ICatalogsService
 {

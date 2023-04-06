@@ -7,7 +7,7 @@ using Shared.Core.Exceptions;
 
 namespace Catalogs.Products.Features.GettingProductById;
 
-public record GetProductById(Guid Id) : IRequest<GetProductByIdResult>;
+internal record GetProductById(Guid Id) : IRequest<GetProductByIdResult>;
 
 internal class Validator : AbstractValidator<GetProductById>
 {

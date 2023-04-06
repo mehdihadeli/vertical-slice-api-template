@@ -22,7 +22,7 @@ public static class CatalogConfigurations
         builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(CatalogsAssemblyInfo).Assembly));
         builder.Services.AddAutoMapper(x =>
         {
-            x.AddProfile<ProductMappers>();
+            x.AddProfile<ProductMappingProfiles>();
         });
         builder.Services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
         builder.Services.AddCustomValidators(typeof(CatalogsAssemblyInfo).Assembly);

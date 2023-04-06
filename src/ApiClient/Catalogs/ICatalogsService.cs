@@ -1,6 +1,6 @@
-using Catalogs.ApiClient.Catalogs.Dtos;
+using ApiClient.Catalogs.Dtos;
 
-namespace Catalogs.ApiClient.Catalogs;
+namespace ApiClient.Catalogs;
 
 /// <summary>
 /// Anti corruption layer fo catalogs service.

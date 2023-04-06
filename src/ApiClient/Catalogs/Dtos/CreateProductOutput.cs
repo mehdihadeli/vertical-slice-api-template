@@ -1,3 +1,3 @@
-namespace Catalogs.ApiClient.Catalogs.Dtos;
+namespace ApiClient.Catalogs.Dtos;
 
 public record CreateProductOutput(Guid Id);
