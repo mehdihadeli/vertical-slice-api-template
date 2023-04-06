@@ -1,10 +1,9 @@
 using System.Reflection;
 using LinqKit;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using Scrutor;
 using Shared.Core.Reflection;
-using Microsoft.AspNetCore.Http;
 
 namespace Shared.Web.Extensions;
 
@@ -69,7 +68,9 @@ public static class MinimalApiExtensions
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>
-    public static Microsoft.AspNetCore.Routing.IEndpointRouteBuilder MapMinimalEndpoints(this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder builder)
+    public static Microsoft.AspNetCore.Routing.IEndpointRouteBuilder MapMinimalEndpoints(
+        this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder builder
+    )
     {
         var scope = builder.ServiceProvider.CreateScope();
 

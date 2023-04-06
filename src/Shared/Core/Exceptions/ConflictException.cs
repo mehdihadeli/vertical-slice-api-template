@@ -1,12 +1,9 @@
-using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace Shared.Core.Exceptions;
 
 public class ConflictException : CustomException
 {
-    public ConflictException(string message)
-        : base(message)
-    {
-        StatusCode = HttpStatusCode.Conflict;
-    }
+    public ConflictException(string message, Exception? innerException = null)
+        : base(message, StatusCodes.Status409Conflict, innerException) { }
 }

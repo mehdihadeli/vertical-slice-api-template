@@ -1,0 +1,26 @@
+{
+  "name": "vertical-slice-template",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "prepare": "husky install && dotnet tool restore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mehdihadeli/vertical-slice-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mehdihadeli/vertical-slice-template/issues"
+  },
+  "homepage": "https://github.com/mehdihadeli/vertical-slice-template#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^17.5.1",
+    "@commitlint/config-conventional": "^17.4.4",
+    "husky": "^8.0.3"
+  }
+}

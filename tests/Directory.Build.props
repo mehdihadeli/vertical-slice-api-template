@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build -->
+<Project>
+  <PropertyGroup>
+      <TargetFramework>net7.0</TargetFramework>
+      <LangVersion>latest</LangVersion>
+      <Nullable>enable</Nullable>
+      <ImplicitUsings>enable</ImplicitUsings>
+	  <NoWarn>CS1587,CS1591,CS1998,NU5105</NoWarn>
+  </PropertyGroup>
+
+<!-- https://codyanhorn.tech/blog/excluding-your-net-test-project-from-code-coverage -->
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    </ItemGroup>
+
+</Project>

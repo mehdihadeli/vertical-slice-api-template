@@ -6,10 +6,11 @@ public class CustomException : System.Exception
 {
     public CustomException(
         string message,
-        HttpStatusCode statusCode = HttpStatusCode.InternalServerError,
+        int statusCode = (int)HttpStatusCode.InternalServerError,
+        Exception? innerException = null,
         params string[] errors
     )
-        : base(message)
+        : base(message, innerException)
     {
         ErrorMessages = errors;
         StatusCode = statusCode;
@@ -17,5 +18,5 @@ public class CustomException : System.Exception
 
     public IEnumerable<string> ErrorMessages { get; protected set; }
 
-    public HttpStatusCode StatusCode { get; protected set; }
+    public int StatusCode { get; protected set; }
 }

@@ -104,4 +104,3 @@ public interface IMediatorMinimalEndpoint<in TRequest, in TDependency1, in TDepe
         CancellationToken cancellationToken
     );
 }
-

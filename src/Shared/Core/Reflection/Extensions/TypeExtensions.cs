@@ -233,13 +233,13 @@ public static class TypeExtensions
     )
     {
         return from type in types
-        from interfaceType in type.GetInterfaces()
-        where
-            interfaceType.IsGenericType
-            && openGenericType.IsAssignableFrom(interfaceType.GetGenericTypeDefinition())
-            && type.IsClass
-            && !type.IsAbstract
-        select type;
+            from interfaceType in type.GetInterfaces()
+            where
+                interfaceType.IsGenericType
+                && openGenericType.IsAssignableFrom(interfaceType.GetGenericTypeDefinition())
+                && type.IsClass
+                && !type.IsAbstract
+            select type;
     }
 
     // https://stackoverflow.com/questions/26733/getting-all-types-that-implement-an-interface
