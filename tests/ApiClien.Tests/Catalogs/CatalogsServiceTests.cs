@@ -16,9 +16,14 @@ public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task create_product_can_create_product_with_valid_data()
     {
+        // Arrange
         var catalogsService = _appFactory.CatalogsService;
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
+
+        // Act
         var response = await catalogsService.CreateProductAsync(createProduct, CancellationToken.None);
+
+        // Assert
         response.Should().NotBeNull();
         response.Id.Should().NotBeEmpty();
     }
@@ -31,7 +36,10 @@ public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
         var createProductResponse = await catalogsService.CreateProductAsync(createProduct, CancellationToken.None);
 
+        // Act
         var response = await catalogsService.GetProductByIdAsync(createProductResponse.Id, CancellationToken.None);
+
+        // Assert
         response.Should().NotBeNull();
         response.Product.Id.Should().Be(createProductResponse.Id);
     }
@@ -46,7 +54,7 @@ public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
 
         // Act
         var response = await catalogsService.GetProductByPageAsync(
-            new GetGetProductsByPageInput { PageNumber = 1, PageSize = 10 },
+            new GetGetProductsByPageInput(PageSize: 10, PageNumber: 1),
             CancellationToken.None
         );
         // Assert

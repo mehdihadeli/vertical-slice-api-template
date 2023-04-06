@@ -11,7 +11,8 @@ using Sieve.Services;
 
 namespace Catalogs.Products.Features.GettingProductsByPage;
 
-public record GetProductByPage : PageQuery<GetProductsResult>;
+public record GetProductByPage(int PageSize, int PageNumber, string? Filters = null, string? SortOrder = null)
+    : PageQuery<GetProductsResult>(PageSize, PageNumber, Filters, SortOrder);
 
 internal class Validator : AbstractValidator<GetProductByPage>
 {

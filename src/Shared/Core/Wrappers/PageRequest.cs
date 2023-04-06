@@ -10,13 +10,8 @@ public interface IPageRequest
 
 // https://blog.codingmilitia.com/2022/01/03/getting-complex-type-as-simple-type-query-string-aspnet-core-api-controller/
 // https://benfoster.io/blog/minimal-apis-custom-model-binding-aspnet-
-public record PageRequest : IPageRequest
+public record PageRequest(int PageSize, int PageNumber, string? Filters = null, string? SortOrder = null) : IPageRequest
 {
-    public int PageSize { get; init; } = 10;
-    public int PageNumber { get; init; } = 1;
-    public string? Filters { get; init; } = default!;
-    public string? SortOrder { get; init; } = default!;
-
     //// This handle with AsParameter .net 7
     // public static ValueTask<PageRequest?> BindAsync(HttpContext httpContext, ParameterInfo parameter)
     // {
@@ -37,14 +32,14 @@ public record PageRequest : IPageRequest
     // }
 }
 
-public abstract record PageRequest<TPageRequest> : IPageRequest
+public abstract record PageRequest<TPageRequest>(
+    int PageSize,
+    int PageNumber,
+    string? Filters = null,
+    string? SortOrder = null
+) : IPageRequest
     where TPageRequest : IPageRequest, new()
 {
-    public int PageSize { get; init; } = 10;
-    public int PageNumber { get; init; } = 1;
-    public string? Filters { get; init; } = default!;
-    public string? SortOrder { get; init; } = default!;
-
     //// This handle with AsParameter .net 7
     // public static ValueTask<TPageRequest?> BindAsync(HttpContext httpContext, ParameterInfo parameter)
     // {

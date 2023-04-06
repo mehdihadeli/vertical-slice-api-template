@@ -144,7 +144,7 @@ public class CatalogsService : ICatalogsService
             {
                 // https://stackoverflow.com/questions/21097730/usage-of-ensuresuccessstatuscode-and-handling-of-httprequestexception-it-throws
                 // https: //github.com/App-vNext/Polly#step-1--specify-the--exceptionsfaults-you-want-the-policy-to-handle
-                return await _catalogsApiClient.GetProductByIdAsync(id.ToString(), cancellationToken);
+                return await _catalogsApiClient.GetProductByIdAsync(id, cancellationToken);
             });
 
             return new GetProductByIdOutput(new Dtos.ProductLiteDto(result.Product.Id, result.Product.Name));

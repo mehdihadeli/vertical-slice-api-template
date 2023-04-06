@@ -78,21 +78,21 @@
           {
             "name": "PageSize",
             "in": "query",
-            "required": true,
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 10
             }
           },
           {
             "name": "PageNumber",
             "in": "query",
-            "required": true,
             "style": "form",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 1
             }
           },
           {
@@ -152,7 +152,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],

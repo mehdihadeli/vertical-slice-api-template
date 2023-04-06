@@ -21,7 +21,7 @@ public class GetProductByIdTests : IClassFixture<WebApplicationFactory<Program>>
         var client = new CatalogsApiClient(baseClient);
 
         // Act
-        Func<Task> act = async () => await client.GetProductByIdAsync(new Faker().Random.Guid().ToString());
+        Func<Task> act = async () => await client.GetProductByIdAsync(new Faker().Random.Guid());
 
         // Assert
         //https://fluentassertions.com/exceptions/
