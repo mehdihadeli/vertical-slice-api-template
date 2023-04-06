@@ -22,20 +22,16 @@ internal static class GetProductsEndpoint
             .MapToApiVersion(1.0);
     }
 
-    private static async Task<IResult> Handle(
-        [AsParameters] GetGetProductsByPageRequest pageRequest,
-        HttpContext context,
-        IMediator mediator,
-        CancellationToken cancellationToken
-    )
+    private static async Task<IResult> Handle([AsParameters] GetProductByPageParameters parameters)
     {
+        var (request, _, mediator, cancellationToken) = parameters;
         var result = await mediator.Send(
             new GetProductByPage
             {
-                Filters = pageRequest.Filters,
-                PageNumber = pageRequest.PageNumber,
-                PageSize = pageRequest.PageSize,
-                SortOrder = pageRequest.SortOrder
+                Filters = request.Filters,
+                PageNumber = request.PageNumber,
+                PageSize = request.PageSize,
+                SortOrder = request.SortOrder
             },
             cancellationToken
         );
@@ -43,6 +39,15 @@ internal static class GetProductsEndpoint
         return Results.Ok(new GetGetProductsByPageResponse(result.Products));
     }
 }
+
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#parameter-binding-for-argument-lists-with-asparameters
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#binding-precedence
+internal record GetProductByPageParameters(
+    GetGetProductsByPageRequest Request,
+    HttpContext Context,
+    IMediator Mediator,
+    CancellationToken CancellationToken
+);
 
 internal record GetGetProductsByPageRequest : PageRequest;
 

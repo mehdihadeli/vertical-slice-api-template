@@ -23,15 +23,10 @@ internal static class CreateProductEndpoint
             .MapToApiVersion(1.0);
     }
 
-    private static async Task<IResult> Handle(
-        CreateProductRequest request,
-        HttpContext context,
-        IMediator mediator,
-        IMapper mapper,
-        CancellationToken cancellationToken
-    )
+    private static async Task<IResult> Handle([AsParameters] CreateProductParameters parameters)
     {
-        Guard.Against.Null(request, nameof(request));
+        var (request, _, mediator, mapper, cancellationToken) = parameters;
+        Guard.Against.Null(request);
 
         var command = mapper.Map<CreateProduct>(request);
 
@@ -45,6 +40,16 @@ internal static class CreateProductEndpoint
     }
 }
 
-internal record CreateProductRequest(string Name, Guid CategoryId, decimal Price, string? Description);
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#parameter-binding-for-argument-lists-with-asparameters
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#binding-precedence
+internal record CreateProductParameters(
+    CreateProductRequest Request,
+    HttpContext Context,
+    IMediator Mediator,
+    IMapper Mapper,
+    CancellationToken CancellationToken
+);
 
 internal record CreateProductResponse(Guid Id);
+
+internal record CreateProductRequest(string Name, Guid CategoryId, decimal Price, string? Description);

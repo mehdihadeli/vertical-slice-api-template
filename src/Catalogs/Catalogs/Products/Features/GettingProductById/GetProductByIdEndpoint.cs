@@ -2,6 +2,7 @@ using Catalogs.Products.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Extensions;
 
@@ -22,17 +23,22 @@ internal static class GetProductByIdEndpoint
             .MapToApiVersion(1.0);
     }
 
-    private static async Task<IResult> Handle(
-        Guid id,
-        HttpContext context,
-        IMediator mediator,
-        CancellationToken cancellationToken
-    )
+    private static async Task<IResult> Handle([AsParameters] GetProductByIdParameters parameters)
     {
+        var (id, _, mediator, cancellationToken) = parameters;
         var result = await mediator.Send(new GetProductById(id), cancellationToken);
 
         return Results.Ok(new GetProductByIdResponse(result.Product));
     }
 }
+
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#parameter-binding-for-argument-lists-with-asparameters
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#binding-precedence
+internal record GetProductByIdParameters(
+    [FromRoute] Guid Id,
+    HttpContext Context,
+    IMediator Mediator,
+    CancellationToken CancellationToken
+);
 
 internal record GetProductByIdResponse(ProductLiteDto Product);

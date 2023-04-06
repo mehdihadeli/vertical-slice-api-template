@@ -1,7 +1,3 @@
-using System.Reflection;
-using Microsoft.AspNetCore.Http;
-using Shared.Web.Extensions;
-
 namespace Shared.Core.Wrappers;
 
 public interface IPageRequest
