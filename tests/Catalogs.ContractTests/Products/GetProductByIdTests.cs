@@ -1,3 +1,4 @@
+using AutoBogus;
 using Bogus;
 using Catalogs.ApiClient;
 using FluentAssertions;
@@ -19,17 +20,33 @@ public class GetProductByIdTests : IClassFixture<WebApplicationFactory<Program>>
     {
         using var baseClient = _appFactory.CreateClient();
         var client = new CatalogsApiClient(baseClient);
+        var createProductResponse = await CreateProduct(client);
 
         // Act
-        Func<Task> act = async () => await client.GetProductByIdAsync(new Faker().Random.Guid());
+        var productByIdResponse = await client.GetProductByIdAsync(createProductResponse.Id);
 
         // Assert
-        //https://fluentassertions.com/exceptions/
-        var res = await act.Should().ThrowAsync<ApiException>();
-        var exception = res.Which;
-        exception.Response.Should().NotBeNull();
-        var problem = Newtonsoft.Json.JsonConvert.DeserializeObject<ProblemDetails>(exception.Response!);
-        problem.Should().NotBeNull();
-        problem!.Title.Should().Contain("NotFoundException");
+        productByIdResponse.Should().NotBeNull();
+        productByIdResponse.Product.Should().NotBeNull();
+        productByIdResponse.Product.Description.Should().NotBeNull();
+        productByIdResponse.Product.Name.Should().NotBeNull();
+        productByIdResponse.Product.Id.Should().NotBeEmpty();
+        productByIdResponse.Product.CategoryId.Should().NotBeEmpty();
+        productByIdResponse.Product.Price.Should().BeGreaterThan(0);
+    }
+
+    async Task<CreateProductResponse> CreateProduct(CatalogsApiClient catalogsApiClient)
+    {
+        var req = new AutoFaker<CreateProductRequest>()
+            .RuleFor(x => x.Price, f => f.Random.Double(10, 1000))
+            .Generate();
+        var createProductRequest = new CreateProductRequest(
+            req.CategoryId,
+            req.Description,
+            req.Description,
+            req.Price
+        );
+        var createProductResponse = await catalogsApiClient.CreateProductAsync(createProductRequest);
+        return createProductResponse;
     }
 }

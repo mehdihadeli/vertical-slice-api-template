@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Extensions;
 
-namespace Catalogs.Products.Features.GettingProductById;
+namespace Catalogs.Products.Features.GettingProductById.v1;
 
 internal static class GetProductByIdEndpoint
 {
@@ -41,4 +41,4 @@ internal record GetProductByIdParameters(
     CancellationToken CancellationToken
 );
 
-internal record GetProductByIdResponse(ProductLiteDto Product);
+internal record GetProductByIdResponse(ProductDto Product);

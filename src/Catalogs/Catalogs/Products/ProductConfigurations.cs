@@ -1,6 +1,9 @@
 using Catalogs.Products.Features.CreatingProduct;
+using Catalogs.Products.Features.CreatingProduct.v1;
 using Catalogs.Products.Features.GettingProductById;
+using Catalogs.Products.Features.GettingProductById.v1;
 using Catalogs.Products.Features.GettingProductsByPage;
+using Catalogs.Products.Features.GettingProductsByPage.v1;
 using Catalogs.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;

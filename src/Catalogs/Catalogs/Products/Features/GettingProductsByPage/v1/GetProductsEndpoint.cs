@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Shared.Core.Wrappers;
 using Shared.Web.Extensions;
 
-namespace Catalogs.Products.Features.GettingProductsByPage;
+namespace Catalogs.Products.Features.GettingProductsByPage.v1;
 
 internal static class GetProductsEndpoint
 {

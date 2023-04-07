@@ -22,7 +22,7 @@
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="LinqKit.Core" />
     <PackageReference Include="MediatR" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
@@ -37,5 +37,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="System.Linq.Async" />
+    <PackageReference Include="System.Linq.Async.Queryable" />
   </ItemGroup>
 </Project>

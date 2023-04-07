@@ -11,7 +11,7 @@ using Shared.Core.Wrappers;
 using Shared.EF.Extensions;
 using Sieve.Services;
 
-namespace Catalogs.Products.Features.GettingProductsByPage;
+namespace Catalogs.Products.Features.GettingProductsByPage.v1;
 
 public record GetProductByPage(int PageSize, int PageNumber, string? Filters = null, string? SortOrder = null)
     : PageQuery<GetProductsResult>(PageSize, PageNumber, Filters, SortOrder);
@@ -74,7 +74,8 @@ public record GetProductsResult(IPageList<ProductDto> Products);
 
 internal class DbExecutors : IDbExecutors
 {
-    internal delegate IQueryable<ProductReadModel> GetProductsExecutor(
+    //public delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
+    public delegate IQueryable<ProductReadModel> GetProductsExecutor(
         IPageRequest request,
         CancellationToken cancellationToken
     );

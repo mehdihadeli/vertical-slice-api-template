@@ -9,7 +9,7 @@ using Shared.Core;
 using Shared.Core.Exceptions;
 using Shared.EF.Extensions;
 
-namespace Catalogs.Products.Features.GettingProductById;
+namespace Catalogs.Products.Features.GettingProductById.v1;
 
 internal record GetProductById(Guid Id) : IRequest<GetProductByIdResult>;
 
@@ -53,17 +53,17 @@ internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProduc
             throw new NotFoundException($"product with id {request.Id} not found");
         }
 
-        var productDto = _mapper.Map<ProductLiteDto>(productReadModel);
+        var productDto = _mapper.Map<ProductDto>(productReadModel);
 
         return new GetProductByIdResult(productDto);
     }
 }
 
-internal record GetProductByIdResult(ProductLiteDto Product);
+internal record GetProductByIdResult(ProductDto Product);
 
 internal class DbExecutors : IDbExecutors
 {
-    internal delegate Task<ProductReadModel?> GetProductByIdExecutor(Guid id, CancellationToken cancellationToken);
+    public delegate Task<ProductReadModel?> GetProductByIdExecutor(Guid id, CancellationToken cancellationToken);
 
     public void Register(IServiceCollection services)
     {

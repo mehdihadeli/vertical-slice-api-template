@@ -8,6 +8,5 @@ public class CatalogsMappingProfile : Profile
     public CatalogsMappingProfile()
     {
         CreateMap<ProductDto, Catalogs.Dtos.ProductDto>();
-        CreateMap<ProductLiteDto, Catalogs.Dtos.ProductLiteDto>();
     }
 }

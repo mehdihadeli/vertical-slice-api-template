@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Extensions;
 
-namespace Catalogs.Products.Features.CreatingProduct;
+namespace Catalogs.Products.Features.CreatingProduct.v1;
 
 internal static class CreateProductEndpoint
 {

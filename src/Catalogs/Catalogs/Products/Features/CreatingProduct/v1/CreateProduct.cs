@@ -1,3 +1,4 @@
+using AutoMapper;
 using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
@@ -5,7 +6,7 @@ using Shared.Core;
 using Shared.Core.Exceptions;
 using Shared.EF.Extensions;
 
-namespace Catalogs.Products.Features.CreatingProduct;
+namespace Catalogs.Products.Features.CreatingProduct.v1;
 
 internal record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
     : IRequest<CreateProductResult>
@@ -28,14 +29,17 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
 {
     private readonly DbExecuters.CreateAndSaveProductExecutor _createAndSaveProductExecutor;
     private readonly IValidator<CreateProduct> _validator;
+    private readonly IMapper _mapper;
 
     public CreateProductHandler(
         DbExecuters.CreateAndSaveProductExecutor createAndSaveProductExecutor,
-        IValidator<CreateProduct> validator
+        IValidator<CreateProduct> validator,
+        IMapper mapper
     )
     {
         _createAndSaveProductExecutor = createAndSaveProductExecutor;
         _validator = validator;
+        _mapper = mapper;
     }
 
     public async Task<CreateProductResult> Handle(CreateProduct request, CancellationToken cancellationToken)
@@ -46,14 +50,7 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
             throw new BadRequestException(string.Join(',', result.Errors.Select(x => x.ErrorMessage)));
         }
 
-        var product = new Product
-        {
-            Id = request.Id,
-            CategoryId = request.CategoryId,
-            Name = request.Name,
-            Price = request.Price,
-            Description = request.Description,
-        };
+        var product = _mapper.Map<Product>(request);
 
         await _createAndSaveProductExecutor(product, cancellationToken);
 
@@ -65,7 +62,7 @@ internal record CreateProductResult(Guid Id);
 
 internal class DbExecuters : IDbExecutors
 {
-    internal delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
+    public delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
 
     public void Register(IServiceCollection services)
     {

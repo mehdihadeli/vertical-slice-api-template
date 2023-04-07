@@ -44,5 +44,9 @@
     <PackageReference Include="Microsoft.VisualStudio.TestPlatform" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Shared\Shared.csproj" />
+  </ItemGroup>
 
 </Project>

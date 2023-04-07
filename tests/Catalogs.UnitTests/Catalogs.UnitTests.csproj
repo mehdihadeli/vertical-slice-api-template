@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Catalogs\Catalogs.Api\Catalogs.Api.csproj" />
     <ProjectReference Include="..\Tests.Shared\Tests.Shared.csproj" />
   </ItemGroup>
 

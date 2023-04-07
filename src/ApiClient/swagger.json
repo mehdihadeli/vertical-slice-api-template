@@ -239,7 +239,7 @@
         "type": "object",
         "properties": {
           "product": {
-            "$ref": "#/components/schemas/ProductLiteDto"
+            "$ref": "#/components/schemas/ProductDto"
           }
         },
         "additionalProperties": false
@@ -384,20 +384,6 @@
           "pageSize": {
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductLiteDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false
