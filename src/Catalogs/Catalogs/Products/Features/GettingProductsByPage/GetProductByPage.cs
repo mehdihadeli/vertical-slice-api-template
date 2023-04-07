@@ -1,12 +1,14 @@
 using AutoMapper;
-using Catalogs.Products.Data.Executors;
 using Catalogs.Products.Dtos;
 using Catalogs.Products.ReadModel;
+using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
+using Shared.Core;
 using Shared.Core.Exceptions;
 using Shared.Core.Extensions;
 using Shared.Core.Wrappers;
+using Shared.EF.Extensions;
 using Sieve.Services;
 
 namespace Catalogs.Products.Features.GettingProductsByPage;
@@ -30,13 +32,13 @@ internal class Validator : AbstractValidator<GetProductByPage>
 
 internal class GetProductByPageHandler : IRequestHandler<GetProductByPage, GetProductsResult>
 {
-    private readonly GetProductsExecutor _getProductsExecutor;
+    private readonly DbExecutors.GetProductsExecutor _getProductsExecutor;
     private readonly ISieveProcessor _sieveProcessor;
     private readonly IValidator<GetProductByPage> _validator;
     private readonly IMapper _mapper;
 
     public GetProductByPageHandler(
-        GetProductsExecutor getProductsExecutor,
+        DbExecutors.GetProductsExecutor getProductsExecutor,
         ISieveProcessor sieveProcessor,
         IValidator<GetProductByPage> validator,
         IMapper mapper
@@ -69,3 +71,32 @@ internal class GetProductByPageHandler : IRequestHandler<GetProductByPage, GetPr
 }
 
 public record GetProductsResult(IPageList<ProductDto> Products);
+
+internal class DbExecutors : IDbExecutors
+{
+    internal delegate IQueryable<ProductReadModel> GetProductsExecutor(
+        IPageRequest request,
+        CancellationToken cancellationToken
+    );
+
+    public void Register(IServiceCollection services)
+    {
+        services.AddTransient<GetProductsExecutor>(sp =>
+        {
+            var context = sp.GetRequiredService<CatalogsDbContext>();
+            var mapper = sp.GetRequiredService<IMapper>();
+
+            IQueryable<ProductReadModel> Query(IPageRequest pageRequest, CancellationToken cancellationToken)
+            {
+                var collection = context.ProjectEntity<Product, ProductReadModel>(
+                    mapper.ConfigurationProvider,
+                    cancellationToken
+                );
+
+                return collection;
+            }
+
+            return Query;
+        });
+    }
+}

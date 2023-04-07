@@ -31,31 +31,3 @@ public record PageRequest(int PageSize, int PageNumber, string? Filters = null, 
     //     return ValueTask.FromResult<PageRequest?>(request);
     // }
 }
-
-public abstract record PageRequest<TPageRequest>(
-    int PageSize,
-    int PageNumber,
-    string? Filters = null,
-    string? SortOrder = null
-) : IPageRequest
-    where TPageRequest : IPageRequest, new()
-{
-    //// This handle with AsParameter .net 7
-    // public static ValueTask<TPageRequest?> BindAsync(HttpContext httpContext, ParameterInfo parameter)
-    // {
-    //     var page = httpContext.Request.Query.Get<int>("PageNumber", 1);
-    //     var pageSize = httpContext.Request.Query.Get<int>("PageSize", 20);
-    //     var sorts = httpContext.Request.Query.Get<string>("SortOrder");
-    //     var filters = httpContext.Request.Query.Get<string>("Filters");
-    //
-    //     var request = new TPageRequest
-    //     {
-    //         PageNumber = page,
-    //         PageSize = pageSize,
-    //         SortOrder = sorts,
-    //         Filters = filters,
-    //     };
-    //
-    //     return ValueTask.FromResult<TPageRequest?>(request);
-    // }
-}

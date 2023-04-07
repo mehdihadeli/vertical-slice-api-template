@@ -1,9 +1,13 @@
 using AutoMapper;
-using Catalogs.Products.Data.Executors;
 using Catalogs.Products.Dtos;
+using Catalogs.Products.ReadModel;
+using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Shared.Core;
 using Shared.Core.Exceptions;
+using Shared.EF.Extensions;
 
 namespace Catalogs.Products.Features.GettingProductById;
 
@@ -19,12 +23,12 @@ internal class Validator : AbstractValidator<GetProductById>
 
 internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProductByIdResult>
 {
-    private readonly GetProductByIdExecutor _getProductByIdExecutor;
+    private readonly DbExecutors.GetProductByIdExecutor _getProductByIdExecutor;
     private readonly IValidator<GetProductById> _validator;
     private readonly IMapper _mapper;
 
     public GetProductByIdHandler(
-        GetProductByIdExecutor getProductByIdExecutor,
+        DbExecutors.GetProductByIdExecutor getProductByIdExecutor,
         IValidator<GetProductById> validator,
         IMapper mapper
     )
@@ -56,3 +60,24 @@ internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProduc
 }
 
 internal record GetProductByIdResult(ProductLiteDto Product);
+
+internal class DbExecutors : IDbExecutors
+{
+    internal delegate Task<ProductReadModel?> GetProductByIdExecutor(Guid id, CancellationToken cancellationToken);
+
+    public void Register(IServiceCollection services)
+    {
+        services.AddTransient<GetProductByIdExecutor>(sp =>
+        {
+            var context = sp.GetRequiredService<CatalogsDbContext>();
+            var mapper = sp.GetRequiredService<IMapper>();
+
+            Task<ProductReadModel?> Query(Guid id, CancellationToken cancellationToken) =>
+                context
+                    .ProjectEntity<Product, ProductReadModel>(mapper.ConfigurationProvider, cancellationToken)
+                    .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+            return Query;
+        });
+    }
+}

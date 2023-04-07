@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
+using Shared.Core.Extensions;
 using Shared.Web.Extensions;
 using Sieve.Services;
 
@@ -28,6 +29,7 @@ public static class CatalogConfigurations
         builder.Services.AddCustomValidators(typeof(CatalogsAssemblyInfo).Assembly);
         builder.Services.AddValidatorsFromAssembly(typeof(CatalogsAssemblyInfo).Assembly);
 
+        builder.Services.ScanAndRegisterDbExecutors();
         builder.AddModulesServices();
 
         return builder;

@@ -1,7 +1,9 @@
-using Catalogs.Products.Data.Executors;
+using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
+using Shared.Core;
 using Shared.Core.Exceptions;
+using Shared.EF.Extensions;
 
 namespace Catalogs.Products.Features.CreatingProduct;
 
@@ -24,11 +26,11 @@ internal class Validator : AbstractValidator<CreateProduct>
 
 internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProductResult>
 {
-    private readonly CreateAndSaveProductExecutor _createAndSaveProductExecutor;
+    private readonly DbExecuters.CreateAndSaveProductExecutor _createAndSaveProductExecutor;
     private readonly IValidator<CreateProduct> _validator;
 
     public CreateProductHandler(
-        CreateAndSaveProductExecutor createAndSaveProductExecutor,
+        DbExecuters.CreateAndSaveProductExecutor createAndSaveProductExecutor,
         IValidator<CreateProduct> validator
     )
     {
@@ -60,3 +62,18 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
 }
 
 internal record CreateProductResult(Guid Id);
+
+internal class DbExecuters : IDbExecutors
+{
+    internal delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
+
+    public void Register(IServiceCollection services)
+    {
+        // Db related operations for injection as dependencies
+        services.AddTransient<CreateAndSaveProductExecutor>(sp =>
+        {
+            var context = sp.GetRequiredService<CatalogsDbContext>();
+            return (entity, cancellationToken) => context.InsertAndSaveAsync(entity, cancellationToken);
+        });
+    }
+}

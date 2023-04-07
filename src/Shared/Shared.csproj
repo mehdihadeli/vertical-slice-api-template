@@ -3,7 +3,7 @@
     <!--https://github.com/dotnet/aspnetcore/issues/19481-->
     <!--https://docs.microsoft.com/en-us/aspnet/core/fundamentals/metapackage-app-->
     <!--https://docs.microsoft.com/en-us/aspnet/core/fundamentals/target-aspnetcore-->
-    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -17,25 +17,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.GuardClauses"/>
-    <PackageReference Include="Asp.Versioning.Http"/>
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer"/>
-    <PackageReference Include="AutoMapper"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"/>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
-    <PackageReference Include="LinqKit.Core"/>
-    <PackageReference Include="MediatR"/>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-    <PackageReference Include="Microsoft.Extensions.Options"/>
-    <PackageReference Include="Sieve"/>
-    <PackageReference Include="Swashbuckle.AspNetCore"/>
-    <PackageReference Include="MinimalApis.Extensions"/>
-    <PackageReference Include="Newtonsoft.Json"/>
-    <PackageReference Include="Scrutor"/>
-    <PackageReference Include="Polly"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
+    <PackageReference Include="Ardalis.GuardClauses" />
+    <PackageReference Include="Asp.Versioning.Http" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="LinqKit.Core" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Sieve" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="MinimalApis.Extensions" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Scrutor" />
+    <PackageReference Include="Polly" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
   </ItemGroup>
 </Project>
