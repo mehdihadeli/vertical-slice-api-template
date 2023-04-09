@@ -2,7 +2,7 @@ using ApiClient.Catalogs.Dtos;
 using AutoBogus;
 using FluentAssertions;
 
-namespace ApiClient.Tests.Catalogs;
+namespace ApiClien.Tests.Catalogs;
 
 public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
 {

@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ApiClient\ApiClient.csproj" />
     <ProjectReference Include="..\..\src\App\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
     <ProjectReference Include="..\Tests.Shared\Tests.Shared.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -17,10 +17,5 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NSwag.MSBuild">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
-  
 </Project>

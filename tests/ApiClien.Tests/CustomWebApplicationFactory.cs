@@ -1,12 +1,13 @@
 using ApiClient.Catalogs;
+using ApiClient.Extensions;
 using Catalogs.ApiClient;
-using Catalogs.ApiClient.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Vertical.Slice.Template.Api;
 
-namespace ApiClient.Tests;
+namespace ApiClien.Tests;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {

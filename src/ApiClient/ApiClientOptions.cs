@@ -1,4 +1,4 @@
-namespace Catalogs.ApiClient;
+namespace ApiClient;
 
 public class ApiClientOptions
 {

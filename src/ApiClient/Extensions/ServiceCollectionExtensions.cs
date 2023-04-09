@@ -1,10 +1,11 @@
 using ApiClient.Catalogs;
 using Ardalis.GuardClauses;
+using Catalogs.ApiClient;
 using Microsoft.Extensions.Options;
 using Shared.Web;
 using Shared.Web.Extensions.ServiceCollection;
 
-namespace Catalogs.ApiClient.Extensions;
+namespace ApiClient.Extensions;
 
 public static class ServiceCollectionExtensions
 {

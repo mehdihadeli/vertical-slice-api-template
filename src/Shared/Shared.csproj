@@ -12,10 +12,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <IsPackable>true</IsPackable>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="Asp.Versioning.Http" />

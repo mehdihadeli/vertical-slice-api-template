@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Vertical.Slice.Template.IntegrationTests" />
+    <InternalsVisibleTo Include="Vertical.Slice.Template.EndToEndTests" />
+    <InternalsVisibleTo Include="Vertical.Slice.Template.ContractTests" />
+    <InternalsVisibleTo Include="Vertical.Slice.Template.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+</Project>
