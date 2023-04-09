@@ -1,7 +1,9 @@
 using AutoBogus;
 using AutoMapper;
+using Catalogs.Products.Dtos;
 using Catalogs.Products.Features.CreatingProduct;
 using Catalogs.Products.Features.CreatingProduct.v1;
+using Catalogs.Products.ReadModel;
 using Catalogs.UnitTests.Common;
 using FluentAssertions;
 using Tests.Shared.XunitCategories;
@@ -33,5 +35,16 @@ public class ProductsMappingTests : IClassFixture<MappingFixture>
         res.Name.Should().Be(createProductRequest.Name);
         res.Price.Should().Be(createProductRequest.Price);
         res.CategoryId.Should().Be(createProductRequest.CategoryId);
+    }
+
+    [Fact]
+    [CategoryTrait(TestCategory.Unit)]
+    public void can_map_product_read_to_product_dto()
+    {
+        var productRead = AutoFaker.Generate<ProductReadModel>();
+        var res = _mapper.Map<ProductDto>(productRead);
+        res.Name.Should().Be(productRead.Name);
+        res.Price.Should().Be(productRead.Price);
+        res.CategoryId.Should().Be(productRead.CategoryId);
     }
 }

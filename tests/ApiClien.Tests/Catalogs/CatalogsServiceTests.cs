@@ -54,7 +54,7 @@ public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
 
         // Act
         var response = await catalogsService.GetProductByPageAsync(
-            new GetGetProductsByPageInput(PageSize: 10, PageNumber: 1),
+            new GetGetProductsByPageInput { PageSize = 10, PageNumber = 1 },
             CancellationToken.None
         );
         // Assert

@@ -1,3 +1,5 @@
+namespace Catalogs.Products.Models;
+
 public class Product
 {
     public required decimal Price { get; init; }

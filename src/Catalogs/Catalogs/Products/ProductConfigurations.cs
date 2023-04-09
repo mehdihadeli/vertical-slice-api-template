@@ -1,18 +1,17 @@
-using Catalogs.Products.Features.CreatingProduct;
 using Catalogs.Products.Features.CreatingProduct.v1;
-using Catalogs.Products.Features.GettingProductById;
 using Catalogs.Products.Features.GettingProductById.v1;
-using Catalogs.Products.Features.GettingProductsByPage;
 using Catalogs.Products.Features.GettingProductsByPage.v1;
 using Catalogs.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web;
 
+namespace Catalogs.Products;
+
 internal class ProductConfigurations : IModuleConfiguration
 {
     public const string Tag = "Products";
-    public const string ProductsPrefixUri = $"{CatalogConfigurations.CatalogModulePrefixUri}/products";
+    public const string ProductsPrefixUri = "api/v{version:apiVersion}/catalogs/products";
 
     public WebApplicationBuilder AddModuleServices(WebApplicationBuilder builder)
     {

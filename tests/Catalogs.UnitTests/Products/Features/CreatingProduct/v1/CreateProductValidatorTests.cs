@@ -18,7 +18,7 @@ public class CreateProductValidatorTests : CatalogsUnitTestBase
             .RuleFor(x => x.Name, f => f.Commerce.Product())
             .RuleFor(x => x.Price, f => f.Random.Decimal(10, 10000))
             .Generate();
-        var validator = new Validator();
+        var validator = new CreateProductValidator();
 
         var result = validator.TestValidate(command);
         result.IsValid.Should().BeTrue();
@@ -30,7 +30,7 @@ public class CreateProductValidatorTests : CatalogsUnitTestBase
     {
         // Arrange
         var command = new AutoFaker<CreateProduct>().RuleFor(x => x.Name, _ => null!).Generate();
-        var validator = new Validator();
+        var validator = new CreateProductValidator();
 
         var result = validator.TestValidate(command);
         result.IsValid.Should().BeFalse();

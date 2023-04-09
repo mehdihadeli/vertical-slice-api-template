@@ -1,4 +1,4 @@
-namespace Shared.Core.Wrappers;
+namespace Shared.Core.Types;
 
 public interface IPageList<T>
     where T : class
@@ -14,7 +14,7 @@ public interface IPageList<T>
     int PageNumber { get; init; }
     int PageSize { get; init; }
 
-    PageList<TR> Map<TR>(Func<T, TR> map)
+    IPageList<TR> Map<TR>(Func<T, TR> map)
         where TR : class;
 }
 
@@ -35,7 +35,7 @@ public record PageList<T>(IReadOnlyList<T> Items, int TotalCount, int PageNumber
         return new PageList<T>(items, totalItems, pageNumber, pageSize);
     }
 
-    public PageList<TR> Map<TR>(Func<T, TR> map)
+    public IPageList<TR> Map<TR>(Func<T, TR> map)
         where TR : class
     {
         return PageList<TR>.Create(Items.Select(map).ToList(), TotalCount, PageNumber, PageSize);

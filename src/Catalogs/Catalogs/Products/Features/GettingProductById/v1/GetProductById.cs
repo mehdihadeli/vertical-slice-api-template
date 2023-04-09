@@ -1,21 +1,39 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Catalogs.Products.Dtos;
+using Catalogs.Products.Models;
 using Catalogs.Products.ReadModel;
 using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Core;
 using Shared.Core.Exceptions;
 using Shared.EF.Extensions;
+using Shared.Validation;
+using Shared.Validation.Extensions;
 
 namespace Catalogs.Products.Features.GettingProductById.v1;
 
-internal record GetProductById(Guid Id) : IRequest<GetProductByIdResult>;
-
-internal class Validator : AbstractValidator<GetProductById>
+internal record GetProductById(Guid Id) : IRequest<GetProductByIdResult>
 {
-    public Validator()
+    /// <summary>
+    /// GetProductById query with validation
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static GetProductById Of(Guid id)
+    {
+        return new GetProductByIdValidator().HandleValidation(new GetProductById(id));
+    }
+}
+
+internal class GetProductByIdValidator : AbstractValidator<GetProductById>
+{
+    public GetProductByIdValidator()
     {
         RuleFor(r => r.Id).NotEmpty();
     }
@@ -24,27 +42,17 @@ internal class Validator : AbstractValidator<GetProductById>
 internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProductByIdResult>
 {
     private readonly DbExecutors.GetProductByIdExecutor _getProductByIdExecutor;
-    private readonly IValidator<GetProductById> _validator;
     private readonly IMapper _mapper;
 
-    public GetProductByIdHandler(
-        DbExecutors.GetProductByIdExecutor getProductByIdExecutor,
-        IValidator<GetProductById> validator,
-        IMapper mapper
-    )
+    public GetProductByIdHandler(DbExecutors.GetProductByIdExecutor getProductByIdExecutor, IMapper mapper)
     {
         _getProductByIdExecutor = getProductByIdExecutor;
-        _validator = validator;
         _mapper = mapper;
     }
 
     public async Task<GetProductByIdResult> Handle(GetProductById request, CancellationToken cancellationToken)
     {
-        var result = await _validator.ValidateAsync(request, cancellationToken);
-        if (!result.IsValid)
-        {
-            throw new BadRequestException(string.Join(',', result.Errors.Select(x => x.ErrorMessage)));
-        }
+        request.NotNull();
 
         var productReadModel = await _getProductByIdExecutor(request.Id, cancellationToken);
 

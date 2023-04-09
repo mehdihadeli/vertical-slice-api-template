@@ -1,4 +1,5 @@
 using System.Reflection;
+using Catalogs.Products.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalogs.Shared.Data;

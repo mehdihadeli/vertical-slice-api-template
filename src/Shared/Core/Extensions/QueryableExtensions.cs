@@ -1,6 +1,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Shared.Core.Wrappers;
+using Shared.Core.Contracts;
+using Shared.Core.Types;
 using Sieve.Models;
 using Sieve.Services;
 

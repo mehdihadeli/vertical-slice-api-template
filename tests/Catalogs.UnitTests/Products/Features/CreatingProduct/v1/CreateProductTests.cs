@@ -1,7 +1,9 @@
 using AutoBogus;
 using Catalogs.Products.Features.CreatingProduct.v1;
+using Catalogs.Products.Models;
 using Catalogs.UnitTests.Common;
 using FluentAssertions;
+using MediatR;
 using NSubstitute;
 using Tests.Shared.XunitCategories;
 
@@ -22,7 +24,7 @@ public class CreateProductTests : CatalogsUnitTestBase
             .Returns(new ValueTask());
 
         // Arrange
-        var handler = new CreateProductHandler(executor, GetFakeValidator<CreateProduct>(), Mapper);
+        var handler = new CreateProductHandler(executor, Mapper, Substitute.For<IMediator>());
 
         // Act
         var createdCustomerResponse = await handler.Handle(createProductMock, CancellationToken.None);

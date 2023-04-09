@@ -1,3 +1,4 @@
+using Catalogs.Products.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

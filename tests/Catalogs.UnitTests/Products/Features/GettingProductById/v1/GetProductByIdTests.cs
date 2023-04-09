@@ -22,7 +22,7 @@ public class GetProductByIdTests : CatalogsUnitTestBase
         var query = new GetProductById(product.Id);
 
         // Act
-        var handler = new GetProductByIdHandler(executor, new FakeValidator<GetProductById>(), Mapper);
+        var handler = new GetProductByIdHandler(executor, Mapper);
         var result = await handler.Handle(query, CancellationToken.None);
 
         // Assert

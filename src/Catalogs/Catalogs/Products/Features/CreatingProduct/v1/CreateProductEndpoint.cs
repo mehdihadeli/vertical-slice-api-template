@@ -1,9 +1,14 @@
-using Ardalis.GuardClauses;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Shared.Validation.Extensions;
+using Shared.Web.Contracts;
 using Shared.Web.Extensions;
 
 namespace Catalogs.Products.Features.CreatingProduct.v1;
@@ -12,7 +17,12 @@ internal static class CreateProductEndpoint
 {
     internal static RouteHandlerBuilder MapCreateProductEndpoint(this IEndpointRouteBuilder app)
     {
-        return app.MapPost("/", Handle)
+        return
+        //app.MapPost("/", Handle)
+        app.MapCommandEndpoint<CreateProductRequest, CreateProductResponse, CreateProduct, CreateProductResult>(
+                "/",
+                StatusCodes.Status201Created
+            )
             .WithName(nameof(CreateProduct))
             .WithTags(ProductConfigurations.Tag)
             .WithSummaryAndDescription("Creating a New Product", "Creating a New Product")
@@ -21,35 +31,37 @@ internal static class CreateProductEndpoint
             .ProducesProblem("UnAuthorized request.", StatusCodes.Status401Unauthorized)
             .WithDisplayName("Create a new product.")
             .MapToApiVersion(1.0);
-    }
 
-    private static async Task<IResult> Handle([AsParameters] CreateProductParameters parameters)
-    {
-        var (request, _, mediator, mapper, cancellationToken) = parameters;
-        Guard.Against.Null(request);
+        async Task<IResult> Handle([AsParameters] CreateProductRequestParameters requestInput)
+        {
+            var (request, context, mediator, mapper, cancellationToken) = requestInput;
 
-        var command = mapper.Map<CreateProduct>(request);
+            request.NotNull();
 
-        var result = await mediator.Send(command, cancellationToken);
+            var command = mapper.Map<CreateProduct>(request);
 
-        return Results.CreatedAtRoute<CreateProductResponse>(
-            "GetProductById",
-            new { id = result.Id },
-            new CreateProductResponse(result.Id)
-        );
+            var result = await mediator.Send(command, cancellationToken);
+
+            return Results.CreatedAtRoute(
+                "GetProductById",
+                new { id = result.Id },
+                new CreateProductResponse(result.Id)
+            );
+        }
     }
 }
 
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#parameter-binding-for-argument-lists-with-asparameters
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#binding-precedence
-internal record CreateProductParameters(
-    CreateProductRequest Request,
-    HttpContext Context,
+internal record CreateProductRequestParameters(
+    [FromBody] CreateProductRequest Request,
+    HttpContext HttpContext,
     IMediator Mediator,
     IMapper Mapper,
     CancellationToken CancellationToken
-);
+) : IHttpCommand<CreateProductRequest>;
 
 internal record CreateProductResponse(Guid Id);
 
+// we can expect any value from the user for all reference types are nullable and we should do some validation in other levels (we use pure records mostly for dtos without needing validation)
 internal record CreateProductRequest(string Name, Guid CategoryId, decimal Price, string? Description);

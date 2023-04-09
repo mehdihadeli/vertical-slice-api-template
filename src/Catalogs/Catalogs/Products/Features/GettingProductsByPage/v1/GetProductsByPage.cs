@@ -1,24 +1,50 @@
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Catalogs.Products.Dtos;
+using Catalogs.Products.Models;
 using Catalogs.Products.ReadModel;
 using Catalogs.Shared.Data;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Core;
-using Shared.Core.Exceptions;
 using Shared.Core.Extensions;
-using Shared.Core.Wrappers;
+using Shared.Core.Types;
 using Shared.EF.Extensions;
+using Shared.Validation;
+using Shared.Validation.Extensions;
 using Sieve.Services;
 
 namespace Catalogs.Products.Features.GettingProductsByPage.v1;
 
-public record GetProductByPage(int PageSize, int PageNumber, string? Filters = null, string? SortOrder = null)
-    : PageQuery<GetProductsResult>(PageSize, PageNumber, Filters, SortOrder);
-
-internal class Validator : AbstractValidator<GetProductByPage>
+public record GetProductsByPage : PageQuery<GetProductsByPageResult>
 {
-    public Validator()
+    /// <summary>
+    /// GetProductById query with validation.
+    /// </summary>
+    /// <param name="pageRequest"></param>
+    /// <returns></returns>
+    public static GetProductsByPage Of(PageRequest pageRequest)
+    {
+        var (pageNumber, pageSize, filters, sortOrder) = pageRequest;
+
+        return new GetProductsByPageValidator().HandleValidation(
+            new GetProductsByPage
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Filters = filters,
+                SortOrder = sortOrder
+            }
+        );
+    }
+}
+
+internal class GetProductsByPageValidator : AbstractValidator<GetProductsByPage>
+{
+    public GetProductsByPageValidator()
     {
         RuleFor(x => x.PageNumber)
             .GreaterThanOrEqualTo(1)
@@ -30,35 +56,28 @@ internal class Validator : AbstractValidator<GetProductByPage>
     }
 }
 
-internal class GetProductByPageHandler : IRequestHandler<GetProductByPage, GetProductsResult>
+internal class GetProductByPageHandler : IRequestHandler<GetProductsByPage, GetProductsByPageResult>
 {
     private readonly DbExecutors.GetProductsExecutor _getProductsExecutor;
     private readonly ISieveProcessor _sieveProcessor;
-    private readonly IValidator<GetProductByPage> _validator;
     private readonly IMapper _mapper;
 
     public GetProductByPageHandler(
         DbExecutors.GetProductsExecutor getProductsExecutor,
         ISieveProcessor sieveProcessor,
-        IValidator<GetProductByPage> validator,
         IMapper mapper
     )
     {
         _getProductsExecutor = getProductsExecutor;
         _sieveProcessor = sieveProcessor;
-        _validator = validator;
         _mapper = mapper;
     }
 
-    public async Task<GetProductsResult> Handle(GetProductByPage request, CancellationToken cancellationToken)
+    public async Task<GetProductsByPageResult> Handle(GetProductsByPage request, CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            throw new BadRequestException(string.Join(',', validationResult.Errors.Select(x => x.ErrorMessage)));
-        }
+        request.NotNull();
 
-        var query = _getProductsExecutor(request, cancellationToken);
+        var query = _getProductsExecutor(cancellationToken);
 
         var pageList = await query.ApplyPaging<ProductReadModel, ProductDto>(
             request,
@@ -66,19 +85,16 @@ internal class GetProductByPageHandler : IRequestHandler<GetProductByPage, GetPr
             _sieveProcessor
         );
 
-        return new GetProductsResult(pageList);
+        return new GetProductsByPageResult(pageList);
     }
 }
 
-public record GetProductsResult(IPageList<ProductDto> Products);
+public record GetProductsByPageResult(IPageList<ProductDto> Products);
 
 internal class DbExecutors : IDbExecutors
 {
-    //public delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
-    public delegate IQueryable<ProductReadModel> GetProductsExecutor(
-        IPageRequest request,
-        CancellationToken cancellationToken
-    );
+    // public delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
+    public delegate IQueryable<ProductReadModel> GetProductsExecutor(CancellationToken cancellationToken);
 
     public void Register(IServiceCollection services)
     {
@@ -87,7 +103,7 @@ internal class DbExecutors : IDbExecutors
             var context = sp.GetRequiredService<CatalogsDbContext>();
             var mapper = sp.GetRequiredService<IMapper>();
 
-            IQueryable<ProductReadModel> Query(IPageRequest pageRequest, CancellationToken cancellationToken)
+            IQueryable<ProductReadModel> Query(CancellationToken cancellationToken)
             {
                 var collection = context.ProjectEntity<Product, ProductReadModel>(
                     mapper.ConfigurationProvider,

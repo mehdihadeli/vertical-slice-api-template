@@ -1,4 +1,4 @@
-using Shared.Core.Wrappers;
+using Shared.Core.Types;
 
 namespace ApiClient.Catalogs.Dtos;
 

@@ -1,5 +1,3 @@
-using Sieve.Attributes;
-
 namespace Catalogs.Products.ReadModel;
 
 public class ProductReadModel

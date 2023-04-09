@@ -7,7 +7,7 @@ using Polly;
 using Polly.Timeout;
 using Polly.Wrap;
 using Shared.Core.Exceptions;
-using Shared.Core.Wrappers;
+using Shared.Core.Types;
 using Shared.Web;
 
 namespace ApiClient.Catalogs;
@@ -103,7 +103,7 @@ public class CatalogsService : ICatalogsService
             {
                 // https://stackoverflow.com/questions/21097730/usage-of-ensuresuccessstatuscode-and-handling-of-httprequestexception-it-throws
                 // https: //github.com/App-vNext/Polly#step-1--specify-the--exceptionsfaults-you-want-the-policy-to-handle
-                return await _catalogsApiClient.GetProductByPageAsync(
+                return await _catalogsApiClient.GetProductsByPageAsync(
                     getProductsByPageInput.PageSize,
                     getProductsByPageInput.PageNumber,
                     getProductsByPageInput.Filters,

@@ -73,7 +73,7 @@
         ],
         "summary": "Getting products by page info",
         "description": "Getting products by page info",
-        "operationId": "GetProductByPage",
+        "operationId": "GetProductsByPage",
         "parameters": [
           {
             "name": "PageSize",
@@ -312,21 +312,21 @@
       "ProductDto": {
         "type": "object",
         "properties": {
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "categoryId": {
+          "id": {
             "type": "string",
             "format": "uuid"
           },
-          "id": {
+          "categoryId": {
             "type": "string",
             "format": "uuid"
           },
           "name": {
             "type": "string",
             "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
           },
           "description": {
             "type": "string",

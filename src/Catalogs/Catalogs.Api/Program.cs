@@ -1,23 +1,14 @@
-using Asp.Versioning;
-using Catalogs.Shared;
+using Catalogs.Shared.Extensions;
 using ECommerce.Services.Catalogs.Shared.Extensions.WebApplicationBuilderExtensions;
-using Microsoft.Extensions.Options;
-using Shared.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Shared.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.AddInfrastructures();
 builder.AddCustomProblemDetails();
 builder.AddCustomVersioning();
 
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-builder.Services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
-
-builder.AddCatalogServices();
+builder.AddModulesServices();
 
 var app = builder.Build();
 
@@ -45,8 +36,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.ConfigureCatalogServices();
-app.MapCatalogEndpoints();
+await app.ConfigureModules();
+app.MapModulesEndpoints();
 
 app.Run();
 

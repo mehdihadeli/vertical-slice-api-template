@@ -21,7 +21,7 @@ public class GetProductsByPageTests : IClassFixture<WebApplicationFactory<Progra
         var client = new CatalogsApiClient(baseClient);
         var createdProduct = await CreateProduct(client);
 
-        var response = await client.GetProductByPageAsync(pageSize: 10, pageNumber: 1, filters: null, sortOrder: null);
+        var response = await client.GetProductsByPageAsync(pageSize: 10, pageNumber: 1, filters: null, sortOrder: null);
         response.Should().NotBeNull();
         response.Products.Should().NotBeNull();
         response.Products.Items.Should().NotBeNull();
