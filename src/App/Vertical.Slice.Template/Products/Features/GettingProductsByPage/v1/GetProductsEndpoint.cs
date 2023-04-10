@@ -2,12 +2,15 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using Shared.Core.Contracts;
 using Shared.Core.Types;
 using Shared.Web.Contracts;
 using Shared.Web.Extensions;
+using Shared.Web.ProblemDetail.HttpResults;
 using Vertical.Slice.Template.Products.Dtos;
+using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
 
@@ -22,12 +25,14 @@ internal static class GetProductsEndpoint
             .WithName(nameof(GetProductsByPage))
             .WithTags(ProductConfigurations.Tag)
             .WithSummaryAndDescription("Getting products by page info", "Getting products by page info")
-            .Produces<GetGetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)
-            .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
+            // .Produces<GetGetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)
+            // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
             .WithDisplayName("Get products by page info.")
             .MapToApiVersion(1.0);
 
-        async Task<IResult> Handle([AsParameters] GetProductsByPageRequestParameters requestParameters)
+        async Task<Results<Ok<GetGetProductsByPageResponse>, ValidationProblem>> Handle(
+            [AsParameters] GetProductsByPageRequestParameters requestParameters
+        )
         {
             var (context, mediatr, mapper, cancellationToken, _, _, _, _) = requestParameters;
 
@@ -35,7 +40,8 @@ internal static class GetProductsEndpoint
 
             var result = await mediatr.Send(query, cancellationToken);
 
-            return Results.Ok(new GetGetProductsByPageResponse(result.Products));
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            return TypedResults.Ok(new GetGetProductsByPageResponse(result.Products));
         }
     }
 }

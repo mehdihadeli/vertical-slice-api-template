@@ -14,7 +14,7 @@ This is a An asp.net core template based on `Vertical Slice Architecture`, CQRS,
 6. Navigate to `src/App/Vertical.Slice.Template.Api` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
 7. Open web browser https://localhost:5158/swagger Swagger UI
 
-## Technologies
+## Libraries
 * [ASP.NET Core 7](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core)
 * [Entity Framework Core 7](https://docs.microsoft.com/en-us/ef/core/)
 * [MediatR](https://github.com/jbogard/MediatR)

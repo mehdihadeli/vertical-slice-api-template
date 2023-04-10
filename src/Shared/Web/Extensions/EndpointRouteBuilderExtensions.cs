@@ -27,7 +27,8 @@ public static class EndpointRouteBuilderExtensions
                 : mapper.Map<TCommand>(request);
             await mediator.Send(command, cancellationToken);
 
-            return Results.NoContent();
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            return TypedResults.NoContent();
         }
     }
 
@@ -58,7 +59,8 @@ public static class EndpointRouteBuilderExtensions
                 ? mapCommandResultToResponse(res)
                 : mapper.Map<TResponse>(res);
 
-            return Results.Json(response, statusCode: statusCode);
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            return TypedResults.Json(response, statusCode: statusCode);
         }
     }
 
@@ -91,7 +93,8 @@ public static class EndpointRouteBuilderExtensions
                 ? mapQueryResultToResponse(res)
                 : mapper.Map<TResponse>(res);
 
-            return Results.Ok(response);
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            return TypedResults.Ok(response);
         }
     }
 }
