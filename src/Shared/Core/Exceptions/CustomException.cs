@@ -1,12 +1,12 @@
-using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace Shared.Core.Exceptions;
 
-public class CustomException : System.Exception
+public class CustomException : Exception
 {
     public CustomException(
         string message,
-        int statusCode = (int)HttpStatusCode.InternalServerError,
+        int statusCode = StatusCodes.Status500InternalServerError,
         Exception? innerException = null,
         params string[] errors
     )

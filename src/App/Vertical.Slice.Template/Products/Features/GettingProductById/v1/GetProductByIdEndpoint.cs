@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Contracts;
 using Shared.Web.Extensions;
+using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 using Vertical.Slice.Template.Products.Dtos;
 
@@ -37,6 +38,7 @@ internal static class GetProductByIdEndpoint
             var result = await mediator.Send(new GetProductById(id), cancellationToken);
 
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0#multiple-response-types
             return TypedResults.Ok(new GetProductByIdResponse(result.Product));
         }
     }

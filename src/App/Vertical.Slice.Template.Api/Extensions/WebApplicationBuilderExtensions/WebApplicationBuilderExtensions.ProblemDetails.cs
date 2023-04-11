@@ -1,116 +1,106 @@
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Shared.Core.Exceptions;
+using Shared.Validation.Extensions;
+using Shared.Web.ProblemDetail;
 
 namespace Vertical.Slice.Template.Api.Extensions.WebApplicationBuilderExtensions;
 
 public static partial class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder AddCustomProblemDetails(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddAppProblemDetails(this WebApplicationBuilder builder)
     {
-        builder.Services.AddProblemDetails(x =>
+        builder.Services.AddCustomProblemDetails(problemDetailsOptions =>
         {
             // customization problem details should go here
-            x.CustomizeProblemDetails = ctx =>
+            problemDetailsOptions.CustomizeProblemDetails = problemDetailContext =>
             {
-                if (ctx.HttpContext.RequestServices.GetService<IProblemDetailsService>() is { } problemDetailsService)
+                // with help of capture exception middleware for capturing actual exception
+                if (problemDetailContext.HttpContext.Features.Get<IExceptionHandlerFeature>() is { } exceptionFeature)
                 {
-                    var exceptionHandlerFeature = ctx.HttpContext.Features.Get<IExceptionHandlerFeature>();
+                    // switch (exceptionFeature.Error)
+                    // {
+                    //     case ConflictException conflictException:
+                    //         problemDetailContext.ProblemDetails.Status = conflictException.StatusCode;
+                    //         break;
+                    //     case ValidationException validationException:
+                    //         PopulateNewProblemDetail(
+                    //             problemDetailContext.ProblemDetails,
+                    //             validationException.ValidationResultModel.StatusCode,
+                    //             validationException
+                    //         );
+                    //         break;
+                    //     case ArgumentException argumentException:
+                    //         PopulateNewProblemDetail(
+                    //             problemDetailContext.ProblemDetails,
+                    //             StatusCodes.Status400BadRequest,
+                    //             argumentException
+                    //         );
+                    //         break;
+                    //     case BadRequestException badRequestException:
+                    //         PopulateNewProblemDetail(
+                    //             problemDetailContext.ProblemDetails,
+                    //             badRequestException.StatusCode,
+                    //             badRequestException
+                    //         );
+                    //         break;
+                    //     case NotFoundException notFoundException:
+                    //         PopulateNewProblemDetail(
+                    //             problemDetailContext.ProblemDetails,
+                    //             notFoundException.StatusCode,
+                    //             notFoundException
+                    //         );
+                    //         break;
+                    //     case HttpResponseException httpResponseException:
+                    //         PopulateNewProblemDetail(
+                    //             problemDetailContext.ProblemDetails,
+                    //             httpResponseException.StatusCode,
+                    //             httpResponseException
+                    //         );
+                    //         break;
+                    //     case HttpRequestException httpRequestException:
+                    //         PopulateNewProblemDetail(
+                    //             problemDetailContext.ProblemDetails,
+                    //             (int)httpRequestException.StatusCode,
+                    //             httpRequestException
+                    //         );
+                    //         break;
+                    //     case AppException appException:
+                    //         PopulateNewProblemDetail(
+                    //             problemDetailContext.ProblemDetails,
+                    //             appException.StatusCode,
+                    //             appException
+                    //         );
+                    //         break;
+                    // }
                 }
-
-                var problemCorrelationId = Guid.NewGuid().ToString();
-                // log problemCorrelationId into logging system
-                ctx.ProblemDetails.Instance = problemCorrelationId;
             };
-            // x.Map<ConflictException>(
-            //     ex =>
-            //         new ProblemDetails
-            //         {
-            //             Title = ex.GetType().Name,
-            //             Status = StatusCodes.Status409Conflict,
-            //             Detail = ex.Message,
-            //             Type = "https://somedomain/application-rule-validation-error"
-            //         }
-            // );
-            //
-            // // Exception will produce and returns from our FluentValidation RequestValidationBehavior
-            // x.Map<ValidationException>(
-            //     ex =>
-            //         new ProblemDetails
-            //         {
-            //             Title = ex.GetType().Name,
-            //             Status = StatusCodes.Status400BadRequest,
-            //             Detail = JsonConvert.SerializeObject(ex.ValidationResultModel.Errors),
-            //             Type = "https://somedomain/input-validation-rules-error"
-            //         }
-            // );
-            // x.Map<ArgumentException>(
-            //     ex =>
-            //         new ProblemDetails
-            //         {
-            //             Title = ex.GetType().Name,
-            //             Status = StatusCodes.Status400BadRequest,
-            //             Detail = ex.Message,
-            //             Type = "https://somedomain/argument-error"
-            //         }
-            // );
-            // x.Map<BadRequestException>(
-            //     ex =>
-            //         new ProblemDetails
-            //         {
-            //             Title = ex.GetType().Name,
-            //             Status = StatusCodes.Status400BadRequest,
-            //             Detail = ex.Message,
-            //             Type = "https://somedomain/bad-request-error"
-            //         }
-            // );
-            // x.Map<NotFoundException>(
-            //     ex =>
-            //         new ProblemDetails
-            //         {
-            //             Title = ex.GetType().Name,
-            //             Status = (int)ex.StatusCode,
-            //             Detail = ex.Message,
-            //             Type = "https://somedomain/not-found-error"
-            //         }
-            // );
-            // x.Map<AppException>(
-            //     ex =>
-            //         new ProblemDetails
-            //         {
-            //             Title = ex.GetType().Name,
-            //             Status = (int)ex.StatusCode,
-            //             Detail = ex.Message,
-            //             Type = "https://somedomain/application-error"
-            //         }
-            // );
-            // x.Map<HttpResponseException>(ex =>
-            // {
-            //     var pd = new ProblemDetails
-            //     {
-            //         Status = (int?)ex.StatusCode,
-            //         Title = ex.GetType().Name,
-            //         Detail = ex.Message,
-            //         Type = "https://somedomain/http-error"
-            //     };
-            //
-            //     return pd;
-            // });
-            // x.Map<HttpRequestException>(ex =>
-            // {
-            //     var pd = new ProblemDetails
-            //     {
-            //         Status = (int?)ex.StatusCode,
-            //         Title = ex.GetType().Name,
-            //         Detail = ex.Message,
-            //         Type = "https://somedomain/http-error"
-            //     };
-            //
-            //     return pd;
-            // });
-            //
-            // x.MapToStatusCode<ArgumentNullException>(StatusCodes.Status400BadRequest);
-            // x.MapStatusCode = context => new StatusCodeProblemDetails(context.Response.StatusCode);
         });
 
         return builder;
     }
+
+    // private static void PopulateNewProblemDetail(
+    //     ProblemDetails existingProblemDetails,
+    //     int statusCode,
+    //     Exception exception
+    // )
+    // {
+    //     var newProblemDetail = TypedResults
+    //         .Problem(
+    //             new ProblemDetails
+    //             {
+    //                 Title = exception.GetType().Name,
+    //                 Status = statusCode,
+    //                 Detail = exception.Message
+    //             }
+    //         )
+    //         .ProblemDetails;
+    //
+    //     existingProblemDetails.Type = newProblemDetail.Type;
+    //     existingProblemDetails.Title = newProblemDetail.Title;
+    //     existingProblemDetails.Detail = newProblemDetail.Detail;
+    //     existingProblemDetails.Status = newProblemDetail.Status;
+    // }
 }

@@ -1,10 +1,13 @@
+using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Contracts;
+using Shared.Web.ProblemDetail.HttpResults;
 
-namespace Shared.Web.Extensions;
+namespace Shared.Web.Minimal.Extensions;
 
 public static class EndpointRouteBuilderExtensions
 {
@@ -16,9 +19,9 @@ public static class EndpointRouteBuilderExtensions
         where TRequest : class
         where TCommand : IRequest
     {
-        return builder.MapPost(pattern, Handle);
+        return builder.MapPost(pattern, Handle).WithName(nameof(TCommand)).WithDisplayName(nameof(TCommand).Humanize());
 
-        async Task<IResult> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
+        async Task<NoContent> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
         {
             var (request, context, mediator, mapper, cancellationToken) = requestParameters;
 
@@ -28,6 +31,7 @@ public static class EndpointRouteBuilderExtensions
             await mediator.Send(command, cancellationToken);
 
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0#multiple-response-types
             return TypedResults.NoContent();
         }
     }
@@ -44,11 +48,21 @@ public static class EndpointRouteBuilderExtensions
         where TCommandResult : class
         where TCommand : IRequest<TCommandResult>
     {
-        return builder.MapPost(pattern, Handle);
+        return builder.MapPost(pattern, Handle).WithName(nameof(TCommand)).WithDisplayName(nameof(TCommand).Humanize());
 
-        async Task<IResult> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
+        // https://github.com/dotnet/aspnetcore/issues/47630
+        async Task<
+            Results<
+                Ok<TResponse>,
+                CreatedAtRoute<TResponse>,
+                Accepted<TResponse>,
+                UnAuthorizedHttpProblemResult,
+                InternalHttpProblemResult
+            >
+        > Handle([AsParameters] HttpCommand<TRequest> requestParameters)
         {
             var (request, context, mediator, mapper, cancellationToken) = requestParameters;
+            var host = $"{context.Request.Scheme}://{context.Request.Host}";
 
             var command = mapRequestToCommand is not null
                 ? mapRequestToCommand(request)
@@ -60,7 +74,15 @@ public static class EndpointRouteBuilderExtensions
                 : mapper.Map<TResponse>(res);
 
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
-            return TypedResults.Json(response, statusCode: statusCode);
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0#multiple-response-types
+            return statusCode switch
+            {
+                StatusCodes.Status201Created => TypedResults.CreatedAtRoute(response, routeName: $"{host}{pattern}/id"),
+                StatusCodes.Status401Unauthorized => TypedResultsExtensions.UnAuthorizedProblem(),
+                StatusCodes.Status500InternalServerError => TypedResultsExtensions.InternalProblem(),
+                StatusCodes.Status202Accepted => TypedResults.Accepted(new Uri($"{host}{pattern}"), response),
+                _ => TypedResults.Ok(response)
+            };
         }
     }
 
@@ -75,9 +97,9 @@ public static class EndpointRouteBuilderExtensions
         where TQueryResult : class
         where TQuery : IRequest<TQueryResult>
     {
-        return builder.MapGet(pattern, Handle);
+        return builder.MapGet(pattern, Handle).WithName(nameof(TQuery)).WithDisplayName(nameof(TQuery).Humanize());
 
-        async Task<IResult> Handle([AsParameters] TRequestParameters requestParameters)
+        async Task<Ok<TResponse>> Handle([AsParameters] TRequestParameters requestParameters)
         {
             var mediator = requestParameters.Mediator;
             var mapper = requestParameters.Mapper;
@@ -94,6 +116,7 @@ public static class EndpointRouteBuilderExtensions
                 : mapper.Map<TResponse>(res);
 
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0#multiple-response-types
             return TypedResults.Ok(response);
         }
     }

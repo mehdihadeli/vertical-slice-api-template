@@ -2,7 +2,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace Shared.Web.Extensions;
+namespace Shared.Web.Minimal.Extensions;
 
 public static class EndpointConventionBuilderExtensions
 {

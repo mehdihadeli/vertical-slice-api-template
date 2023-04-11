@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Options;
 using Shared.Swagger;
 using Shared.Web.Extensions;
+using Shared.Web.Middlewares;
+using Shared.Web.Minimal.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Vertical.Slice.Template.Api.Extensions.WebApplicationBuilderExtensions;
 using Vertical.Slice.Template.Shared.Extensions;
@@ -16,7 +18,7 @@ builder.Services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefault
 
 // #endif
 builder.AddInfrastructures();
-builder.AddCustomProblemDetails();
+builder.AddAppProblemDetails();
 builder.AddCustomVersioning();
 
 builder.AddModulesServices();
@@ -24,14 +26,18 @@ builder.AddModulesServices();
 var app = builder.Build();
 
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling
+// Does nothing if a response body has already been provided. when our next `DeveloperExceptionMiddleware` is written response for exception (in dev mode) when we back to `ExceptionHandlerMiddlewareImpl` because `context.Response.HasStarted` it doesn't do anything
+// By default `ExceptionHandlerMiddlewareImpl` middleware register original exceptions with `IExceptionHandlerFeature` feature, we don't have this in `DeveloperExceptionPageMiddleware` and we should handle it with a middleware like `CaptureExceptionMiddleware`
+// Just for handling exceptions in production mode
 app.UseExceptionHandler();
-app.UseStatusCodePages();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errrors
     app.UseDeveloperExceptionPage();
+    app.UseCaptureException();
+
     // #if EnableSwagger
     app.UseSwagger();
     app.UseSwaggerUI(options =>

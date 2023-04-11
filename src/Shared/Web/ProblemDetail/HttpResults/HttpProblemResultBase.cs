@@ -8,7 +8,7 @@ using Shared.Validation.Extensions;
 
 namespace Shared.Web.ProblemDetail.HttpResults;
 
-public class HttpProblemResultBase
+public abstract class HttpProblemResultBase
     : IResult,
         IStatusCodeHttpResult,
         IContentTypeHttpResult,
@@ -18,22 +18,15 @@ public class HttpProblemResultBase
 {
     private readonly ProblemHttpResult _problem;
 
-    public HttpProblemResultBase(
-        int statusCode,
-        string? title = null,
-        string? type = null,
-        string? detail = null,
-        string? instance = null,
-        IDictionary<string, object?>? extensions = null
-    )
+    protected HttpProblemResultBase(ProblemDetails problemDetails)
     {
         _problem = TypedResults.Problem(
-            statusCode: statusCode,
-            title: title,
-            type: type,
-            detail: detail,
-            instance: instance,
-            extensions: extensions
+            statusCode: problemDetails.Status,
+            title: problemDetails.Title,
+            type: problemDetails.Type,
+            detail: problemDetails.Detail,
+            instance: problemDetails.Instance,
+            extensions: problemDetails.Extensions
         );
     }
 

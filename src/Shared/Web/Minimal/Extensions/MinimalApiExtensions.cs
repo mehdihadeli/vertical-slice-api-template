@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Scrutor;
 using Shared.Core.Reflection;
+using Shared.Web.Contracts;
 
-namespace Shared.Web.Extensions;
+namespace Shared.Web.Minimal.Extensions;
 
 public static class MinimalApiExtensions
 {

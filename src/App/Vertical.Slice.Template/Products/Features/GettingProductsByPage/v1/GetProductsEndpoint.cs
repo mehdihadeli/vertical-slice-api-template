@@ -8,6 +8,7 @@ using Shared.Core.Contracts;
 using Shared.Core.Types;
 using Shared.Web.Contracts;
 using Shared.Web.Extensions;
+using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 using Vertical.Slice.Template.Products.Dtos;
 using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
@@ -41,6 +42,7 @@ internal static class GetProductsEndpoint
             var result = await mediatr.Send(query, cancellationToken);
 
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
+            // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0#multiple-response-types
             return TypedResults.Ok(new GetGetProductsByPageResponse(result.Products));
         }
     }

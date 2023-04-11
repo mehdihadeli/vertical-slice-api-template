@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Shared.Web;
+namespace Shared.Web.Contracts;
 
 public interface IMinimalEndpoint
 {

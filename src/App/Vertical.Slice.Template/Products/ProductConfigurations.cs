@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web;
+using Shared.Web.Contracts;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 using Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;

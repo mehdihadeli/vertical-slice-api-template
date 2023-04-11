@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
-namespace Shared.Web;
+namespace Shared.Web.Contracts;
 
 public interface IModuleConfiguration
 {

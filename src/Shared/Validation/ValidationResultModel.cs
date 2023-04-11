@@ -1,6 +1,7 @@
-using System.Net;
-using System.Text.Json;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Shared.Validation;
 
@@ -11,10 +12,11 @@ public class ValidationResultModel
         Errors = validationResult?.Errors
             .Select(error => new ValidationError(error.PropertyName, error.ErrorMessage))
             .ToList();
+        Message = JsonConvert.SerializeObject(Errors);
     }
 
-    public int StatusCode { get; set; } = (int)HttpStatusCode.BadRequest;
-    public string Message { get; set; } = "Validation Failed.";
+    public int StatusCode { get; set; } = StatusCodes.Status400BadRequest;
+    public string Message { get; set; }
 
     public IList<ValidationError>? Errors { get; }
 
