@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Shared.Core;
+using Shared.Core.Id;
 using Shared.EF.Extensions;
 using Shared.Validation;
 using Shared.Validation.Extensions;
@@ -13,7 +14,7 @@ namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 internal record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
     : IRequest<CreateProductResult>
 {
-    public Guid Id { get; } = Guid.NewGuid();
+    public Guid Id { get; } = IdGenerator.NewId();
 
     /// <summary>
     /// CreateProduct command with validation.

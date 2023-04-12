@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Contracts;
-using Shared.Web.Extensions;
 using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 
