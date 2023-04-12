@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <PackageId>Vertical.Slice.Template</PackageId>
     <Title>Vertical Slice API Template</Title>
     <Authors>Mehdi Hadeli</Authors>
@@ -30,7 +30,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="**\*" Exclude="**\bin\**\*;**\obj\**\*;Template.csproj;Template.nuspec;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;" />
+    <Content Include="**\*" Exclude="**\bin\**\*;**\obj\**\*;**\.template.config\**\*;Template.csproj;Template.nuspec;icon.png;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;" />
     <Compile Remove="**\*" />
   </ItemGroup>
   
