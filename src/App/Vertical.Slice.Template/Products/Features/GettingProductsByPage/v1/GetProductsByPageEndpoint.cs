@@ -5,33 +5,29 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using Shared.Core.Contracts;
-using Shared.Core.Types;
 using Shared.Web.Contracts;
-using Shared.Web.Extensions;
 using Shared.Web.Minimal.Extensions;
-using Shared.Web.ProblemDetail.HttpResults;
 using Vertical.Slice.Template.Products.Dtos;
-using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
 
-internal static class GetProductsEndpoint
+internal static class GetProductsByPageEndpoint
 {
-    internal static RouteHandlerBuilder MapGetProductsEndpoint(this IEndpointRouteBuilder app)
+    internal static RouteHandlerBuilder MapGetProductsByPageEndpoint(this IEndpointRouteBuilder app)
     {
         return
-        // app.MapQueryEndpoint<GetProductsByPageRequestParameters, GetGetProductsByPageResponse, GetProductsByPage,
+        // app.MapQueryEndpoint<GetProductsByPageRequestParameters, GetProductsByPageResponse, GetProductsByPage,
         //         GetProductsByPageResult>("/")
         app.MapGet("/", Handle)
             .WithName(nameof(GetProductsByPage))
             .WithTags(ProductConfigurations.Tag)
             .WithSummaryAndDescription("Getting products by page info", "Getting products by page info")
-            // .Produces<GetGetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)
+            // .Produces<GetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)
             // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
             .WithDisplayName("Get products by page info.")
             .MapToApiVersion(1.0);
 
-        async Task<Results<Ok<GetGetProductsByPageResponse>, ValidationProblem>> Handle(
+        async Task<Results<Ok<GetProductsByPageResponse>, ValidationProblem>> Handle(
             [AsParameters] GetProductsByPageRequestParameters requestParameters
         )
         {
@@ -43,7 +39,7 @@ internal static class GetProductsEndpoint
 
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0#multiple-response-types
-            return TypedResults.Ok(new GetGetProductsByPageResponse(result.Products));
+            return TypedResults.Ok(new GetProductsByPageResponse(result.Products));
         }
     }
 }
@@ -61,4 +57,4 @@ internal record GetProductsByPageRequestParameters(
     string? SortOrder = null
 ) : IHttpQuery, IPageRequest;
 
-internal record GetGetProductsByPageResponse(IPageList<ProductDto> Products);
+internal record GetProductsByPageResponse(IPageList<ProductDto> Products);

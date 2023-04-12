@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Shared.Core;
+using Shared.Core.Contracts;
 using Shared.Core.Extensions;
 using Shared.Core.Types;
 using Shared.EF.Extensions;
@@ -71,14 +72,15 @@ internal class GetProductByPageHandler : IRequestHandler<GetProductsByPage, GetP
 
     public async Task<GetProductsByPageResult> Handle(GetProductsByPage request, CancellationToken cancellationToken)
     {
-        request.NotNull();
+        request.NotBeNull();
 
         var query = _getProductsExecutor(cancellationToken);
 
-        var pageList = await query.ApplyPaging<ProductReadModel, ProductDto>(
+        var pageList = await query.ApplyPagingAsync<ProductReadModel, ProductDto>(
             request,
             _mapper.ConfigurationProvider,
-            _sieveProcessor
+            _sieveProcessor,
+            cancellationToken
         );
 
         return new GetProductsByPageResult(pageList);

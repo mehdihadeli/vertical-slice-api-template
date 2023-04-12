@@ -17,12 +17,3 @@ public interface IHttpCommand<TRequest>
     IMapper Mapper { get; init; }
     CancellationToken CancellationToken { get; init; }
 }
-
-public record HttpCommand<TRequest>(
-    TRequest Request,
-    HttpContext HttpContext,
-    IMediator Mediator,
-    IMapper Mapper,
-    CancellationToken CancellationToken
-) : IHttpCommand<TRequest>
-    where TRequest : class;

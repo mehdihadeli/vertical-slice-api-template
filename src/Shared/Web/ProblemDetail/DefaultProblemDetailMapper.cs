@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Shared.Core.Exceptions;
+using Shared.Validation;
 using Shared.Validation.Extensions;
 using Shared.Web.Contracts;
 
@@ -12,7 +13,7 @@ internal sealed class DefaultProblemDetailMapper : IProblemDetailMapper
         return exception switch
         {
             ConflictException conflictException => conflictException.StatusCode,
-            ValidationException validationException => validationException.ValidationResultModel.StatusCode,
+            ValidationException validationException => validationException.StatusCode,
             ArgumentException _ => StatusCodes.Status400BadRequest,
             BadRequestException badRequestException => badRequestException.StatusCode,
             NotFoundException notFoundException => notFoundException.StatusCode,

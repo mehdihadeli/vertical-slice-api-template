@@ -1,6 +1,7 @@
 using FluentValidation;
 using Shared.Core.Domain;
 using Shared.Validation;
+using Shared.Validation.Extensions;
 
 namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 

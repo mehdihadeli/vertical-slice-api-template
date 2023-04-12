@@ -2,6 +2,7 @@ using System.Text.Json;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared.Validation.Extensions;
 
 namespace Shared.Validation;
 

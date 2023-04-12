@@ -20,7 +20,7 @@ public class ProductMappingProfiles : Profile
         CreateMap<CreateProductResult, CreateProductResponse>();
 
         CreateMap<GetProductsByPageRequestParameters, GetProductsByPage>();
-        CreateMap<GetProductsByPageResult, GetGetProductsByPageResponse>();
+        CreateMap<GetProductsByPageResult, GetProductsByPageResponse>();
 
         CreateMap<GetProductByIdRequestParameters, GetProductById>();
         CreateMap<GetProductByIdResult, GetProductByIdResponse>();

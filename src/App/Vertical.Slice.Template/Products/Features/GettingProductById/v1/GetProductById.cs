@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shared.Core;
 using Shared.Core.Exceptions;
+using Shared.Core.Extensions;
 using Shared.EF.Extensions;
 using Shared.Validation;
 using Shared.Validation.Extensions;
@@ -48,7 +49,7 @@ internal class GetProductByIdHandler : IRequestHandler<GetProductById, GetProduc
 
     public async Task<GetProductByIdResult> Handle(GetProductById request, CancellationToken cancellationToken)
     {
-        request.NotNull();
+        request.NotBeNull();
 
         var productReadModel = await _getProductByIdExecutor(request.Id, cancellationToken);
 

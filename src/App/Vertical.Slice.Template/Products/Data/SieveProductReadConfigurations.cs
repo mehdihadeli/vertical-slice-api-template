@@ -3,7 +3,7 @@ using Vertical.Slice.Template.Products.ReadModel;
 
 namespace Vertical.Slice.Template.Products.Data;
 
-public class SieveProductConfigurations : ISieveConfiguration
+public class SieveProductReadConfigurations : ISieveConfiguration
 {
     public void Configure(SievePropertyMapper mapper)
     {

@@ -1,7 +1,7 @@
 using System.Reflection;
 using Shared.Core.Reflection.Extensions;
 
-namespace Shared.Core.Extensions;
+namespace Shared.Core.Extensions.ServiceCollectionsExtensions;
 
 public static partial class ServiceCollectionExtensions
 {

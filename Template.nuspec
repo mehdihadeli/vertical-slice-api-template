@@ -18,7 +18,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>dotnet;dotnet-core;templates;csharp;vertical-slices;vertical-slices-architecture;clean-architecture;cqrs;minimal-api</tags>
     <icon>icon.png</icon>
-    <readme>readme.md</readme>
+    <readme>readme-nuget.md</readme>
 
     <packageTypes>
       <packageType name="Template" />
@@ -29,6 +29,7 @@
   <files>
     <file src=".template.config\icon.png" />
     <file src="readme.md" />
+    <file src="readme-nuget.md" />
     <file src=".\**" target="content" exclude="**\bin\**\*;**\obj\**\*;**\.template.config\**\*;Template.csproj;Template.nuspec;icon.png;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;" />
   </files>
 

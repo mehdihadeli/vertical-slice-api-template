@@ -1,4 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>ApiClient.Tests</AssemblyName>
+    <RootNamespace>ApiClient.Tests</RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ApiClient\ApiClient.csproj" />
     <ProjectReference Include="..\..\src\App\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />

@@ -30,7 +30,7 @@ internal class ProductConfigurations : IModuleConfiguration
 
         productsV1.MapCreateProductEndpoint();
         productsV1.MapGetProductByIdEndpoint();
-        productsV1.MapGetProductsEndpoint();
+        productsV1.MapGetProductsByPageEndpoint();
 
         return endpoints;
     }

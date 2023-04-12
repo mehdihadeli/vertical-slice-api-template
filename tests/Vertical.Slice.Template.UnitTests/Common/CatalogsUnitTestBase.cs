@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Options;
+using Shared.Core;
 using Sieve.Models;
 using Tests.Shared.XunitCategories;
 using Vertical.Slice.Template.Shared;

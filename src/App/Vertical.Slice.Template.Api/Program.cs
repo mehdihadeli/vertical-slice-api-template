@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using Shared.Swagger;
-using Shared.Web.Extensions;
 using Shared.Web.Middlewares;
 using Shared.Web.Minimal.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;

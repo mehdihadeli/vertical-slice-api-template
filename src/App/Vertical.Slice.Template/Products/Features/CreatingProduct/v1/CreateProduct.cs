@@ -2,9 +2,9 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Shared.Core;
+using Shared.Core.Extensions;
 using Shared.Core.Id;
 using Shared.EF.Extensions;
-using Shared.Validation;
 using Shared.Validation.Extensions;
 using Vertical.Slice.Template.Products.Models;
 using Vertical.Slice.Template.Shared.Data;
@@ -24,9 +24,9 @@ internal record CreateProduct(string Name, Guid CategoryId, decimal Price, strin
     /// <param name="price"></param>
     /// <param name="description"></param>
     /// <returns></returns>
-    public static CreateProduct Of(string name, Guid categoryId, decimal price, string? description = null)
+    public static CreateProduct Of(string? name, Guid categoryId, decimal price, string? description = null)
     {
-        return new CreateProductValidator().HandleValidation(new CreateProduct(name, categoryId, price, description));
+        return new CreateProductValidator().HandleValidation(new CreateProduct(name!, categoryId, price, description));
     }
 }
 
@@ -60,7 +60,7 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
 
     public async Task<CreateProductResult> Handle(CreateProduct request, CancellationToken cancellationToken)
     {
-        request.NotNull();
+        request.NotBeNull();
 
         var product = _mapper.Map<Product>(request);
 

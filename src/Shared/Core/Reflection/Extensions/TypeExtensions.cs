@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Shared.Domain;
+using Shared.Core.Contracts;
 
 namespace Shared.Core.Reflection.Extensions;
 

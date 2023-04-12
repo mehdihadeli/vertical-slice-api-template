@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Vertical.Slice.Template.Api;
 
-namespace ApiClien.Tests;
+namespace ApiClient.Tests;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {

@@ -1,5 +1,5 @@
+using Shared.Core.Contracts;
 using Shared.Core.Types;
-using Shared.Domain;
 
 namespace Shared.Core.Domain;
 

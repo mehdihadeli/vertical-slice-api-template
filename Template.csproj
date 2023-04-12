@@ -19,7 +19,7 @@
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReadmeFile>readme-nuget.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/mehdihadeli/vertical-slice-api-template</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mehdihadeli/vertical-slice-api-template</RepositoryUrl>
@@ -37,6 +37,7 @@
   <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="\"/> 
     <None Include="readme.md" Pack="true" PackagePath="\"/> 
+    <None Include="readme-nuget.md" Pack="true" PackagePath="\"/> 
   </ItemGroup>
 
 </Project>

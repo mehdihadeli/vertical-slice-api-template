@@ -1,8 +1,8 @@
 using FluentValidation;
 using FluentValidation.Results;
-using ValidationException = Shared.Validation.Extensions.ValidationException;
+using ValidationException = Shared.Core.Exceptions.ValidationException;
 
-namespace Shared.Validation;
+namespace Shared.Validation.Extensions;
 
 public static class ValidatorExtension
 {
@@ -15,7 +15,7 @@ public static class ValidatorExtension
     {
         var validationResult = await validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
         if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.ToValidationResultModel());
+            throw new ValidationException(validationResult.ToValidationResultModel().Message);
 
         return request;
     }
@@ -24,7 +24,7 @@ public static class ValidatorExtension
     {
         var validationResult = validator.Validate(request);
         if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.ToValidationResultModel());
+            throw new ValidationException(validationResult.ToValidationResultModel().Message);
 
         return request;
     }

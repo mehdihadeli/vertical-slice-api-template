@@ -1,8 +1,9 @@
+using System.Reflection;
 using Microsoft.Extensions.Options;
 using Sieve.Models;
 using Sieve.Services;
 
-namespace Vertical.Slice.Template.Shared;
+namespace Shared.Core;
 
 // https://github.com/Biarity/Sieve#modular-fluent-api-configuration
 public class ApplicationSieveProcessor : SieveProcessor
@@ -25,6 +26,6 @@ public class ApplicationSieveProcessor : SieveProcessor
 
     protected override SievePropertyMapper MapProperties(SievePropertyMapper mapper)
     {
-        return mapper.ApplyConfigurationsFromAssembly(typeof(ApplicationSieveProcessor).Assembly);
+        return mapper.ApplyConfigurationsFromAssembly(Assembly.GetCallingAssembly());
     }
 }

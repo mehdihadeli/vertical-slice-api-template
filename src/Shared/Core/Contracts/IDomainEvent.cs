@@ -1,5 +1,3 @@
-using Shared.Core.Contracts;
-
-namespace Shared.Domain;
+namespace Shared.Core.Contracts;
 
 public interface IDomainEvent : IEvent { }
