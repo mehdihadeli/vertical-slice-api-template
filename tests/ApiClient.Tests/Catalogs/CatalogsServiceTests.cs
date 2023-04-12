@@ -4,20 +4,16 @@ using FluentAssertions;
 
 namespace ApiClient.Tests.Catalogs;
 
-public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
+public class CatalogsServiceTests : TestBase
 {
-    private readonly CustomWebApplicationFactory _appFactory;
-
     public CatalogsServiceTests(CustomWebApplicationFactory appFactory)
-    {
-        _appFactory = appFactory;
-    }
+        : base(appFactory) { }
 
     [Fact]
     public async Task create_product_can_create_product_with_valid_data()
     {
         // Arrange
-        var catalogsService = _appFactory.CatalogsService;
+        var catalogsService = Factory.CatalogsService;
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
 
         // Act
@@ -32,7 +28,7 @@ public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
     public async Task get_product_by_id_can_get_product_with_valid_data()
     {
         // Arrange
-        var catalogsService = _appFactory.CatalogsService;
+        var catalogsService = Factory.CatalogsService;
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
         var createProductResponse = await catalogsService.CreateProductAsync(createProduct, CancellationToken.None);
 
@@ -48,7 +44,7 @@ public class CatalogsServiceTests : IClassFixture<CustomWebApplicationFactory>
     public async Task get_product_by_page_can_get_products_with_valid_data()
     {
         // Arrange
-        var catalogsService = _appFactory.CatalogsService;
+        var catalogsService = Factory.CatalogsService;
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
         var createProductResponse = await catalogsService.CreateProductAsync(createProduct, CancellationToken.None);
 

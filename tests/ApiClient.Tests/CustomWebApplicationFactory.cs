@@ -12,7 +12,6 @@ namespace ApiClient.Tests;
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private ICatalogsService? _catalogsService;
-
     public ICatalogsService CatalogsService => _catalogsService ??= Services.GetRequiredService<ICatalogsService>();
 
     protected override IHost CreateHost(IHostBuilder builder)
@@ -23,11 +22,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             {
                 services.AddCustomHttpClients();
                 services.AddMappings();
-                services.AddTransient<ICatalogsApiClient>(x =>
-                {
-                    // replace our CatalogsApiClient, internal httpclient with factory httpclient
-                    return new CatalogsApiClient(CreateClient());
-                });
+                services.AddTransient<ICatalogsApiClient>(x => new CatalogsApiClient(CreateClient()));
             });
 
             wb.ConfigureAppConfiguration((hostingContext, configurationBuilder) => { });

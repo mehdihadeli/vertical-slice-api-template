@@ -1,24 +1,19 @@
+using ApiClient.Tests;
 using AutoBogus;
 using Catalogs.ApiClient;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Vertical.Slice.Template.Api;
 
 namespace Vertical.Slice.Template.ContractTests.Products;
 
-public class GetProductsByPageTests : IClassFixture<WebApplicationFactory<Program>>
+public class GetProductsByPageTests : TestBase
 {
-    private readonly WebApplicationFactory<Program> _appFactory;
-
-    public GetProductsByPageTests(WebApplicationFactory<Program> appFactory)
-    {
-        _appFactory = appFactory;
-    }
+    public GetProductsByPageTests(CustomWebApplicationFactory appFactory)
+        : base(appFactory) { }
 
     [Fact]
     public async Task BasicContractTest()
     {
-        using var baseClient = _appFactory.CreateClient();
+        using var baseClient = Factory.CreateClient();
         var client = new CatalogsApiClient(baseClient);
         var createdProduct = await CreateProduct(client);
 
