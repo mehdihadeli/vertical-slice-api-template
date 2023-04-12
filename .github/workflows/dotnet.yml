@@ -21,7 +21,7 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Vertical.Slice.Template.sln
     - name: Build
       run: dotnet build Vertical.Slice.Template.sln --no-restore
     - name: Test
