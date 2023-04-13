@@ -1,3 +1,5 @@
+using AutoMapper;
+
 namespace Shared.Core.Contracts;
 
 public interface IPageList<T>
@@ -14,6 +16,8 @@ public interface IPageList<T>
     int PageNumber { get; init; }
     int PageSize { get; init; }
 
-    IPageList<TR> Map<TR>(Func<T, TR> map)
+    IPageList<TR> MapTo<TR>(Func<T, TR> map)
+        where TR : class;
+    IPageList<TR> MapTo<TR>(IMapper mapper)
         where TR : class;
 }

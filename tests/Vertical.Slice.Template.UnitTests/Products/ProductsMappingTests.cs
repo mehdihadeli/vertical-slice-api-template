@@ -3,6 +3,7 @@ using AutoMapper;
 using FluentAssertions;
 using Tests.Shared.XunitCategories;
 using Vertical.Slice.Template.Products.Dtos;
+using Vertical.Slice.Template.Products.Dtos.v1;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 using Vertical.Slice.Template.Products.ReadModel;
 using Vertical.Slice.Template.UnitTests.Common;

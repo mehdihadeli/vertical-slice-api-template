@@ -9,7 +9,6 @@ namespace Shared.Web.Contracts;
 // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record#nondestructive-mutation
 // https://alexanderzeitler.com/articles/deconstructing-a-csharp-record-with-properties/
 public interface IHttpCommand<TRequest>
-    where TRequest : class
 {
     TRequest Request { get; init; }
     HttpContext HttpContext { get; init; }

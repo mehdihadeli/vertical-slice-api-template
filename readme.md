@@ -25,210 +25,65 @@ This is a An asp.net core template based on `Vertical Slice Architecture`, CQRS,
 
 ## Folder Structure
 ``` cmd
-src
-│   Directory.Build.props
-│   Directory.Build.targets
-│   Directory.Packages.props
-│
-├───ApiClient
-│   │   ApiClient.csproj
-│   │   ApiClientOptions.cs
-│   │   nswag.json
-│   │   swagger.json
+
+App
+├───Vertical.Slice.Template
+│   │   CatalogsAssemblyInfo.cs
+│   │   Vertical.Slice.Template.csproj
 │   │
-│   ├───Catalogs
-│   │   │   CatalogsMappingProfile.cs
-│   │   │   CatalogsService.cs
-│   │   │   ICatalogsService.cs
+│   ├───Products
+│   │   │   ProductConfigurations.cs
+│   │   │   ProductMappingProfiles.cs
 │   │   │
-│   │   └───Dtos
-│   │           CreateProductInput.cs
-│   │           CreateProductOutput.cs
-│   │           GetProductByIdOutput.cs
-│   │           GetProductByPageOutput.cs
-│   │           GetProductsByPageInput.cs
-│   │           ProductDto.cs
-│   │           ProductLiteDto.cs
+│   │   ├───Data
+│   │   │       ProductEntityTypeConfigurations.cs
+│   │   │       SieveProductReadConfigurations.cs
+│   │   │
+│   │   ├───Dtos
+│   │   │   └───v1
+│   │   │           ProductDto.cs
+│   │   │
+│   │   ├───Features
+│   │   │   ├───CreatingProduct
+│   │   │   │   └───v1
+│   │   │   │           CreateProduct.cs
+│   │   │   │           CreateProductEndpoint.cs
+│   │   │   │           ProductCreated.cs
+│   │   │   │
+│   │   │   ├───GettingProductById
+│   │   │   │   └───v1
+│   │   │   │           GetProductById.cs
+│   │   │   │           GetProductByIdEndpoint.cs
+│   │   │   │
+│   │   │   └───GettingProductsByPage
+│   │   │       └───v1
+│   │   │               GetProductsByPage.cs
+│   │   │               GetProductsByPageEndpoint.cs
+│   │   │
+│   │   ├───Models
+│   │   │       Product.cs
+│   │   │
+│   │   └───ReadModel
+│   │           ProductReadModel.cs
 │   │
-│   └───Extensions
-│           ServiceCollectionExtensions.cs
-│
-├───App
-│   ├───Vertical.Slice.Template
-│   │   │   CatalogsAssemblyInfo.cs
-│   │   │   Vertical.Slice.Template.csproj
-│   │   │
-│   │   ├───Products
-│   │   │   │   ProductConfigurations.cs
-│   │   │   │   ProductMappingProfiles.cs
-│   │   │   │
-│   │   │   ├───Data
-│   │   │   │       ProductEntityTypeConfigurations.cs
-│   │   │   │       SieveProductReadConfigurations.cs
-│   │   │   │
-│   │   │   ├───Dtos
-│   │   │   │       ProductDto.cs
-│   │   │   │
-│   │   │   ├───Features
-│   │   │   │   ├───CreatingProduct
-│   │   │   │   │   └───v1
-│   │   │   │   │           CreateProduct.cs
-│   │   │   │   │           CreateProductEndpoint.cs
-│   │   │   │   │           ProductCreated.cs
-│   │   │   │   │
-│   │   │   │   ├───GettingProductById
-│   │   │   │   │   └───v1
-│   │   │   │   │           GetProductById.cs
-│   │   │   │   │           GetProductByIdEndpoint.cs
-│   │   │   │   │
-│   │   │   │   └───GettingProductsByPage
-│   │   │   │       └───v1
-│   │   │   │               GetProductsByPage.cs
-│   │   │   │               GetProductsByPageEndpoint.cs
-│   │   │   │
-│   │   │   ├───Models
-│   │   │   │       Product.cs
-│   │   │   │
-│   │   │   └───ReadModel
-│   │   │           ProductReadModel.cs
-│   │   │
-│   │   └───Shared
-│   │       ├───Data
-│   │       │       CatalogsDbContext.cs
-│   │       │
-│   │       └───Extensions
-│   │               WebApplicationBuilderExtensions.Infrastrcture.cs
-│   │
-│   └───Vertical.Slice.Template.Api
-│       │   appsettings.Development.json
-│       │   appsettings.json
-│       │   Program.cs
-│       │   Vertical.Slice.Template.Api.csproj
+│   └───Shared
+│       ├───Data
+│       │       CatalogsDbContext.cs
 │       │
-│       ├───Extensions
-│       │   └───WebApplicationBuilderExtensions
-│       │           WebApplicationBuilderExtensions.ProblemDetails.cs
-│       │           WebApplicationBuilderExtensions.Versioning.cs
-│       │
-│       └───Properties
-│               launchSettings.json
+│       └───Extensions
+│               WebApplicationBuilderExtensions.Infrastrcture.cs
 │
-└───Shared
-    │   Shared.csproj
+└───Vertical.Slice.Template.Api
+    │   appsettings.Development.json
+    │   appsettings.json
+    │   Program.cs
+    │   Vertical.Slice.Template.Api.csproj
     │
-    ├───Core
-    │   │   ApplicationSieveProcessor.cs
-    │   │   IDbExecutors.cs
-    │   │
-    │   ├───Contracts
-    │   │       IDomainEvent.cs
-    │   │       IEvent.cs
-    │   │       IPageList.cs
-    │   │       IPageQuery.cs
-    │   │       IPageRequest.cs
-    │   │
-    │   ├───Domain
-    │   │       DomainEvent.cs
-    │   │
-    │   ├───Exceptions
-    │   │       AppException.cs
-    │   │       BadRequestException.cs
-    │   │       ConflictException.cs
-    │   │       CustomException.cs
-    │   │       HttpResponseException.cs
-    │   │       NotFoundException.cs
-    │   │       ValidationException.cs
-    │   │
-    │   ├───Extensions
-    │   │   │   QueryableExtensions.cs
-    │   │   │   ValidationExtensions.cs
-    │   │   │
-    │   │   └───ServiceCollectionsExtensions
-    │   │           ServiceCollectionExtensions.DbExecutorExtensions.cs
-    │   │
-    │   ├───Id
-    │   │       IdGenerator.cs
-    │   │
-    │   ├───Reflection
-    │   │   │   ReflectionUtilities.cs
-    │   │   │
-    │   │   └───Extensions
-    │   │           AssemblyExtensions.cs
-    │   │           TypeExtensions.cs
-    │   │
-    │   └───Types
-    │           Event.cs
-    │           PageList.cs
-    │           PageQuery.cs
-    │           PageRequest.cs
+    ├───Extensions
+    │   └───WebApplicationBuilderExtensions
+    │           WebApplicationBuilderExtensions.ProblemDetails.cs
+    │           WebApplicationBuilderExtensions.Versioning.cs
     │
-    ├───EF
-    │   └───Extensions
-    │           DbContextExtensions.cs
-    │
-    ├───Logging
-    │       Extensions.cs
-    │       SerilogOptions.cs
-    │
-    ├───Swagger
-    │       ConfigureSwaggerOptions.cs
-    │       SwaggerDefaultValues.cs
-    │
-    ├───Validation
-    │   │   RequestValidationBehavior.cs
-    │   │   ValidationError.cs
-    │   │   ValidationResultModel.cs
-    │   │
-    │   └───Extensions
-    │           RegistrationExtensions.cs
-    │           ValidatorExtension.cs
-    │
-    └───Web
-        │   PolicyOptions.cs
-        │
-        ├───Contracts
-        │       IHttpCommand.cs
-        │       IHttpQuery.cs
-        │       IMinimalEndpoint.cs
-        │       IModuleConfiguration.cs
-        │       IProblemDetailMapper.cs
-        │       ISharedModulesConfiguration.cs
-        │
-        ├───Extensions
-        │   │   ConfigurationExtensions.cs
-        │   │   HeaderDictionaryExtensions.cs
-        │   │   HttpResponseMessageExtensions.cs
-        │   │   QueryCollectionExtensions.cs
-        │   │
-        │   └───ServiceCollection
-        │           ServiceCollectionExtensions.Dependency.cs
-        │           ServiceCollectionExtensions.Options.cs
-        │
-        ├───Middlewares
-        │   └───CaptureExceptionMiddleware
-        │           CaptureExceptionMiddlewareExtensions.cs
-        │           CaptureExceptionMiddlewareImp.cs
-        │
-        ├───Minimal
-        │   │   HttpCommand.cs
-        │   │   HttpQuery.cs
-        │   │
-        │   └───Extensions
-        │           EndpointConventionBuilderExtensions.cs
-        │           EndpointRouteBuilderExtensions.cs
-        │           MinimalApiExtensions.cs
-        │           ModuleExtensions.cs
-        │           TypedResultsExtensions.cs
-        │
-        └───ProblemDetail
-            │   DefaultProblemDetailMapper.cs
-            │   ProblemDetailsService.cs
-            │   ProblemDetailsWriter.cs
-            │   RegistrationExtensions.cs
-            │   ResponseMetadata.cs
-            │
-            └───HttpResults
-                    InternalHttpProblemResult.cs
-                    NotFoundHttpProblemResult.cs
-                    UnAuthorizedHttpProblemResult.cs
+    └───Properties
+            launchSettings.json
 ```

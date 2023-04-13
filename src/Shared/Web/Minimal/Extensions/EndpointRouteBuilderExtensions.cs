@@ -2,10 +2,8 @@ using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Contracts;
-using Shared.Web.ProblemDetail.HttpResults;
 
 namespace Shared.Web.Minimal.Extensions;
 
@@ -19,9 +17,14 @@ public static class EndpointRouteBuilderExtensions
         where TRequest : class
         where TCommand : IRequest
     {
-        return builder.MapPost(pattern, Handle).WithName(nameof(TCommand)).WithDisplayName(nameof(TCommand).Humanize());
+        return builder
+            .MapPost(pattern, Handle)
+            .WithName(typeof(TCommand).Name)
+            .WithDisplayName(typeof(TCommand).Name.Humanize())
+            .WithSummaryAndDescription(typeof(TCommand).Name.Humanize(), typeof(TCommand).Name.Humanize());
 
-        async Task<NoContent> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
+        // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
+        async Task<IResult> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
         {
             var (request, context, mediator, mapper, cancellationToken) = requestParameters;
 
@@ -41,25 +44,23 @@ public static class EndpointRouteBuilderExtensions
         string pattern,
         int statusCode,
         Func<TRequest, TCommand>? mapRequestToCommand = null,
-        Func<TCommandResult, TResponse>? mapCommandResultToResponse = null
+        Func<TCommandResult, TResponse>? mapCommandResultToResponse = null,
+        Func<TResponse, Guid>? getId = null
     )
         where TRequest : class
         where TResponse : class
         where TCommandResult : class
         where TCommand : IRequest<TCommandResult>
     {
-        return builder.MapPost(pattern, Handle).WithName(nameof(TCommand)).WithDisplayName(nameof(TCommand).Humanize());
+        return builder
+            .MapPost(pattern, Handle)
+            .WithName(typeof(TCommand).Name)
+            .WithDisplayName(typeof(TCommand).Name.Humanize())
+            .WithSummaryAndDescription(typeof(TCommand).Name.Humanize(), typeof(TCommand).Name.Humanize());
 
         // https://github.com/dotnet/aspnetcore/issues/47630
-        async Task<
-            Results<
-                Ok<TResponse>,
-                CreatedAtRoute<TResponse>,
-                Accepted<TResponse>,
-                UnAuthorizedHttpProblemResult,
-                InternalHttpProblemResult
-            >
-        > Handle([AsParameters] HttpCommand<TRequest> requestParameters)
+        // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
+        async Task<IResult> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
         {
             var (request, context, mediator, mapper, cancellationToken) = requestParameters;
             var host = $"{context.Request.Scheme}://{context.Request.Host}";
@@ -77,7 +78,10 @@ public static class EndpointRouteBuilderExtensions
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/openapi?view=aspnetcore-7.0#multiple-response-types
             return statusCode switch
             {
-                StatusCodes.Status201Created => TypedResults.CreatedAtRoute(response, routeName: $"{host}{pattern}/id"),
+                StatusCodes.Status201Created
+                    => getId is { }
+                        ? TypedResults.Created($"{host}{pattern}/{getId(response)}", response)
+                        : TypedResults.Ok(response),
                 StatusCodes.Status401Unauthorized => TypedResultsExtensions.UnAuthorizedProblem(),
                 StatusCodes.Status500InternalServerError => TypedResultsExtensions.InternalProblem(),
                 StatusCodes.Status202Accepted => TypedResults.Accepted(new Uri($"{host}{pattern}"), response),
@@ -97,9 +101,14 @@ public static class EndpointRouteBuilderExtensions
         where TQueryResult : class
         where TQuery : IRequest<TQueryResult>
     {
-        return builder.MapGet(pattern, Handle).WithName(nameof(TQuery)).WithDisplayName(nameof(TQuery).Humanize());
+        return builder
+            .MapGet(pattern, Handle)
+            .WithName(typeof(TQuery).Name)
+            .WithDisplayName(typeof(TQuery).Name.Humanize())
+            .WithSummaryAndDescription(typeof(TQuery).Name.Humanize(), typeof(TQuery).Name.Humanize());
 
-        async Task<Ok<TResponse>> Handle([AsParameters] TRequestParameters requestParameters)
+        // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
+        async Task<IResult> Handle([AsParameters] TRequestParameters requestParameters)
         {
             var mediator = requestParameters.Mediator;
             var mapper = requestParameters.Mapper;

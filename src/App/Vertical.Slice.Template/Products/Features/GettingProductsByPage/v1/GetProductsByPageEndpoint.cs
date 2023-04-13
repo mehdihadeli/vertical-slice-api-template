@@ -1,4 +1,5 @@
 using AutoMapper;
+using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Shared.Core.Contracts;
 using Shared.Web.Contracts;
 using Shared.Web.Minimal.Extensions;
 using Vertical.Slice.Template.Products.Dtos;
+using Vertical.Slice.Template.Products.Dtos.v1;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
 
@@ -15,16 +17,15 @@ internal static class GetProductsByPageEndpoint
 {
     internal static RouteHandlerBuilder MapGetProductsByPageEndpoint(this IEndpointRouteBuilder app)
     {
-        return
-        // app.MapQueryEndpoint<GetProductsByPageRequestParameters, GetProductsByPageResponse, GetProductsByPage,
+        // return app.MapQueryEndpoint<GetProductsByPageRequestParameters, GetProductsByPageResponse, GetProductsByPage,
         //         GetProductsByPageResult>("/")
-        app.MapGet("/", Handle)
+        return app.MapGet("/", Handle)
             .WithName(nameof(GetProductsByPage))
+            .WithDisplayName(nameof(GetProductsByPage).Humanize())
+            .WithSummaryAndDescription(nameof(GetProductsByPage).Humanize(), nameof(GetProductsByPage).Humanize())
             .WithTags(ProductConfigurations.Tag)
-            .WithSummaryAndDescription("Getting products by page info", "Getting products by page info")
             // .Produces<GetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)
             // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
-            .WithDisplayName("Get products by page info.")
             .MapToApiVersion(1.0);
 
         async Task<Results<Ok<GetProductsByPageResponse>, ValidationProblem>> Handle(

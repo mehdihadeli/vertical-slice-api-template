@@ -1,4 +1,5 @@
 using AutoMapper;
+using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -15,25 +16,26 @@ internal static class CreateProductEndpoint
 {
     internal static RouteHandlerBuilder MapCreateProductEndpoint(this IEndpointRouteBuilder app)
     {
-        return
-        // app.MapCommandEndpoint<CreateProductRequest, CreateProductResponse, CreateProduct, CreateProductResult>(
-        //         "/",
-        //         StatusCodes.Status201Created)
-        app.MapPost("/", Handle)
+        // return app.MapCommandEndpoint<CreateProductRequest, CreateProductResponse, CreateProduct, CreateProductResult>(
+        //     "/",
+        //     StatusCodes.Status201Created,
+        //     getId: response => response.Id
+        // );
+        return app.MapPost("/", Handle)
             .WithName(nameof(CreateProduct))
+            .WithDisplayName(nameof(CreateProduct).Humanize())
+            .WithSummaryAndDescription(nameof(CreateProduct).Humanize(), nameof(CreateProduct).Humanize())
             .WithTags(ProductConfigurations.Tag)
-            .WithSummaryAndDescription("Creating a New Product", "Creating a New Product")
             // .Produces<CreateProductResponse>("Product created successfully.", StatusCodes.Status201Created)
             // .ProducesValidationProblem("Invalid input for creating product.", StatusCodes.Status400BadRequest)
             // .ProducesProblem("UnAuthorized request.", StatusCodes.Status401Unauthorized)
-            .WithDisplayName("Create a new product.")
             .MapToApiVersion(1.0);
 
         async Task<
             Results<CreatedAtRoute<CreateProductResponse>, UnAuthorizedHttpProblemResult, ValidationProblem>
-        > Handle([AsParameters] CreateProductRequestParameters requestInput)
+        > Handle([AsParameters] CreateProductRequestParameters requestParameters)
         {
-            var (request, context, mediator, mapper, cancellationToken) = requestInput;
+            var (request, context, mediator, mapper, cancellationToken) = requestParameters;
 
             var command = mapper.Map<CreateProduct>(request);
 

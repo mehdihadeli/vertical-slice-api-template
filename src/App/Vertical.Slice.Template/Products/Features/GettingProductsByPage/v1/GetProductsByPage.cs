@@ -10,6 +10,7 @@ using Shared.Validation;
 using Shared.Validation.Extensions;
 using Sieve.Services;
 using Vertical.Slice.Template.Products.Dtos;
+using Vertical.Slice.Template.Products.Dtos.v1;
 using Vertical.Slice.Template.Products.Models;
 using Vertical.Slice.Template.Products.ReadModel;
 using Vertical.Slice.Template.Shared.Data;
@@ -76,14 +77,15 @@ internal class GetProductByPageHandler : IRequestHandler<GetProductsByPage, GetP
 
         var query = _getProductsExecutor(cancellationToken);
 
-        var pageList = await query.ApplyPagingAsync<ProductReadModel, ProductDto>(
+        var pageList = await query.ApplyPagingAsync<Product, ProductReadModel>(
             request,
             _mapper.ConfigurationProvider,
             _sieveProcessor,
             cancellationToken
         );
+        var result = pageList.MapTo<ProductDto>(_mapper);
 
-        return new GetProductsByPageResult(pageList);
+        return new GetProductsByPageResult(result);
     }
 }
 
@@ -92,7 +94,7 @@ public record GetProductsByPageResult(IPageList<ProductDto> Products);
 internal class DbExecutors : IDbExecutors
 {
     // public delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
-    public delegate IQueryable<ProductReadModel> GetProductsExecutor(CancellationToken cancellationToken);
+    public delegate IQueryable<Product> GetProductsExecutor(CancellationToken cancellationToken);
 
     public void Register(IServiceCollection services)
     {
@@ -101,12 +103,9 @@ internal class DbExecutors : IDbExecutors
             var context = sp.GetRequiredService<CatalogsDbContext>();
             var mapper = sp.GetRequiredService<IMapper>();
 
-            IQueryable<ProductReadModel> Query(CancellationToken cancellationToken)
+            IQueryable<Product> Query(CancellationToken cancellationToken)
             {
-                var collection = context.ProjectEntity<Product, ProductReadModel>(
-                    mapper.ConfigurationProvider,
-                    cancellationToken
-                );
+                var collection = context.Products;
 
                 return collection;
             }

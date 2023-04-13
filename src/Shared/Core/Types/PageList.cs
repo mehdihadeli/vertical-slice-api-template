@@ -1,3 +1,4 @@
+using AutoMapper;
 using Shared.Core.Contracts;
 
 namespace Shared.Core.Types;
@@ -19,9 +20,15 @@ public record PageList<T>(IReadOnlyList<T> Items, int TotalCount, int PageNumber
         return new PageList<T>(items, totalItems, pageNumber, pageSize);
     }
 
-    public IPageList<TR> Map<TR>(Func<T, TR> map)
+    public IPageList<TR> MapTo<TR>(Func<T, TR> map)
         where TR : class
     {
         return PageList<TR>.Create(Items.Select(map).ToList(), TotalCount, PageNumber, PageSize);
+    }
+
+    public IPageList<TR> MapTo<TR>(IMapper mapper)
+        where TR : class
+    {
+        return PageList<TR>.Create(mapper.Map<IReadOnlyList<TR>>(Items), TotalCount, PageNumber, PageSize);
     }
 }

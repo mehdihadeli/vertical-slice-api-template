@@ -11,6 +11,13 @@ using Vertical.Slice.Template.Shared.Data;
 
 namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 
+// https://event-driven.io/en/explicit_validation_in_csharp_just_got_simpler/
+// https://event-driven.io/en/how_to_validate_business_logic/
+// https://event-driven.io/en/notes_about_csharp_records_and_nullable_reference_types/
+// https://buildplease.com/pages/vos-in-events/
+// https://codeopinion.com/leaking-value-objects-from-your-domain/
+// https://www.youtube.com/watch?v=CdanF8PWJng
+// we don't pass value-objects and domains to our commands and events, just primitive types
 internal record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
     : IRequest<CreateProductResult>
 {

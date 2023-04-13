@@ -7,10 +7,6 @@ namespace Shared.Core.Extensions;
 // https://dev.to/lambdasharp/c-asserting-a-value-is-not-null-in-null-aware-code-f8m
 // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/nullable-analysis
 // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/caller-information
-
-// https://dev.to/lambdasharp/c-asserting-a-value-is-not-null-in-null-aware-code-f8m
-// https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/nullable-analysis
-// https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/caller-information
 public static class ValidationExtensions
 {
     private static readonly HashSet<string> _allowedCurrency = new() { "USD", "EUR", };
@@ -22,7 +18,20 @@ public static class ValidationExtensions
     {
         if (argument == null)
         {
-            throw new ArgumentNullException(argumentName);
+            throw new ArgumentNullException(
+                message: $"{argumentName} cannot be null or empty.",
+                paramName: argumentName
+            );
+        }
+
+        return argument;
+    }
+
+    public static T NotBeNull<T>([NotNull] this T? argument, Exception exception)
+    {
+        if (argument == null)
+        {
+            throw exception;
         }
 
         return argument;
@@ -87,7 +96,10 @@ public static class ValidationExtensions
     {
         if (argument is null)
         {
-            throw new ArgumentException($"{argumentName} cannot be null.", argumentName);
+            throw new ArgumentNullException(
+                message: $"{argumentName} cannot be null or empty.",
+                paramName: argumentName
+            );
         }
 
         return argument.Value.NotBeEmpty();
@@ -113,7 +125,10 @@ public static class ValidationExtensions
     {
         if (argument is null)
         {
-            throw new ArgumentException($"{argumentName} cannot be null.", argumentName);
+            throw new ArgumentNullException(
+                message: $"{argumentName} cannot be null or empty.",
+                paramName: argumentName
+            );
         }
 
         return argument.Value.NotBeNegativeOrZero();
@@ -139,7 +154,10 @@ public static class ValidationExtensions
     {
         if (argument is null)
         {
-            throw new ArgumentException($"{argumentName} cannot be null.", argumentName);
+            throw new ArgumentNullException(
+                message: $"{argumentName} cannot be null or empty.",
+                paramName: argumentName
+            );
         }
 
         return argument.Value.NotBeNegativeOrZero();
@@ -165,7 +183,10 @@ public static class ValidationExtensions
     {
         if (argument is null)
         {
-            throw new ArgumentException($"{argumentName} cannot be null.", argumentName);
+            throw new ArgumentNullException(
+                message: $"{argumentName} cannot be null or empty.",
+                paramName: argumentName
+            );
         }
 
         return argument.Value.NotBeNegativeOrZero();
@@ -191,7 +212,10 @@ public static class ValidationExtensions
     {
         if (argument is null)
         {
-            throw new ArgumentException($"{argumentName} cannot be null.", argumentName);
+            throw new ArgumentNullException(
+                message: $"{argumentName} cannot be null or empty.",
+                paramName: argumentName
+            );
         }
 
         return argument.Value.NotBeNegativeOrZero();
@@ -254,5 +278,41 @@ public static class ValidationExtensions
         }
 
         return currency;
+    }
+
+    public static TEnum NotBeEmptyOrNull<TEnum>(
+        [NotNull] this TEnum? enumValue,
+        [CallerArgumentExpression("enumValue")] string argumentName = ""
+    )
+        where TEnum : Enum
+    {
+        if (enumValue is null)
+        {
+            throw new ArgumentNullException(
+                message: $"{argumentName} cannot be null or empty.",
+                paramName: argumentName
+            );
+        }
+
+        enumValue.NotBeEmpty();
+
+        return enumValue;
+    }
+
+    public static TEnum NotBeEmpty<TEnum>(
+        [NotNull] this TEnum enumValue,
+        [CallerArgumentExpression("enumValue")] string? argumentName = null
+    )
+        where TEnum : Enum
+    {
+        enumValue.NotBeNull();
+        if (enumValue.Equals(default(TEnum)))
+        {
+            throw new ArgumentException(
+                $"The value of '{argumentName}' cannot be the default value of '{typeof(TEnum).Name}' enum."
+            );
+        }
+
+        return enumValue;
     }
 }

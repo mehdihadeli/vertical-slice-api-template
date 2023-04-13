@@ -11,5 +11,4 @@ public record HttpCommand<TRequest>(
     IMediator Mediator,
     IMapper Mapper,
     CancellationToken CancellationToken
-) : IHttpCommand<TRequest>
-    where TRequest : class;
+) : IHttpCommand<TRequest>;

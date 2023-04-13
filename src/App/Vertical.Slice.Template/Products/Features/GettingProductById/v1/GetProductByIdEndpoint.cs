@@ -1,4 +1,5 @@
 using AutoMapper;
+using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Shared.Web.Extensions;
 using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 using Vertical.Slice.Template.Products.Dtos;
+using Vertical.Slice.Template.Products.Dtos.v1;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 
@@ -17,17 +19,16 @@ internal static class GetProductByIdEndpoint
 {
     internal static RouteHandlerBuilder MapGetProductByIdEndpoint(this IEndpointRouteBuilder app)
     {
-        return
-        // app.MapQueryEndpoint<GetProductByIdRequestParameters, GetProductByIdResponse, GetProductById,
+        // return app.MapQueryEndpoint<GetProductByIdRequestParameters, GetProductByIdResponse, GetProductById,
         //         GetProductByIdResult>("/{id:guid}")
-        app.MapGet("/{id:guid}", Handle)
+        return app.MapGet("/{id:guid}", Handle)
             .WithName(nameof(GetProductById))
+            .WithDisplayName(nameof(GetProductById).Humanize())
+            .WithSummaryAndDescription(nameof(GetProductById).Humanize(), nameof(GetProductById).Humanize())
             .WithTags(ProductConfigurations.Tag)
-            .WithSummaryAndDescription("Getting a product by id", "Getting a product by id")
             // .Produces<GetProductByIdResponse>("Product fetched successfully.", StatusCodes.Status200OK)
             // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
             // .ProducesProblem("Product not found", StatusCodes.Status404NotFound)
-            .WithDisplayName("Get a product by Id.")
             .MapToApiVersion(1.0);
 
         async Task<Results<Ok<GetProductByIdResponse>, ValidationProblem, NotFoundHttpProblemResult>> Handle(
