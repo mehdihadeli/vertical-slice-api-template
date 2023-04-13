@@ -114,11 +114,11 @@ public class CatalogsService : ICatalogsService
 
             var items = _mapper.Map<List<Dtos.ProductDto>>(response.Products!.Items);
             return new GetGetProductsByPageOutput(
-                new PageList<Dtos.ProductDto>(
+                PageList<Dtos.ProductDto>.Create(
                     items,
-                    response.Products.TotalCount,
                     response.Products.PageNumber,
-                    response.Products.PageSize
+                    response.Products.PageSize,
+                    response.Products.TotalCount
                 )
             );
         }

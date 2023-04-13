@@ -3,6 +3,7 @@ using FluentAssertions;
 using NSubstitute;
 using Tests.Shared.XunitCategories;
 using Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
+using Vertical.Slice.Template.Products.Models;
 using Vertical.Slice.Template.Products.ReadModel;
 using Vertical.Slice.Template.UnitTests.Common;
 
@@ -16,7 +17,7 @@ public class GetProductByPageTests : CatalogsUnitTestBase
     public async Task can_get_products_with_valid_inputs()
     {
         // Arrange
-        var productList = new AutoFaker<ProductReadModel>().Generate(5);
+        var productList = new AutoFaker<Product>().Generate(5);
 
         var executor = Substitute.For<DbExecutors.GetProductsExecutor>();
         executor(Arg.Any<CancellationToken>()).Returns(productList.AsQueryable());

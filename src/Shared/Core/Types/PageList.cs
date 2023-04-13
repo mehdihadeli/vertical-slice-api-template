@@ -3,7 +3,7 @@ using Shared.Core.Contracts;
 
 namespace Shared.Core.Types;
 
-public record PageList<T>(IReadOnlyList<T> Items, int TotalCount, int PageNumber, int PageSize) : IPageList<T>
+public record PageList<T>(IReadOnlyList<T> Items, int PageNumber, int PageSize, int TotalCount) : IPageList<T>
     where T : class
 {
     public int CurrentPageSize => Items.Count;
@@ -17,18 +17,18 @@ public record PageList<T>(IReadOnlyList<T> Items, int TotalCount, int PageNumber
 
     public static PageList<T> Create(IReadOnlyList<T> items, int pageNumber, int pageSize, int totalItems)
     {
-        return new PageList<T>(items, totalItems, pageNumber, pageSize);
+        return new PageList<T>(items, pageNumber, pageSize, totalItems);
     }
 
     public IPageList<TR> MapTo<TR>(Func<T, TR> map)
         where TR : class
     {
-        return PageList<TR>.Create(Items.Select(map).ToList(), TotalCount, PageNumber, PageSize);
+        return PageList<TR>.Create(Items.Select(map).ToList(), PageNumber, PageSize, TotalCount);
     }
 
     public IPageList<TR> MapTo<TR>(IMapper mapper)
         where TR : class
     {
-        return PageList<TR>.Create(mapper.Map<IReadOnlyList<TR>>(Items), TotalCount, PageNumber, PageSize);
+        return PageList<TR>.Create(mapper.Map<IReadOnlyList<TR>>(Items), PageNumber, PageSize, TotalCount);
     }
 }

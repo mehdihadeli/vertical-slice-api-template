@@ -7,7 +7,7 @@
   <metadata>
 
     <id>Vertical.Slice.Template</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <title>Vertical Slice API Template</title>
     <authors>Mehdi Hadeli</authors>
     <description>An asp.net core template based on Vertical Slice Architecture, CQRS, Minimal APIs, API Versioning and Swagger.</description>
