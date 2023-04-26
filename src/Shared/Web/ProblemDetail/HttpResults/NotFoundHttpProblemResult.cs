@@ -47,6 +47,6 @@ public class NotFoundHttpProblemResult
     {
         ArgumentNullException.ThrowIfNull(method);
         ArgumentNullException.ThrowIfNull(builder);
-        builder.Metadata.Add(new ResponseMetadata(StatusCodes.Status404NotFound, typeof(ProblemDetails)));
+        builder.Metadata.Add(new ProducesResponseTypeAttribute(typeof(ProblemDetails), StatusCodes.Status404NotFound));
     }
 }

@@ -47,6 +47,8 @@ public class InternalHttpProblemResult
     {
         ArgumentNullException.ThrowIfNull(method);
         ArgumentNullException.ThrowIfNull(builder);
-        builder.Metadata.Add(new ResponseMetadata(StatusCodes.Status500InternalServerError, typeof(ProblemDetails)));
+        builder.Metadata.Add(
+            new ProducesResponseTypeAttribute(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)
+        );
     }
 }

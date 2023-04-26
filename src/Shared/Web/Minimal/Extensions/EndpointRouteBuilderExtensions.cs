@@ -2,6 +2,7 @@ using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using Shared.Web.Contracts;
 
@@ -24,7 +25,7 @@ public static class EndpointRouteBuilderExtensions
             .WithSummaryAndDescription(typeof(TCommand).Name.Humanize(), typeof(TCommand).Name.Humanize());
 
         // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
-        async Task<IResult> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
+        async Task<NoContent> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
         {
             var (request, context, mediator, mapper, cancellationToken) = requestParameters;
 
@@ -108,7 +109,7 @@ public static class EndpointRouteBuilderExtensions
             .WithSummaryAndDescription(typeof(TQuery).Name.Humanize(), typeof(TQuery).Name.Humanize());
 
         // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
-        async Task<IResult> Handle([AsParameters] TRequestParameters requestParameters)
+        async Task<Ok<TResponse>> Handle([AsParameters] TRequestParameters requestParameters)
         {
             var mediator = requestParameters.Mediator;
             var mapper = requestParameters.Mapper;

@@ -109,6 +109,7 @@ public static class EndpointConventionBuilderExtensions
         string description
     )
     {
+        // https://github.com/dotnet/aspnetcore/issues/45082
         builder.WithOpenApi(operation =>
         {
             operation.Summary = summary;

@@ -35,6 +35,8 @@ if (app.Environment.IsDevelopment())
 {
     // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errrors
     app.UseDeveloperExceptionPage();
+
+    // https://github.com/dotnet/aspnetcore/issues/4765
     app.UseCaptureException();
 
     // #if EnableSwagger

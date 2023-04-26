@@ -1,26 +1,23 @@
 {
-  "name": "vertical-slice-template",
+  "name": "Vertical.Slice.Template",
   "version": "1.0.0",
-  "description": "",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
-    "prepare": "husky install && dotnet tool restore"
+    "prepare": "husky install && dotnet tool restore",
+    "install-dev-cert-bash": "curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mehdihadeli/vertical-slice-template.git"
+    "url": "git+https://github.com/mehdihadeli/vertical-slice-api-template.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mehdihadeli/vertical-slice-template/issues"
+    "url": "https://github.com/mehdihadeli/vertical-slice-api-template/issues"
   },
-  "homepage": "https://github.com/mehdihadeli/vertical-slice-template#readme",
+  "homepage": "https://github.com/mehdihadeli/vertical-slice-api-template#readme",
   "devDependencies": {
-    "@commitlint/cli": "^17.5.1",
-    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
     "husky": "^8.0.3"
   }
 }
