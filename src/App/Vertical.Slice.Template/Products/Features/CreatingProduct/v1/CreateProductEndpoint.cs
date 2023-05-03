@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Shared.Web.Contracts;
+using Shared.Abstractions.Web;
 using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 
@@ -65,4 +65,4 @@ internal record CreateProductRequestParameters(
 internal record CreateProductResponse(Guid Id);
 
 // we can expect any value from the user for all reference types are nullable and we should do some validation in other levels (we use pure records mostly for dtos without needing validation)
-internal record CreateProductRequest(string? Name, Guid CategoryId, decimal Price, string? Description);
+public record CreateProductRequest(string? Name, Guid CategoryId, decimal Price, string? Description);

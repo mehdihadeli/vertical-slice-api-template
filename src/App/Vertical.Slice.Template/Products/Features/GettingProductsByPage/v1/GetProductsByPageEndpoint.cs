@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
-using Shared.Core.Contracts;
-using Shared.Web.Contracts;
+using Shared.Abstractions.Core.Paging;
+using Shared.Abstractions.Web;
 using Shared.Web.Minimal.Extensions;
-using Vertical.Slice.Template.Products.Dtos;
 using Vertical.Slice.Template.Products.Dtos.v1;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;

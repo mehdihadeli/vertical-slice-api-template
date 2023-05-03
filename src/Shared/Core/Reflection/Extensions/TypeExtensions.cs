@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Shared.Core.Contracts;
+using Shared.Abstractions.Core.Domain.Events;
 
 namespace Shared.Core.Reflection.Extensions;
 

@@ -1,7 +1,7 @@
 using ApiClient.Catalogs;
-using Ardalis.GuardClauses;
 using Catalogs.ApiClient;
 using Microsoft.Extensions.Options;
+using Shared.Core.Extensions;
 using Shared.Web;
 using Shared.Web.Extensions.ServiceCollection;
 
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
         {
             var httpClient = sp.GetRequiredService<HttpClient>();
             var apiOptions = sp.GetRequiredService<IOptions<ApiClientOptions>>();
-            Guard.Against.Null(apiOptions.Value);
+            apiOptions.Value.NotBeNull();
 
             httpClient.BaseAddress = new Uri(apiOptions.Value.CatalogBaseApiAddress);
             return new CatalogsApiClient(httpClient);

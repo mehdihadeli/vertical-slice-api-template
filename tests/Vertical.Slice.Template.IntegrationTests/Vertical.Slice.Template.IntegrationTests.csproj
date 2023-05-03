@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Tests.Shared\Tests.Shared.csproj" />
+    <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +17,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\src\App\Vertical.Slice.Template.Api\appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\src\App\Vertical.Slice.Template.Api\appsettings.test.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   
 </Project>

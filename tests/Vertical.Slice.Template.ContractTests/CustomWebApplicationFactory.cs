@@ -5,10 +5,12 @@ using Vertical.Slice.Template.Api;
 
 namespace ApiClient.Tests;
 
-public class CustomWebApplicationFactory : WebApplicationFactory<Program>
+public class CustomWebApplicationFactory : WebApplicationFactory<CatalogsApiMetadata>, IAsyncLifetime
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        builder.UseEnvironment("test");
+
         builder.ConfigureWebHost(wb =>
         {
             wb.ConfigureTestServices(services => { });
@@ -17,5 +19,15 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         });
 
         return base.CreateHost(builder);
+    }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    public new Task DisposeAsync()
+    {
+        return Task.CompletedTask;
     }
 }

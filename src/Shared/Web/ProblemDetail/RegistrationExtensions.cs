@@ -1,8 +1,8 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Scrutor;
+using Shared.Abstractions.Web;
 using Shared.Core.Reflection;
-using Shared.Web.Contracts;
 using Shared.Web.Extensions.ServiceCollection;
 
 namespace Shared.Web.ProblemDetail;

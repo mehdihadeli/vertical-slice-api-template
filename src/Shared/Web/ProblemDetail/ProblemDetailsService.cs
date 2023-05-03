@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Web.Contracts;
+using Shared.Abstractions.Web;
 
 namespace Shared.Web.ProblemDetail;
 

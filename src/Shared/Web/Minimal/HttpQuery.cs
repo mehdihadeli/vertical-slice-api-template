@@ -1,7 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Shared.Web.Contracts;
+using Shared.Abstractions.Web;
 
 namespace Shared.Web.Minimal;
 

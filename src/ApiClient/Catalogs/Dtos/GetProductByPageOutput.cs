@@ -1,5 +1,4 @@
-using Shared.Core.Contracts;
-using Shared.Core.Types;
+using Shared.Abstractions.Core.Paging;
 
 namespace ApiClient.Catalogs.Dtos;
 

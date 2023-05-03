@@ -1,6 +1,7 @@
-using Tests.Shared.XunitFramework;
+using Vertical.Slice.Template.TestsShared.XunitFramework;
 
 [assembly: TestFramework(
-    $"{nameof(Tests)}.{nameof(Tests.Shared)}.{nameof(Tests.Shared.XunitFramework)}.{nameof(CustomTestFramework)}",
-    $"{nameof(Tests)}.{nameof(Tests.Shared)}"
+    $"Vertical.Slice.Template.{nameof( Vertical.Slice.Template.TestsShared)}.{nameof(Vertical.Slice.Template.TestsShared.XunitFramework)}.{nameof
+        (CustomTestFramework)}",
+    $"Vertical.Slice.Template.{nameof(Vertical.Slice.Template.TestsShared)}"
 )]

@@ -1,5 +1,4 @@
 using ApiClient.Catalogs.Dtos;
-using Ardalis.GuardClauses;
 using AutoMapper;
 using Catalogs.ApiClient;
 using Microsoft.Extensions.Options;
@@ -7,7 +6,8 @@ using Polly;
 using Polly.Timeout;
 using Polly.Wrap;
 using Shared.Core.Exceptions;
-using Shared.Core.Types;
+using Shared.Core.Extensions;
+using Shared.Core.Paging;
 using Shared.Web;
 
 namespace ApiClient.Catalogs;
@@ -46,7 +46,7 @@ public class CatalogsService : ICatalogsService
         CancellationToken cancellationToken
     )
     {
-        Guard.Against.Null(createProductInput);
+        createProductInput.NotBeNull();
 
         // https://github.com/App-vNext/Polly#post-execution-capturing-the-result-or-any-final-exception
         var policyResult = await _combinedPolicy.ExecuteAndCaptureAsync(async () =>
@@ -94,7 +94,7 @@ public class CatalogsService : ICatalogsService
         CancellationToken cancellationToken
     )
     {
-        Guard.Against.Null(getProductsByPageInput);
+        getProductsByPageInput.NotBeNull();
 
         try
         {
@@ -135,7 +135,7 @@ public class CatalogsService : ICatalogsService
 
     public async Task<GetProductByIdOutput> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        Guard.Against.NullOrEmpty(id);
+        id.NotBeNull();
 
         try
         {

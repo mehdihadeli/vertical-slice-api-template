@@ -13,19 +13,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="Asp.Versioning.Http" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="DotNetEnv" />
+    <PackageReference Include="EFCore.NamingConventions" />
     <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="LinqKit.Core" />
     <PackageReference Include="MassTransit.Abstractions" />
     <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Sieve" />
+    <PackageReference Include="SqlKata" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="MinimalApis.Extensions" />
     <PackageReference Include="Newtonsoft.Json" />
@@ -59,5 +64,10 @@
     <PackageReference Include="SerilogTimings" />
     <PackageReference Include="Serilog.OpenTelemetry.ConsoleSink" />
     <PackageReference Include="Serilog.Sinks.Debug" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Abstractions\Core" />
+    <Folder Include="Core\Types" />
   </ItemGroup>
 </Project>

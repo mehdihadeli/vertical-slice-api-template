@@ -1,8 +1,8 @@
 using AutoBogus;
 using FluentAssertions;
 using FluentValidation.TestHelper;
-using Tests.Shared.XunitCategories;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
+using Vertical.Slice.Template.TestsShared.XunitCategories;
 using Vertical.Slice.Template.UnitTests.Common;
 
 namespace Vertical.Slice.Template.UnitTests.Products.Features.CreatingProduct.v1;

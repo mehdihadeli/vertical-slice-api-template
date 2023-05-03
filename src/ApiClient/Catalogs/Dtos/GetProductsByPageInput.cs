@@ -1,4 +1,4 @@
-using Shared.Core.Types;
+using Shared.Core.Paging;
 
 namespace ApiClient.Catalogs.Dtos;
 

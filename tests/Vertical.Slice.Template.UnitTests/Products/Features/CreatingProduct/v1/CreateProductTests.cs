@@ -1,10 +1,11 @@
 using AutoBogus;
 using FluentAssertions;
 using MediatR;
+using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
-using Tests.Shared.XunitCategories;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 using Vertical.Slice.Template.Products.Models;
+using Vertical.Slice.Template.TestsShared.XunitCategories;
 using Vertical.Slice.Template.UnitTests.Common;
 
 namespace Vertical.Slice.Template.UnitTests.Products.Features.CreatingProduct.v1;
@@ -24,7 +25,12 @@ public class CreateProductTests : CatalogsUnitTestBase
             .Returns(new ValueTask());
 
         // Arrange
-        var handler = new CreateProductHandler(executor, Mapper, Substitute.For<IMediator>());
+        var handler = new CreateProductHandler(
+            executor,
+            Mapper,
+            Substitute.For<IMediator>(),
+            NullLogger<CreateProductHandler>.Instance
+        );
 
         // Act
         var createdCustomerResponse = await handler.Handle(createProductMock, CancellationToken.None);

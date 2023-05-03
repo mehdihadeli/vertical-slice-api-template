@@ -3,8 +3,8 @@ using LinqKit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Scrutor;
+using Shared.Abstractions.Web;
 using Shared.Core.Reflection;
-using Shared.Web.Contracts;
 
 namespace Shared.Web.Minimal.Extensions;
 

@@ -1,11 +1,11 @@
 using AutoBogus;
 using AutoMapper;
 using FluentAssertions;
-using Tests.Shared.XunitCategories;
 using Vertical.Slice.Template.Products.Dtos;
 using Vertical.Slice.Template.Products.Dtos.v1;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 using Vertical.Slice.Template.Products.ReadModel;
+using Vertical.Slice.Template.TestsShared.XunitCategories;
 using Vertical.Slice.Template.UnitTests.Common;
 
 namespace Vertical.Slice.Template.UnitTests.Products;
@@ -32,9 +32,9 @@ public class ProductsMappingTests : IClassFixture<MappingFixture>
     {
         var createProductRequest = AutoFaker.Generate<CreateProductRequest>();
         var res = _mapper.Map<CreateProduct>(createProductRequest);
-        res.Name.Should().Be(createProductRequest.Name);
-        res.Price.Should().Be(createProductRequest.Price);
-        res.CategoryId.Should().Be(createProductRequest.CategoryId);
+
+        // https://fluentassertions.com/objectgraphs/
+        res.Should().BeEquivalentTo(createProductRequest);
     }
 
     [Fact]
@@ -43,8 +43,8 @@ public class ProductsMappingTests : IClassFixture<MappingFixture>
     {
         var productRead = AutoFaker.Generate<ProductReadModel>();
         var res = _mapper.Map<ProductDto>(productRead);
-        res.Name.Should().Be(productRead.Name);
-        res.Price.Should().Be(productRead.Price);
-        res.CategoryId.Should().Be(productRead.CategoryId);
+
+        // https://fluentassertions.com/objectgraphs/
+        res.Should().BeEquivalentTo(productRead);
     }
 }

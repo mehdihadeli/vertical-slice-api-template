@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http;
+using Shared.Abstractions.Web;
 using Shared.Core.Exceptions;
 using Shared.Validation;
 using Shared.Validation.Extensions;
-using Shared.Web.Contracts;
 
 namespace Shared.Web.ProblemDetail;
 

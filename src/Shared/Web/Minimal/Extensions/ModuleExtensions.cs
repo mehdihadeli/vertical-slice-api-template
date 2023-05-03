@@ -1,9 +1,9 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Shared.Abstractions.Web;
 using Shared.Core.Reflection;
 using Shared.Core.Reflection.Extensions;
-using Shared.Web.Contracts;
 
 namespace Shared.Web.Minimal.Extensions;
 

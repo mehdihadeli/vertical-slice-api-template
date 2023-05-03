@@ -19,6 +19,12 @@
       "commands": [
         "tye"
       ]
+    },
+    "dotnet-ef": {
+      "version": "7.0.5",
+      "commands": [
+        "dotnet-ef"
+      ]
     }
   }
 }

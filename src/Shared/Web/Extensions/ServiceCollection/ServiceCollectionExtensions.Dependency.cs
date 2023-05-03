@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Shared.Web.Extensions.ServiceCollection;
@@ -251,6 +252,50 @@ public static partial class ServiceCollectionExtensions
 
             default:
                 throw new ArgumentNullException(nameof(serviceLifetime));
+        }
+    }
+
+    // https://andrewlock.net/new-in-asp-net-core-3-service-provider-validation/
+    // https://steven-giesel.com/blogPost/ce948083-974a-4c16-877f-246b8909fa6d
+    // https://www.stevejgordon.co.uk/aspnet-core-dependency-injection-what-is-the-iserviceprovider-and-how-is-it-built
+    // https://www.youtube.com/watch?v=8JkHgymp2R4
+
+    /// <summary>
+    /// Validate container dependencies.
+    /// </summary>
+    /// <param name="rootServiceProvider"></param>
+    /// <param name="services"></param>
+    /// <param name="assembliesToScan"></param>
+    public static void ValidateDependencies(
+        this IServiceProvider rootServiceProvider,
+        IServiceCollection services,
+        params Assembly[] assembliesToScan
+    )
+    {
+        var scanAssemblies = assembliesToScan.Any() ? assembliesToScan : new[] { Assembly.GetExecutingAssembly(), };
+        var exceptions = new List<string>();
+
+        // for resolving scoped based dependencies without errors
+        using var scope = rootServiceProvider.CreateScope();
+        var sp = scope.ServiceProvider;
+
+        foreach (var serviceDescriptor in services)
+        {
+            try
+            {
+                var serviceType = serviceDescriptor.ServiceType;
+                if (scanAssemblies.Contains(serviceType.Assembly))
+                    sp.GetRequiredService(serviceType);
+            }
+            catch (Exception e)
+            {
+                exceptions.Add($"Unable to resolve '{serviceDescriptor.ServiceType.FullName}', detail: {e.Message}");
+            }
+        }
+
+        if (exceptions.Any())
+        {
+            throw new Exception(string.Join("\n", exceptions));
         }
     }
 }

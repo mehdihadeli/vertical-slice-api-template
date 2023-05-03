@@ -1,6 +1,8 @@
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using Shared.Abstractions.Ef;
 using Shared.Core;
 using Shared.Core.Extensions;
 using Shared.Core.Id;
@@ -18,7 +20,7 @@ namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 // https://codeopinion.com/leaking-value-objects-from-your-domain/
 // https://www.youtube.com/watch?v=CdanF8PWJng
 // we don't pass value-objects and domains to our commands and events, just primitive types
-internal record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
+public record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
     : IRequest<CreateProductResult>
 {
     public Guid Id { get; } = IdGenerator.NewId();
@@ -53,16 +55,19 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
     private readonly DbExecuters.CreateAndSaveProductExecutor _createAndSaveProductExecutor;
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
+    private readonly ILogger<CreateProductHandler> _logger;
 
     public CreateProductHandler(
         DbExecuters.CreateAndSaveProductExecutor createAndSaveProductExecutor,
         IMapper mapper,
-        IMediator mediator
+        IMediator mediator,
+        ILogger<CreateProductHandler> logger
     )
     {
         _createAndSaveProductExecutor = createAndSaveProductExecutor;
         _mapper = mapper;
         _mediator = mediator;
+        _logger = logger;
     }
 
     public async Task<CreateProductResult> Handle(CreateProduct request, CancellationToken cancellationToken)
@@ -75,6 +80,8 @@ internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProdu
 
         var (name, categoryId, price, description) = request;
         await _mediator.Publish(ProductCreated.Of(request.Id, name, categoryId, price, description), cancellationToken);
+
+        _logger.LogInformation("Product a with ID: '{ProductId} created.'", request.Id);
 
         return new CreateProductResult(product.Id);
     }

@@ -1,11 +1,14 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Shared.EF;
 using Vertical.Slice.Template.Products.Models;
 
 namespace Vertical.Slice.Template.Shared.Data;
 
-public class CatalogsDbContext : DbContext
+public class CatalogsDbContext : EfDbContextBase
 {
+    public const string DefaultSchema = "catalog";
+
     public CatalogsDbContext(DbContextOptions<CatalogsDbContext> options)
         : base(options) { }
 

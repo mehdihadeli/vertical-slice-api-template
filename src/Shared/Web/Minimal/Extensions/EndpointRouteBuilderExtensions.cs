@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
-using Shared.Web.Contracts;
+using Shared.Abstractions.Web;
 
 namespace Shared.Web.Minimal.Extensions;
 

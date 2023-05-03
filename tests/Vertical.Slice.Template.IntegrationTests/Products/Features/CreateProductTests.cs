@@ -1,0 +1,34 @@
+using FluentAssertions;
+using Vertical.Slice.Template.Api;
+using Vertical.Slice.Template.Shared.Data;
+using Vertical.Slice.Template.TestsShared.Fakes.Products;
+using Vertical.Slice.Template.TestsShared.Fixtures;
+using Xunit.Abstractions;
+
+namespace Vertical.Slice.Template.IntegrationTests.Products.Features;
+
+public class CreateProductTests : CatalogsIntegrationTestBase
+{
+    public CreateProductTests(
+        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+        ITestOutputHelper outputHelper
+    )
+        : base(sharedFixture, outputHelper) { }
+
+    [Fact]
+    public async Task should_create_new_product_with_valid_input_in_sql_db()
+    {
+        // Arrange
+        var fakeCategoryId = Guid.NewGuid();
+
+        var command = new CreateProductFake(fakeCategoryId).Generate();
+
+        // Act
+        var createdCustomerResponse = await SharedFixture.SendAsync(command);
+
+        // Assert
+        createdCustomerResponse.Should().NotBeNull();
+        createdCustomerResponse.Id.Should().NotBeEmpty();
+        createdCustomerResponse.Id.Should().Be(command.Id);
+    }
+}

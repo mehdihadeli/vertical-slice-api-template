@@ -1,5 +1,6 @@
 using FluentValidation;
 using Shared.Core.Domain;
+using Shared.Core.Domain.Events;
 using Shared.Core.Extensions;
 using Shared.Validation;
 using Shared.Validation.Extensions;

@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Abstractions.Ef;
 using Shared.Core;
 using Shared.Core.Exceptions;
 using Shared.Core.Extensions;
@@ -14,7 +15,7 @@ using Vertical.Slice.Template.Shared.Data;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 
-internal record GetProductById(Guid Id) : IRequest<GetProductByIdResult>
+public record GetProductById(Guid Id) : IRequest<GetProductByIdResult>
 {
     /// <summary>
     /// GetProductById query with validation
