@@ -48,6 +48,7 @@ Thanks a bunch for supporting me!
 - ✅ Using `Minimal APIs` for handling requests
 - ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
 - ✅ Using `Postgres` On Top of EfCore
+- ✅ Using different levels of tests like `Unit Tests`, `Integration Tests` and `End-To-End Tests`
 - ✅ Logging with `Serilog` and `Elasticsearch` and `Kibana` for collecting and searching structured logs
 - ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
 - 🚧 Using docker and `docker-compose` for deployment
