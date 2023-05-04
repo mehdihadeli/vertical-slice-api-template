@@ -6,6 +6,7 @@
 <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target -->
 <!-- https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm#enable-the-dotnet-sd -->
 <!-- dotnet pack Template.csproj -o . -->
+<!-- dotnet new install . -->
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -34,11 +35,11 @@
     <Content Include="**\*" Exclude="**\bin\**\*;**\obj\**\*;**\.template.config\**\*;Template.csproj;Template.nuspec;icon.png;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;" />
     <Compile Remove="**\*" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="\"/> 
     <None Include="readme.md" Pack="true" PackagePath="\"/> 
     <None Include="readme-nuget.md" Pack="true" PackagePath="\"/> 
   </ItemGroup>
-
+  
 </Project>
