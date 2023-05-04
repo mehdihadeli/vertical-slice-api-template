@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# https://github.com/rhysd/actionlint
 
 name: CICD
 
@@ -12,13 +13,12 @@ on:
       - "main"
       - "develop"
 
+env:
+  FEED_SOURCE: https://api.nuget.org/v3/index.json
+  FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
+  NuGetDirectory: ${{ github.workspace}}/nuget
+
 jobs:
-
-  env:
-    FEED_SOURCE: https://api.nuget.org/v3/index.json
-    FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
-    NuGetDirectory: ${{ github.workspace}}/nuget
-
   build:
     runs-on: ubuntu-latest
 
@@ -73,7 +73,7 @@ jobs:
 
     # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack
     - name: Pack NuGet Package
-    - run: dotnet pack --no-build --no-restore -c Release --output ${{ env.NuGetDirectory }}
+      run: dotnet pack --no-build --no-restore -c Release --output ${{ env.NuGetDirectory }}
 
       # Publish the NuGet package as an artifact, so they can be used in the following jobs
     - uses: actions/upload-artifact@v3
