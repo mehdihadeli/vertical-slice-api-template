@@ -4,11 +4,12 @@ using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.TestsShared.Fakes.Products;
 using Vertical.Slice.Template.TestsShared.Fixtures;
+using Vertical.Slice.Template.TestsShared.XunitCategories;
 using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.EndToEndTests.Products.Feature;
 
-public class CreateProductTests : ECommerceEndToEndTestBase
+public class CreateProductTests : CatalogsEndToEndTestBase
 {
     public CreateProductTests(
         SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
@@ -20,6 +21,7 @@ public class CreateProductTests : ECommerceEndToEndTestBase
     }
 
     [Fact]
+    [CategoryTrait(TestCategory.EndToEnd)]
     public async Task should_returns_created_status_code_using_valid_dto()
     {
         // Arrange
@@ -37,6 +39,7 @@ public class CreateProductTests : ECommerceEndToEndTestBase
     }
 
     [Fact]
+    [CategoryTrait(TestCategory.EndToEnd)]
     public async Task should_returns_valid_response_using_valid_dto()
     {
         // Arrange

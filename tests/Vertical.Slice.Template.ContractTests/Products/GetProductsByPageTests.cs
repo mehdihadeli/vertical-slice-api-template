@@ -2,18 +2,27 @@ using ApiClient.Tests;
 using AutoBogus;
 using Catalogs.ApiClient;
 using FluentAssertions;
+using Vertical.Slice.Template.Api;
+using Vertical.Slice.Template.Shared.Data;
+using Vertical.Slice.Template.TestsShared.Fixtures;
+using Vertical.Slice.Template.TestsShared.XunitCategories;
+using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.ContractTests.Products;
 
-public class GetProductsByPageTests : TestBase
+public class GetProductsByPageTests : CatalogsIntegrationTestBase
 {
-    public GetProductsByPageTests(CustomWebApplicationFactory appFactory)
-        : base(appFactory) { }
+    public GetProductsByPageTests(
+        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+        ITestOutputHelper outputHelper
+    )
+        : base(sharedFixture, outputHelper) { }
 
     [Fact]
+    [CategoryTrait(TestCategory.Integration)]
     public async Task BasicContractTest()
     {
-        using var baseClient = Factory.CreateClient();
+        using var baseClient = SharedFixture.GuestClient;
         var client = new CatalogsApiClient(baseClient);
         var createdProduct = await CreateProduct(client);
 

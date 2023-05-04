@@ -10,10 +10,11 @@ public abstract class IntegrationTest<TEntryPoint> : IAsyncLifetime
     where TEntryPoint : class
 {
     private readonly ITestOutputHelper _outputHelper;
+    private IServiceScope? _scope;
     protected CancellationToken CancellationToken => CancellationTokenSource.Token;
     protected CancellationTokenSource CancellationTokenSource { get; }
     protected int Timeout => 180;
-    protected IServiceScope Scope { get; }
+    protected IServiceScope Scope => _scope ??= SharedFixture.ServiceProvider.CreateScope(); // Build Service Provider here
     protected SharedFixture<TEntryPoint> SharedFixture { get; }
 
     protected IntegrationTest(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper)
@@ -23,9 +24,6 @@ public abstract class IntegrationTest<TEntryPoint> : IAsyncLifetime
 
         CancellationTokenSource = new(TimeSpan.FromSeconds(Timeout));
         CancellationToken.ThrowIfCancellationRequested();
-
-        // Build Service Provider here
-        Scope = SharedFixture.ServiceProvider.CreateScope();
     }
 
     // we use IAsyncLifetime in xunit instead of constructor when we have async operation
@@ -40,14 +38,6 @@ public abstract class IntegrationTest<TEntryPoint> : IAsyncLifetime
 
         Scope.Dispose();
     }
-
-    protected virtual void RegisterTestConfigureServices(IServiceCollection services) { }
-
-    protected virtual void RegisterTestAppConfigurations(
-        IConfigurationBuilder builder,
-        IConfiguration configuration,
-        IHostEnvironment environment
-    ) { }
 }
 
 public abstract class IntegrationTestBase<TEntryPoint, TContext> : IntegrationTest<TEntryPoint>

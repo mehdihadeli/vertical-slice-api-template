@@ -61,6 +61,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.Api
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.DependencyTests", "tests\Vertical.Slice.Template.DependencyTests\Vertical.Slice.Template.DependencyTests.csproj", "{A79D441C-D450-474E-9CFC-008335A80B13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AEFEEF63-5831-49E5-A7D9-892AF653C32D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{ED6C6F59-8A39-4D7D-BB93-888AA486AFE9}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci-cd.yml = .github\workflows\ci-cd.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +94,8 @@ Global
 		{C3BBC1BA-D4BC-4470-9E56-C81B9D085981} = {1AAF959C-3C2F-4DC4-BD15-7B8A500DF372}
 		{5F8B621B-4B5E-4C29-B63E-BB898B3764C8} = {1AAF959C-3C2F-4DC4-BD15-7B8A500DF372}
 		{A79D441C-D450-474E-9CFC-008335A80B13} = {C4B80800-5430-4D4E-B473-261157D54CD4}
+		{AEFEEF63-5831-49E5-A7D9-892AF653C32D} = {798579C1-7DEC-47A2-9C18-CA3DBE4A6573}
+		{ED6C6F59-8A39-4D7D-BB93-888AA486AFE9} = {AEFEEF63-5831-49E5-A7D9-892AF653C32D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5F41BF51-E13B-48BF-8D81-874FBA9BC961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

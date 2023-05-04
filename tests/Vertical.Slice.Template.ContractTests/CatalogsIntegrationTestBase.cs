@@ -1,14 +1,14 @@
-using Microsoft.Extensions.DependencyInjection;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.TestsShared.Fixtures;
 using Vertical.Slice.Template.TestsShared.TestBase;
 using Xunit.Abstractions;
 
-namespace Vertical.Slice.Template.IntegrationTests;
+namespace ApiClient.Tests;
 
-[Collection(IntegrationTestCollection.Name)]
-public class CatalogsIntegrationTestBase : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>
+public class CatalogsIntegrationTestBase
+    : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>,
+        IClassFixture<SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext>>
 {
     public CatalogsIntegrationTestBase(
         SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,

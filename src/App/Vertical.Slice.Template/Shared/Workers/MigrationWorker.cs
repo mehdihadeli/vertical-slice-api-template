@@ -37,7 +37,7 @@ public class MigrationWorker : IHostedService
 
             await catalogDbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
 
-            _logger.LogInformation("catalog database Updated");
+            _logger.LogInformation("Catalog database Updated");
         }
     }
 

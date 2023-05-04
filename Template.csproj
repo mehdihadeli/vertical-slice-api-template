@@ -4,12 +4,12 @@
 <!-- https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-dotnet-cli -->
 <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#package-properties -->
 <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target -->
+<!-- https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm#enable-the-dotnet-sd -->
 <!-- dotnet pack Template.csproj -o . -->
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.4</PackageVersion>
     <PackageId>Vertical.Slice.Template</PackageId>
     <Title>Vertical Slice API Template</Title>
     <Authors>Mehdi Hadeli</Authors>
@@ -27,6 +27,7 @@
     <RepositoryBranch>main</RepositoryBranch>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
+	<EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
   <ItemGroup>

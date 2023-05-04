@@ -28,7 +28,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
     public ILogger Logger { get; }
     public MsSqlContainerFixture MsSqlContainerFixture { get; }
-    public WebApplicationFactory<CatalogsApiMetadata> Factory { get; private set; }
+    public PostgresContainerFixture PostgresContainerFixture { get; }
+    public WebApplicationFactory<CatalogsApiMetadata> Factory { get; set; }
     public IServiceProvider ServiceProvider => _serviceProvider ??= Factory.Services;
 
     public IConfiguration Configuration => _configuration ??= ServiceProvider.GetRequiredService<IConfiguration>();
@@ -54,8 +55,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
         // Service provider will build after getting with get accessors, we don't want to build our service provider here
         MsSqlContainerFixture = new MsSqlContainerFixture(messageSink);
+        PostgresContainerFixture = new PostgresContainerFixture(messageSink);
 
-        Factory = new CustomWebApplicationFactory();
         AutoFaker.Configure(b =>
         {
             // configure global AutoBogus settings here
@@ -75,7 +76,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
             return options;
         });
 
-        Factory.WithWebHostBuilder(wb =>
+        Factory = new CustomWebApplicationFactory();
+        Factory = Factory.WithWebHostBuilder(wb =>
         {
             wb.ConfigureAppConfiguration(
                 (context, builder) =>
@@ -84,7 +86,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
                     {
                         {
                             $"{nameof(PostgresOptions)}:{nameof(PostgresOptions.ConnectionString)}",
-                            MsSqlContainerFixture.Container.GetConnectionString()
+                            PostgresContainerFixture.Container.GetConnectionString()
                         }
                     };
 
@@ -101,7 +103,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         _messageSink.OnMessage(new DiagnosticMessage("SharedFixture Started..."));
 
         // Service provider will build after getting with get accessors, we don't want to build our service provider here
-        await MsSqlContainerFixture.InitializeAsync();
+        //await MsSqlContainerFixture.InitializeAsync();
+        await PostgresContainerFixture.InitializeAsync();
 
         var initCallback = OnSharedFixtureInitialized?.Invoke();
         if (initCallback != null)
@@ -112,7 +115,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
     public async Task DisposeAsync()
     {
-        await MsSqlContainerFixture.DisposeAsync();
+        //await MsSqlContainerFixture.DisposeAsync();
+        await PostgresContainerFixture.DisposeAsync();
 
         var disposeCallback = OnSharedFixtureDisposed?.Invoke();
         if (disposeCallback != null)
@@ -127,7 +131,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
     public async Task ResetDatabasesAsync(CancellationToken cancellationToken = default)
     {
-        await MsSqlContainerFixture.ResetDbAsync(cancellationToken);
+        //await MsSqlContainerFixture.ResetDbAsync(cancellationToken);
+        await PostgresContainerFixture.ResetDbAsync(cancellationToken);
     }
 
     public async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)

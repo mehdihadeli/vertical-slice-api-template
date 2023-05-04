@@ -1,28 +1,34 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Web.Extensions.ServiceCollection;
 using Vertical.Slice.Template.Api;
+using Vertical.Slice.Template.Shared.Data;
+using Vertical.Slice.Template.TestsShared.Fixtures;
+using Vertical.Slice.Template.TestsShared.XunitCategories;
 
 namespace Vertical.Slice.Template.DependencyTests;
 
-public class DependencyTests
+public class DependencyTests : IClassFixture<SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext>>
 {
-    [Fact]
-    public void validate_service_dependencies()
-    {
-        var factory = new WebApplicationFactory<CatalogsApiMetadata>().WithWebHostBuilder(webHostBuilder =>
-        {
-            webHostBuilder.UseEnvironment("test");
+    private readonly SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> _sharedFixture;
 
-            webHostBuilder.ConfigureTestServices(services =>
+    public DependencyTests(SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture)
+    {
+        _sharedFixture = sharedFixture;
+        sharedFixture.Factory = sharedFixture.Factory.WithWebHostBuilder(wb =>
+        {
+            wb.ConfigureTestServices(services =>
             {
                 services.AddTransient<IServiceCollection>(_ => services);
             });
         });
+    }
 
-        using var scope = factory.Services.CreateScope();
+    [Fact]
+    [CategoryTrait(TestCategory.Integration)]
+    public void validate_service_dependencies()
+    {
+        using var scope = _sharedFixture.Factory.Services.CreateScope();
         var sp = scope.ServiceProvider;
         var services = sp.GetRequiredService<IServiceCollection>();
         sp.ValidateDependencies(services, typeof(CatalogsApiMetadata).Assembly, typeof(CatalogsMetadata).Assembly);

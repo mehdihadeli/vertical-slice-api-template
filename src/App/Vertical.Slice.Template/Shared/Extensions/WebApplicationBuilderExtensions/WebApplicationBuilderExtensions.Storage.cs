@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Shared.Abstractions.Ef;
+using Shared.EF;
 using Shared.EF.Extensions;
 using Vertical.Slice.Template.Shared.Data;
 
@@ -11,7 +12,7 @@ public static partial class WebApplicationBuilderExtensions
 {
     public static void AddStorage(this WebApplicationBuilder builder)
     {
-        if (builder.Configuration.GetValue<bool>("PostgresOptions:UseInMemory"))
+        if (builder.Configuration.GetValue<bool>($"{nameof(PostgresOptions)}:{nameof(PostgresOptions.UseInMemory)}"))
         {
             builder.Services.AddDbContext<CatalogsDbContext>(options => options.UseInMemoryDatabase("Catalogs"));
 

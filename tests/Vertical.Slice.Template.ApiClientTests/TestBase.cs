@@ -1,38 +1,39 @@
+using ApiClient.Catalogs;
+using ApiClient.Extensions;
+using Catalogs.ApiClient;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.Data;
+using Vertical.Slice.Template.TestsShared.Fixtures;
+using Vertical.Slice.Template.TestsShared.TestBase;
+using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.ApiClientTests;
 
 [Collection(SharedTestCollection.Name)]
-public class TestBase : IAsyncLifetime
+public class TestBase : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>
 {
-    private readonly CustomWebApplicationFactory _appFactory;
-    private CatalogsDbContext? _catalogsDbContext;
+    private ICatalogsService? _catalogsService;
+    public ICatalogsService CatalogsService =>
+        _catalogsService ??= SharedFixture.ServiceProvider.GetRequiredService<ICatalogsService>();
 
-    public TestBase(CustomWebApplicationFactory appFactory)
+    public TestBase(
+        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+        ITestOutputHelper outputHelper
+    )
+        : base(sharedFixture, outputHelper)
     {
-        _appFactory = appFactory;
-    }
+        SharedFixture.Factory = SharedFixture.Factory.WithWebHostBuilder(wb =>
+        {
+            wb.ConfigureTestServices(services =>
+            {
+                services.AddCustomHttpClients();
+                services.AddMappings();
+                services.AddTransient<ICatalogsApiClient>(x => new CatalogsApiClient(SharedFixture.GuestClient));
+            });
 
-    public CustomWebApplicationFactory Factory => _appFactory;
-    public AsyncServiceScope ServiceScope { get; private set; }
-    public CatalogsDbContext CatalogsDbContext =>
-        _catalogsDbContext ??= ServiceScope.ServiceProvider.GetRequiredService<CatalogsDbContext>();
-
-    public async Task ResetDatabaseAsync(CancellationToken cancellationToken)
-    {
-        await CatalogsDbContext.Database.EnsureDeletedAsync(cancellationToken);
-        await CatalogsDbContext.Database.EnsureCreatedAsync(cancellationToken);
-    }
-
-    public async Task InitializeAsync()
-    {
-        ServiceScope = _appFactory.Services.CreateAsyncScope();
-        await ResetDatabaseAsync(CancellationToken.None);
-    }
-
-    public Task DisposeAsync()
-    {
-        return Task.CompletedTask;
+            wb.ConfigureAppConfiguration((hostingContext, configurationBuilder) => { });
+        });
     }
 }

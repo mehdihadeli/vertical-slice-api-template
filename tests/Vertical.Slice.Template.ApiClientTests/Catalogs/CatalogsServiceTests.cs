@@ -1,23 +1,31 @@
 using ApiClient.Catalogs.Dtos;
 using AutoBogus;
 using FluentAssertions;
+using Vertical.Slice.Template.Api;
+using Vertical.Slice.Template.Shared.Data;
+using Vertical.Slice.Template.TestsShared.Fixtures;
+using Vertical.Slice.Template.TestsShared.XunitCategories;
+using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.ApiClientTests.Catalogs;
 
 public class CatalogsServiceTests : TestBase
 {
-    public CatalogsServiceTests(CustomWebApplicationFactory appFactory)
-        : base(appFactory) { }
+    public CatalogsServiceTests(
+        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+        ITestOutputHelper outputHelper
+    )
+        : base(sharedFixture, outputHelper) { }
 
     [Fact]
+    [CategoryTrait(TestCategory.Integration)]
     public async Task create_product_can_create_product_with_valid_data()
     {
         // Arrange
-        var catalogsService = Factory.CatalogsService;
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
 
         // Act
-        var response = await catalogsService.CreateProductAsync(createProduct, CancellationToken.None);
+        var response = await CatalogsService.CreateProductAsync(createProduct, CancellationToken.None);
 
         // Assert
         response.Should().NotBeNull();
@@ -25,15 +33,15 @@ public class CatalogsServiceTests : TestBase
     }
 
     [Fact]
+    [CategoryTrait(TestCategory.Integration)]
     public async Task get_product_by_id_can_get_product_with_valid_data()
     {
         // Arrange
-        var catalogsService = Factory.CatalogsService;
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
-        var createProductResponse = await catalogsService.CreateProductAsync(createProduct, CancellationToken.None);
+        var createProductResponse = await CatalogsService.CreateProductAsync(createProduct, CancellationToken.None);
 
         // Act
-        var response = await catalogsService.GetProductByIdAsync(createProductResponse.Id, CancellationToken.None);
+        var response = await CatalogsService.GetProductByIdAsync(createProductResponse.Id, CancellationToken.None);
 
         // Assert
         response.Should().NotBeNull();
@@ -41,15 +49,15 @@ public class CatalogsServiceTests : TestBase
     }
 
     [Fact]
+    [CategoryTrait(TestCategory.Integration)]
     public async Task get_product_by_page_can_get_products_with_valid_data()
     {
         // Arrange
-        var catalogsService = Factory.CatalogsService;
         var createProduct = new AutoFaker<CreateProductInput>().Generate();
-        var createProductResponse = await catalogsService.CreateProductAsync(createProduct, CancellationToken.None);
+        var createProductResponse = await CatalogsService.CreateProductAsync(createProduct, CancellationToken.None);
 
         // Act
-        var response = await catalogsService.GetProductByPageAsync(
+        var response = await CatalogsService.GetProductByPageAsync(
             new GetGetProductsByPageInput { PageSize = 10, PageNumber = 1 },
             CancellationToken.None
         );
