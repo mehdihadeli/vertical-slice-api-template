@@ -1,6 +1,6 @@
 using AutoMapper;
 using FluentValidation;
-using MediatR;
+using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Core.Paging;
 using Shared.Abstractions.Ef;
 using Shared.Core.Extensions;
@@ -51,7 +51,7 @@ internal class GetProductsByPageValidator : AbstractValidator<GetProductsByPage>
     }
 }
 
-internal class GetProductByPageHandler : IRequestHandler<GetProductsByPage, GetProductsByPageResult>
+internal class GetProductByPageHandler : IQueryHandler<GetProductsByPage, GetProductsByPageResult>
 {
     private readonly DbExecutors.GetProductsExecutor _getProductsExecutor;
     private readonly ISieveProcessor _sieveProcessor;

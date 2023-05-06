@@ -2,6 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using Shared.Core;
+using Shared.Core.Paging;
 using Sieve.Models;
 using Vertical.Slice.Template.Shared;
 using Vertical.Slice.Template.TestsShared.XunitCategories;

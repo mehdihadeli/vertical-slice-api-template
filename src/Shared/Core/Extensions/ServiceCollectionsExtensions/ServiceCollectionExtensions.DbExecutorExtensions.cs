@@ -8,12 +8,10 @@ public static partial class ServiceCollectionExtensions
 {
     public static IServiceCollection ScanAndRegisterDbExecutors(
         this IServiceCollection services,
-        params Assembly[] assembliesToScan
+        IList<Assembly> assembliesToScan
     )
     {
-        var scanAssemblies = assembliesToScan.Any() ? assembliesToScan : new[] { Assembly.GetCallingAssembly(), };
-
-        var dbExecutors = scanAssemblies
+        var dbExecutors = assembliesToScan
             .SelectMany(x => x.GetLoadableTypes())
             .Where(
                 t =>

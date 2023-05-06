@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Shared.Abstractions.Core.Domain;
+using Shared.Abstractions.Core.Domain.Events;
 
 namespace Shared.EF.Interceptors;
 

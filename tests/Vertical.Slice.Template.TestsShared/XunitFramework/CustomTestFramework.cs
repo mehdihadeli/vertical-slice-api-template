@@ -1,7 +1,7 @@
 using System.Reflection;
 using Xunit.Sdk;
 
-[assembly: Xunit.TestFramework(
+[assembly: TestFramework(
     "Vertical.Slice.Template.TestsShared.XunitFramework.CustomTestFramework",
     "Vertical.Slice.Template.TestsShared"
 )]

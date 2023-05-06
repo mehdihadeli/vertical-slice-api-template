@@ -48,9 +48,7 @@ try
 
     var app = builder.Build();
 
-    app.Logger.LogInformation("test...");
-
-    if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("test"))
+    if (app.Environment.IsDevelopment() && app.Environment.IsEnvironment("test"))
     {
         app.Services.ValidateDependencies(
             builder.Services,
@@ -71,8 +69,10 @@ try
         // should register as last middleware for discovering all endpoints and its versions correctly
         app.UseCustomSwagger();
     }
-
     // #endif
+
+    app.MapGet("/", () => "Vertical.Slice.Template  Api.").ExcludeFromDescription();
+
     await app.RunAsync();
 }
 catch (Exception ex)

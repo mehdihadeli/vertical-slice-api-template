@@ -1,13 +1,13 @@
 using Shared.Abstractions.Core.Domain.Events;
 
-namespace Shared.EF;
+namespace Shared.Core.Domain.Events;
 
-public class EfDomainEventAccessor : IDomainEventsAccessor
+public class DomainEventAccessor : IDomainEventsAccessor
 {
     private readonly IDomainEventContext _domainEventContext;
     private readonly IAggregatesDomainEventsRequestStore _aggregatesDomainEventsStore;
 
-    public EfDomainEventAccessor(
+    public DomainEventAccessor(
         IDomainEventContext domainEventContext,
         IAggregatesDomainEventsRequestStore aggregatesDomainEventsStore
     )

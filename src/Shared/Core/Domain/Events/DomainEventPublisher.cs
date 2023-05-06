@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Core.Domain.Events;
 using Shared.Core.Extensions;
 
-namespace BuildingBlocks.Core.CQRS.Events;
+namespace Shared.Core.Domain.Events;
 
 public class DomainEventPublisher : IDomainEventPublisher
 {

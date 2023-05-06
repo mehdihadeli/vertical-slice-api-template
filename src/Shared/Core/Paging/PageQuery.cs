@@ -1,4 +1,5 @@
-using Shared.Abstractions.Core.Paging;
+using Shared.Abstractions.Caching;
+using Shared.Abstractions.Core.CQRS;
 
 namespace Shared.Core.Paging;
 

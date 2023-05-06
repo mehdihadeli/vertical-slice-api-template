@@ -11,34 +11,25 @@ public class MigrationWorker : IHostedService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<MigrationWorker> _logger;
-    private readonly PostgresOptions _options;
 
-    public MigrationWorker(
-        IOptions<PostgresOptions> options,
-        IServiceScopeFactory serviceScopeFactory,
-        ILogger<MigrationWorker> logger
-    )
+    public MigrationWorker(IServiceScopeFactory serviceScopeFactory, ILogger<MigrationWorker> logger)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
-        _options = options.Value;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Migration worker started.");
 
-        if (_options.UseInMemory == false)
-        {
-            using var serviceScope = _serviceScopeFactory.CreateScope();
-            var catalogDbContext = serviceScope.ServiceProvider.GetRequiredService<CatalogsDbContext>();
+        using var serviceScope = _serviceScopeFactory.CreateScope();
+        var catalogDbContext = serviceScope.ServiceProvider.GetRequiredService<CatalogsDbContext>();
 
-            _logger.LogInformation("Updating catalog database...");
+        _logger.LogInformation("Updating catalog database...");
 
-            await catalogDbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
+        await catalogDbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
 
-            _logger.LogInformation("Catalog database Updated");
-        }
+        _logger.LogInformation("Catalog database Updated");
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

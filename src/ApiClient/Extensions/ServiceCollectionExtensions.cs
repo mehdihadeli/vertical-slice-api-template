@@ -12,28 +12,34 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCustomHttpClients(this IServiceCollection services)
     {
         services.AddValidatedOptions<PolicyOptions>();
-        services.AddValidatedOptions<ApiClientOptions>();
         services.AddHttpClient();
-        services.AddTransient<ICatalogsService, CatalogsService>();
+
+        AddCatalogsApiClient(services);
+
+        return services;
+    }
+
+    private static void AddCatalogsApiClient(IServiceCollection services)
+    {
+        services.AddValidatedOptions<CatalogsApiClientOptions>();
+        services.AddTransient<ICatalogsClient, CatalogsClient>();
 
         services.AddTransient<ICatalogsApiClient, CatalogsApiClient>(sp =>
         {
             var httpClient = sp.GetRequiredService<HttpClient>();
-            var apiOptions = sp.GetRequiredService<IOptions<ApiClientOptions>>();
+            var apiOptions = sp.GetRequiredService<IOptions<CatalogsApiClientOptions>>();
             apiOptions.Value.NotBeNull();
 
             httpClient.BaseAddress = new Uri(apiOptions.Value.CatalogBaseApiAddress);
             return new CatalogsApiClient(httpClient);
         });
-
-        return services;
     }
 
     public static IServiceCollection AddMappings(this IServiceCollection services)
     {
         services.AddAutoMapper(x =>
         {
-            x.AddProfile<CatalogsMappingProfile>();
+            x.AddProfile<ClientsMappingProfile>();
         });
         return services;
     }

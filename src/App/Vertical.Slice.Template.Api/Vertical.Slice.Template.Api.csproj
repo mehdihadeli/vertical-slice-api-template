@@ -4,8 +4,4 @@
     <ProjectReference Include="..\Vertical.Slice.Template\Vertical.Slice.Template.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\WebApplicationBuilderExtensions" />
-  </ItemGroup>
-
 </Project>

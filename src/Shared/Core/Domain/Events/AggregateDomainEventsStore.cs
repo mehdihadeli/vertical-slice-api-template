@@ -1,7 +1,7 @@
 using Shared.Abstractions.Core.Domain;
 using Shared.Abstractions.Core.Domain.Events;
 
-namespace BuildingBlocks.Core.CQRS.Events;
+namespace Shared.Core.Domain.Events;
 
 public class AggregatesDomainEventsStore : IAggregatesDomainEventsRequestStore
 {

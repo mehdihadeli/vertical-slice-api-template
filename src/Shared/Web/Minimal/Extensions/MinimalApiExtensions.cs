@@ -15,15 +15,9 @@ public static class MinimalApiExtensions
         params Assembly[] scanAssemblies
     )
     {
-        // Assemblies are lazy loaded so using AppDomain.GetAssemblies is not reliable (it is possible to get ReflectionTypeLoadException, because some dependent type assembly are lazy and not loaded yet), so we use `GetAllReferencedAssemblies` and it load all referenced assemblies explicitly.
-        // we also load assmblies that have some endpoints and known as a application part, because assemblies are lazy and maybe at the time of scanning, assmblies contain endpoints not visited yet.
         var assemblies = scanAssemblies.Any()
             ? scanAssemblies
-            : ReflectionUtilities
-                .GetReferencedAssemblies(Assembly.GetCallingAssembly())
-                .Concat(ReflectionUtilities.GetApplicationPartAssemblies(Assembly.GetCallingAssembly()))
-                .Distinct()
-                .ToArray();
+            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
 
         applicationBuilder.Services.Scan(
             scan =>
@@ -42,15 +36,9 @@ public static class MinimalApiExtensions
         params Assembly[] scanAssemblies
     )
     {
-        // Assemblies are lazy loaded so using AppDomain.GetAssemblies is not reliable (it is possible to get ReflectionTypeLoadException, because some dependent type assembly are lazy and not loaded yet), so we use `GetAllReferencedAssemblies` and it load all referenced assemblies explicitly.
-        // we also load assmblies that have some endpoints and known as a application part, because assemblies are lazy and maybe at the time of scanning, assmblies contain endpoints not visited yet.
         var assemblies = scanAssemblies.Any()
             ? scanAssemblies
-            : ReflectionUtilities
-                .GetReferencedAssemblies(Assembly.GetCallingAssembly())
-                .Concat(ReflectionUtilities.GetApplicationPartAssemblies(Assembly.GetCallingAssembly()))
-                .Distinct()
-                .ToArray();
+            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
 
         services.Scan(
             scan =>

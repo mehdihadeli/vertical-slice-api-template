@@ -4,13 +4,13 @@ using Vertical.Slice.Template.TestsShared.Fixtures;
 using Vertical.Slice.Template.TestsShared.TestBase;
 using Xunit.Abstractions;
 
-namespace ApiClient.Tests;
+namespace Vertical.Slice.Template.ContractTests;
 
-public class CatalogsIntegrationTestBase
+public class TestBase
     : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>,
         IClassFixture<SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext>>
 {
-    public CatalogsIntegrationTestBase(
+    public TestBase(
         SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
         ITestOutputHelper outputHelper
     )

@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Shared.Abstractions.Web;
 using Shared.Core.Exceptions;
-using Shared.Validation;
-using Shared.Validation.Extensions;
 
-namespace Shared.Web.ProblemDetail;
+namespace Vertical.Slice.Template.Shared;
 
 internal sealed class DefaultProblemDetailMapper : IProblemDetailMapper
 {

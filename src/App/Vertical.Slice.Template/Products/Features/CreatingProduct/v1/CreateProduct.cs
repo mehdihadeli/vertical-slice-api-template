@@ -2,8 +2,8 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Ef;
-using Shared.Core;
 using Shared.Core.Extensions;
 using Shared.Core.Id;
 using Shared.EF.Extensions;
@@ -21,7 +21,7 @@ namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 // https://www.youtube.com/watch?v=CdanF8PWJng
 // we don't pass value-objects and domains to our commands and events, just primitive types
 public record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
-    : IRequest<CreateProductResult>
+    : ICommand<CreateProductResult>
 {
     public Guid Id { get; } = IdGenerator.NewId();
 
@@ -50,7 +50,7 @@ internal class CreateProductValidator : AbstractValidator<CreateProduct>
     }
 }
 
-internal class CreateProductHandler : IRequestHandler<CreateProduct, CreateProductResult>
+internal class CreateProductHandler : ICommandHandler<CreateProduct, CreateProductResult>
 {
     private readonly DbExecuters.CreateAndSaveProductExecutor _createAndSaveProductExecutor;
     private readonly IMapper _mapper;

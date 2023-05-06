@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Sieve.Models;
 using Sieve.Services;
 
-namespace Shared.Core;
+namespace Shared.Core.Paging;
 
 // https://github.com/Biarity/Sieve#modular-fluent-api-configuration
 public class ApplicationSieveProcessor : SieveProcessor

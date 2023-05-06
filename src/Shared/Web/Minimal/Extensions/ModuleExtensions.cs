@@ -14,15 +14,9 @@ public static class ModuleExtensions
         params Assembly[] scanAssemblies
     )
     {
-        // Assemblies are lazy loaded so using AppDomain.GetAssemblies is not reliable (it is possible to get ReflectionTypeLoadException, because some dependent type assembly are lazy and not loaded yet), so we use `GetAllReferencedAssemblies` and it
-        // load all referenced assemblies explicitly.
         var assemblies = scanAssemblies.Any()
             ? scanAssemblies
-            : ReflectionUtilities
-                .GetReferencedAssemblies(Assembly.GetCallingAssembly())
-                .Concat(ReflectionUtilities.GetApplicationPartAssemblies(Assembly.GetCallingAssembly()))
-                .Distinct()
-                .ToArray();
+            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
 
         var modulesConfiguration = assemblies
             .SelectMany(x => x.GetLoadableTypes())

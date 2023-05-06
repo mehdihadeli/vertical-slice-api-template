@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Timeout;
 using Polly.Wrap;
+using Shared.Abstractions.Core.Paging;
 using Shared.Core.Exceptions;
 using Shared.Core.Extensions;
 using Shared.Core.Paging;
@@ -12,13 +13,13 @@ using Shared.Web;
 
 namespace ApiClient.Catalogs;
 
-public class CatalogsService : ICatalogsService
+public class CatalogsClient : ICatalogsClient
 {
     private readonly ICatalogsApiClient _catalogsApiClient;
     private readonly IMapper _mapper;
     private readonly AsyncPolicyWrap _combinedPolicy;
 
-    public CatalogsService(ICatalogsApiClient catalogsApiClient, IOptions<PolicyOptions> policyOptions, IMapper mapper)
+    public CatalogsClient(ICatalogsApiClient catalogsApiClient, IOptions<PolicyOptions> policyOptions, IMapper mapper)
     {
         _catalogsApiClient = catalogsApiClient;
         _mapper = mapper;
@@ -41,12 +42,12 @@ public class CatalogsService : ICatalogsService
         _combinedPolicy = combinedPolicy.WrapAsync(timeoutPolicy);
     }
 
-    public async Task<CreateProductOutput> CreateProductAsync(
-        CreateProductInput createProductInput,
+    public async Task<Guid> CreateProductAsync(
+        CreateProductClientDto createProductClientDto,
         CancellationToken cancellationToken
     )
     {
-        createProductInput.NotBeNull();
+        createProductClientDto.NotBeNull();
 
         // https://github.com/App-vNext/Polly#post-execution-capturing-the-result-or-any-final-exception
         var policyResult = await _combinedPolicy.ExecuteAndCaptureAsync(async () =>
@@ -55,10 +56,10 @@ public class CatalogsService : ICatalogsService
             // https: //github.com/App-vNext/Polly#step-1--specify-the--exceptionsfaults-you-want-the-policy-to-handle
             var response = await _catalogsApiClient.CreateProductAsync(
                 new CreateProductRequest(
-                    createProductInput.CategoryId,
-                    createProductInput.Description,
-                    createProductInput.Name,
-                    (double)createProductInput.Price
+                    createProductClientDto.CategoryId,
+                    createProductClientDto.Description,
+                    createProductClientDto.Name,
+                    (double)createProductClientDto.Price
                 ),
                 cancellationToken
             );
@@ -68,7 +69,7 @@ public class CatalogsService : ICatalogsService
         switch (policyResult.Outcome)
         {
             case OutcomeType.Successful:
-                return new CreateProductOutput(policyResult.Result.Id);
+                return policyResult.Result.Id;
             default:
             {
                 if (
@@ -89,12 +90,12 @@ public class CatalogsService : ICatalogsService
         }
     }
 
-    public async Task<GetGetProductsByPageOutput> GetProductByPageAsync(
-        GetGetProductsByPageInput getProductsByPageInput,
+    public async Task<IPageList<Product>> GetProductByPageAsync(
+        GetGetProductsByPageClientDto getProductsByPageClientDto,
         CancellationToken cancellationToken
     )
     {
-        getProductsByPageInput.NotBeNull();
+        getProductsByPageClientDto.NotBeNull();
 
         try
         {
@@ -104,22 +105,21 @@ public class CatalogsService : ICatalogsService
                 // https://stackoverflow.com/questions/21097730/usage-of-ensuresuccessstatuscode-and-handling-of-httprequestexception-it-throws
                 // https: //github.com/App-vNext/Polly#step-1--specify-the--exceptionsfaults-you-want-the-policy-to-handle
                 return await _catalogsApiClient.GetProductsByPageAsync(
-                    getProductsByPageInput.PageSize,
-                    getProductsByPageInput.PageNumber,
-                    getProductsByPageInput.Filters,
-                    getProductsByPageInput.SortOrder,
+                    getProductsByPageClientDto.PageSize,
+                    getProductsByPageClientDto.PageNumber,
+                    getProductsByPageClientDto.Filters,
+                    getProductsByPageClientDto.SortOrder,
                     cancellationToken
                 );
             });
 
-            var items = _mapper.Map<List<Dtos.ProductDto>>(response.Products!.Items);
-            return new GetGetProductsByPageOutput(
-                PageList<Dtos.ProductDto>.Create(
-                    items,
-                    response.Products.PageNumber,
-                    response.Products.PageSize,
-                    response.Products.TotalCount
-                )
+            var items = _mapper.Map<List<Product>>(response.Products!.Items);
+
+            return PageList<Product>.Create(
+                items,
+                response.Products.PageNumber,
+                response.Products.PageSize,
+                response.Products.TotalCount
             );
         }
         catch (ApiException apiException)
@@ -133,7 +133,7 @@ public class CatalogsService : ICatalogsService
         }
     }
 
-    public async Task<GetProductByIdOutput> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Product> GetProductByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         id.NotBeNull();
 
@@ -147,7 +147,9 @@ public class CatalogsService : ICatalogsService
                 return await _catalogsApiClient.GetProductByIdAsync(id, cancellationToken);
             });
 
-            return new GetProductByIdOutput(new Dtos.ProductLiteDto(result.Product.Id, result.Product.Name));
+            var product = _mapper.Map<Product>(result.Product);
+
+            return product;
         }
         catch (ApiException apiException)
         {

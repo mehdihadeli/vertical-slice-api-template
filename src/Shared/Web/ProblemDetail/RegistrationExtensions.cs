@@ -12,7 +12,7 @@ public static class RegistrationExtensions
 {
     public static IServiceCollection AddCustomProblemDetails(
         this IServiceCollection services,
-        Action<ProblemDetailsOptions>? configure,
+        Action<ProblemDetailsOptions>? configure = null,
         params Assembly[] scanAssemblies
     )
     {
@@ -28,11 +28,7 @@ public static class RegistrationExtensions
     {
         var assemblies = scanAssemblies.Any()
             ? scanAssemblies
-            : ReflectionUtilities
-                .GetReferencedAssemblies(Assembly.GetCallingAssembly())
-                .Concat(ReflectionUtilities.GetApplicationPartAssemblies(Assembly.GetCallingAssembly()))
-                .Distinct()
-                .ToArray();
+            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
 
         services.Scan(
             scan =>

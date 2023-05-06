@@ -1,6 +1,4 @@
-using ApiClient.Tests;
 using AutoBogus;
-using Catalogs.ApiClient;
 using FluentAssertions;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.Data;
@@ -10,9 +8,9 @@ using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.ContractTests.Products;
 
-public class GetProductsByPageTests : CatalogsIntegrationTestBase
+public class ProductsTests : TestBase
 {
-    public GetProductsByPageTests(
+    public ProductsTests(
         SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
         ITestOutputHelper outputHelper
     )
@@ -20,7 +18,47 @@ public class GetProductsByPageTests : CatalogsIntegrationTestBase
 
     [Fact]
     [CategoryTrait(TestCategory.Integration)]
-    public async Task BasicContractTest()
+    public async Task contracts_should_pass_for_create_product()
+    {
+        using var baseClient = SharedFixture.GuestClient;
+        var client = new CatalogsApiClient(baseClient);
+
+        var req = new AutoFaker<CreateProductRequest>().Generate();
+        var createProductRequest = new CreateProductRequest(
+            req.CategoryId,
+            req.Description,
+            req.Description,
+            req.Price
+        );
+
+        var response = await client.CreateProductAsync(createProductRequest);
+        response.Id.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    [CategoryTrait(TestCategory.Integration)]
+    public async Task contracts_should_pass_for_get_product_by_id()
+    {
+        using var baseClient = SharedFixture.GuestClient;
+        var client = new CatalogsApiClient(baseClient);
+        var createProductResponse = await CreateProduct(client);
+
+        // Act
+        var productByIdResponse = await client.GetProductByIdAsync(createProductResponse.Id);
+
+        // Assert
+        productByIdResponse.Should().NotBeNull();
+        productByIdResponse.Product.Should().NotBeNull();
+        productByIdResponse.Product.Description.Should().NotBeNull();
+        productByIdResponse.Product.Name.Should().NotBeNull();
+        productByIdResponse.Product.Id.Should().NotBeEmpty();
+        productByIdResponse.Product.CategoryId.Should().NotBeEmpty();
+        productByIdResponse.Product.Price.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    [CategoryTrait(TestCategory.Integration)]
+    public async Task contracts_should_pass_for_get_products_by_page()
     {
         using var baseClient = SharedFixture.GuestClient;
         var client = new CatalogsApiClient(baseClient);

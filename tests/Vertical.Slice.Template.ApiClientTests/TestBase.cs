@@ -14,9 +14,9 @@ namespace Vertical.Slice.Template.ApiClientTests;
 [Collection(SharedTestCollection.Name)]
 public class TestBase : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>
 {
-    private ICatalogsService? _catalogsService;
-    public ICatalogsService CatalogsService =>
-        _catalogsService ??= SharedFixture.ServiceProvider.GetRequiredService<ICatalogsService>();
+    private ICatalogsClient? _catalogsService;
+    public ICatalogsClient CatalogsClient =>
+        _catalogsService ??= SharedFixture.ServiceProvider.GetRequiredService<ICatalogsClient>();
 
     public TestBase(
         SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,

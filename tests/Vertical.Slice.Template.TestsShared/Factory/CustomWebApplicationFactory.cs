@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Vertical.Slice.Template.Api;
 
@@ -32,8 +33,6 @@ public class CustomWebApplicationFactory : WebApplicationFactory<CatalogsApiMeta
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         _webHostBuilder?.Invoke(builder);
-
-        builder.ConfigureTestServices(services => { });
 
         builder.ConfigureAppConfiguration((hostingContext, configurationBuilder) => { });
 

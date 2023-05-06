@@ -1,6 +1,6 @@
-namespace ApiClient.Catalogs.Dtos;
+namespace ApiClient.Catalogs;
 
-public record ProductDto
+public record Product
 {
     public required decimal Price { get; init; }
     public required Guid CategoryId { get; init; }

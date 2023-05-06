@@ -1,6 +1,4 @@
-using Shared.Abstractions.Core.Domain.Events;
-
-namespace Shared.Abstractions.Core.Domain;
+namespace Shared.Abstractions.Core.Domain.Events;
 
 public interface IHaveDomainEvents
 {

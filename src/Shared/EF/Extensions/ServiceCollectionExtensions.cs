@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shared.Abstractions.Core.Domain.Events;
 using Shared.Abstractions.Ef;
+using Shared.Core.Domain;
+using Shared.Core.Domain.Events;
 using Shared.Core.Extensions;
 using Shared.EF.Interceptors;
 using Shared.Web.Extensions.ServiceCollection;
@@ -67,7 +69,6 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IDbFacadeResolver>(provider => provider.GetService<TDbContext>()!);
         services.AddScoped<IDomainEventContext>(provider => provider.GetService<TDbContext>()!);
-        services.AddScoped<IDomainEventsAccessor, EfDomainEventAccessor>();
 
         return services;
     }

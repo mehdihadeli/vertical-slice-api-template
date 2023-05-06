@@ -20,8 +20,8 @@
           "Products",
           "Products"
         ],
-        "summary": "Creating a New Product",
-        "description": "Creating a New Product",
+        "summary": "Create product",
+        "description": "Create product",
         "operationId": "CreateProduct",
         "requestBody": {
           "content": {
@@ -35,7 +35,7 @@
         },
         "responses": {
           "201": {
-            "description": "Product created successfully.",
+            "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
@@ -45,7 +45,7 @@
             }
           },
           "400": {
-            "description": "Invalid input for creating product.",
+            "description": "Bad Request",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -55,9 +55,9 @@
             }
           },
           "401": {
-            "description": "UnAuthorized request.",
+            "description": "Unauthorized",
             "content": {
-              "application/problem+json": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -71,8 +71,8 @@
           "Products",
           "Products"
         ],
-        "summary": "Getting products by page info",
-        "description": "Getting products by page info",
+        "summary": "Get products by page",
+        "description": "Get products by page",
         "operationId": "GetProductsByPage",
         "parameters": [
           {
@@ -114,17 +114,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Products fetched successfully.",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetGetProductsByPageResponse"
+                  "$ref": "#/components/schemas/GetProductsByPageResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid input for getting product.",
+            "description": "Bad Request",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -142,8 +142,8 @@
           "Products",
           "Products"
         ],
-        "summary": "Getting a product by id",
-        "description": "Getting a product by id",
+        "summary": "Get product by id",
+        "description": "Get product by id",
         "operationId": "GetProductById",
         "parameters": [
           {
@@ -159,7 +159,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Product fetched successfully.",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
@@ -169,7 +169,7 @@
             }
           },
           "400": {
-            "description": "Invalid input for getting product.",
+            "description": "Bad Request",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -179,9 +179,9 @@
             }
           },
           "404": {
-            "description": "Product not found",
+            "description": "Not Found",
             "content": {
-              "application/problem+json": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -226,20 +226,20 @@
         },
         "additionalProperties": false
       },
-      "GetGetProductsByPageResponse": {
-        "type": "object",
-        "properties": {
-          "products": {
-            "$ref": "#/components/schemas/ProductDtoIPageList"
-          }
-        },
-        "additionalProperties": false
-      },
       "GetProductByIdResponse": {
         "type": "object",
         "properties": {
           "product": {
             "$ref": "#/components/schemas/ProductDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProductsByPageResponse": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "$ref": "#/components/schemas/ProductDtoIPageList"
           }
         },
         "additionalProperties": false

@@ -39,7 +39,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
         var text = new StringBuilder("An example application with OpenAPI, Swashbuckle, and API versioning.");
         var info = new OpenApiInfo()
         {
-            Title = "Example API",
+            Title = "Vertical.Slice.Template",
             Version = description.ApiVersion.ToString(),
             Contact = new OpenApiContact() { Name = "Bill Mei", Email = "bill.mei@somewhere.com" },
             License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
