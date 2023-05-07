@@ -23,5 +23,9 @@
     <Content Include="..\..\src\App\Vertical.Slice.Template.Api\appsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\..\src\App\Vertical.Slice.Template.Api\appsettings.test.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Products\Features\CreatingProduct" />
+  </ItemGroup>
   
 </Project>

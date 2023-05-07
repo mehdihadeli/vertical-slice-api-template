@@ -33,7 +33,7 @@ public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
             return await next();
 
         _logger.LogInformation(
-            "[{Prefix}] Handle request={X-RequestData} and response={X-ResponseData}",
+            "[{Prefix}] Handle request={RequestData} and response={ResponseData}",
             nameof(RequestValidationBehavior<TRequest, TResponse>),
             typeof(TRequest).Name,
             typeof(TResponse).Name
@@ -89,7 +89,7 @@ public class StreamRequestValidationBehavior<TRequest, TResponse> : IStreamPipel
         }
 
         _logger.LogInformation(
-            "[{Prefix}] Handle request={X-RequestData} and response={X-ResponseData}",
+            "[{Prefix}] Handle request={RequestData} and response={ResponseData}",
             nameof(StreamRequestValidationBehavior<TRequest, TResponse>),
             typeof(TRequest).Name,
             typeof(TResponse).Name

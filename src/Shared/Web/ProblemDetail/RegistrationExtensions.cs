@@ -16,24 +16,25 @@ public static class RegistrationExtensions
         params Assembly[] scanAssemblies
     )
     {
+        var assemblies = scanAssemblies.Any()
+            ? scanAssemblies
+            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
+
         services.AddProblemDetails(configure);
         services.ReplaceSingleton<IProblemDetailsService, ProblemDetailsService>();
-        // services.TryAddSingleton<IProblemDetailMapper, DefaultProblemDetailMapper>();
-        RegisterAllMappers(services, scanAssemblies);
+        // services.AddSingleton<IProblemDetailsWriter, ProblemDetailsWriter>();
+
+        RegisterAllMappers(services, assemblies);
 
         return services;
     }
 
     private static void RegisterAllMappers(IServiceCollection services, Assembly[] scanAssemblies)
     {
-        var assemblies = scanAssemblies.Any()
-            ? scanAssemblies
-            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
-
         services.Scan(
             scan =>
-                scan.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IProblemDetailMapper)))
+                scan.FromAssemblies(scanAssemblies)
+                    .AddClasses(classes => classes.AssignableTo(typeof(IProblemDetailMapper)), false)
                     .UsingRegistrationStrategy(RegistrationStrategy.Append)
                     .As<IProblemDetailMapper>()
                     .WithLifetime(ServiceLifetime.Singleton)

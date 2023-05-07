@@ -6,9 +6,9 @@ public class Constants
     {
         public static class Products
         {
-            private const string RootBaseAddress = "api/v1/catalog/product";
+            private const string RootBaseAddress = "api/v1/catalogs";
 
-            private const string ProductsBaseAddress = $"{RootBaseAddress}";
+            private const string ProductsBaseAddress = $"{RootBaseAddress}/products";
 
             public static string GetByPage => $"{ProductsBaseAddress}/";
 

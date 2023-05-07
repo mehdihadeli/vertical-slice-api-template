@@ -43,6 +43,7 @@ public class ProblemDetailsService : IProblemDetailsService
                 if (mappedStatusCode > 0)
                 {
                     PopulateNewProblemDetail(context.ProblemDetails, mappedStatusCode, exceptionFeature.Error);
+                    context.HttpContext.Response.StatusCode = mappedStatusCode;
                 }
             }
         }
@@ -53,6 +54,7 @@ public class ProblemDetailsService : IProblemDetailsService
             || _writers.Length == 0
         )
             return ValueTask.CompletedTask;
+
         IProblemDetailsWriter problemDetailsWriter = null!;
         if (_writers.Length == 1)
         {
@@ -60,11 +62,11 @@ public class ProblemDetailsService : IProblemDetailsService
             return !writer.CanWrite(context) ? ValueTask.CompletedTask : writer.WriteAsync(context);
         }
 
-        for (int index = 0; index < _writers.Length; ++index)
+        foreach (var writer in _writers)
         {
-            if (_writers[index].CanWrite(context))
+            if (writer.CanWrite(context))
             {
-                problemDetailsWriter = _writers[index];
+                problemDetailsWriter = writer;
                 break;
             }
         }
@@ -78,7 +80,7 @@ public class ProblemDetailsService : IProblemDetailsService
         Exception exception
     )
     {
-        existingProblemDetails.Title = exception.GetType().FullName;
+        existingProblemDetails.Title = exception.GetType().Name;
         existingProblemDetails.Detail = exception.Message;
         existingProblemDetails.Status = statusCode;
     }

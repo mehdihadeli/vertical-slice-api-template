@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using AutoBogus;
 using DotNet.Testcontainers.Configurations;
 using FluentAssertions;
@@ -22,9 +23,24 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
     private IHttpContextAccessor? _httpContextAccessor;
     private IServiceProvider? _serviceProvider;
     private IConfiguration? _configuration;
+    private HttpClient? _guestClient;
 
     public Func<Task>? OnSharedFixtureInitialized;
     public Func<Task>? OnSharedFixtureDisposed;
+
+    public HttpClient GuestClient
+    {
+        get
+        {
+            if (_guestClient == null)
+            {
+                _guestClient = Factory.CreateClient();
+                // Set the media type of the request to JSON - we need this for getting problem details result for all http calls because problem details just return response for request with media type JSON
+                _guestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+            return _guestClient;
+        }
+    }
 
     public ILogger Logger { get; }
     public MsSqlContainerFixture MsSqlContainerFixture { get; }

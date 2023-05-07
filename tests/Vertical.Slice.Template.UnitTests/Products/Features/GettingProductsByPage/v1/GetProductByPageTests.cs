@@ -3,7 +3,6 @@ using FluentAssertions;
 using NSubstitute;
 using Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
 using Vertical.Slice.Template.Products.Models;
-using Vertical.Slice.Template.Products.ReadModel;
 using Vertical.Slice.Template.TestsShared.XunitCategories;
 using Vertical.Slice.Template.UnitTests.Common;
 
@@ -21,7 +20,7 @@ public class GetProductByPageTests : CatalogsUnitTestBase
 
         var executor = Substitute.For<DbExecutors.GetProductsExecutor>();
         executor(Arg.Any<CancellationToken>()).Returns(productList.AsQueryable());
-        var query = new GetProductsByPage() { PageSize = 10, PageNumber = 1 };
+        var query = new GetProductsByPage();
 
         var handler = new GetProductByPageHandler(executor, SieveProcessor, Mapper);
 

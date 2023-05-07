@@ -9,9 +9,6 @@ public class SharedFixtureWithEfCore<TEntryPoint, TEfCoreDbContext> : SharedFixt
     where TEfCoreDbContext : DbContext
     where TEntryPoint : class
 {
-    private HttpClient? _guestClient;
-    public HttpClient GuestClient => _guestClient ??= Factory.CreateClient();
-
     public async Task ExecuteTxContextAsync(Func<IServiceProvider, TEfCoreDbContext, Task> action)
     {
         await using var scope = ServiceProvider.CreateAsyncScope();

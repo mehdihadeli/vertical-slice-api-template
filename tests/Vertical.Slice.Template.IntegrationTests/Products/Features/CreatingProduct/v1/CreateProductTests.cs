@@ -6,7 +6,7 @@ using Vertical.Slice.Template.TestsShared.Fixtures;
 using Vertical.Slice.Template.TestsShared.XunitCategories;
 using Xunit.Abstractions;
 
-namespace Vertical.Slice.Template.IntegrationTests.Products.Features;
+namespace Vertical.Slice.Template.IntegrationTests.Products.Features.CreatingProduct.v1;
 
 public class CreateProductTests : CatalogsIntegrationTestBase
 {
