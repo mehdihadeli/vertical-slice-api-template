@@ -19,6 +19,7 @@
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="CorrelationId" />
     <PackageReference Include="Dapper" />
     <PackageReference Include="DotNetEnv" />
     <PackageReference Include="EasyCaching.Core" />

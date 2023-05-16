@@ -114,8 +114,8 @@ public static class ServiceCollectionsExtensions
         services.AddValidatedOptions<TClientOptions>();
 
         services
-            // .AddSingleton<CorrelationIdDelegatingHandler>()
-            // .AddSingleton<UserAgentDelegatingHandler>()
+            .AddSingleton<CorrelationIdDelegatingHandler>()
+            .AddSingleton<UserAgentDelegatingHandler>()
             .AddHttpClient<TClient, TImplementation>()
             .ConfigureHttpClient(
                 (serviceProvider, httpClient) =>
@@ -129,9 +129,9 @@ public static class ServiceCollectionsExtensions
             .AddPolicyHandlerFromRegistry(PolicyNames.Retry)
             .AddPolicyHandlerFromRegistry(PolicyNames.CircuitBreaker)
             .AddPolicyHandlerFromRegistry(PolicyNames.Timeout)
-            .AddPolicyHandlerFromRegistry(PolicyNames.Bulkhead);
-        // .AddHttpMessageHandler<CorrelationIdDelegatingHandler>()
-        // .AddHttpMessageHandler<UserAgentDelegatingHandler>()
+            .AddPolicyHandlerFromRegistry(PolicyNames.Bulkhead)
+            .AddHttpMessageHandler<CorrelationIdDelegatingHandler>()
+            .AddHttpMessageHandler<UserAgentDelegatingHandler>();
 
         return services;
     }
@@ -155,9 +155,9 @@ public static class ServiceCollectionsExtensions
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests#named-clients
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-7.0#createclient
         services
+            .AddSingleton<CorrelationIdDelegatingHandler>()
+            .AddSingleton<UserAgentDelegatingHandler>()
             .AddHttpClient(clientName)
-            // .AddSingleton<CorrelationIdDelegatingHandler>()
-            // .AddSingleton<UserAgentDelegatingHandler>()
             .ConfigureHttpClient(
                 (sp, httpClient) =>
                 {
@@ -170,9 +170,9 @@ public static class ServiceCollectionsExtensions
             .AddPolicyHandlerFromRegistry(PolicyNames.Retry)
             .AddPolicyHandlerFromRegistry(PolicyNames.CircuitBreaker)
             .AddPolicyHandlerFromRegistry(PolicyNames.Timeout)
-            .AddPolicyHandlerFromRegistry(PolicyNames.Bulkhead);
-        // .AddHttpMessageHandler<CorrelationIdDelegatingHandler>()
-        // .AddHttpMessageHandler<UserAgentDelegatingHandler>()
+            .AddPolicyHandlerFromRegistry(PolicyNames.Bulkhead)
+            .AddHttpMessageHandler<CorrelationIdDelegatingHandler>()
+            .AddHttpMessageHandler<UserAgentDelegatingHandler>();
 
         return services;
     }

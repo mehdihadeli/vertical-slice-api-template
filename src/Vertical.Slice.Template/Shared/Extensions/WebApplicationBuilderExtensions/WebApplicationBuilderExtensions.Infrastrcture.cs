@@ -1,3 +1,4 @@
+using CorrelationId.DependencyInjection;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +27,9 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddAuthorization();
 
         builder.AddCustomCaching();
+
+        // https://github.com/stevejgordon/CorrelationId
+        builder.Services.AddDefaultCorrelationId();
 
         // #if EnableSwagger
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

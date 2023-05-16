@@ -1,3 +1,4 @@
+using CorrelationId;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -36,6 +37,9 @@ public static partial class WebApplicationExtensions
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security
         app.UseAuthentication();
         app.UseAuthorization();
+
+        // https://github.com/stevejgordon/CorrelationId
+        app.UseCorrelationId();
 
         return Task.CompletedTask;
     }
