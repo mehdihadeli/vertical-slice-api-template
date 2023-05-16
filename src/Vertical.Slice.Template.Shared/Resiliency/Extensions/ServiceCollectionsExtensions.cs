@@ -104,7 +104,8 @@ public static class ServiceCollectionsExtensions
     }
 
     public static IServiceCollection AddCustomHttpClient<TClient, TImplementation, TClientOptions>(
-        this IServiceCollection services
+        this IServiceCollection services,
+        Action<IServiceProvider, HttpClient>? configureClient = null
     )
         where TClient : class
         where TImplementation : class, TClient
@@ -124,6 +125,8 @@ public static class ServiceCollectionsExtensions
                     var httpClientOptions = serviceProvider.GetRequiredService<IOptions<TClientOptions>>().Value;
                     httpClient.BaseAddress = new Uri(httpClientOptions.BaseAddress);
                     httpClient.Timeout = TimeSpan.FromSeconds(httpClientOptions.Timeout);
+
+                    configureClient?.Invoke(serviceProvider, httpClient);
                 }
             )
             .ConfigurePrimaryHttpMessageHandler(_ => new DefaultHttpClientHandler())
@@ -137,16 +140,20 @@ public static class ServiceCollectionsExtensions
         return services;
     }
 
-    public static IServiceCollection AddCustomHttpClient<TClient, TClientOptions>(this IServiceCollection services)
+    public static IServiceCollection AddCustomHttpClient<TClient, TClientOptions>(
+        this IServiceCollection services,
+        Action<IServiceProvider, HttpClient>? configureClient = null
+    )
         where TClient : class
         where TClientOptions : HttpClientOptions, new()
     {
-        return services.AddCustomHttpClient<TClient, TClient, TClientOptions>();
+        return services.AddCustomHttpClient<TClient, TClient, TClientOptions>(configureClient);
     }
 
     public static IServiceCollection AddCustomHttpClient<TClientOptions>(
         this IServiceCollection services,
-        string clientName
+        string clientName,
+        Action<IServiceProvider, HttpClient>? configureClient = null
     )
         where TClientOptions : HttpClientOptions, new()
     {
@@ -165,6 +172,8 @@ public static class ServiceCollectionsExtensions
                     var httpClientOptions = sp.GetRequiredService<IOptions<TClientOptions>>().Value;
                     httpClient.BaseAddress = new Uri(httpClientOptions.BaseAddress);
                     httpClient.Timeout = TimeSpan.FromSeconds(httpClientOptions.Timeout);
+
+                    configureClient?.Invoke(sp, httpClient);
                 }
             )
             .ConfigurePrimaryHttpMessageHandler(_ => new DefaultHttpClientHandler())
