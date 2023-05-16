@@ -1,8 +1,7 @@
-using ApiClient.Catalogs.Dtos;
 using AutoBogus;
 using FluentAssertions;
-using Shared.Core.Extensions;
 using Vertical.Slice.Template.Api;
+using Vertical.Slice.Template.ApiClient.Catalogs.Dtos;
 using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.TestsShared.Fixtures;
 using Vertical.Slice.Template.TestsShared.XunitCategories;

@@ -40,8 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\App\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
-    <ProjectReference Include="..\..\src\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\src\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
+    <ProjectReference Include="..\..\src\Vertical.Slice.Template.Shared\Vertical.Slice.Template.Shared.csproj" />
   </ItemGroup>
 
 </Project>

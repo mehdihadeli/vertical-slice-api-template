@@ -1,7 +1,7 @@
 using Microsoft.Data.SqlClient;
 using Respawn;
-using Shared.Core.Extensions;
 using Testcontainers.MsSql;
+using Vertical.Slice.Template.Shared.Core.Extensions;
 using Xunit.Sdk;
 
 namespace Vertical.Slice.Template.TestsShared.Fixtures;

@@ -1,9 +1,9 @@
 using AutoBogus;
 using FluentAssertions;
 using NSubstitute;
-using Shared.Core.Exceptions;
 using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 using Vertical.Slice.Template.Products.ReadModel;
+using Vertical.Slice.Template.Shared.Core.Exceptions;
 using Vertical.Slice.Template.TestsShared.XunitCategories;
 using Vertical.Slice.Template.UnitTests.Common;
 

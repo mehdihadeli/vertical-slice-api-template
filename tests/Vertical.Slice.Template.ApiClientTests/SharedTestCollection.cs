@@ -8,5 +8,5 @@ namespace Vertical.Slice.Template.ApiClientTests;
 [CollectionDefinition(Name)]
 public class SharedTestCollection : ICollectionFixture<SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext>>
 {
-    public const string Name = "Shared Test Collection";
+    public const string Name = "Vertical.Slice.Template.Shared Test Collection";
 }

@@ -1,8 +1,8 @@
 using FluentAssertions;
-using Shared.Core.Exceptions;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 using Vertical.Slice.Template.Products.Models;
+using Vertical.Slice.Template.Shared.Core.Exceptions;
 using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.TestsShared.Fakes.Products;
 using Vertical.Slice.Template.TestsShared.Fixtures;

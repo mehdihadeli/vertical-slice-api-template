@@ -275,66 +275,78 @@ Keeping such a split works great with CQRS. It segregates our operations and sli
 
 ### Folder Structure
 ``` cmd
-App
-├───Vertical.Slice.Template
-│   │   CatalogsAssemblyInfo.cs
-│   │   Vertical.Slice.Template.csproj
+src
+│   Directory.Build.props
+│   Directory.Build.targets
+│   Directory.Packages.props
+│
+├───EnergyManagement
+│   │   EnergyManagement.csproj
+│   │   EnergyManagementMetadata.cs
+│   │   readme.md
 │   │
-│   ├───Products
-│   │   │   ProductConfigurations.cs
-│   │   │   ProductMappingProfiles.cs
-│   │   │
-│   │   ├───Data
-│   │   │       ProductEntityTypeConfigurations.cs
-│   │   │       SieveProductReadConfigurations.cs
+│   ├───PhotovoltaicSystems
+│   │   │   PhotovoltaicSystemConfigurations.cs
+│   │   │   PhotovoltaicSystemMappingProfile.cs
+│   │   │   SieveProductReadConfigurations.cs
 │   │   │
 │   │   ├───Dtos
 │   │   │   └───v1
-│   │   │           ProductDto.cs
+│   │   │           PhotovoltaicServiceMessageDto.cs
+│   │   │           PhotovoltaicSystemAddressDto.cs
+│   │   │           PhotovoltaicSystemDto.cs
 │   │   │
 │   │   ├───Features
-│   │   │   ├───CreatingProduct
+│   │   │   ├───GettingPhotovoltaicSystems
 │   │   │   │   └───v1
-│   │   │   │           CreateProduct.cs
-│   │   │   │           CreateProductEndpoint.cs
-│   │   │   │           ProductCreated.cs
+│   │   │   │           GetPhotovoltaicSystems.cs
+│   │   │   │           GetPhotovoltaicSystemsEndpoint.cs
 │   │   │   │
-│   │   │   ├───GettingProductById
-│   │   │   │   └───v1
-│   │   │   │           GetProductById.cs
-│   │   │   │           GetProductByIdEndpoint.cs
-│   │   │   │
-│   │   │   └───GettingProductsByPage
+│   │   │   └───GettingServicesMessagesByPhotovoltaicId
 │   │   │       └───v1
-│   │   │               GetProductsByPage.cs
-│   │   │               GetProductsByPageEndpoint.cs
+│   │   │               GetServiceMessagesByPvId.cs
+│   │   │               GetServiceMessagesByPvIdEndpoint.cs
 │   │   │
-│   │   ├───Models
-│   │   │       Product.cs
-│   │   │
-│   │   └───ReadModel
-│   │           ProductReadModel.cs
+│   │   └───ReadModels
+│   │           PhotovoltaicServiceMessage.cs
+│   │           PhotovoltaicSystem.cs
+│   │           PhotovoltaicSystemAddress.cs
 │   │
 │   └───Shared
-│       ├───Data
-│       │       CatalogsDbContext.cs
+│       │   DefaultProblemDetailMapper.cs
+│       │
+│       ├───ApiClients
+│       │   │   ClientsMappingProfile.cs
+│       │   │
+│       │   └───PhotovoltaicSystems
+│       │       │   IPhotovoltaicSystemsApiClient.cs
+│       │       │   PhotovoltaicSystemsApiClient.cs
+│       │       │   PhotovoltaicSystemsApiClientOptions.cs
+│       │       │
+│       │       └───Dtos
+│       │               PhotovoltaicServiceMessageClientDto.cs
+│       │               PhotovoltaicSystemAddressClientDto.cs
+│       │               PhotovoltaicSystemClientDto.cs
 │       │
 │       └───Extensions
-│               WebApplicationBuilderExtensions.Infrastrcture.cs
+│           ├───WebApplicationBuilderExtensions
+│           │       ServiceCollectionExtensions.ApiClients.cs
+│           │       WebApplicationBuilderExtensions.Infrastrcture.cs
+│           │       WebApplicationBuilderExtensions.Versioning.cs
+│           │
+│           └───WebApplicationExtensions
+│                   WebApplicationExtensions.Infrastructure.cs
 │
-└───Vertical.Slice.Template.Api
-    │   appsettings.Development.json
-    │   appsettings.json
-    │   Program.cs
-    │   Vertical.Slice.Template.Api.csproj
-    │
-    ├───Extensions
-    │   └───WebApplicationBuilderExtensions
-    │           WebApplicationBuilderExtensions.ProblemDetails.cs
-    │           WebApplicationBuilderExtensions.Versioning.cs
-    │
-    └───Properties
-            launchSettings.json
+├───EnergyManagement.Api
+│   │   appsettings.Development.json
+│   │   appsettings.json
+│   │   appsettings.test.json
+│   │   EnergyManagement.Api.csproj
+│   │   EnergyManagementApiMetadata.cs
+│   │   Program.cs
+│   │
+│   └───Properties
+│           launchSettings.json
 ```
 
 ## Vertical Slice Flow

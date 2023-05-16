@@ -4,8 +4,8 @@
     <RootNamespace>Vertical.Slice.Template.ApiClientTests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ApiClient\ApiClient.csproj" />
-    <ProjectReference Include="..\..\src\App\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
+    <ProjectReference Include="..\..\src\Vertical.Slice.Template.ApiClient\Vertical.Slice.Template.ApiClient.csproj" />
+    <ProjectReference Include="..\..\src\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
     <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -26,5 +26,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  
+
 </Project>

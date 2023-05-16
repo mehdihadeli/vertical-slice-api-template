@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Vertical.Slice.Template.ApiClient</AssemblyName>
+    <RootNamespace>Vertical.Slice.Template.ApiClient</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vertical.Slice.Template.Shared\Vertical.Slice.Template.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="NSwag.ApiDescription.Client" />
+  </ItemGroup>
+
+  <!--  https://learn.microsoft.com/en-us/aspnet/core/web-api/microsoft.dotnet-openapi-->
+  <!--  https://devblogs.microsoft.com/dotnet/generating-http-api-clients-using-visual-studio-connected-services/-->
+  <!--  https://github.com/dotnet/aspnetcore/blob/main/src/Tools/Extensions.ApiDescription.Client/src/build/Microsoft.Extensions.ApiDescription.Client.props#L65-->
+  <!--  https://gist.github.com/stevetalkscode/69719465d8271f1e9fa412626fdadfcd-->
+  <!--  For existing options like Namespace command args in options tag doesn't work-->
+  <!--  dotnet openapi add url http://localhost:5158/swagger/v1/swagger.json-->
+  <!--  dotnet openapi refresh http://localhost:5158/swagger/v1/swagger.json-->
+  <ItemGroup>
+    <OpenApiReference Include="swagger.json" SourceUrl="http://localhost:5158/swagger/v1/swagger.json">
+      <Namespace>Catalogs.ApiClient</Namespace>
+      <ClassName>CatalogsApiClient</ClassName>
+      <OutputPath>Client.g.cs</OutputPath>
+      <Options>/ClassStyle:Record /DateTimeType:System.DateTime /UseBaseUrl:false /GenerateBaseUrlProperty:true /ExceptionClass:ApiException /GenerateClientInterfaces:true</Options>
+    </OpenApiReference>
+  </ItemGroup>
+</Project>

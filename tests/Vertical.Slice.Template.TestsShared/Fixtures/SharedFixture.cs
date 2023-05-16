@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Shared.EF;
 using Vertical.Slice.Template.Api;
+using Vertical.Slice.Template.Shared.EF;
 using Vertical.Slice.Template.TestsShared.Factory;
 using Xunit.Sdk;
 
