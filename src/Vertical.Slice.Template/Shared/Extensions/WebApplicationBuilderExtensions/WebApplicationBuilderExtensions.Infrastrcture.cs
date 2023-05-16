@@ -7,6 +7,7 @@ using Vertical.Slice.Template.Shared.Cache.Behaviours;
 using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Vertical.Slice.Template.Shared.EF;
 using Vertical.Slice.Template.Shared.Logging;
+using Vertical.Slice.Template.Shared.Resiliency;
 using Vertical.Slice.Template.Shared.Swagger;
 using Vertical.Slice.Template.Shared.Validation;
 using Vertical.Slice.Template.Shared.Validation.Extensions;

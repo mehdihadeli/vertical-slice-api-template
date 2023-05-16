@@ -12,22 +12,15 @@ public class InvalidateCachingBehavior<TRequest, TResponse> : IPipelineBehavior<
 {
     private readonly ILogger<InvalidateCachingBehavior<TRequest, TResponse>> _logger;
     private readonly IEasyCachingProvider _cacheProvider;
-    private readonly IEnumerable<IInvalidateCacheRequest<TRequest, TResponse>> _invalidateCachingPolicies;
-    private readonly CacheOptions _cacheOptions;
 
     public InvalidateCachingBehavior(
         ILogger<InvalidateCachingBehavior<TRequest, TResponse>> logger,
         IEasyCachingProviderFactory cachingProviderFactory,
-        IOptions<CacheOptions> cacheOptions,
-        IEnumerable<IInvalidateCacheRequest<TRequest, TResponse>> invalidateCachingPolicies
+        IOptions<CacheOptions> cacheOptions
     )
     {
-        _cacheOptions = cacheOptions.Value;
         _logger = logger;
         _cacheProvider = cachingProviderFactory.GetCachingProvider(cacheOptions.Value.DefaultCacheType);
-
-        // cachePolicies inject like `FluentValidation` approach as a nested or seperated cache class for commands ,queries
-        _invalidateCachingPolicies = invalidateCachingPolicies;
     }
 
     public async Task<TResponse> Handle(
@@ -61,7 +54,6 @@ public class StreamInvalidateCachingBehavior<TRequest, TResponse> : IStreamPipel
 {
     private readonly ILogger<StreamInvalidateCachingBehavior<TRequest, TResponse>> _logger;
     private readonly IEasyCachingProvider _cacheProvider;
-    private readonly CacheOptions _cacheOptions;
 
     public StreamInvalidateCachingBehavior(
         ILogger<StreamInvalidateCachingBehavior<TRequest, TResponse>> logger,
@@ -69,7 +61,6 @@ public class StreamInvalidateCachingBehavior<TRequest, TResponse> : IStreamPipel
         IOptions<CacheOptions> cacheOptions
     )
     {
-        _cacheOptions = cacheOptions.Value;
         _logger = logger;
         _cacheProvider = cachingProviderFactory.GetCachingProvider(cacheOptions.Value.DefaultCacheType);
     }

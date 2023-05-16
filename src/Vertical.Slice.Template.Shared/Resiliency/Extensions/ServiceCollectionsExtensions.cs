@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -113,9 +114,9 @@ public static class ServiceCollectionsExtensions
         // https://github.com/App-vNext/Polly/wiki/PolicyRegistry
         services.AddValidatedOptions<TClientOptions>();
 
+        services.RegisterCustomHandlers();
+
         services
-            .AddSingleton<CorrelationIdDelegatingHandler>()
-            .AddSingleton<UserAgentDelegatingHandler>()
             .AddHttpClient<TClient, TImplementation>()
             .ConfigureHttpClient(
                 (serviceProvider, httpClient) =>
@@ -152,11 +153,11 @@ public static class ServiceCollectionsExtensions
         // https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory#step-2-configure-a-client-with-polly-policies-in-startup
         services.AddValidatedOptions<TClientOptions>();
 
+        services.RegisterCustomHandlers();
+
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests#named-clients
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-7.0#createclient
         services
-            .AddSingleton<CorrelationIdDelegatingHandler>()
-            .AddSingleton<UserAgentDelegatingHandler>()
             .AddHttpClient(clientName)
             .ConfigureHttpClient(
                 (sp, httpClient) =>
@@ -175,5 +176,12 @@ public static class ServiceCollectionsExtensions
             .AddHttpMessageHandler<UserAgentDelegatingHandler>();
 
         return services;
+    }
+
+    private static void RegisterCustomHandlers(this IServiceCollection services)
+    {
+        // for preventing registering duplicate dependencies we should use `TrySingleton`
+        services.TryAddSingleton<CorrelationIdDelegatingHandler>();
+        services.TryAddSingleton<UserAgentDelegatingHandler>();
     }
 }
