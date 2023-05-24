@@ -1,11 +1,13 @@
 # Vertical Slice API Template
+
 [![NuGet](https://img.shields.io/nuget/v/Vertical.Slice.Template?style=flat-square)](https://www.nuget.org/packages/Vertical.Slice.Template)
 [![CI-CD](https://img.shields.io/github/actions/workflow/status/mehdihadeli/vertical-slice-api-template/ci-cd.yml?style=flat-square)](https://github.com/mehdihadeli/vertical-slice-api-template/actions/workflows/ci-cd.yml)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?&style=flat-square)](http://commitizen.github.io/cz-cli/)
 
-> This is a An `asp.net core template` based on `Vertical Slice Architecture`, CQRS, Minimal APIs, API Versioning and Swagger. Create a new project based on this template by clicking the above **Use this template** button or by installing and running the associated NuGet package (see Getting Started for full details). 
+> This is a An `asp.net core template` based on `Vertical Slice Architecture`, CQRS, Minimal APIs, API Versioning and Swagger. Create a new project based on this template by clicking the above **Use this template** button or by installing and running the associated NuGet package (see Getting Started for full details).
 
 ## Getting Started & Prerequisites
+
 1. This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
 2. Install git - [https://git-scm.com/downloads](https://git-scm.com/downloads).
 3. Install .NET Core 7.0 - [https://dotnet.microsoft.com/download/dotnet/7.0](https://dotnet.microsoft.com/download/dotnet/7.0).
@@ -15,11 +17,12 @@
 7. Create a folder for your solution and cd into it (the template will use it as project name)
 8. Run `dotnet new vsa` for short name or `dotnet new Vertical.Slice.Template -n <YourProjectName>` to create a new project template.
 9. Open [<YourProjectName>.sln](./Vertical.Slice.Template.sln) solution, make sure that's compiling.
-9. Navigate to `src/App/<YourProjectName>.Api` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
-10. Open web browser https://localhost:5158/swagger Swagger UI
+10. Navigate to `src/App/<YourProjectName>.Api` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
+11. Open web browser https://localhost:5158/swagger Swagger UI
 
 For install package locally you can use this command in the root of your cloned responsitory:
-``` bash
+
+```bash
 dotnet new install .
 ```
 
@@ -48,6 +51,7 @@ Thanks a bunch for supporting me!
 - [License](#license)
 
 ## Features
+
 - ✅ Using `Vertical Slice Architecture` as a high level architecture
 - ✅ Using `CQRS Pattern` on top of `MediatR` library
 - ✅ Using `Minimal APIs` for handling requests
@@ -60,6 +64,7 @@ Thanks a bunch for supporting me!
 - 🚧 Using `OpenTelemetry` for collection `Metrics` and `Distributed Tracing`
 
 ## Libraries
+
 - ✔️ **[`.NET 7`](https://dotnet.microsoft.com/download)** - .NET Framework and .NET Core, including ASP.NET and ASP.NET Core
 - ✔️ **[`Npgsql Entity Framework Core Provider`](https://www.npgsql.org/efcore/)** - Npgsql has an Entity Framework (EF) Core provider. It behaves like other EF Core providers (e.g. SQL Server), so the general EF Core docs apply here as well
 - ✔️ **[`FluentValidation`](https://github.com/FluentValidation/FluentValidation)** - Popular .NET validation library for building strongly-typed validation rules
@@ -78,6 +83,7 @@ Thanks a bunch for supporting me!
 ## Setup
 
 ### Dev Certificate
+
 This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide) and [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
 
 - Setup on windows and [`powershell`](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide#with-dotnet-dev-certs):
@@ -177,7 +183,7 @@ npm install husky --save-dev
 
 3. To install a tool for local access only (for the current directory and subdirectories), it has to be added to a manifest file. So we [Create a manifest file](https://learn.microsoft.com/en-us/dotnet/core/tools/local-tools-how-to-use#create-a-manifest-file) by running the dotnet new command:
 
-``` bash
+```bash
 dotnet new tool-manifest
 ```
 
@@ -274,82 +280,130 @@ Keeping such a split works great with CQRS. It segregates our operations and sli
 ![](./assets/module-structure.png)
 
 ### Folder Structure
-``` cmd
+
+```cmd
 src
 │   Directory.Build.props
 │   Directory.Build.targets
 │   Directory.Packages.props
 │
-├───EnergyManagement
-│   │   EnergyManagement.csproj
-│   │   EnergyManagementMetadata.cs
+├───Vertical.Slice.Template
+│   │   CatalogsMetadata.cs
 │   │   readme.md
+│   │   Vertical.Slice.Template.csproj
 │   │
-│   ├───PhotovoltaicSystems
-│   │   │   PhotovoltaicSystemConfigurations.cs
-│   │   │   PhotovoltaicSystemMappingProfile.cs
-│   │   │   SieveProductReadConfigurations.cs
+│   ├───Products
+│   │   │   ProductConfigurations.cs
+│   │   │   ProductMappingProfiles.cs
+│   │   │
+│   │   ├───Data
+│   │   │       ProductEntityTypeConfigurations.cs
+│   │   │       SieveProductReadConfigurations.cs
 │   │   │
 │   │   ├───Dtos
 │   │   │   └───v1
-│   │   │           PhotovoltaicServiceMessageDto.cs
-│   │   │           PhotovoltaicSystemAddressDto.cs
-│   │   │           PhotovoltaicSystemDto.cs
+│   │   │           ProductDto.cs
 │   │   │
 │   │   ├───Features
-│   │   │   ├───GettingPhotovoltaicSystems
+│   │   │   ├───CreatingProduct
 │   │   │   │   └───v1
-│   │   │   │           GetPhotovoltaicSystems.cs
-│   │   │   │           GetPhotovoltaicSystemsEndpoint.cs
+│   │   │   │           CreateProduct.cs
+│   │   │   │           CreateProductEndpoint.cs
+│   │   │   │           ProductCreated.cs
 │   │   │   │
-│   │   │   └───GettingServicesMessagesByPhotovoltaicId
+│   │   │   ├───GettingProductById
+│   │   │   │   └───v1
+│   │   │   │           GetProductById.cs
+│   │   │   │           GetProductByIdEndpoint.cs
+│   │   │   │
+│   │   │   └───GettingProductsByPage
 │   │   │       └───v1
-│   │   │               GetServiceMessagesByPvId.cs
-│   │   │               GetServiceMessagesByPvIdEndpoint.cs
+│   │   │               GetProductsByPage.cs
+│   │   │               GetProductsByPageEndpoint.cs
 │   │   │
-│   │   └───ReadModels
-│   │           PhotovoltaicServiceMessage.cs
-│   │           PhotovoltaicSystem.cs
-│   │           PhotovoltaicSystemAddress.cs
+│   │   ├───Models
+│   │   │       Product.cs
+│   │   │
+│   │   └───ReadModel
+│   │           ProductReadModel.cs
 │   │
 │   └───Shared
 │       │   DefaultProblemDetailMapper.cs
 │       │
-│       ├───ApiClients
-│       │   │   ClientsMappingProfile.cs
+│       ├───Data
+│       │   │   CatalogsDbContext.cs
+│       │   │   CatalogsDbContextDesignFactory.cs
 │       │   │
-│       │   └───PhotovoltaicSystems
-│       │       │   IPhotovoltaicSystemsApiClient.cs
-│       │       │   PhotovoltaicSystemsApiClient.cs
-│       │       │   PhotovoltaicSystemsApiClientOptions.cs
-│       │       │
-│       │       └───Dtos
-│       │               PhotovoltaicServiceMessageClientDto.cs
-│       │               PhotovoltaicSystemAddressClientDto.cs
-│       │               PhotovoltaicSystemClientDto.cs
+│       │   └───Migrations
+│       │       └───Catalogs
+│       │               20230502202201_InitialCatalogsMigration.cs
+│       │               20230502202201_InitialCatalogsMigration.Designer.cs
+│       │               CatalogsDbContextModelSnapshot.cs
 │       │
-│       └───Extensions
-│           ├───WebApplicationBuilderExtensions
-│           │       ServiceCollectionExtensions.ApiClients.cs
-│           │       WebApplicationBuilderExtensions.Infrastrcture.cs
-│           │       WebApplicationBuilderExtensions.Versioning.cs
-│           │
-│           └───WebApplicationExtensions
-│                   WebApplicationExtensions.Infrastructure.cs
+│       ├───Extensions
+│       │   ├───WebApplicationBuilderExtensions
+│       │   │       WebApplicationBuilderExtensions.Infrastrcture.cs
+│       │   │       WebApplicationBuilderExtensions.ProblemDetails.cs
+│       │   │       WebApplicationBuilderExtensions.Storage.cs
+│       │   │       WebApplicationBuilderExtensions.Versioning.cs
+│       │   │
+│       │   └───WebApplicationExtensions
+│       │           WebApplicationExtensions.Infrastructure.cs
+│       │
+│       └───Workers
+│               MigrationWorker.cs
+│               SeedWorker.cs
 │
-├───EnergyManagement.Api
+├───Vertical.Slice.Template.Api
 │   │   appsettings.Development.json
 │   │   appsettings.json
 │   │   appsettings.test.json
-│   │   EnergyManagement.Api.csproj
-│   │   EnergyManagementApiMetadata.cs
+│   │   CatalogsApiMetadata.cs
 │   │   Program.cs
+│   │   Vertical.Slice.Template.Api.csproj
 │   │
+│   ├───Extensions
+│   │   └───WebApplicationBuilderExtensions
 │   └───Properties
 │           launchSettings.json
+│
+├───Vertical.Slice.Template.ApiClient
+│   │   ClientsMappingProfile.cs
+│   │   nswag.json
+│   │   swagger.json
+│   │   Vertical.Slice.Template.ApiClient.csproj
+│   │
+│   ├───Catalogs
+│   │   │   CatalogsApiClientOptions.cs
+│   │   │   CatalogsClient.cs
+│   │   │   ICatalogsClient.cs
+│   │   │   Product.cs
+│   │   │
+│   │   └───Dtos
+│   │           CreateProductClientDto.cs
+│   │           GetGetProductsByPageClientDto.cs
+│   │
+│   ├───Extensions
+│   │       ServiceCollectionExtensions.cs
+│   │
+│   └───RickAndMorty
+│       │   IRickAndMortyClient.cs
+│       │   RickAndMortyClient.cs
+│       │   RikAndMortyApiClientOptions.cs
+│       │
+│       ├───Dtos
+│       │       CharacterResponseClientDto.cs
+│       │       LocationClientDto.cs
+│       │       OriginClientDto.cs
+│       │
+│       └───Model
+│               Character.cs
+│               Location.cs
+│               Origin.cs
 ```
 
 ## Vertical Slice Flow
+
 TODO
 
 ## How to Run
@@ -402,12 +456,13 @@ Project Tye is an experimental developer tool that makes developing, testing, an
 
 For installing `Tye` [local tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools#install-a-local-tool) to our existing [.Net tools](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install) we can use following command:
 
-``` bash
+```bash
 dotnet tool install Microsoft.Tye --version "0.11.0-alpha.22111.1"
 ```
+
 Then this tool will add to [.net tools manifest file](./.config/dotnet-tools.json) and After you check in the manifest file to the repository. To install all of the tools listed in the manifest file, we run the dotnet tool restore command:
 
-``` bash
+```bash
 dotnet tool restore
 ```
 
@@ -440,5 +495,3 @@ The application is in development status. You are feel free to submit pull reque
 ## License
 
 The project is under [MIT license](https://github.com/mehdihadeli/vertical-slice-api-template/blob/main/LICENSE).
-
-
