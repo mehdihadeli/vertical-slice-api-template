@@ -3,26 +3,27 @@ using Microsoft.AspNetCore.Routing;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 using Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
+using Vertical.Slice.Template.Shared;
 using Vertical.Slice.Template.Shared.Abstractions.Web;
 
 namespace Vertical.Slice.Template.Products;
 
-internal class ProductConfigurations : IModuleConfiguration
+internal static class ProductConfigurations
 {
     public const string Tag = "Products";
-    public const string ProductsPrefixUri = "api/v{version:apiVersion}/catalogs/products";
+    public const string ProductsPrefixUri = $"{CatalogsConfigurations.CatalogsPrefixUri}/products";
 
-    public WebApplicationBuilder AddModuleServices(WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddProductsServices(this WebApplicationBuilder builder)
     {
         return builder;
     }
 
-    public Task<WebApplication> ConfigureModule(WebApplication app)
+    public static Task<WebApplication> UseProducts(this WebApplication app)
     {
         return Task.FromResult(app);
     }
 
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
+    public static IEndpointRouteBuilder MapProductsEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var products = endpoints.NewVersionedApi(Tag);
         var productsV1 = products.MapGroup(ProductsPrefixUri).HasDeprecatedApiVersion(0.9).HasApiVersion(1.0);

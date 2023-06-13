@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Vertical.Slice.Template.Api;
+using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Vertical.Slice.Template.Shared.Data;
-using Vertical.Slice.Template.Shared.Web.Extensions.ServiceCollection;
 using Vertical.Slice.Template.TestsShared.Fixtures;
 using Vertical.Slice.Template.TestsShared.XunitCategories;
 

@@ -1,7 +1,7 @@
 using Sieve.Services;
 using Vertical.Slice.Template.Products.ReadModel;
 
-namespace Vertical.Slice.Template.Products.Data;
+namespace Vertical.Slice.Template.Products.Data.Configurations;
 
 public class SieveProductReadConfigurations : ISieveConfiguration
 {

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Vertical.Slice.Template.Shared.Abstractions.Web;
 using Vertical.Slice.Template.Shared.Core.Exceptions;
 
-namespace Vertical.Slice.Template.Shared;
+namespace Vertical.Slice.Template.Shared.Web.ProblemDetail;
 
 internal sealed class DefaultProblemDetailMapper : IProblemDetailMapper
 {

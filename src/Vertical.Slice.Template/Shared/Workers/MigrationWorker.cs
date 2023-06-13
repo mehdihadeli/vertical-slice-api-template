@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Vertical.Slice.Template.Shared.Data;
 
 namespace Vertical.Slice.Template.Shared.Workers;
 
-public class MigrationWorker : IHostedService
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services
+public class MigrationWorker : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<MigrationWorker> _logger;
@@ -17,24 +17,24 @@ public class MigrationWorker : IHostedService
         _logger = logger;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Migration worker started.");
+        _logger.LogInformation("Migration worker started");
 
         using var serviceScope = _serviceScopeFactory.CreateScope();
         var catalogDbContext = serviceScope.ServiceProvider.GetRequiredService<CatalogsDbContext>();
 
         _logger.LogInformation("Updating catalog database...");
 
-        await catalogDbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
+        await catalogDbContext.Database.MigrateAsync(cancellationToken: stoppingToken);
 
         _logger.LogInformation("Catalog database Updated");
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
+    public override Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Migration worker stopped.");
+        _logger.LogInformation("Migration worker stopped");
 
-        return Task.CompletedTask;
+        return base.StopAsync(cancellationToken);
     }
 }

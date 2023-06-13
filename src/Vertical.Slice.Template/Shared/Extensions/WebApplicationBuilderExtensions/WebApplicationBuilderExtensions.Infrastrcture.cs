@@ -1,17 +1,18 @@
 using CorrelationId.DependencyInjection;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Vertical.Slice.Template.Shared.Abstractions.Ef.Repository;
 using Vertical.Slice.Template.Shared.Cache;
 using Vertical.Slice.Template.Shared.Cache.Behaviours;
 using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
+using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.Shared.EF;
 using Vertical.Slice.Template.Shared.Logging;
-using Vertical.Slice.Template.Shared.Resiliency;
 using Vertical.Slice.Template.Shared.Swagger;
 using Vertical.Slice.Template.Shared.Validation;
 using Vertical.Slice.Template.Shared.Validation.Extensions;
 using Vertical.Slice.Template.Shared.Web.Extensions;
+using Vertical.Slice.Template.Shared.Web.Extensions.WebApplicationBuilderExtensions;
 
 namespace Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 
@@ -63,6 +64,9 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddAutoMapper(typeof(CatalogsMetadata).Assembly);
 
         builder.Services.AddCustomValidators(typeof(CatalogsMetadata).Assembly);
+
+        builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+        builder.Services.AddScoped(typeof(IReadRepository<>), typeof(GenericRepository<>));
 
         return builder;
     }

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Vertical.Slice.Template.Shared.Web.Middlewares.CaptureExceptionMiddleware;
+namespace Vertical.Slice.Template.Shared.Web.ProblemDetail.Middlewares.CaptureExceptionMiddleware;
 
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write
 public class CaptureExceptionMiddlewareImp

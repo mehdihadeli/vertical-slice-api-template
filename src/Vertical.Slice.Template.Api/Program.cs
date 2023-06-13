@@ -2,10 +2,9 @@ using System.Reflection;
 using Serilog;
 using Serilog.Events;
 using Vertical.Slice.Template;
-using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
-using Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
+using Vertical.Slice.Template.Shared;
+using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Vertical.Slice.Template.Shared.Swagger;
-using Vertical.Slice.Template.Shared.Web.Extensions.ServiceCollection;
 using Vertical.Slice.Template.Shared.Web.Minimal.Extensions;
 
 // https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
@@ -40,11 +39,7 @@ try
         }
     );
 
-    builder.AddInfrastructures();
-
-    builder.AddStorage();
-
-    builder.AddModulesServices();
+    builder.AddCatalogsServices();
 
     var app = builder.Build();
 
@@ -57,9 +52,9 @@ try
         );
     }
 
-    await app.UseInfrastructure();
+    await app.UseCatalogs();
 
-    await app.ConfigureModules();
+    app.MapCatalogsEndpoints();
 
     app.MapModulesEndpoints();
 
@@ -70,8 +65,6 @@ try
         app.UseCustomSwagger();
     }
     // #endif
-
-    app.MapGet("/", () => "Vertical.Slice.Template  Api.").ExcludeFromDescription();
 
     await app.RunAsync();
 }

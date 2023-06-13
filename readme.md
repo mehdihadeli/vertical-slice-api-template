@@ -410,10 +410,6 @@ TODO
 
 For running and debugging this application we could use our preferred Dev Environment, for example `Visual Studio`, `VsCode` Or `Rider` for me, it's Rider, So just open the [Vertical.Slice.Template.sln](./Vertical.Slice.Template.sln) solution file in the IDE and run, debug your application.
 
-For testing apis I used [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) plugin of VSCode its related file scenarios are available in [\_httpclients](_httpclients) folder. also after running api you have access to `swagger open api` for all microservices in `/swagger` route path.
-
-In this application I use a `fake email sender` with name of [ethereal](https://ethereal.email/) as a SMTP provider for sending email. after sending email by the application you can see the list of sent emails in [ethereal messages panel](https://ethereal.email/messages). My temp username and password is available inner the all of [appsettings file](./src/Services/Customers/ECommerce.Services.Customers.Api/appsettings.json).
-
 ### Using PM2
 
 For ruining all microservices and control on their running mode we could use [PM2](https://pm2.keymetrics.io/) tools. for installing `pm2` on our system globally we should use this command:

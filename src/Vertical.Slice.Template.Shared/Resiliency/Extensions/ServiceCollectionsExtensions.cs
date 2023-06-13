@@ -4,8 +4,8 @@ using Microsoft.Extensions.Options;
 using Polly;
 using Polly.CircuitBreaker;
 using Polly.Timeout;
+using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Vertical.Slice.Template.Shared.Resiliency.Options;
-using Vertical.Slice.Template.Shared.Web.Extensions.ServiceCollection;
 
 namespace Vertical.Slice.Template.Shared.Resiliency.Extensions;
 

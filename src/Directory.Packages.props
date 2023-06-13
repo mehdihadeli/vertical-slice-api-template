@@ -9,6 +9,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Ardalis.Specification.EntityFrameworkCore" Version="7.0.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.Network" Version="6.0.4" />
     <PackageVersion Include="AspNetCore.HealthChecks.Prometheus.Metrics" Version="6.0.2" />
     <PackageVersion Include="AspNetCore.HealthChecks.Publisher.Prometheus" Version="6.0.2" />

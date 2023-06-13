@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Vertical.Slice.Template.Shared.Web.Extensions;
-using Vertical.Slice.Template.Shared.Web.Middlewares.CaptureExceptionMiddleware;
+using Vertical.Slice.Template.Shared.Web.ProblemDetail.Middlewares.CaptureExceptionMiddleware;
 
 namespace Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
 

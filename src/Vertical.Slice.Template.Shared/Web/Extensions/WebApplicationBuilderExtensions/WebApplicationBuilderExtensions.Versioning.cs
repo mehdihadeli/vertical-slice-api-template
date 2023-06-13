@@ -1,7 +1,7 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Builder;
 
-namespace Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
+namespace Vertical.Slice.Template.Shared.Web.Extensions.WebApplicationBuilderExtensions;
 
 public static partial class WebApplicationBuilderExtensions
 {

@@ -16,3 +16,11 @@ public interface IHttpCommand<TRequest>
     IMapper Mapper { get; init; }
     CancellationToken CancellationToken { get; init; }
 }
+
+public interface IHttpCommand
+{
+    HttpContext HttpContext { get; init; }
+    IMediator Mediator { get; init; }
+    IMapper Mapper { get; init; }
+    CancellationToken CancellationToken { get; init; }
+}

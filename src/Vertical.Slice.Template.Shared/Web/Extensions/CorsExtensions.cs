@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Builder;
-using Vertical.Slice.Template.Shared.Web.Extensions.ServiceCollection;
+using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 
 namespace Vertical.Slice.Template.Shared.Web.Extensions;
 

@@ -5,7 +5,7 @@ using Vertical.Slice.Template.Products.Models;
 using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.Shared.EF;
 
-namespace Vertical.Slice.Template.Products.Data;
+namespace Vertical.Slice.Template.Products.Data.Configurations;
 
 public class ProductEntityTypeConfigurations : IEntityTypeConfiguration<Product>
 {

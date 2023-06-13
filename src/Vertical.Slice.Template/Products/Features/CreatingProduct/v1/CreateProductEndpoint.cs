@@ -55,12 +55,12 @@ internal static class CreateProductEndpoint
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#parameter-binding-for-argument-lists-with-asparameters
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding#binding-precedence
 internal record CreateProductRequestParameters(
-    [FromBody] CreateProductRequest Request,
+    [FromBody] CreateProductRequest? Request,
     HttpContext HttpContext,
     IMediator Mediator,
     IMapper Mapper,
     CancellationToken CancellationToken
-) : IHttpCommand<CreateProductRequest>;
+) : IHttpCommand<CreateProductRequest?>;
 
 internal record CreateProductResponse(Guid Id);
 

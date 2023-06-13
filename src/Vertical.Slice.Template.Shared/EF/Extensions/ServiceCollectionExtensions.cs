@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vertical.Slice.Template.Shared.Abstractions.Core.Domain.Events;
 using Vertical.Slice.Template.Shared.Abstractions.Ef;
 using Vertical.Slice.Template.Shared.Core.Extensions;
+using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Vertical.Slice.Template.Shared.EF.Interceptors;
-using Vertical.Slice.Template.Shared.Web.Extensions.ServiceCollection;
 
 namespace Vertical.Slice.Template.Shared.EF.Extensions;
 

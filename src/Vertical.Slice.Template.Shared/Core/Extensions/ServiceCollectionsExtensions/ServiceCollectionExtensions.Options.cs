@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 
-namespace Vertical.Slice.Template.Shared.Web.Extensions.ServiceCollection;
+namespace Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 
 public static partial class ServiceCollectionExtensions
 {

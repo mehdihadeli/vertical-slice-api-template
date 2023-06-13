@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace Vertical.Slice.Template.Shared.Web.Middlewares.CaptureExceptionMiddleware;
+namespace Vertical.Slice.Template.Shared.Web.ProblemDetail.Middlewares.CaptureExceptionMiddleware;
 
 public static class CaptureExceptionMiddlewareExtensions
 {

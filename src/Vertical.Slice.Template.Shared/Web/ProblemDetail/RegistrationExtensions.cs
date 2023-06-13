@@ -2,8 +2,8 @@ using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Scrutor;
 using Vertical.Slice.Template.Shared.Abstractions.Web;
+using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Vertical.Slice.Template.Shared.Core.Reflection;
-using Vertical.Slice.Template.Shared.Web.Extensions.ServiceCollection;
 
 namespace Vertical.Slice.Template.Shared.Web.ProblemDetail;
 

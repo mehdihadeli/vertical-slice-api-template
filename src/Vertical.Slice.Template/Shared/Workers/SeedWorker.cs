@@ -5,7 +5,8 @@ using Vertical.Slice.Template.Shared.Abstractions.Ef;
 
 namespace Vertical.Slice.Template.Shared.Workers;
 
-public class SeedWorker : IHostedService
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services
+public class SeedWorker : BackgroundService
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<SeedWorker> _logger;
@@ -22,9 +23,9 @@ public class SeedWorker : IHostedService
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Seed worker started.");
+        _logger.LogInformation("Seed worker started");
         if (!_webHostEnvironment.IsEnvironment("test"))
         {
             // https://stackoverflow.com/questions/38238043/how-and-where-to-call-database-ensurecreated-and-database-migrate
@@ -41,10 +42,10 @@ public class SeedWorker : IHostedService
         }
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
+    public override Task StopAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Seed worker stopped.");
+        _logger.LogInformation("Seed worker stopped");
 
-        return Task.CompletedTask;
+        return base.StopAsync(cancellationToken);
     }
 }

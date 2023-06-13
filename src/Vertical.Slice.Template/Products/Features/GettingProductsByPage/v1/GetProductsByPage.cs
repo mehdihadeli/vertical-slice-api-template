@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Sieve.Services;
 using Vertical.Slice.Template.Products.Dtos.v1;
 using Vertical.Slice.Template.Products.Models;
@@ -98,11 +99,9 @@ internal class DbExecutors : IDbExecutors
         services.AddTransient<GetProductsExecutor>(sp =>
         {
             var context = sp.GetRequiredService<CatalogsDbContext>();
-            var mapper = sp.GetRequiredService<IMapper>();
-
             IQueryable<Product> Query(CancellationToken cancellationToken)
             {
-                var collection = context.Products;
+                var collection = context.Products.AsNoTracking();
 
                 return collection;
             }
