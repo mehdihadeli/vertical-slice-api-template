@@ -13,17 +13,17 @@ internal static class ProductConfigurations
     public const string Tag = "Products";
     public const string ProductsPrefixUri = $"{CatalogsConfigurations.CatalogsPrefixUri}/products";
 
-    public static WebApplicationBuilder AddProductsServices(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddProductsModuleServices(this WebApplicationBuilder builder)
     {
         return builder;
     }
 
-    public static Task<WebApplication> UseProducts(this WebApplication app)
+    public static Task<WebApplication> UseProductsModule(this WebApplication app)
     {
         return Task.FromResult(app);
     }
 
-    public static IEndpointRouteBuilder MapProductsEndpoints(this IEndpointRouteBuilder endpoints)
+    public static IEndpointRouteBuilder MapProductsModuleEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var products = endpoints.NewVersionedApi(Tag);
         var productsV1 = products.MapGroup(ProductsPrefixUri).HasDeprecatedApiVersion(0.9).HasApiVersion(1.0);

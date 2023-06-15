@@ -25,6 +25,7 @@ public static partial class WebApplicationExtensions
             app.UseDeveloperExceptionPage();
 
             // https://github.com/dotnet/aspnetcore/issues/4765
+            // https://github.com/dotnet/aspnetcore/pull/47760
             app.UseCaptureException();
         }
 

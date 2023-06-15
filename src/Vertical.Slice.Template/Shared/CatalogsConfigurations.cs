@@ -14,11 +14,15 @@ public static class CatalogsConfigurations
     public static WebApplicationBuilder AddCatalogsServices(this WebApplicationBuilder builder)
     {
         // Shared
+        // Infrastructure
         builder.AddInfrastructures();
+
+        // Shared
+        // Catalogs Configurations
         builder.AddStorage();
 
         // Modules
-        builder.AddProductsServices();
+        builder.AddProductsModuleServices();
 
         return builder;
     }
@@ -29,7 +33,7 @@ public static class CatalogsConfigurations
         await app.UseInfrastructure();
 
         // Modules
-        await app.UseProducts();
+        await app.UseProductsModule();
 
         return app;
     }
@@ -40,7 +44,7 @@ public static class CatalogsConfigurations
         endpoints.MapGet("/", () => "Catalogs  Api.").ExcludeFromDescription();
 
         // Modules
-        endpoints.MapProductsEndpoints();
+        endpoints.MapProductsModuleEndpoints();
 
         return endpoints;
     }
