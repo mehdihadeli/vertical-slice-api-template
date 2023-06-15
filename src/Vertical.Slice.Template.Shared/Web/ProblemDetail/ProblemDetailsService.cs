@@ -42,7 +42,12 @@ public class ProblemDetailsService : IProblemDetailsService
                 var mappedStatusCode = problemDetailMapper.GetMappedStatusCodes(exceptionFeature.Error);
                 if (mappedStatusCode > 0)
                 {
-                    PopulateNewProblemDetail(context.ProblemDetails, mappedStatusCode, exceptionFeature.Error);
+                    PopulateNewProblemDetail(
+                        context.ProblemDetails,
+                        context.HttpContext,
+                        mappedStatusCode,
+                        exceptionFeature.Error
+                    );
                     context.HttpContext.Response.StatusCode = mappedStatusCode;
                 }
             }
@@ -76,6 +81,7 @@ public class ProblemDetailsService : IProblemDetailsService
 
     private static void PopulateNewProblemDetail(
         ProblemDetails existingProblemDetails,
+        HttpContext httpContext,
         int statusCode,
         Exception exception
     )
@@ -83,5 +89,6 @@ public class ProblemDetailsService : IProblemDetailsService
         existingProblemDetails.Title = exception.GetType().Name;
         existingProblemDetails.Detail = exception.Message;
         existingProblemDetails.Status = statusCode;
+        existingProblemDetails.Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}";
     }
 }
