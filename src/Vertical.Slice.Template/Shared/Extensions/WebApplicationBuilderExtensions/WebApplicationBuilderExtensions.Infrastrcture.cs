@@ -68,6 +68,9 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         builder.Services.AddScoped(typeof(IReadRepository<>), typeof(GenericRepository<>));
 
+        // External Clients
+        builder.AddCustomHttpClients();
+
         return builder;
     }
 }

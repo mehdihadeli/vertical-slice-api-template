@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.TestsShared.Fixtures;
@@ -7,7 +6,7 @@ using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.IntegrationTests;
 
-[Collection(IntegrationTestCollection.Name)]
+[Collection(IntegrationTestCatalogsCollection.Name)]
 public class CatalogsIntegrationTestBase : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>
 {
     public CatalogsIntegrationTestBase(

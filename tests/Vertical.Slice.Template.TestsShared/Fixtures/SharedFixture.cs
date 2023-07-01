@@ -4,12 +4,12 @@ using DotNet.Testcontainers.Configurations;
 using FluentAssertions;
 using FluentAssertions.Extensions;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
-using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.EF;
 using Vertical.Slice.Template.TestsShared.Factory;
 using Xunit.Sdk;
@@ -27,31 +27,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
     public Func<Task>? OnSharedFixtureInitialized;
     public Func<Task>? OnSharedFixtureDisposed;
-
-    public HttpClient GuestClient
-    {
-        get
-        {
-            if (_guestClient == null)
-            {
-                _guestClient = Factory.CreateClient();
-                // Set the media type of the request to JSON - we need this for getting problem details result for all http calls because problem details just return response for request with media type JSON
-                _guestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }
-            return _guestClient;
-        }
-    }
-
-    public ILogger Logger { get; }
-    public MsSqlContainerFixture MsSqlContainerFixture { get; }
-    public PostgresContainerFixture PostgresContainerFixture { get; }
-    public WebApplicationFactory<CatalogsApiMetadata> Factory { get; set; }
-    public IServiceProvider ServiceProvider => _serviceProvider ??= Factory.Services;
-
-    public IConfiguration Configuration => _configuration ??= ServiceProvider.GetRequiredService<IConfiguration>();
-
-    public IHttpContextAccessor HttpContextAccessor =>
-        _httpContextAccessor ??= ServiceProvider.GetRequiredService<IHttpContextAccessor>();
+    public bool AlreadyMigrated { get; set; }
 
     public SharedFixture(IMessageSink messageSink)
     {
@@ -93,26 +69,52 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         });
 
         Factory = new CustomWebApplicationFactory();
-        Factory = Factory.WithWebHostBuilder(wb =>
-        {
-            wb.ConfigureAppConfiguration(
-                (context, builder) =>
+        ConfigureTestConfigureApp(
+            (context, builder) =>
+            {
+                var dict = new Dictionary<string, string>
                 {
-                    var Dict = new Dictionary<string, string>
                     {
-                        {
-                            $"{nameof(PostgresOptions)}:{nameof(PostgresOptions.ConnectionString)}",
-                            PostgresContainerFixture.Container.GetConnectionString()
-                        }
-                    };
+                        $"{nameof(PostgresOptions)}:{nameof(PostgresOptions.ConnectionString)}",
+                        PostgresContainerFixture.Container.GetConnectionString()
+                    }
+                };
 
-                    // add in-memory configuration instead of using appestings.json and override existing settings and it is accessible via IOptions and Configuration
-                    // https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/
-                    builder.AddInMemoryCollection(Dict);
-                }
-            );
-        });
+                // add in-memory configuration instead of using appestings.json and override existing settings and it is accessible via IOptions and Configuration
+                // https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/
+                builder.AddInMemoryCollection(dict);
+            }
+        );
     }
+
+    /// <summary>
+    /// We should not dispose this GuestClient, because we reuse it in our tests
+    /// </summary>
+    public HttpClient GuestClient
+    {
+        get
+        {
+            if (_guestClient == null)
+            {
+                _guestClient = Factory.CreateDefaultClient();
+                // Set the media type of the request to JSON - we need this for getting problem details result for all http calls because problem details just return response for request with media type JSON
+                _guestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+
+            return _guestClient;
+        }
+    }
+
+    public ILogger Logger { get; }
+    public MsSqlContainerFixture MsSqlContainerFixture { get; }
+    public PostgresContainerFixture PostgresContainerFixture { get; }
+    public CustomWebApplicationFactory Factory { get; set; }
+    public IServiceProvider ServiceProvider => _serviceProvider ??= Factory.Services;
+
+    public IConfiguration Configuration => _configuration ??= ServiceProvider.GetRequiredService<IConfiguration>();
+
+    public IHttpContextAccessor HttpContextAccessor =>
+        _httpContextAccessor ??= ServiceProvider.GetRequiredService<IHttpContextAccessor>();
 
     public async Task InitializeAsync()
     {
@@ -143,6 +145,18 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         await Factory.DisposeAsync();
 
         _messageSink.OnMessage(new DiagnosticMessage("SharedFixture Stopped..."));
+    }
+
+    public void ConfigureTestServices(Action<IServiceCollection>? services)
+    {
+        if (services is not null)
+            Factory.TestConfigureServices += services;
+    }
+
+    public void ConfigureTestConfigureApp(Action<WebHostBuilderContext, IConfigurationBuilder>? cfg)
+    {
+        if (cfg is not null)
+            Factory.TestConfigureApp += cfg;
     }
 
     public async Task ResetDatabasesAsync(CancellationToken cancellationToken = default)

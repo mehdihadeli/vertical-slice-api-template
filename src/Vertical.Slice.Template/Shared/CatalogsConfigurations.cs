@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Routing;
 using Vertical.Slice.Template.Products;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
+using Vertical.Slice.Template.Users;
 
 namespace Vertical.Slice.Template.Shared;
 
 public static class CatalogsConfigurations
 {
-    public const string CatalogsPrefixUri = "api/v{version:apiVersion}/catalogs";
+    public const string CatalogsPrefixUri = "api/v{version:apiVersion}";
 
     public static WebApplicationBuilder AddCatalogsServices(this WebApplicationBuilder builder)
     {
@@ -23,6 +24,7 @@ public static class CatalogsConfigurations
 
         // Modules
         builder.AddProductsModuleServices();
+        builder.AddUsersModuleServices();
 
         return builder;
     }
@@ -45,6 +47,7 @@ public static class CatalogsConfigurations
 
         // Modules
         endpoints.MapProductsModuleEndpoints();
+        endpoints.MapUsersEndpoints();
 
         return endpoints;
     }

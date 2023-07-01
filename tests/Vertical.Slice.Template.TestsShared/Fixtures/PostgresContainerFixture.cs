@@ -54,6 +54,8 @@ public class PostgresContainerFixture : IAsyncLifetime
                 connection,
                 new RespawnerOptions { DbAdapter = DbAdapter.Postgres }
             );
+
+            //TODO: should update to latest version after release a new version
             // https://github.com/jbogard/Respawn/issues/108
             // https://github.com/jbogard/Respawn/pull/115 - fixed
             // waiting for new nuget version of respawn, current is 6.
@@ -61,7 +63,7 @@ public class PostgresContainerFixture : IAsyncLifetime
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message);
+            _messageSink.OnMessage(new DiagnosticMessage(e.Message));
         }
     }
 

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
@@ -15,12 +14,9 @@ public class DependencyTests : IClassFixture<SharedFixtureWithEfCore<CatalogsApi
     public DependencyTests(SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture)
     {
         _sharedFixture = sharedFixture;
-        sharedFixture.Factory = sharedFixture.Factory.WithWebHostBuilder(wb =>
+        sharedFixture.ConfigureTestServices(services =>
         {
-            wb.ConfigureTestServices(services =>
-            {
-                services.AddTransient<IServiceCollection>(_ => services);
-            });
+            services.AddTransient<IServiceCollection>(_ => services);
         });
     }
 

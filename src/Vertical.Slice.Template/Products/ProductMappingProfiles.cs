@@ -14,6 +14,7 @@ public class ProductMappingProfiles : Profile
     {
         CreateMap<Product, ProductReadModel>();
         CreateMap<ProductReadModel, ProductDto>();
+        CreateMap<Catalogs.ApiClient.ProductDto, Product>();
 
         CreateMap<CreateProductRequest, CreateProduct>();
         CreateMap<CreateProduct, Product>();

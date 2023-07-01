@@ -6,7 +6,7 @@ public class Constants
     {
         public static class Products
         {
-            private const string RootBaseAddress = "api/v1/catalogs";
+            private const string RootBaseAddress = "api/v1";
 
             private const string ProductsBaseAddress = $"{RootBaseAddress}/products";
 

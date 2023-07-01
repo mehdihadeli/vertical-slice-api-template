@@ -4,7 +4,6 @@ using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 using Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
 using Vertical.Slice.Template.Shared;
-using Vertical.Slice.Template.Shared.Abstractions.Web;
 
 namespace Vertical.Slice.Template.Products;
 

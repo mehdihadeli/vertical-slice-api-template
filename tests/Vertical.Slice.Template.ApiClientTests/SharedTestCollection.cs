@@ -6,7 +6,14 @@ namespace Vertical.Slice.Template.ApiClientTests;
 
 // https://stackoverflow.com/questions/43082094/use-multiple-collectionfixture-on-my-test-class-in-xunit-2-x
 [CollectionDefinition(Name)]
-public class SharedTestCollection : ICollectionFixture<SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext>>
+public class IntegrationTestCatalogsCollection
+    : ICollectionFixture<SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext>>
 {
-    public const string Name = "Vertical.Slice.Template.Shared Test Collection";
+    public const string Name = "Catalogs Integration Test";
+}
+
+[CollectionDefinition(Name)]
+public class IntegrationTestUsersCollection : ICollectionFixture<SharedFixture<CatalogsApiMetadata>>
+{
+    public const string Name = "Users Integration Test";
 }

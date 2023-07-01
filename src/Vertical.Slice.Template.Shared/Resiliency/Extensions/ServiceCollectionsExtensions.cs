@@ -1,3 +1,5 @@
+using CorrelationId;
+using CorrelationId.Abstractions;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -134,8 +136,14 @@ public static class ServiceCollectionsExtensions
             .AddPolicyHandlerFromRegistry(PolicyNames.CircuitBreaker)
             .AddPolicyHandlerFromRegistry(PolicyNames.Timeout)
             .AddPolicyHandlerFromRegistry(PolicyNames.Bulkhead)
-            .AddHttpMessageHandler<CorrelationIdDelegatingHandler>()
-            .AddHttpMessageHandler<UserAgentDelegatingHandler>();
+            .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
+        // .AddHttpMessageHandler(sp =>
+        // {
+        //     return new CorrelationIdDelegatingHandler(
+        //         sp.GetService<ICorrelationContextAccessor>(),
+        //         sp.GetService<IOptions<CorrelationIdOptions>>()
+        //     );
+        // };
 
         return services;
     }
@@ -181,8 +189,7 @@ public static class ServiceCollectionsExtensions
             .AddPolicyHandlerFromRegistry(PolicyNames.CircuitBreaker)
             .AddPolicyHandlerFromRegistry(PolicyNames.Timeout)
             .AddPolicyHandlerFromRegistry(PolicyNames.Bulkhead)
-            .AddHttpMessageHandler<CorrelationIdDelegatingHandler>()
-            .AddHttpMessageHandler<UserAgentDelegatingHandler>();
+            .AddHttpMessageHandler<CorrelationIdDelegatingHandler>();
 
         return services;
     }
@@ -190,7 +197,6 @@ public static class ServiceCollectionsExtensions
     private static void RegisterCustomHandlers(this IServiceCollection services)
     {
         // for preventing registering duplicate dependencies we should use `TrySingleton`
-        services.TryAddSingleton<CorrelationIdDelegatingHandler>();
-        services.TryAddSingleton<UserAgentDelegatingHandler>();
+        services.TryAddTransient<CorrelationIdDelegatingHandler>();
     }
 }
