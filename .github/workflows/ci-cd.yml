@@ -43,9 +43,9 @@ jobs:
       run: dotnet build Vertical.Slice.Template.sln -c Release --no-restore
 
     - name: Test
-      run: dotnet test Vertical.Slice.Template.sln --no-build
-
-  # https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
+      run: |
+          dotnet test Vertical.Slice.Template.sln --no-restore
+          
   create_nuget:
     if: ${{ contains(fromJson('["main"]'), github.ref_name) ||  github.event_name == 'release' }}
     needs: build
