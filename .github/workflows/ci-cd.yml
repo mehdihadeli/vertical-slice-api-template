@@ -43,7 +43,7 @@ jobs:
       run: dotnet build Vertical.Slice.Template.sln -c Release --no-restore
 
     - name: Test
-      run: dotnet test Vertical.Slice.Template.sln --verbosity normal --no-restore --no-build
+      run: dotnet test Vertical.Slice.Template.sln
 
   # https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
   create_nuget:
