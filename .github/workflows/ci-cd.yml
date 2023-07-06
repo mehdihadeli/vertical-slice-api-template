@@ -44,7 +44,7 @@ jobs:
 
     - name: Test
       run: |
-          dotnet test Vertical.Slice.Template.sln --no-restore
+          dotnet test Vertical.Slice.Template.sln  -c Release --no-restore  --no-build
           
   create_nuget:
     if: ${{ contains(fromJson('["main"]'), github.ref_name) ||  github.event_name == 'release' }}
