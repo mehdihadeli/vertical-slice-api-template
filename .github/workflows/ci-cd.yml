@@ -43,7 +43,7 @@ jobs:
       run: dotnet build Vertical.Slice.Template.sln -c Release --no-restore
 
     - name: Test
-      run: dotnet test Vertical.Slice.Template.sln
+      run: dotnet test Vertical.Slice.Template.sln --no-build
 
   # https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
   create_nuget:
@@ -69,11 +69,11 @@ jobs:
       run: dotnet restore Vertical.Slice.Template.sln
 
     - name: Build
-      run: dotnet build -c Release --no-restore
+      run: dotnet build  Vertical.Slice.Template.sln -c Release --no-restore
 
     # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack
     - name: Pack NuGet Package
-      run: dotnet pack --no-build --no-restore -c Release --output ${{ env.NuGetDirectory }}
+      run: dotnet pack  Vertical.Slice.Template.sln --no-build --no-restore -c Release --output ${{ env.NuGetDirectory }}
 
       # Publish the NuGet package as an artifact, so they can be used in the following jobs
     - uses: actions/upload-artifact@v3
