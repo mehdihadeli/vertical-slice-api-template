@@ -22,7 +22,9 @@ public class CatalogsServiceCatalogsTests : CatalogsTestBase
     public async Task create_product_can_create_product_with_valid_data()
     {
         // Arrange
-        var createProduct = new AutoFaker<CreateProductClientDto>().Generate();
+        var createProduct = new AutoFaker<CreateProductClientDto>()
+            .RuleFor(x => x.Name, f => f.Name.FullName())
+            .Generate();
 
         // Act
         var response = await CatalogsClient.CreateProductAsync(createProduct, CancellationToken.None);
@@ -36,7 +38,9 @@ public class CatalogsServiceCatalogsTests : CatalogsTestBase
     public async Task get_product_by_id_can_get_product_with_valid_data()
     {
         // Arrange
-        var createProduct = new AutoFaker<CreateProductClientDto>().Generate();
+        var createProduct = new AutoFaker<CreateProductClientDto>()
+            .RuleFor(x => x.Name, f => f.Name.FullName())
+            .Generate();
         var id = await CatalogsClient.CreateProductAsync(createProduct, CancellationToken.None);
 
         // Act
@@ -52,7 +56,9 @@ public class CatalogsServiceCatalogsTests : CatalogsTestBase
     public async Task get_product_by_page_can_get_products_with_valid_data()
     {
         // Arrange
-        var createProduct = new AutoFaker<CreateProductClientDto>().Generate();
+        var createProduct = new AutoFaker<CreateProductClientDto>()
+            .RuleFor(x => x.Name, f => f.Name.FullName())
+            .Generate();
         var id = await CatalogsClient.CreateProductAsync(createProduct, CancellationToken.None);
 
         // Act
