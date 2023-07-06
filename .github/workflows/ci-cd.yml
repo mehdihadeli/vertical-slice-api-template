@@ -28,7 +28,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 7.x
 
     - name: Cache NuGet Packages
       uses: actions/cache@v3
@@ -57,7 +57,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 7.x
 
     - name: Cache NuGet Packages
       uses: actions/cache@v3
@@ -127,6 +127,8 @@ jobs:
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.x
 
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
