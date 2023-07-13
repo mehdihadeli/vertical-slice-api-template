@@ -4,10 +4,10 @@ using Serilog.Events;
 using Vertical.Slice.Template;
 using Vertical.Slice.Template.Shared;
 using Vertical.Slice.Template.Shared.Core.Extensions.ServiceCollectionsExtensions;
+using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 using Vertical.Slice.Template.Shared.Logging;
 using Vertical.Slice.Template.Shared.Swagger;
 using Vertical.Slice.Template.Shared.Web.Minimal.Extensions;
-using Vertical.Slice.Template.Shared.Web.ProblemDetail.Middlewares.CaptureExceptionMiddleware;
 
 // https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
 Log.Logger = new LoggerConfiguration().MinimumLevel
@@ -20,6 +20,8 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     builder.AddCustomSerilog();
+
+    builder.AddAppProblemDetails();
 
     builder.Host.UseDefaultServiceProvider(
         (context, options) =>

@@ -40,8 +40,6 @@ public static partial class WebApplicationBuilderExtensions
 
         builder.AddCustomCors();
 
-        builder.AddAppProblemDetails();
-
         // https://github.com/tonerdo/dotnet-env
         DotNetEnv.Env.TraversePath().Load();
 

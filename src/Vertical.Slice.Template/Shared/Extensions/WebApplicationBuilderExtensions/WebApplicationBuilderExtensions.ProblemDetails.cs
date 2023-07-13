@@ -13,6 +13,10 @@ public static partial class WebApplicationBuilderExtensions
             // customization problem details should go here
             problemDetailsOptions.CustomizeProblemDetails = problemDetailContext =>
             {
+                // available in .net 8 preview 5
+                // https://github.com/dotnet/aspnetcore/pull/47760
+                var actualException = problemDetailContext.Exception;
+
                 // with help of capture exception middleware for capturing actual exception
                 // https://github.com/dotnet/aspnetcore/issues/4765
                 // https://github.com/dotnet/aspnetcore/pull/47760
