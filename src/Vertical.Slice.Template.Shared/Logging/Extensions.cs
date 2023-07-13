@@ -6,6 +6,7 @@ using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using Serilog.Formatting.Elasticsearch;
 using Serilog.Sinks.Elasticsearch;
 using Serilog.Sinks.Grafana.Loki;
+using Vertical.Slice.Template.Shared.Core.Extensions;
 using Vertical.Slice.Template.Shared.Web.Extensions;
 
 namespace Vertical.Slice.Template.Shared.Logging;

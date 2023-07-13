@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Vertical.Slice.Template.Shared.Web.Extensions;
+namespace Vertical.Slice.Template.Shared.Core.Extensions;
 
 /// <summary>
 /// Static helper class for <see cref="IConfiguration"/>.

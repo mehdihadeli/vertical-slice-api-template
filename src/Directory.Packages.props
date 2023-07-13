@@ -18,7 +18,7 @@
     <PackageVersion Include="CorrelationId" Version="3.0.1" />
     <PackageVersion Include="MassTransit.Abstractions" Version="8.0.14" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.4" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.4" />
@@ -37,7 +37,7 @@
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.4" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="7.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="7.0.9" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="7.0.1" />
@@ -48,8 +48,8 @@
     <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.0.64" />
     <PackageVersion Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
     <PackageVersion Include="Asp.Versioning.Http" Version="7.0.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc" Version="7.0.0-preview.2" />
-    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.0-preview.2" />
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="7.0.0" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.0" />
     <PackageVersion Include="Asp.Versioning.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.NET.Build.Containers" Version="0.2.7" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.4" />
@@ -76,30 +76,29 @@
     <PackageVersion Include="prometheus-net.AspNetCore.HealthChecks" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.5" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.5" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.4" />
     <PackageVersion Include="EFCore.NamingConventions" Version="7.0.2" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="Serilog" Version="2.12.0" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="6.0.1" />
+    <PackageVersion Include="Serilog" Version="3.0.1" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="7.0.0" />
     <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
     <PackageVersion Include="Serilog.Enrichers.Environment" Version="2.2.0" />
     <PackageVersion Include="Serilog.Enrichers.Span" Version="3.0.0" />
     <PackageVersion Include="Serilog.Exceptions" Version="8.4.0" />
-    <PackageVersion Include="Serilog.Extensions.Hosting" Version="5.0.1" />
-    <PackageVersion Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
-    <PackageVersion Include="Serilog.Formatting.Elasticsearch" Version="9.0.0" />
+    <PackageVersion Include="Serilog.Extensions.Hosting" Version="7.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
+    <PackageVersion Include="Serilog.Formatting.Elasticsearch" Version="9.0.3" />
     <PackageVersion Include="Serilog.Sinks.Async" Version="1.5.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
@@ -150,18 +149,18 @@
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="7.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
     <PackageVersion Include="NSwag.ApiDescription.Client" Version="13.0.5" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="AutoMapper" Version="12.0.1" />
-    <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageVersion Include="MediatR" Version="12.0.1" />
+    <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageVersion Include="MediatR" Version="12.1.1" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Bogus" Version="34.0.2" />
     <PackageVersion Include="AutoBogus" Version="2.13.1" />
-    <PackageVersion Include="Dapper" Version="2.0.123" />
+    <PackageVersion Include="Dapper" Version="2.0.143" />
     <PackageVersion Include="DotNetEnv" Version="2.5.0" />
     <PackageVersion Include="FluentMigrator.Extensions.Postgres" Version="3.3.2" />
     <PackageVersion Include="FluentMigrator.Runner.Postgres" Version="3.3.2" />
@@ -203,9 +202,9 @@
     <PackageVersion Include="Duende.IdentityServer.EntityFramework" Version="6.2.3" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="EasyCaching.Serialization.MessagePack" Version="1.8.0" />
-    <PackageVersion Include="EasyCaching.Serialization.Json" Version="1.8.0" />
-    <PackageVersion Include="EasyCaching.Redis" Version="1.8.0" />
+    <PackageVersion Include="EasyCaching.Serialization.MessagePack" Version="1.9.0" />
+    <PackageVersion Include="EasyCaching.Serialization.Json" Version="1.9.0" />
+    <PackageVersion Include="EasyCaching.Redis" Version="1.9.0" />
     <PackageVersion Include="EasyCaching.InMemory" Version="1.8.0" />
     <PackageVersion Include="EasyCaching.Core" Version="1.9.0" />
   </ItemGroup>

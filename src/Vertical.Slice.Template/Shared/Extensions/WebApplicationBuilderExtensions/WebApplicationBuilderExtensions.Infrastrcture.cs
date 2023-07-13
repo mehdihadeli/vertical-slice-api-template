@@ -20,8 +20,6 @@ public static partial class WebApplicationBuilderExtensions
 {
     public static WebApplicationBuilder AddInfrastructures(this WebApplicationBuilder builder)
     {
-        builder.AddCustomSerilog();
-
         builder.Services.AddCore();
 
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security
