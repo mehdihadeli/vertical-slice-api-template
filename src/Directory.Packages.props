@@ -139,6 +139,7 @@
     <PackageVersion Include="SmartanAlyzers.ExceptionAnalyzer" Version="1.0.10" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.354" />
     <PackageVersion Include="AsyncAwaitBestPractices" Version="6.0.6" />
+    <PackageVersion Include="StackExchange.Redis.Analyzer" Version="1.3.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="MassTransit" Version="8.0.14" />

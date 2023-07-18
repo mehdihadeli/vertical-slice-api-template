@@ -1,5 +1,7 @@
+using System.Globalization;
 using System.Net.Http.Json;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
 using Vertical.Slice.Template.Shared.Clients.Users.Dtos;
 using Vertical.Slice.Template.Shared.Core.Paging;
@@ -30,9 +32,16 @@ public class UsersHttpClient : IUsersHttpClient
         CancellationToken cancellationToken = default
     )
     {
+        // https://stackoverflow.com/a/67877742/581476
+        var qb = new QueryBuilder
+        {
+            { "limit", pageRequest.PageSize.ToString(CultureInfo.InvariantCulture) },
+            { "skip", pageRequest.PageNumber.ToString(CultureInfo.InvariantCulture) },
+        };
+
         // https://github.com/App-vNext/Polly#handing-return-values-and-policytresult
         var httpResponse = await _httpClient.GetAsync(
-            $"{_userHttpClientOptions.UsersEndpoint}?limit={pageRequest.PageSize}&skip={pageRequest.PageNumber}",
+            $"{_userHttpClientOptions.UsersEndpoint}?{qb.ToQueryString().Value}",
             cancellationToken
         );
 
@@ -48,7 +57,7 @@ public class UsersHttpClient : IUsersHttpClient
             throw new Exception("users page list cannot be null");
 
         var mod = usersListPage.Total % usersListPage.Limit;
-        var totalPageCount = usersListPage.Total / usersListPage.Limit + (mod == 0 ? 0 : 1);
+        var totalPageCount = (usersListPage.Total / usersListPage.Limit) + (mod == 0 ? 0 : 1);
 
         var items = _mapper.Map<IEnumerable<User>>(usersListPage.Users);
 
