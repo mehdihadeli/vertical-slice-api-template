@@ -16,9 +16,7 @@ public static class RegistrationExtensions
         params Assembly[] scanAssemblies
     )
     {
-        var assemblies = scanAssemblies.Any()
-            ? scanAssemblies
-            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
+        var assemblies = scanAssemblies.Any() ? scanAssemblies : AppDomain.CurrentDomain.GetAssemblies();
 
         services.AddProblemDetails(configure);
         services.ReplaceSingleton<IProblemDetailsService, ProblemDetailsService>();

@@ -26,7 +26,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddAuthentication().AddJwtBearer();
         builder.Services.AddAuthorization();
 
-        builder.AddCustomCaching();
+        builder.AddCustomEasyCaching();
 
         // https://github.com/stevejgordon/CorrelationId
         builder.Services.AddDefaultCorrelationId();
