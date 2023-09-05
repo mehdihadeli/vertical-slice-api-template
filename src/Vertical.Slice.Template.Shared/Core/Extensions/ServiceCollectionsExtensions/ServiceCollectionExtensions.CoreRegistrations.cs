@@ -1,4 +1,5 @@
 using System.Reflection;
+using Polly;
 using Sieve.Services;
 using Vertical.Slice.Template.Shared.Abstractions.Core.Domain.Events;
 using Vertical.Slice.Template.Shared.Abstractions.Ef.Repository;
@@ -20,6 +21,10 @@ public static partial class ServiceCollectionExtensions
 
         services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
         services.ScanAndRegisterDbExecutors(scanAssemblies);
+
+        var policy = Policy.Handle<System.Exception>().RetryAsync(2);
+        services.AddSingleton<AsyncPolicy>(policy);
+
         return services;
     }
 }

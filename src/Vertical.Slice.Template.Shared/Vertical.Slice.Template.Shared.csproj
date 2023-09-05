@@ -7,7 +7,6 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>Vertical.Slice.Template.Shared</AssemblyName>
@@ -36,6 +35,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" />
     <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
@@ -50,6 +50,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
     <PackageReference Include="System.Linq.Async" />
     <PackageReference Include="System.Linq.Async.Queryable" />
+    <PackageReference Include="System.Net.Http.Json" />
   </ItemGroup>
   
   <ItemGroup>
@@ -75,7 +76,4 @@
     <PackageReference Include="Serilog.Sinks.Debug" />
   </ItemGroup>
   
-  <ItemGroup>
-    <Folder Include="Core\Types" />
-  </ItemGroup>
 </Project>
