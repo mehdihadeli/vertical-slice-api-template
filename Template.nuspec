@@ -9,7 +9,7 @@
     <id>Vertical.Slice.Template</id>
     <title>Vertical Slice API Template</title>
     <authors>Mehdi Hadeli</authors>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
     <description>An asp.net core template based on Vertical Slice Architecture, CQRS, Minimal APIs, API Versioning and Swagger.</description>
     <projectUrl>https://github.com/mehdihadeli/vertical-slice-api-template</projectUrl>
     <repository type="git" url="https://github.com/mehdihadeli/vertical-slice-api-template.git" branch="main" />

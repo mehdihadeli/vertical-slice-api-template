@@ -11,7 +11,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-	<PackageVersion>1.0.7</PackageVersion>
+	<PackageVersion>1.0.8</PackageVersion>
     <PackageId>Vertical.Slice.Template</PackageId>
     <Title>Vertical Slice API Template</Title>
     <Authors>Mehdi Hadeli</Authors>
