@@ -11,7 +11,6 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-	<PackageVersion>1.0.8</PackageVersion>
     <PackageId>Vertical.Slice.Template</PackageId>
     <Title>Vertical Slice API Template</Title>
     <Authors>Mehdi Hadeli</Authors>
@@ -31,6 +30,7 @@
     <PackageIcon>icon.png</PackageIcon>
 	<EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
+  
 
   <ItemGroup>
     <Content Include="**\*" Exclude="**\bin\**\*;**\obj\**\*;**\.template.config\**\*;Template.csproj;Template.nuspec;icon.png;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;" />

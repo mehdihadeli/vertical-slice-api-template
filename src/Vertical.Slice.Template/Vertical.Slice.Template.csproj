@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <ProjectReference Include="..\Vertical.Slice.Template.ApiClient\Vertical.Slice.Template.ApiClient.csproj" />
     <ProjectReference Include="..\Vertical.Slice.Template.Shared\Vertical.Slice.Template.Shared.csproj" />

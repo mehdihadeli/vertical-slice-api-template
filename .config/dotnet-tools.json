@@ -25,6 +25,12 @@
       "commands": [
         "dotnet-ef"
       ]
+    },
+    "nbgv": {
+      "version": "3.6.133",
+      "commands": [
+        "nbgv"
+      ]
     }
   }
 }
