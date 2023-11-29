@@ -86,6 +86,13 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         );
     }
 
+    public void SetOutputHelper(ITestOutputHelper outputHelper)
+    {
+        // var loggerFactory = ServiceProvider.GetRequiredService<ILoggerFactory>();
+        // loggerFactory.AddXUnit(outputHelper);
+        Factory.SetOutputHelper(outputHelper);
+    }
+
     /// <summary>
     /// We should not dispose this GuestClient, because we reuse it in our tests
     /// </summary>

@@ -196,7 +196,7 @@ dotnet tool install csharpier
 dotnet tool install dotnet-format
 ```
 
-5. Add `prepare` command for installing and activating `husky hooks` and `restoring` our installed [dotnet tools](.config/dotnet-tools.json) in the previous step to the [package.json](package.json) file:
+5. Add `prepare` command for installing and activating `husky hooks` that we will add in the next steps and `restoring` our installed [dotnet tools](.config/dotnet-tools.json) in the previous step to the [package.json](package.json) file:
 
 ```bash
 npm pkg set scripts.prepare="husky install && dotnet tool restore"
@@ -208,7 +208,7 @@ npm pkg set scripts.prepare="husky install && dotnet tool restore"
 mkdir .husky
 ```
 
-7. Link Husky and formatting tools:
+7. Add formatting and Linting hooks to the husky:
 
 ```bash
 npx husky add .husky/pre-commit "dotnet format && git add -A ."

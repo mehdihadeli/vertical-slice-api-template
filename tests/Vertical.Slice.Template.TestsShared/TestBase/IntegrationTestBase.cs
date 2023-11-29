@@ -1,3 +1,4 @@
+using Meziantou.Extensions.Logging.InMemory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,7 @@ using Vertical.Slice.Template.TestsShared.Fixtures;
 
 namespace Vertical.Slice.Template.TestsShared.TestBase;
 
-public abstract class IntegrationTest<TEntryPoint> : IAsyncLifetime
+public abstract class IntegrationTest<TEntryPoint> :XunitContextBase, IAsyncLifetime
     where TEntryPoint : class
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -17,10 +18,17 @@ public abstract class IntegrationTest<TEntryPoint> : IAsyncLifetime
     protected IServiceScope Scope { get; }
     protected SharedFixture<TEntryPoint> SharedFixture { get; }
 
-    protected IntegrationTest(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper)
+    /// <summary>
+    /// Use for tracking occured log events for testing purposes
+    /// </summary>
+    protected InMemoryLoggerProvider InMemoryLogTrackerProvider { get; }
+
+    protected IntegrationTest(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper): base(outputHelper)
     {
         _outputHelper = outputHelper;
         SharedFixture = sharedFixture;
+
+        SharedFixture.SetOutputHelper(outputHelper);
 
         CancellationTokenSource = new(TimeSpan.FromSeconds(Timeout));
         CancellationToken.ThrowIfCancellationRequested();
@@ -36,6 +44,7 @@ public abstract class IntegrationTest<TEntryPoint> : IAsyncLifetime
 
         // Build Service Provider here
         Scope = SharedFixture.ServiceProvider.CreateScope();
+        InMemoryLogTrackerProvider = sharedFixture.Factory.InMemoryLogTrackerProvider;
     }
 
     protected virtual void RegisterTestConfigureServices(IServiceCollection services) { }
@@ -82,7 +91,7 @@ public abstract class IntegrationTest<TEntryPoint> : IAsyncLifetime
         // it is better messages delete first
         await SharedFixture.ResetDatabasesAsync(CancellationToken);
 
-        CancellationTokenSource.Cancel();
+        await CancellationTokenSource.CancelAsync();
 
         Scope.Dispose();
     }

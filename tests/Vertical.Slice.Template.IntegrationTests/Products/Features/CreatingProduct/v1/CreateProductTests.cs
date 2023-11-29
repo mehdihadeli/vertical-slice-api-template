@@ -20,6 +20,9 @@ public class CreateProductTests : CatalogsIntegrationTestBase
     [CategoryTrait(TestCategory.Integration)]
     public async Task should_create_new_product_with_valid_input_in_sql_db()
     {
+        InMemoryLogTrackerProvider.Logs.Errors.Should().BeEmpty();
+        InMemoryLogTrackerProvider.Logs.Informations.Should().NotBeEmpty();
+
         // Arrange
         var fakeCategoryId = Guid.NewGuid();
 

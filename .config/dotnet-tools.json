@@ -31,6 +31,12 @@
       "commands": [
         "nbgv"
       ]
+    },
+    "dotnet-depends": {
+      "version": "0.7.0",
+      "commands": [
+        "dotnet-depends"
+      ]
     }
   }
 }
