@@ -40,9 +40,10 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
             .CreateLogger()
             .ForContext<SharedFixture<TEntryPoint>>();
 
-        TestcontainersSettings.Logger = new Serilog.Extensions.Logging.SerilogLoggerFactory(Logger).CreateLogger(
-            "TestContainer"
-        );
+        // //// TODO: Breaking change in the testcontainer upgrade
+        // TestcontainersSettings.Logger = new Serilog.Extensions.Logging.SerilogLoggerFactory(Logger).CreateLogger(
+        //     "TestContainer"
+        // );
 
         // Service provider will build after getting with get accessors, we don't want to build our service provider here
         MsSqlContainerFixture = new MsSqlContainerFixture(messageSink);

@@ -29,7 +29,7 @@
     <PackageVersion Include="Respawn" Version="6.2.1" />
     <PackageVersion Include="RichardSzalay.MockHttp" Version="7.0.0" />
     <PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
-    <PackageVersion Include="Serilog.Sinks.XUnit" Version="3.0.3" />
+    <PackageVersion Include="Serilog.Sinks.XUnit" Version="3.0.5" />
     <PackageVersion Include="Squadron.Mongo" Version="0.18.0" />
     <PackageVersion Include="System.Reactive.Linq" Version="6.0.1" />
     <PackageVersion Include="Testcontainers" Version="3.9.0" />
@@ -44,11 +44,12 @@
     <PackageVersion Include="RestAssured.NET" Version="4.2.2" />
     <PackageVersion Include="WireMock.NET" Version="1.5.13" />
     <PackageVersion Include="Thinkcode.RabbitMQ.OpenAPI" Version="1.0.8" />
-    <PackageVersion Include="EasyNetQ.Management.Client" Version="1.4.2" />
+    <PackageVersion Include="EasyNetQ.Management.Client" Version="3.0.0" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
     <PackageVersion Include="xunit" Version="2.9.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
     <PackageVersion Include="AnyOf" Version="0.3.0" />
     <PackageVersion Include="Meziantou.Extensions.Logging.InMemory" Version="1.2.0" />
+    <PackageVersion Include="NSwag.MSBuild" Version="14.1.0" />
   </ItemGroup>
 </Project>
