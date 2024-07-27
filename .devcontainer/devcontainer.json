@@ -23,8 +23,8 @@
     "ghcr.io/devcontainers/features/dotnet:2": {
       // this version should be matched with global.json .net version for working vscode IntelliSense correctly
       "version": "8.0.303",
-      "additionalVersions": "latest, 7.0.410, 8.0.303, 6.0.424",
-      "aspNetCoreRuntimeVersions": "latest, 7.0"
+      "additionalVersions": "latest, 8.0.303",
+      "aspNetCoreRuntimeVersions": "latest"
     },
     // https://github.com/devcontainers/features/tree/main/src/github-cli
     "ghcr.io/devcontainers/features/github-cli:1": {
@@ -36,15 +36,6 @@
     },
     // https://github.com/devcontainers/features/tree/main/src/node
     "ghcr.io/devcontainers/features/node:1": {},
-    // // https://github.com/devcontainers/features/tree/main/src/kubectl-helm-minikube
-    // "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
-    // // https://github.com/devcontainers/features/tree/main/src/terraform
-    // "ghcr.io/devcontainers/features/terraform:1": {},
-    // https://github.com/devcontainers/features/tree/main/src/docker-in-docker
-    // https://devopscube.com/run-docker-in-docker/
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "dockerDashComposeVersion": "v2"
-    },
     "ghcr.io/devcontainers/features/git:1": {},
     // https://github.com/devcontainers/features/tree/main/src/common-utils
     "ghcr.io/devcontainers/features/common-utils:2": {
@@ -56,33 +47,37 @@
     // Configure properties specific to VS Code.
     "vscode": {
       "settings": {
-		  "git.autofetch": true,
-		  "files.autoSave": "onFocusChange",
-		  "editor.formatOnSave": true,
-		  "editor.suggest.snippetsPreventQuickSuggestions": false,
-		  "explorer.autoReveal": true,
-		  "resmon.show.cpufreq": false,
-		  "dotnet.defaultSolution": "food-delivery.sln",
-		  "dotnet.server.startTimeout": 60000,
-		  "omnisharp.projectLoadTimeout": 60,
-		  "workbench.colorTheme": "Visual Studio Light",
-		  "workbench.iconTheme": "material-icon-theme",
-		  "editor.minimap.enabled": false,
-		  "editor.fontFamily": "'MesloLGM Nerd Font', 'Droid Sans Mono', 'monospace', 'Droid Sans Fallback', 'Consolas'",
-		  "editor.fontSize": 14,
-		  "explorer.confirmDelete": false,
-		  "terminal.integrated.defaultProfile.windows": "PowerShell",
-		  "terminal.integrated.defaultProfile.linux": "zsh",
-		  "powershell.cwd": "~",
-		  "terminal.external.windowsExec": "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\pwsh.exe",
-		  "[jsonc]": {
-			"editor.defaultFormatter": "esbenp.prettier-vscode"
-		  },
-		  "editor.smoothScrolling": true,
-		  "editor.wordWrap": "on",
-		  "editor.defaultFormatter": "esbenp.prettier-vscode",
-		  "editor.guides.bracketPairs": true,
-		  "explorer.experimental.fileNesting.enabled": true
+        "git.autofetch": true,
+        "files.autoSave": "onFocusChange",
+        "editor.formatOnSave": true,
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "explorer.autoReveal": true,
+        "resmon.show.cpufreq": false,
+        "dotnet.defaultSolution": "Vertical.Slice.Template.sln",
+        "dotnet.server.startTimeout": 60000,
+        "omnisharp.projectLoadTimeout": 60,
+        "workbench.colorTheme": "Visual Studio Light",
+        "workbench.iconTheme": "material-icon-theme",
+        "editor.minimap.enabled": false,
+        "editor.fontFamily": "'MesloLGM Nerd Font', 'Droid Sans Mono', 'monospace', 'Droid Sans Fallback', 'Consolas'",
+        "editor.fontSize": 14,
+        "explorer.confirmDelete": false,
+        "terminal.integrated.defaultProfile.windows": "PowerShell",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "powershell.cwd": "~",
+        "terminal.external.windowsExec": "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\pwsh.exe",
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "editor.smoothScrolling": true,
+        "editor.wordWrap": "on",
+        "editor.guides.bracketPairs": true,
+        "explorer.experimental.fileNesting.enabled": true,
+        "[csharp]": {
+          "editor.defaultFormatter": "csharpier.csharpier-vscode",
+          "editor.formatOnSave": true
+        }
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
@@ -98,16 +93,17 @@
         "PKief.material-icon-theme",
         "EditorConfig.EditorConfig",
         "DavidAnson.vscode-markdownlint",
-		"IBM.output-colorizer", // Colorize your output/test logs
+        "IBM.output-colorizer", // Colorize your output/test logs
         "emmanuelbeziat.vscode-great-icons",
-		"esbenp.prettier-vscode",
-		"vscode-icons-team.vscode-icons",
+        "esbenp.prettier-vscode",
+        "csharpier.csharpier-vscode",
+        "vscode-icons-team.vscode-icons",
         "redhat.vscode-yaml"
       ]
     }
   },
   "hostRequirements": {
-    "cpus": 2,
+    "cpus": 4,
     "memory": "8gb",
     "storage": "32gb"
   },
