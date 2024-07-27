@@ -8,7 +8,7 @@ using Vertical.Slice.Template.TestsShared.Fixtures;
 
 namespace Vertical.Slice.Template.TestsShared.TestBase;
 
-public abstract class IntegrationTest<TEntryPoint> :XunitContextBase, IAsyncLifetime
+public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLifetime
     where TEntryPoint : class
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -23,7 +23,8 @@ public abstract class IntegrationTest<TEntryPoint> :XunitContextBase, IAsyncLife
     /// </summary>
     protected InMemoryLoggerProvider InMemoryLogTrackerProvider { get; }
 
-    protected IntegrationTest(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper): base(outputHelper)
+    protected IntegrationTest(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper)
+        : base(outputHelper)
     {
         _outputHelper = outputHelper;
         SharedFixture = sharedFixture;

@@ -21,5 +21,5 @@ public record EntityId : EntityId<long>
         return id.Value;
     }
 
-    public new static EntityId CreateEntityId(long id) => new() { Value = id };
+    public static new EntityId CreateEntityId(long id) => new() { Value = id };
 }

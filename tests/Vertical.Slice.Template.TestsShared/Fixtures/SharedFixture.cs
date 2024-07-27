@@ -34,8 +34,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         messageSink.OnMessage(new DiagnosticMessage("Constructing SharedFixture..."));
 
         //https://github.com/trbenning/serilog-sinks-xunit
-        Logger = new LoggerConfiguration().MinimumLevel
-            .Verbose()
+        Logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
             .WriteTo.TestOutput(messageSink)
             .CreateLogger()
             .ForContext<SharedFixture<TEntryPoint>>();

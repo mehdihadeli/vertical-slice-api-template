@@ -28,9 +28,8 @@ public static class ReflectionUtilities
         var inputAssembly = assembly ?? Assembly.GetExecutingAssembly();
         return inputAssembly
             .GetTypes()
-            .Where(
-                type =>
-                    typeof(TInterface).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type.IsClass
+            .Where(type =>
+                typeof(TInterface).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type.IsClass
             );
     }
 
@@ -74,8 +73,8 @@ public static class ReflectionUtilities
         if (referencedAssemblies == null)
             return null;
 
-        return AppDomain.CurrentDomain
-            .GetAssemblies()
+        return AppDomain
+            .CurrentDomain.GetAssemblies()
             .Where(a => referencedAssemblies.Contains(a.FullName))
             .SelectMany(a => a.GetTypes().Where(x => x.FullName == typeName || x.Name == typeName))
             .FirstOrDefault();
@@ -83,8 +82,8 @@ public static class ReflectionUtilities
 
     public static Type? GetFirstMatchingTypeFromCurrentDomainAssemblies(string typeName)
     {
-        return AppDomain.CurrentDomain
-            .GetAssemblies()
+        return AppDomain
+            .CurrentDomain.GetAssemblies()
             .SelectMany(a => a.GetTypes().Where(x => x.FullName == typeName || x.Name == typeName))
             .FirstOrDefault();
     }

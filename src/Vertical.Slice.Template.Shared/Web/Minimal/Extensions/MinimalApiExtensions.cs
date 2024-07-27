@@ -19,13 +19,12 @@ public static class MinimalApiExtensions
             ? scanAssemblies
             : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
 
-        applicationBuilder.Services.Scan(
-            scan =>
-                scan.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IMinimalEndpoint)))
-                    .UsingRegistrationStrategy(RegistrationStrategy.Append)
-                    .As<IMinimalEndpoint>()
-                    .WithLifetime(ServiceLifetime.Scoped)
+        applicationBuilder.Services.Scan(scan =>
+            scan.FromAssemblies(assemblies)
+                .AddClasses(classes => classes.AssignableTo(typeof(IMinimalEndpoint)))
+                .UsingRegistrationStrategy(RegistrationStrategy.Append)
+                .As<IMinimalEndpoint>()
+                .WithLifetime(ServiceLifetime.Scoped)
         );
 
         return applicationBuilder.Services;
@@ -40,13 +39,12 @@ public static class MinimalApiExtensions
             ? scanAssemblies
             : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
 
-        services.Scan(
-            scan =>
-                scan.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IMinimalEndpoint)))
-                    .UsingRegistrationStrategy(RegistrationStrategy.Append)
-                    .As<IMinimalEndpoint>()
-                    .WithLifetime(ServiceLifetime.Scoped)
+        services.Scan(scan =>
+            scan.FromAssemblies(assemblies)
+                .AddClasses(classes => classes.AssignableTo(typeof(IMinimalEndpoint)))
+                .UsingRegistrationStrategy(RegistrationStrategy.Append)
+                .As<IMinimalEndpoint>()
+                .WithLifetime(ServiceLifetime.Scoped)
         );
 
         return services;
@@ -72,15 +70,12 @@ public static class MinimalApiExtensions
             .ToDictionary(x => x.Key, c => builder.NewVersionedApi(c.Key).WithTags(c.Key));
 
         var versionSubGroups = endpoints
-            .GroupBy(
-                x =>
-                    new
-                    {
-                        x.GroupName,
-                        x.PrefixRoute,
-                        x.Version
-                    }
-            )
+            .GroupBy(x => new
+            {
+                x.GroupName,
+                x.PrefixRoute,
+                x.Version
+            })
             .ToDictionary(
                 x => x.Key,
                 c => versionGroups[c.Key.GroupName].MapGroup(c.Key.PrefixRoute).HasApiVersion(c.Key.Version)
@@ -88,15 +83,12 @@ public static class MinimalApiExtensions
 
         var endpointVersions = endpoints
             .GroupBy(x => new { x.GroupName, x.Version })
-            .Select(
-                x =>
-                    new
-                    {
-                        Verion = x.Key.Version,
-                        x.Key.GroupName,
-                        Endpoints = x.Select(v => v)
-                    }
-            );
+            .Select(x => new
+            {
+                Verion = x.Key.Version,
+                x.Key.GroupName,
+                Endpoints = x.Select(v => v)
+            });
 
         foreach (var endpointVersion in endpointVersions)
         {

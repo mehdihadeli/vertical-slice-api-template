@@ -18,8 +18,8 @@ public static class HttpResponseMessageExtensions
         object expectedProblem
     )
     {
-        var responseProblemDetails = assertions.Subject.Content
-            .ReadFromJsonAsync<ProblemDetails>()
+        var responseProblemDetails = assertions
+            .Subject.Content.ReadFromJsonAsync<ProblemDetails>()
             .GetAwaiter()
             .GetResult();
         responseProblemDetails.Should().BeEquivalentTo(expectedProblem);
@@ -41,8 +41,8 @@ public static class HttpResponseMessageExtensions
         string? title = null
     )
     {
-        var responseProblemDetails = assertions.Subject.Content
-            .ReadFromJsonAsync<ProblemDetails>()
+        var responseProblemDetails = assertions
+            .Subject.Content.ReadFromJsonAsync<ProblemDetails>()
             .GetAwaiter()
             .GetResult();
         responseProblemDetails.Should().NotBeNull();
@@ -67,8 +67,8 @@ public static class HttpResponseMessageExtensions
         ProblemDetails expectedProblemDetails
     )
     {
-        var responseProblemDetails = assertions.Subject.Content
-            .ReadFromJsonAsync<ProblemDetails>()
+        var responseProblemDetails = assertions
+            .Subject.Content.ReadFromJsonAsync<ProblemDetails>()
             .GetAwaiter()
             .GetResult();
         responseProblemDetails.Should().NotBeNull();

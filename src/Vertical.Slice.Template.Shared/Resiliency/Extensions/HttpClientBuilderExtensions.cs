@@ -18,42 +18,44 @@ public static class HttpClientBuilderExtensions
                 var policyOptions = serviceProvider.GetRequiredService<IOptions<PolicyOptions>>().Value;
 
                 var retryPolicy =
-                // HttpPolicyExtensions.HandleTransientHttpError()
-                Policy
-                    .Handle<HttpRequestException>()
-                    .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
-                    .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
-                    .WaitAndRetryAsync(
-                        policyOptions.RetryPolicyOptions.Count,
-                        retryAttempt =>
-                            TimeSpan.FromSeconds(Math.Pow(policyOptions.RetryPolicyOptions.BackoffPower, retryAttempt)),
-                        onRetry: (outcome, timespan, retryAttempt, context) =>
-                        {
-                            if (outcome.Result != null)
+                    // HttpPolicyExtensions.HandleTransientHttpError()
+                    Policy
+                        .Handle<HttpRequestException>()
+                        .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+                        .Or<TimeoutRejectedException>() // thrown by Polly's TimeoutPolicy if the inner call times out
+                        .WaitAndRetryAsync(
+                            policyOptions.RetryPolicyOptions.Count,
+                            retryAttempt =>
+                                TimeSpan.FromSeconds(
+                                    Math.Pow(policyOptions.RetryPolicyOptions.BackoffPower, retryAttempt)
+                                ),
+                            onRetry: (outcome, timespan, retryAttempt, context) =>
                             {
-                                // https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory#configuring-httpclientfactory-policies-to-use-an-iloggert-from-the-call-site
-                                context
-                                    .GetLogger()
-                                    ?.LogWarning(
-                                        "Request failed with {StatusCode}. Waiting {TimeSpan} before next retry. Retry attempt {RetryCount}",
-                                        outcome.Result.StatusCode,
-                                        timespan,
-                                        retryAttempt
-                                    );
+                                if (outcome.Result != null)
+                                {
+                                    // https://github.com/App-vNext/Polly/wiki/Polly-and-HttpClientFactory#configuring-httpclientfactory-policies-to-use-an-iloggert-from-the-call-site
+                                    context
+                                        .GetLogger()
+                                        ?.LogWarning(
+                                            "Request failed with {StatusCode}. Waiting {TimeSpan} before next retry. Retry attempt {RetryCount}",
+                                            outcome.Result.StatusCode,
+                                            timespan,
+                                            retryAttempt
+                                        );
+                                }
+                                else
+                                {
+                                    context
+                                        .GetLogger()
+                                        ?.LogWarning(
+                                            "Request failed because network failure. Waiting {TimeSpan} before next retry. Retry attempt {RetryCount}",
+                                            timespan,
+                                            retryAttempt
+                                        );
+                                }
                             }
-                            else
-                            {
-                                context
-                                    .GetLogger()
-                                    ?.LogWarning(
-                                        "Request failed because network failure. Waiting {TimeSpan} before next retry. Retry attempt {RetryCount}",
-                                        timespan,
-                                        retryAttempt
-                                    );
-                            }
-                        }
-                    )
-                    .WithPolicyKey(PolicyNames.Retry);
+                        )
+                        .WithPolicyKey(PolicyNames.Retry);
 
                 return retryPolicy;
             }

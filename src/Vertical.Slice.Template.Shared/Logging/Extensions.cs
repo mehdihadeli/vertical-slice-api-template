@@ -30,8 +30,8 @@ public static class RegistrationExtensions
             {
                 extraConfigure?.Invoke(loggerConfiguration);
 
-                loggerConfiguration.Enrich
-                    .WithProperty("Application", builder.Environment.ApplicationName)
+                loggerConfiguration
+                    .Enrich.WithProperty("Application", builder.Environment.ApplicationName)
                     // .Enrich.WithSpan()
                     // .Enrich.WithBaggage()
                     .Enrich.WithCorrelationIdHeader()
@@ -55,15 +55,15 @@ public static class RegistrationExtensions
                     {
                         // https://github.com/serilog/serilog-sinks-async
                         // https://github.com/serilog-contrib/serilog-sinks-elasticsearch#elasticsearch-formatters
-                        loggerConfiguration.WriteTo.Async(
-                            writeTo => writeTo.Console(new ExceptionAsObjectJsonFormatter(renderMessage: true))
+                        loggerConfiguration.WriteTo.Async(writeTo =>
+                            writeTo.Console(new ExceptionAsObjectJsonFormatter(renderMessage: true))
                         );
                     }
                     else
                     {
                         // https://github.com/serilog/serilog-sinks-async
-                        loggerConfiguration.WriteTo.Async(
-                            writeTo => writeTo.Console(outputTemplate: serilogOptions.LogTemplate)
+                        loggerConfiguration.WriteTo.Async(writeTo =>
+                            writeTo.Console(outputTemplate: serilogOptions.LogTemplate)
                         );
                     }
                 }
@@ -119,14 +119,13 @@ public static class RegistrationExtensions
 
                 if (!string.IsNullOrEmpty(serilogOptions.LogPath))
                 {
-                    loggerConfiguration.WriteTo.Async(
-                        writeTo =>
-                            writeTo.File(
-                                serilogOptions.LogPath,
-                                outputTemplate: serilogOptions.LogTemplate,
-                                rollingInterval: RollingInterval.Day,
-                                rollOnFileSizeLimit: true
-                            )
+                    loggerConfiguration.WriteTo.Async(writeTo =>
+                        writeTo.File(
+                            serilogOptions.LogPath,
+                            outputTemplate: serilogOptions.LogTemplate,
+                            rollingInterval: RollingInterval.Day,
+                            rollOnFileSizeLimit: true
+                        )
                     );
                 }
             }

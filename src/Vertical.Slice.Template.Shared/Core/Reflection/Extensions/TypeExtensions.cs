@@ -110,8 +110,8 @@ public static class TypeExtensions
     {
         var method = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)
             .Where(x => x.Name == methodName)
-            .FirstOrDefault(
-                x => x.GetParameters().Select(p => p.ParameterType).All(parameters.Select(p => p.GetType()).Contains)
+            .FirstOrDefault(x =>
+                x.GetParameters().Select(p => p.ParameterType).All(parameters.Select(p => p.GetType()).Contains)
             );
 
         if (method is null)
@@ -205,8 +205,8 @@ public static class TypeExtensions
     )
     {
         var inputAssemblies = assemblies.Any() ? assemblies : AppDomain.CurrentDomain.GetAssemblies();
-        return inputAssemblies.SelectMany(
-            assembly => GetAllTypesImplementingOpenGenericInterface(openGenericType, assembly)
+        return inputAssemblies.SelectMany(assembly =>
+            GetAllTypesImplementingOpenGenericInterface(openGenericType, assembly)
         );
     }
 
@@ -255,8 +255,8 @@ public static class TypeExtensions
     {
         return assembly
             .GetTypes()
-            .Where(
-                type => interfaceType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type.IsClass
+            .Where(type =>
+                interfaceType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract && type.IsClass
             );
     }
 
@@ -707,8 +707,8 @@ public static class TypeExtensions
     private static bool IsRecord(this Type objectType)
     {
         return objectType.GetMethod("<Clone>$") != null
-            || ((TypeInfo)objectType).DeclaredProperties
-                .FirstOrDefault(x => x.Name == "EqualityContract")
+            || ((TypeInfo)objectType)
+                .DeclaredProperties.FirstOrDefault(x => x.Name == "EqualityContract")
                 ?.GetMethod?.GetCustomAttribute(typeof(CompilerGeneratedAttribute)) != null;
     }
 
@@ -776,8 +776,8 @@ public static class TypeExtensions
             foreach (
                 var interfaceType in pluggedType
                     .GetTypeInfo()
-                    .ImplementedInterfaces.Where(
-                        type => type.GetTypeInfo().IsGenericType && (type.GetGenericTypeDefinition() == templateType)
+                    .ImplementedInterfaces.Where(type =>
+                        type.GetTypeInfo().IsGenericType && (type.GetGenericTypeDefinition() == templateType)
                     )
             )
             {
@@ -854,22 +854,20 @@ public static class TypeExtensions
     public static bool HasAggregateApplyMethod<TDomainEvent>(this Type type)
     {
         return type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Any(
-                mi =>
-                    mi.Name == "Apply"
-                    && mi.GetParameters().Length == 1
-                    && typeof(TDomainEvent).GetTypeInfo().IsAssignableFrom(mi.GetParameters()[0].ParameterType)
+            .Any(mi =>
+                mi.Name == "Apply"
+                && mi.GetParameters().Length == 1
+                && typeof(TDomainEvent).GetTypeInfo().IsAssignableFrom(mi.GetParameters()[0].ParameterType)
             );
     }
 
     public static bool HasAggregateApplyMethod(this Type type, Type eventType)
     {
         return type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Any(
-                mi =>
-                    mi.Name == "Apply"
-                    && mi.GetParameters().Length == 1
-                    && eventType.GetTypeInfo().IsAssignableFrom(mi.GetParameters()[0].ParameterType)
+            .Any(mi =>
+                mi.Name == "Apply"
+                && mi.GetParameters().Length == 1
+                && eventType.GetTypeInfo().IsAssignableFrom(mi.GetParameters()[0].ParameterType)
             );
     }
 
@@ -918,8 +916,8 @@ public static class TypeExtensions
         var methodInfo =
             methodSignature == null || !methodSignature.Any()
                 ? methods.SingleOrDefault()
-                : methods.SingleOrDefault(
-                    m => m.GetParameters().Select(mp => mp.ParameterType).SequenceEqual(methodSignature)
+                : methods.SingleOrDefault(m =>
+                    m.GetParameters().Select(mp => mp.ParameterType).SequenceEqual(methodSignature)
                 );
 
         if (methodInfo == null)
