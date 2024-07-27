@@ -71,7 +71,7 @@ jobs:
 
       # https://github.com/joseftw/jos.enumeration/blob/main/.github/workflows/verify.yml
       # https://github.com/dotnet/Nerdbank.GitVersioning
-      - uses: dotnet/nbgv@master
+      - uses: dotnet/nbgv@v0.4.2
         id: nbgv
 
       - name: Restore dependencies
