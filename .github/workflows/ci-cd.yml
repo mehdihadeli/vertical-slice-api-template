@@ -22,6 +22,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          # https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/doc/cloudbuild.md#github-actions
+          fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -58,6 +61,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          # https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/doc/cloudbuild.md#github-actions
+          fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
