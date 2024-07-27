@@ -4,6 +4,8 @@
 [![CI-CD](https://img.shields.io/github/actions/workflow/status/mehdihadeli/vertical-slice-api-template/ci-cd.yml?label=Build%20Pipeline%20&logo=github&style=for-the-badge)](https://github.com/mehdihadeli/vertical-slice-api-template/actions/workflows/ci-cd.yml)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?logoColor=white&style=for-the-badge)](http://commitizen.github.io/cz-cli/)
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/mehdihadeli/vertical-slice-api-template)
+
 > This is a An Asp.Net Core `template` based on `Vertical Slice Architecture`, CQRS, Minimal APIs, API Versioning and Swagger. Create a new project based on this template by clicking the above **Use this template** button or by installing and running the associated NuGet package (see Getting Started for full details).
 
 ## Getting Started & Prerequisites

@@ -7,11 +7,9 @@ on:
   push:
     branches:
       - "main"
-      - "develop"
   pull_request:
     branches:
       - "main"
-      - "develop"
 
 env:
   FEED_SOURCE: https://api.nuget.org/v3/index.json
@@ -29,7 +27,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "8.0.x"
-          dotnet-quality: "preview"
 
       # https://github.com/joseftw/jos.enumeration/blob/main/.github/workflows/verify.yml
       # https://github.com/dotnet/Nerdbank.GitVersioning
@@ -65,7 +62,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "8.0.x"
-          dotnet-quality: "preview"
 
       - name: Cache NuGet Packages
         uses: actions/cache@v3
@@ -83,7 +79,6 @@ jobs:
 
       - name: Build Version ${{ steps.nbgv.outputs.nugetpackageversion }}
         run: dotnet build  Vertical.Slice.Template.sln -c Release --no-restore /p:Version=${{ steps.nbgv.outputs.AssemblyVersion }}
-
 
       # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack
       - name: Pack NuGet Package Version ${{ steps.nbgv.outputs.nugetpackageversion }}
@@ -143,7 +138,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "8.0.x"
-          dotnet-quality: "preview"
 
       # https://github.com/joseftw/jos.enumeration/blob/main/.github/workflows/verify.yml
       # https://github.com/dotnet/Nerdbank.GitVersioning
