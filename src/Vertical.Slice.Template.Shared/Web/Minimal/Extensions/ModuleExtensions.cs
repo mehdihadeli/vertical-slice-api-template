@@ -20,27 +20,25 @@ public static class ModuleExtensions
 
         var modulesConfiguration = assemblies
             .SelectMany(x => x.GetLoadableTypes())
-            .Where(
-                t =>
-                    t!.IsClass
-                    && !t.IsAbstract
-                    && !t.IsGenericType
-                    && !t.IsInterface
-                    && t.GetConstructor(Type.EmptyTypes) != null
-                    && typeof(IModuleConfiguration).IsAssignableFrom(t)
+            .Where(t =>
+                t!.IsClass
+                && !t.IsAbstract
+                && !t.IsGenericType
+                && !t.IsInterface
+                && t.GetConstructor(Type.EmptyTypes) != null
+                && typeof(IModuleConfiguration).IsAssignableFrom(t)
             )
             .ToList();
 
         var sharedModulesConfiguration = assemblies
             .SelectMany(x => x.GetLoadableTypes())
-            .Where(
-                t =>
-                    t!.IsClass
-                    && !t.IsAbstract
-                    && !t.IsGenericType
-                    && !t.IsInterface
-                    && t.GetConstructor(Type.EmptyTypes) != null
-                    && typeof(ISharedModulesConfiguration).IsAssignableFrom(t)
+            .Where(t =>
+                t!.IsClass
+                && !t.IsAbstract
+                && !t.IsGenericType
+                && !t.IsInterface
+                && t.GetConstructor(Type.EmptyTypes) != null
+                && typeof(ISharedModulesConfiguration).IsAssignableFrom(t)
             )
             .ToList();
 

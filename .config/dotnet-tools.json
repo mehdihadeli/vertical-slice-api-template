@@ -57,6 +57,13 @@
         "dotnet-outdated"
       ],
       "rollForward": false
+    },
+    "nbgv": {
+      "version": "3.6.139",
+      "commands": [
+        "nbgv"
+      ],
+      "rollForward": false
     }
   }
 }

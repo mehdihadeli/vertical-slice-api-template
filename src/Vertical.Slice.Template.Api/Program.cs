@@ -10,8 +10,8 @@ using Vertical.Slice.Template.Shared.Swagger;
 using Vertical.Slice.Template.Shared.Web.Minimal.Extensions;
 
 // https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
-Log.Logger = new LoggerConfiguration().MinimumLevel
-    .Override("Microsoft", LogEventLevel.Information)
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .WriteTo.Console()
     .CreateBootstrapLogger();
 

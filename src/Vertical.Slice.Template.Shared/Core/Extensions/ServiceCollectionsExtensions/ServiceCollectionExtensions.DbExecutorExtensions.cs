@@ -13,14 +13,13 @@ public static partial class ServiceCollectionExtensions
     {
         var dbExecutors = assembliesToScan
             .SelectMany(x => x.GetLoadableTypes())
-            .Where(
-                t =>
-                    t!.IsClass
-                    && !t.IsAbstract
-                    && !t.IsGenericType
-                    && !t.IsInterface
-                    && t.GetConstructor(Type.EmptyTypes) != null
-                    && typeof(IDbExecutors).IsAssignableFrom(t)
+            .Where(t =>
+                t!.IsClass
+                && !t.IsAbstract
+                && !t.IsGenericType
+                && !t.IsInterface
+                && t.GetConstructor(Type.EmptyTypes) != null
+                && typeof(IDbExecutors).IsAssignableFrom(t)
             )
             .ToList();
 

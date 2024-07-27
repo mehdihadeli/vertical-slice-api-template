@@ -15,13 +15,12 @@ public static class RegistrationExtensions
         // https://docs.fluentvalidation.net/en/latest/di.html
         // I have some problem with registering IQuery validators with this
         // services.AddValidatorsFromAssembly(assembly);
-        services.Scan(
-            scan =>
-                scan.FromAssemblies(assembly)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-                    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
-                    .AsImplementedInterfaces()
-                    .WithLifetime(serviceLifetime)
+        services.Scan(scan =>
+            scan.FromAssemblies(assembly)
+                .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
+                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+                .AsImplementedInterfaces()
+                .WithLifetime(serviceLifetime)
         );
 
         return services;
