@@ -1,16 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Vertical.Slice.Template.Shared.Data.Migrations.Catalogs
 {
     /// <inheritdoc />
-    public partial class InitialCatalogsMigration : Migration
+    public partial class InitialCatalogMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(name: "catalog");
+            migrationBuilder.EnsureSchema(
+                name: "catalog");
 
             migrationBuilder.CreateTable(
                 name: "products",
@@ -26,22 +28,22 @@ namespace Vertical.Slice.Template.Shared.Data.Migrations.Catalogs
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_products", x => x.id);
-                }
-            );
+                });
 
             migrationBuilder.CreateIndex(
                 name: "ix_products_id",
                 schema: "catalog",
                 table: "products",
                 column: "id",
-                unique: true
-            );
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "products", schema: "catalog");
+            migrationBuilder.DropTable(
+                name: "products",
+                schema: "catalog");
         }
     }
 }

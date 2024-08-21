@@ -4,8 +4,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9BB0311A-FE23-4C8D-B7C0-E8CD49FA3D20}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Directory.Build.targets = src\Directory.Build.targets
+		src\Directory.Packages.props = src\Directory.Packages.props
+		src\Packages.props = src\Packages.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C4B80800-5430-4D4E-B473-261157D54CD4}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+		tests\Directory.Packages.props = tests\Directory.Packages.props
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.EndToEndTests", "tests\Vertical.Slice.Template.EndToEndTests\Vertical.Slice.Template.EndToEndTests.csproj", "{5F41BF51-E13B-48BF-8D81-874FBA9BC961}"
 EndProject
@@ -63,6 +73,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.Api", "src\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj", "{F45584B2-2831-410B-BC9D-3E13817E768F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontainer", "{268E2B03-D9F4-4D31-84BA-6D1DC250E894}"
+	ProjectSection(SolutionItems) = preProject
+		.devcontainer\devcontainer.json = .devcontainer\devcontainer.json
+		.devcontainer\docker-compose.yaml = .devcontainer\docker-compose.yaml
+		.devcontainer\Dockerfile = .devcontainer\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{3A68A53A-1E76-49DE-A622-569267333288}"
+	ProjectSection(SolutionItems) = preProject
+		.devcontainer\scripts\post-create.sh = .devcontainer\scripts\post-create.sh
+		.devcontainer\scripts\setup-fonts.sh = .devcontainer\scripts\setup-fonts.sh
+		.devcontainer\scripts\update.sh = .devcontainer\scripts\update.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployments", "deployments", "{9DF99E09-AEC5-4F44-BC7E-CB16EF796431}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-compose", "{F3FCF437-0EF6-4149-AA20-46C787B6FCB1}"
+	ProjectSection(SolutionItems) = preProject
+		deployments\docker-compose\.env.sample = deployments\docker-compose\.env.sample
+		deployments\docker-compose\docker-compose.infrastructure.yaml = deployments\docker-compose\docker-compose.infrastructure.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +120,10 @@ Global
 		{05B80842-E143-46CA-A881-CF14A85D927C} = {9BB0311A-FE23-4C8D-B7C0-E8CD49FA3D20}
 		{31F7A4C7-66DD-4387-9981-4A64501018E7} = {9BB0311A-FE23-4C8D-B7C0-E8CD49FA3D20}
 		{F45584B2-2831-410B-BC9D-3E13817E768F} = {9BB0311A-FE23-4C8D-B7C0-E8CD49FA3D20}
+		{268E2B03-D9F4-4D31-84BA-6D1DC250E894} = {798579C1-7DEC-47A2-9C18-CA3DBE4A6573}
+		{3A68A53A-1E76-49DE-A622-569267333288} = {268E2B03-D9F4-4D31-84BA-6D1DC250E894}
+		{9DF99E09-AEC5-4F44-BC7E-CB16EF796431} = {798579C1-7DEC-47A2-9C18-CA3DBE4A6573}
+		{F3FCF437-0EF6-4149-AA20-46C787B6FCB1} = {9DF99E09-AEC5-4F44-BC7E-CB16EF796431}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5F41BF51-E13B-48BF-8D81-874FBA9BC961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Vertical.Slice.Template.Shared.Abstractions.Core.Domain.Events;
 using Vertical.Slice.Template.Shared.Abstractions.Ef;
 using Vertical.Slice.Template.Shared.Data;
-using Vertical.Slice.Template.Shared.Data.Migrations;
 using Vertical.Slice.Template.Shared.EF;
 using Vertical.Slice.Template.Shared.EF.Extensions;
 using Vertical.Slice.Template.Shared.Workers;
