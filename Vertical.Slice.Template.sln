@@ -68,7 +68,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AEFE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{ED6C6F59-8A39-4D7D-BB93-888AA486AFE9}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ci-cd.yml = .github\workflows\ci-cd.yml
+		.github\workflows\build-test.yml = .github\workflows\build-test.yml
+		.github\workflows\publish.yml = .github\workflows\publish.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template", "src\Vertical.Slice.Template\Vertical.Slice.Template.csproj", "{31F7A4C7-66DD-4387-9981-4A64501018E7}"
