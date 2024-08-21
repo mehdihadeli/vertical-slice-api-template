@@ -88,7 +88,7 @@ public class GetProductByIdTests : CatalogsEndToEndTestBase
             {
                 pr.Detail.Should().Be($"product with id {notExistsId} not found");
                 pr.Title.Should().Be(nameof(NotFoundException));
-                pr.Type.Should().Be("https://tools.ietf.org/html/rfc7231#section-6.5.4");
+                pr.Type.Should().Be("https://tools.ietf.org/html/rfc9110#section-15.5.5");
             })
             .And.Be404NotFound();
 
@@ -97,7 +97,7 @@ public class GetProductByIdTests : CatalogsEndToEndTestBase
         //     .Should()
         //     .HaveError("title", nameof(NotFoundException))
         //     .And.HaveError("detail", $"product with id {notExistsId} not found")
-        //     .And.HaveError("type", "https://tools.ietf.org/html/rfc7231#section-6.5.4")
+        //     .And.HaveError("type", "https://tools.ietf.org/html/rfc9110#section-15.5.5")
         //     .And.HaveErrorMessage($"product with id {notExistsId} not found")
         //     .And.Be404NotFound();
     }
@@ -120,7 +120,7 @@ public class GetProductByIdTests : CatalogsEndToEndTestBase
             {
                 pr.Detail.Should().Contain("'Id' must not be empty.");
                 pr.Title.Should().Be(nameof(ValidationException));
-                pr.Type.Should().Be("https://tools.ietf.org/html/rfc7231#section-6.5.1");
+                pr.Type.Should().Be("https://tools.ietf.org/html/rfc9110#section-15.5.1");
             })
             .And.Be400BadRequest();
 
@@ -132,7 +132,7 @@ public class GetProductByIdTests : CatalogsEndToEndTestBase
         //         {
         //             Detail = "'Id' must not be empty.",
         //             Title = nameof(ValidationException),
-        //             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+        //             Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
         //         }
         //     )
         //     .And.Be400BadRequest();

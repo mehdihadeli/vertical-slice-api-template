@@ -24,6 +24,7 @@ public class CreateProductTests : CatalogsIntegrationTestBase
         InMemoryLogTrackerProvider.Logs.Informations.Should().NotBeEmpty();
 
         // Arrange
+
         var fakeCategoryId = Guid.NewGuid();
 
         var command = new CreateProductFake(fakeCategoryId).Generate();
