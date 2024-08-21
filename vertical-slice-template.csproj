@@ -16,7 +16,6 @@
     <Authors>Mehdi Hadeli</Authors>
     <Description>An asp.net core template based on Vertical Slice Architecture, CQRS, Minimal APIs, API Versioning and Swagger.</Description>
     <PackageTags>dotnet;dotnet-core;templates;csharp;vertical-slices;vertical-slices-architecture;clean-architecture;cqrs;minimal-api</PackageTags>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
@@ -28,19 +27,22 @@
     <RepositoryBranch>main</RepositoryBranch>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
-	<EnablePackageValidation>true</EnablePackageValidation>
+    <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
-  
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="**\*" Exclude="**\bin\**\*;**\obj\**\*;**\.template.config\**\*;Template.csproj;Template.nuspec;icon.png;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;" />
-    <Compile Remove="**\*" />
+    <Content Include="**\*" Exclude="**\bin\**\*;**\obj\**\*;**\.template.config\**\*;vertical-slice-template.csproj.csproj;vertical-slice-template.csproj.nuspec;icon.png;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;"/>
+    <Compile Remove="**\*"/>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="icon.png" Pack="true" PackagePath="\"/> 
-    <None Include="readme.md" Pack="true" PackagePath="\"/> 
-    <None Include="readme-nuget.md" Pack="true" PackagePath="\"/> 
+    <None Include="icon.png" Pack="true" PackagePath="\"/>
+    <None Include="readme.md" Pack="true" PackagePath="\"/>
+    <None Include="readme-nuget.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
-  
+
 </Project>

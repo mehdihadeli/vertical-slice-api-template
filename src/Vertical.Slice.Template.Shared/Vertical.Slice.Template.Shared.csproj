@@ -6,13 +6,6 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AssemblyName>Vertical.Slice.Template.Shared</AssemblyName>
-    <RootNamespace>Vertical.Slice.Template.Shared</RootNamespace>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
     <PackageReference Include="Asp.Versioning.Http" />

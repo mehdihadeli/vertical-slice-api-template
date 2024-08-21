@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-
 		package.json = package.json
 		readme.md = readme.md
 		version.json = version.json
+		vertical-slice-template.csproj = vertical-slice-template.csproj
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{154A55C1-CE45-463D-B411-816C702D6A25}"

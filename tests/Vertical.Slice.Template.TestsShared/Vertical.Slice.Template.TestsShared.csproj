@@ -1,10 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AssemblyName>Vertical.Slice.Template.TestsShared</AssemblyName>
-    <RootNamespace>Vertical.Slice.Template.TestsShared</RootNamespace>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Meziantou.Extensions.Logging.InMemory" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
@@ -43,13 +38,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
     <ProjectReference Include="..\..\src\Vertical.Slice.Template.Shared\Vertical.Slice.Template.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageVersion Update="Nerdbank.GitVersioning" Version="3.6.133">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageVersion>
   </ItemGroup>
 
 </Project>
