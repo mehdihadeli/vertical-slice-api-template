@@ -4,13 +4,9 @@
 name: Publish-Nuget
 
 on:
-#  push:
-#    tags:
-#      - "*"
   push:
     branches:
       - "main"
-
 env:
   FEED_SOURCE: https://api.nuget.org/v3/index.json
   FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
@@ -19,9 +15,8 @@ env:
 jobs:
 
   # https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
-  create_nuget:
+  create-nuget:
     if: ${{ contains(fromJson('["main"]'), github.ref_name) ||  github.event_name == 'release' }}
-    needs: build
 
     runs-on: ubuntu-latest
 
@@ -71,7 +66,7 @@ jobs:
     # https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
     # You can update this logic if you want to manage releases differently
     runs-on: ubuntu-latest
-    needs: [create_nuget]
+    needs: [create-nuget]
     steps:
       # Download the NuGet package created in the previous job
       - uses: actions/download-artifact@v3
