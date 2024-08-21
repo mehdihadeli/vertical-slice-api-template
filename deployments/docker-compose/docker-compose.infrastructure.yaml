@@ -1,0 +1,40 @@
+version: "3.9"
+name: vertical-slice-template
+
+services:
+  #######################################################
+  #  rabbitmq
+  #######################################################
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: on-failure
+    ports:
+      - ${RABBITMQ_HOST_PORT:-5672}:${RABBITMQ_PORT:-5672}
+      - ${RABBITMQ_HOST_API_PORT:-15672}:${RABBITMQ_API_PORT:-15672}
+      # volumes:
+      #   - rabbitmq:/var/lib/rabbitmq
+    networks:
+      - infrastructure
+
+
+    #######################################################
+    #  postgres
+    #######################################################
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: on-failure
+    ports:
+      - ${POSTGRES_HOST_PORT:-5432}:${POSTGRES_PORT:-5432}
+    #https://docs.docker.com/compose/environment-variables/env-file/#parameter-expansion
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    networks:
+      - infrastructure
+
+networks:
+  infrastructure:
+    name: infrastructure
+    driver: bridge

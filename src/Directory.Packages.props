@@ -17,8 +17,7 @@
     <PackageVersion Include="Ben.Demystifier" Version="0.4.1" />
     <PackageVersion Include="EventStore.Client.Grpc.Streams" Version="23.3.3" />
     <PackageVersion Include="Marten" Version="7.24.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.7" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
@@ -38,7 +37,7 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="8.0.8" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.2" />
@@ -46,7 +45,7 @@
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageVersion Include="Microsoft.Tye.Extensions.Configuration" Version="0.10.0-alpha.21420.1" />
-    <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.10.48" />
+    <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.11.20" />
     <PackageVersion Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
     <PackageVersion Include="Asp.Versioning.Http" Version="8.1.0" />
     <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
@@ -57,7 +56,7 @@
     <PackageVersion Include="Open.ChannelExtensions" Version="8.4.3" />
     <PackageVersion Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.4.0" />
     <PackageVersion Include="Serilog.Sinks.Grafana.Loki" Version="8.3.0" />
-    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.0.0-dev-00325" />
+    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.1.0-dev-00336" />
     <PackageVersion Include="System.Threading.RateLimiting" Version="8.0.0" />
     <PackageVersion Include="System.Net.Http.Json" Version="8.0.0" />
   </ItemGroup>
@@ -76,19 +75,18 @@
     <PackageVersion Include="prometheus-net.AspNetCore.HealthChecks" Version="8.2.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.7" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.7" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.8" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
     <PackageVersion Include="EFCore.NamingConventions" Version="8.0.3" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Serilog" Version="4.0.1" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.2" />
     <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
     <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
     <PackageVersion Include="Serilog.Enrichers.Span" Version="3.1.0" />
@@ -126,7 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="AsyncFixer" Version="1.6.0" />
-    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.162" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.163" />
     <PackageVersion Include="Roslynator.Analyzers" Version="4.12.4" />
     <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="4.12.4" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.12.4" />
@@ -144,9 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Unchase.Swashbuckle.AspNetCore.Extensions" Version="2.7.1" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
@@ -158,7 +156,7 @@
     <PackageVersion Include="Ardalis.Specification.EntityFrameworkCore" Version="8.0.0" />
     <PackageVersion Include="Meziantou.Extensions.Logging.InMemory" Version="1.2.0" />
     <PackageVersion Include="Dapper" Version="2.1.35" />
-    <PackageVersion Include="DotNetEnv" Version="3.0.0" />
+    <PackageVersion Include="DotNetEnv" Version="3.1.1" />
     <PackageVersion Include="FluentMigrator.Extensions.Postgres" Version="5.2.0" />
     <PackageVersion Include="FluentMigrator.Runner.Postgres" Version="5.2.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
@@ -190,7 +188,7 @@
     <PackageVersion Include="NSwag.MSBuild" Version="14.1.0" />
     <PackageVersion Include="CorrelationId" Version="3.0.1" />
     <PackageVersion Include="LinqKit.Core" Version="1.2.5" />
-    <PackageVersion Include="MassTransit.Abstractions" Version="8.2.3" />
+    <PackageVersion Include="MassTransit.Abstractions" Version="8.2.4" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Duende.IdentityServer" Version="7.0.5" />

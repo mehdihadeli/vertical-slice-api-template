@@ -12,15 +12,15 @@ using Vertical.Slice.Template.Shared.Data;
 namespace Vertical.Slice.Template.Shared.Data.Migrations.Catalogs
 {
     [DbContext(typeof(CatalogsDbContext))]
-    [Migration("20230502202201_InitialCatalogsMigration")]
-    partial class InitialCatalogsMigration
+    [Migration("20240821165201_InitialCatalogMigration")]
+    partial class InitialCatalogMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

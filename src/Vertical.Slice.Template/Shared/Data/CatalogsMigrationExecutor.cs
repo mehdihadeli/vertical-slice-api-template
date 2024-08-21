@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Vertical.Slice.Template.Shared.Abstractions.Ef;
 
-namespace Vertical.Slice.Template.Shared.Data.Migrations;
+namespace Vertical.Slice.Template.Shared.Data;
 
 public class CatalogsMigrationExecutor : IMigrationExecutor
 {
