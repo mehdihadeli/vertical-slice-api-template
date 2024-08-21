@@ -1,5 +1,6 @@
 using AutoBogus;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NSubstitute;
@@ -32,40 +33,34 @@ public class UserHttpClientTests : IClassFixture<MappingFixture>
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
         var usersHttpClientOptions = new UsersHttpClientOptions
-        {
-            UsersEndpoint = "users",
-            BaseAddress = "http://example.com"
-        };
+                                     {
+                                         UsersEndpoint = "users", BaseAddress = "http://example.com"
+                                     };
         options.Value.Returns(usersHttpClientOptions);
         var url =
-            $"{
-                usersHttpClientOptions.BaseAddress
-            }/{
-                usersHttpClientOptions.UsersEndpoint
-            }*";
+            $"{usersHttpClientOptions.BaseAddress}/{usersHttpClientOptions.UsersEndpoint}*";
 
         var usersClient = new AutoFaker<UserClientDto>().Generate(total);
 
         var usersListPage = new UsersListPageClientDto
-        {
-            Total = total,
-            Limit = pageSize,
-            Skip = page,
-            Users = usersClient
-        };
+                            {
+                                Total = total, Limit = pageSize, Skip = page, Users = usersClient
+                            };
 
         // https://github.com/richardszalay/mockhttp
         // https://code-maze.com/csharp-mock-httpclient-with-unit-tests/
         var mockHttp = new MockHttpMessageHandler();
 
         // Setup a respond for the user api (including a wildcard in the URL)
-        var request = mockHttp.When(url).Respond("application/json", JsonConvert.SerializeObject(usersListPage)); // Respond with JSON
+        var request =
+            mockHttp.When(url)
+                .Respond("application/json", JsonConvert.SerializeObject(usersListPage)); // Respond with JSON
 
         // Inject the handler or client into your application code
         var client = mockHttp.ToHttpClient();
         client.BaseAddress = new Uri(usersHttpClientOptions.BaseAddress);
 
-        var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
+        var pageRequest = new PageRequest {PageNumber = page, PageSize = pageSize};
 
         var usersHttpClient = new UsersHttpClient(client, _mappingFixture.Mapper, options);
 
@@ -86,40 +81,34 @@ public class UserHttpClientTests : IClassFixture<MappingFixture>
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
         var usersHttpClientOptions = new UsersHttpClientOptions
-        {
-            UsersEndpoint = "users",
-            BaseAddress = "http://example.com"
-        };
+                                     {
+                                         UsersEndpoint = "users", BaseAddress = "http://example.com"
+                                     };
         options.Value.Returns(usersHttpClientOptions);
         var url =
-            $"{
-                usersHttpClientOptions.BaseAddress
-            }/{
-                usersHttpClientOptions.UsersEndpoint
-            }*";
+            $"{usersHttpClientOptions.BaseAddress}/{usersHttpClientOptions.UsersEndpoint}*";
 
         var usersClient = new AutoFaker<UserClientDto>().Generate(total);
 
         var usersListPage = new UsersListPageClientDto
-        {
-            Total = total,
-            Limit = pageSize,
-            Skip = page,
-            Users = usersClient
-        };
+                            {
+                                Total = total, Limit = pageSize, Skip = page, Users = usersClient
+                            };
 
         // https://github.com/richardszalay/mockhttp
         // https://code-maze.com/csharp-mock-httpclient-with-unit-tests/
         var mockHttp = new MockHttpMessageHandler();
 
         // Setup a respond for the user api (including a wildcard in the URL)
-        var request = mockHttp.When(url).Respond("application/json", JsonConvert.SerializeObject(usersListPage)); // Respond with JSON
+        var request =
+            mockHttp.When(url)
+                .Respond("application/json", JsonConvert.SerializeObject(usersListPage)); // Respond with JSON
 
         // Inject the handler or client into your application code
         var client = mockHttp.ToHttpClient();
         client.BaseAddress = new Uri(usersHttpClientOptions.BaseAddress);
 
-        var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
+        var pageRequest = new PageRequest {PageNumber = page, PageSize = pageSize};
 
         var users = _mappingFixture.Mapper.Map<IList<User>>(usersClient);
 
@@ -140,25 +129,25 @@ public class UserHttpClientTests : IClassFixture<MappingFixture>
         // Arrange
         var pageSize = 10;
         var page = 1;
-        var total = 20;
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
         var usersHttpClientOptions = new UsersHttpClientOptions
-        {
-            UsersEndpoint = "users",
-            BaseAddress = "http://example.com"
-        };
+                                     {
+                                         UsersEndpoint = "users", BaseAddress = "http://example.com"
+                                     };
         options.Value.Returns(usersHttpClientOptions);
 
         // https://github.com/richardszalay/mockhttp
         // https://code-maze.com/csharp-mock-httpclient-with-unit-tests/
         var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Fallback.Throw(
+            new HttpResponseException(StatusCodes.Status500InternalServerError, "There is an error in the server"));
 
         // Inject the handler or client into your application code
         var client = mockHttp.ToHttpClient();
         client.BaseAddress = new Uri(usersHttpClientOptions.BaseAddress);
 
-        var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
+        var pageRequest = new PageRequest {PageNumber = page, PageSize = pageSize};
 
         var usersHttpClient = new UsersHttpClient(client, _mappingFixture.Mapper, options);
 
@@ -175,34 +164,29 @@ public class UserHttpClientTests : IClassFixture<MappingFixture>
         // Arrange
         var pageSize = 10;
         var page = 1;
-        var total = 20;
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
         var usersHttpClientOptions = new UsersHttpClientOptions
-        {
-            UsersEndpoint = "users",
-            BaseAddress = "http://example.com"
-        };
+                                     {
+                                         UsersEndpoint = "users", BaseAddress = "http://example.com"
+                                     };
         options.Value.Returns(usersHttpClientOptions);
         var url =
-            $"{
-                usersHttpClientOptions.BaseAddress
-            }/{
-                usersHttpClientOptions.UsersEndpoint
-            }*";
+            $"{usersHttpClientOptions.BaseAddress}/{usersHttpClientOptions.UsersEndpoint}*";
 
         // https://github.com/richardszalay/mockhttp
         // https://code-maze.com/csharp-mock-httpclient-with-unit-tests/
         var mockHttp = new MockHttpMessageHandler();
 
-        // Setup a respond for the user api (including a wildcard in the URL)
-        var request = mockHttp.When(url).Respond("application/json", JsonConvert.SerializeObject(null)); // Respond with JSON
+        // Setup a response for the user api (including a wildcard in the URL)
+        var request =
+            mockHttp.When(url).Respond("application/json", JsonConvert.SerializeObject(null)); // Respond with JSON
 
         // Inject the handler or client into your application code
         var client = mockHttp.ToHttpClient();
         client.BaseAddress = new Uri(usersHttpClientOptions.BaseAddress);
 
-        var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
+        var pageRequest = new PageRequest {PageNumber = page, PageSize = pageSize};
 
         var usersHttpClient = new UsersHttpClient(client, _mappingFixture.Mapper, options);
 

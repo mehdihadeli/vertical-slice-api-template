@@ -370,3 +370,5 @@ coverage.info
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+.env
