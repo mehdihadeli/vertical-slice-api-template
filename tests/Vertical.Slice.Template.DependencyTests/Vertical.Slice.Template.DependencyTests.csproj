@@ -1,11 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
-    <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -18,6 +13,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\App\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
+    <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
   </ItemGroup>
 
 </Project>

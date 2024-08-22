@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -20,12 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\src\Vertical.Slice.Template.Api\appsettings.json" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="..\..\src\Vertical.Slice.Template.Api\appsettings.test.json" CopyToOutputDirectory="PreserveNewest" />
+    <Folder Include="Products\Features\CreatingProduct" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Products\Features\CreatingProduct" />
+    <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
   </ItemGroup>
 
 </Project>

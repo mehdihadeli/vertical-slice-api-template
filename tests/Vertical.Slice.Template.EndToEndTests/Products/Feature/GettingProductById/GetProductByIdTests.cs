@@ -1,13 +1,10 @@
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Core.Exceptions;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 using Vertical.Slice.Template.Products.Models;
-using Vertical.Slice.Template.Shared.Core.Exceptions;
 using Vertical.Slice.Template.Shared.Data;
-using Vertical.Slice.Template.TestsShared.Extensions;
 using Vertical.Slice.Template.TestsShared.Fakes.Products;
 using Vertical.Slice.Template.TestsShared.Fixtures;
 using Vertical.Slice.Template.TestsShared.XunitCategories;
@@ -15,14 +12,11 @@ using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.EndToEndTests.Products.Feature.GettingProductById;
 
-public class GetProductByIdTests : CatalogsEndToEndTestBase
+public class GetProductByIdTests(
+    SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+    ITestOutputHelper outputHelper
+) : CatalogsEndToEndTestBase(sharedFixture, outputHelper)
 {
-    public GetProductByIdTests(
-        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
-        ITestOutputHelper outputHelper
-    )
-        : base(sharedFixture, outputHelper) { }
-
     [Fact]
     [CategoryTrait(TestCategory.EndToEnd)]
     public async Task can_returns_ok_status_code_using_valid_id_and_auth_credentials()

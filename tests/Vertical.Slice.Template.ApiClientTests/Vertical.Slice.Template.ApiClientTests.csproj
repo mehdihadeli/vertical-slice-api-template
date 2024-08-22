@@ -1,13 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <AssemblyName>Vertical.Slice.Template.ApiClientTests</AssemblyName>
-    <RootNamespace>Vertical.Slice.Template.ApiClientTests</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Vertical.Slice.Template.ApiClient\Vertical.Slice.Template.ApiClient.csproj" />
-    <ProjectReference Include="..\..\src\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
-    <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -25,6 +17,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ApiClients\ApiClients.csproj" />
+    <ProjectReference Include="..\Vertical.Slice.Template.TestsShared\Vertical.Slice.Template.TestsShared.csproj" />
   </ItemGroup>
 
 </Project>

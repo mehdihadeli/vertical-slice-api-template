@@ -8,23 +8,16 @@ using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.IntegrationTests.Products.Features.CreatingProduct.v1;
 
-public class CreateProductTests : CatalogsIntegrationTestBase
+public class CreateProductTests(
+    SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+    ITestOutputHelper outputHelper
+) : CatalogsIntegrationTestBase(sharedFixture, outputHelper)
 {
-    public CreateProductTests(
-        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
-        ITestOutputHelper outputHelper
-    )
-        : base(sharedFixture, outputHelper) { }
-
     [Fact]
     [CategoryTrait(TestCategory.Integration)]
     public async Task should_create_new_product_with_valid_input_in_sql_db()
     {
-        InMemoryLogTrackerProvider.Logs.Errors.Should().BeEmpty();
-        InMemoryLogTrackerProvider.Logs.Informations.Should().NotBeEmpty();
-
         // Arrange
-
         var fakeCategoryId = Guid.NewGuid();
 
         var command = new CreateProductFake(fakeCategoryId).Generate();

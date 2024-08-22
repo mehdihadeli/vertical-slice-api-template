@@ -1,6 +1,5 @@
 using System.Net.Http.Headers;
 using AutoBogus;
-using DotNet.Testcontainers.Configurations;
 using FluentAssertions;
 using FluentAssertions.Extensions;
 using MediatR;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Vertical.Slice.Template.Shared.EF;
+using Shared.EF;
 using Vertical.Slice.Template.TestsShared.Factory;
 using Xunit.Sdk;
 
@@ -77,7 +76,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
                     {
                         $"{nameof(PostgresOptions)}:{nameof(PostgresOptions.ConnectionString)}",
                         PostgresContainerFixture.Container.GetConnectionString()
-                    }
+                    },
                 };
 
                 // add in-memory configuration instead of using appestings.json and override existing settings and it is accessible via IOptions and Configuration

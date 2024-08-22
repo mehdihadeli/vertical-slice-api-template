@@ -6,12 +6,7 @@ namespace Vertical.Slice.Template.ContractTests.Users;
 
 public class UsersApiTests
 {
-    private readonly HttpClient _httpClient;
-
-    public UsersApiTests()
-    {
-        _httpClient = new HttpClient { BaseAddress = new Uri("https://dummyjson.com"), };
-    }
+    private readonly HttpClient _httpClient = new() { BaseAddress = new Uri("https://dummyjson.com") };
 
     [Fact]
     public async Task contracts_should_pass_for_get_character_by_id()

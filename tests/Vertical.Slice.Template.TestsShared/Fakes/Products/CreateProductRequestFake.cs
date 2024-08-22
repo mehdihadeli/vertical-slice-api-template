@@ -3,7 +3,7 @@ using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 
 namespace Vertical.Slice.Template.TestsShared.Fakes.Products;
 
-public sealed class CreateProductRequestFake : AutoFaker<CreateProductRequest>
+internal sealed class CreateProductRequestFake : AutoFaker<CreateProductRequest>
 {
     public CreateProductRequestFake(Guid? categoryId = null)
     {

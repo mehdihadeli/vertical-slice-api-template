@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
-using Vertical.Slice.Template.Shared.Core.Extensions;
-using Vertical.Slice.Template.Shared.Web.Extensions;
+using Shared.Core.Extensions;
 
 namespace Vertical.Slice.Template.TestsShared.Helpers;
 
