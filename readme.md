@@ -1,7 +1,7 @@
 # Vertical Slice API Template
 
 [![NuGet](https://img.shields.io/nuget/v/Vertical.Slice.Template?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/Vertical.Slice.Template)
-[![CI-CD](https://img.shields.io/github/actions/workflow/status/mehdihadeli/vertical-slice-api-template/ci-cd.yml?label=Build%20Pipeline%20&logo=github&style=for-the-badge)](https://github.com/mehdihadeli/vertical-slice-api-template/actions/workflows/ci-cd.yml)
+[![Build_Test](https://img.shields.io/github/actions/workflow/status/mehdihadeli/vertical-slice-api-template/build-test.yml?label=Build-Test&logo=github&style=for-the-badge)](https://github.com/mehdihadeli/vertical-slice-api-template/actions/workflows/build-test.yml)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?logoColor=white&style=for-the-badge)](http://commitizen.github.io/cz-cli/)
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/mehdihadeli/vertical-slice-api-template)
