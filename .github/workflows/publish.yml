@@ -44,7 +44,7 @@ jobs:
       - name: nbgv Version
         id: nbgv-version
         run: |
-          $version = .\nbgv.exe get-version -f json | ConvertFrom-Json
+          $version = nbgv get-version -f json | ConvertFrom-Json
           echo $version
           echo "version=$($version.NuGetPackageVersion)" >> "$GITHUB_OUTPUT"
 
@@ -98,7 +98,7 @@ jobs:
       - name: nbgv Version
         id: nbgv-version
         run: |
-          $version = .\nbgv.exe get-version -f json | ConvertFrom-Json
+          $version = nbgv get-version -f json | ConvertFrom-Json
           echo "version=$($version.NuGetPackageVersion)" >> "$GITHUB_OUTPUT"
 
         # for publish package to github for each commit
