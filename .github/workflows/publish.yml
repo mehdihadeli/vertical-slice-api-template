@@ -43,7 +43,11 @@ jobs:
 
       - name: nbgv Version
         id: nbgv-version
-        run: nbgv get-version -f json | ConvertFrom-Json
+        run: |
+          version_info=$(nbgv get-version -f json)
+          nuget_version=$(echo "$version_info" | grep '"NuGetPackageVersion"' | sed 's/.*: "\(.*\)".*/\1/')
+          echo "$version_info"
+          echo "version=$nuget_version" >> "$GITHUB_OUTPUT"
 
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln
