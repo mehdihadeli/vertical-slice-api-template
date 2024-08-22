@@ -39,14 +39,11 @@ jobs:
 
       # https://github.com/dotnet/Nerdbank.GitVersioning/blob/81162b84f1e81864d3c79ddfc4ce9794ae065574/doc/nbgv-cli.md
       - name: Install nbgv dotnet tools
-        run: dotnet tool install -g nbgv
+        run: dotnet tool install --global nbgv
 
       - name: nbgv Version
         id: nbgv-version
-        run: |
-          $version = nbgv get-version -f json | ConvertFrom-Json
-          echo $version
-          echo "version=$($version.NuGetPackageVersion)" >> "$GITHUB_OUTPUT"
+        run: nbgv get-version -f json | ConvertFrom-Json
 
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln
