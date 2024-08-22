@@ -11,7 +11,7 @@ on:
       - main # for publish package and each commit to github
 env:
   FEED_SOURCE: https://api.nuget.org/v3/index.json
-  GHC_SOURCE: ${{ env.GHC_SOURCE }}
+  GHC_SOURCE: ${{ vars.GHC_SOURCE }}
   FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
   GHC_API_KEY: ${{ secrets.GHC_TOKEN }}
   NuGetDirectory: ${{ github.workspace}}/nuget
