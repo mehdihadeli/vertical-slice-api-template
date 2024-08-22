@@ -6,14 +6,15 @@ name: Publish-Nuget
 on:
   push:
     tags:
-      - "*"
+      - v\\d+\\.\\d+ # for publish package after each release to nuget
+    branches:
+      - main # for publish package and each commit to github
 env:
   FEED_SOURCE: https://api.nuget.org/v3/index.json
   FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
   NuGetDirectory: ${{ github.workspace}}/nuget
 
 jobs:
-
   # https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
   create-nuget:
     if: ${{ contains(fromJson('["main"]'), github.ref_name) ||  github.event_name == 'release' }}
@@ -36,19 +37,25 @@ jobs:
           key: vertical-template-nuget
           path: ~/.nuget/packages
 
-      # https://github.com/joseftw/jos.enumeration/blob/main/.github/workflows/verify.yml
-      # https://github.com/dotnet/Nerdbank.GitVersioning
-      - uses: dotnet/nbgv@v0.4.2
-        id: nbgv
+      # https://github.com/dotnet/Nerdbank.GitVersioning/blob/81162b84f1e81864d3c79ddfc4ce9794ae065574/doc/nbgv-cli.md
+      - name: Install nbgv dotnet tools
+        run: dotnet tool install -g nbgv
+
+      - name: nbgv Version
+        id: nbgv-version
+        run: |
+          $version = .\nbgv.exe get-version -f json | ConvertFrom-Json
+          echo $version
+          echo "version=$($version.NuGetPackageVersion)" >> "$GITHUB_OUTPUT"
 
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln
 
-      - name: Build Version ${{ steps.nbgv.outputs.NuGetPackageVersion }}
-        run: dotnet build  Vertical.Slice.Template.sln -c Release --no-restore /p:Version=${{ steps.nbgv.outputs.NuGetPackageVersion }}
+      - name: Build Version ${{ steps.nbgv-version.outputs.version }}
+        run: dotnet build  Vertical.Slice.Template.sln -c Release --no-restore
 
       # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack
-      - name: Pack NuGet Package Version ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+      - name: Pack NuGet Package Version ${{ steps.nbgv-version.outputs.version }}
         run: dotnet pack  vertical-slice-template.csproj -c Release -o ${{ env.NuGetDirectory }}
 
         # Publish the NuGet package as an artifact, so they can be used in the following jobs
@@ -59,7 +66,7 @@ jobs:
           retention-days: 7
           path: ${{ env.NuGetDirectory }}/*.nupkg
 
-  deploy:
+  deploy-nuget:
     if: ${{ contains(fromJson('["main"]'), github.ref_name) ||  github.event_name == 'release' }}
 
     # Publish only when creating a GitHub Release
@@ -84,14 +91,25 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
-      # https://github.com/joseftw/jos.enumeration/blob/main/.github/workflows/verify.yml
-      # https://github.com/dotnet/Nerdbank.GitVersioning
-      - uses: dotnet/nbgv@v0.4.2
-        id: nbgv
+      # https://github.com/dotnet/Nerdbank.GitVersioning/blob/81162b84f1e81864d3c79ddfc4ce9794ae065574/doc/nbgv-cli.md
+      - name: Install nbgv dotnet tools
+        run: dotnet tool install -g nbgv
+
+      - name: nbgv Version
+        id: nbgv-version
+        run: |
+          $version = .\nbgv.exe get-version -f json | ConvertFrom-Json
+          echo "version=$($version.NuGetPackageVersion)" >> "$GITHUB_OUTPUT"
+
+        # for publish package to github for each commit
+      - name: Publish NuGet Package Version ${{ steps.nbgv-version.outputs.version }} to GitHub
+        run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --skip-duplicate
+        if: github.event_name == 'push' && startswith(github.ref, 'refs/heads')
 
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
       # If you retry a failed workflow, already published packages will be skipped without error.
       # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-nuget-push
-      - name: Publish NuGet Package Version ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+      - name: Publish NuGet Package Version ${{ steps.nbgv-version.outputs.version }} to Nuget
         run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --skip-duplicate --source ${{ env.FEED_SOURCE }} --api-key ${{ env.FEED_API_KEY }}
+        if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
