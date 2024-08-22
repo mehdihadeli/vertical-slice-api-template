@@ -8,26 +8,6 @@
 
 > This is a An Asp.Net Core `template` based on `Vertical Slice Architecture`, CQRS, Minimal APIs, API Versioning and Swagger. Create a new project based on this template by clicking the above **Use this template** button or by installing and running the associated NuGet package (see Getting Started for full details).
 
-## Getting Started & Prerequisites
-
-1. This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
-2. Install git - [https://git-scm.com/downloads](https://git-scm.com/downloads).
-3. Install .NET Core 8.0 - [https://dotnet.microsoft.com/download/dotnet/8.0](https://dotnet.microsoft.com/download/dotnet/8.0).
-4. Install Visual Studio, Rider or VSCode.
-5. Run `dotnet new install Vertical.Slice.Template` to install the project templates.
-6. Now with running `dotnet new --list`, we should see `Vertical.Slice.Template` in the template list.
-7. Create a folder for your solution and cd into it (the template will use it as project name)
-8. Run `dotnet new vsa` for short name or `dotnet new Vertical.Slice.Template -n <YourProjectName>` to create a new project template.
-9. Open [<YourProjectName>.sln](./Vertical.Slice.Template.sln) solution, make sure that's compiling.
-10. Navigate to `src/App/<YourProjectName>.Api` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
-11. Open web browser https://localhost:5158/swagger Swagger UI
-
-For install package locally you can use this command in the root of your cloned responsitory:
-
-```bash
-dotnet new install .
-```
-
 # ⭐ Support
 
 If you like feel free to ⭐ this repository, It helps out :)
@@ -35,9 +15,10 @@ If you like feel free to ⭐ this repository, It helps out :)
 Thanks a bunch for supporting me!
 
 # Table of Contents
-
+- [Install](#install)
 - [Features](#features)
 - [Libraries](#libraries)
+- [Getting Started](#getting-started)
 - [Setup](#setup)
   - [Dev Certificate](#dev-certificate)
   - [Conventional Commit](#conventional-commit)
@@ -45,12 +26,25 @@ Thanks a bunch for supporting me!
   - [Analizers](#analizers)
 - [Application Structure](#application-structure)
 - [Vertical Slice Flow](#vertical-slice-flow)
-- [Prerequisites](#prerequisites)
 - [How to Run](#how-to-run)
   - [Using PM2](#using-pm2)
   - [Using Tye](#using-tye)
 - [Contribution](#contribution)
 - [License](#license)
+
+## Install
+
+For installing `vertical slice api template` from [nuget container registry](https://www.nuget.org/packages/Vertical.Slice.Template) run this dotnet cli command:
+
+``` bash
+dotnet new install Vertical.Slice.Template
+```
+
+Or for installing the template locally you can clone the project and run this command in the root of this repository:
+
+``` bash
+dotnet new install .
+```
 
 ## Features
 
@@ -81,6 +75,20 @@ Thanks a bunch for supporting me!
 - ✔️ **[`StyleCopAnalyzers`](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)** - An implementation of StyleCop rules using the .NET Compiler Platform
 - ✔️ **[`Mapperly`](https://github.com/riok/mapperly)** - A .NET source generator for generating object mappings, No runtime reflection.
 - ✔️ **[`NewID`](https://masstransit.io/documentation/patterns/newid)** - NewId generates sequential unique identifiers that are 128-bit (16-bytes) and fit nicely into a Guid
+
+## Getting Started
+
+1. This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
+2. Install git - [https://git-scm.com/downloads](https://git-scm.com/downloads).
+3. Install .NET Core 8.0 - [https://dotnet.microsoft.com/download/dotnet/8.0](https://dotnet.microsoft.com/download/dotnet/8.0).
+4. Install Visual Studio, Rider or VSCode.
+5. Run `dotnet new install Vertical.Slice.Template` to install the project templates.
+6. Now with running `dotnet new --list`, we should see `Vertical.Slice.Template` in the template list.
+7. Create a folder for your solution and cd into it (the template will use it as project name)
+8. Run `dotnet new vsa` for short name or `dotnet new Vertical.Slice.Template -n <YourProjectName>` to create a new project template.
+9. Open [<YourProjectName>.sln](./Vertical.Slice.Template.sln) solution, make sure that's compiling.
+10. Navigate to `src/App/<YourProjectName>.Api` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
+11. Open web browser https://localhost:5158/swagger Swagger UI
 
 ## Setup
 
