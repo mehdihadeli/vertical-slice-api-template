@@ -4,8 +4,8 @@ name: Release Drafter
 
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - "main"
 
 jobs:
   update_release_draft:
