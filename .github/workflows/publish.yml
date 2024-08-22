@@ -92,7 +92,7 @@ jobs:
         # for publish package to github for each commit
       - name: Publish NuGet Package Version ${{ steps.nbgv.outputs.SemVer2 }} to GitHub
         run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --skip-duplicate --api-key ${{ env.GHC_API_KEY }} --source ${{ env.GHC_SOURCE }}
-        if: github.event_name == 'push' && startswith(github.ref, 'refs/heads')
+        if: github.event_name == 'push' && (startswith(github.ref, 'refs/heads') || startswith(github.ref, 'refs/tags'))
 
       # Publish all NuGet packages to NuGet.org
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
