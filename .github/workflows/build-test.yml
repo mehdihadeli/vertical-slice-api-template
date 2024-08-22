@@ -17,20 +17,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          # https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/doc/cloudbuild.md#github-actions
-          fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "8.0.x"
-
-      # https://github.com/joseftw/jos.enumeration/blob/main/.github/workflows/verify.yml
-      # https://github.com/dotnet/Nerdbank.GitVersioning
-      - uses: dotnet/nbgv@v0.4.2
-        id: nbgv
-
+          
       - name: Cache NuGet Packages
         uses: actions/cache@v3
         with:
@@ -40,9 +32,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln
 
-      - name: Build Version ${{ steps.nbgv.outputs.nugetpackageversion }}
+      - name: Build Version
         run: dotnet build Vertical.Slice.Template.sln -c Release --no-restore
 
-      - name: Test Version ${{ steps.nbgv.outputs.nugetpackageversion }}
+      - name: Test Version
         run: |
           dotnet test Vertical.Slice.Template.sln  -c Release --no-restore  --no-build
