@@ -22,7 +22,7 @@ public class GetProductByIdTests : CatalogsUnitTestBase
         executor.Invoke(Arg.Is(product.Id), Arg.Any<CancellationToken>()).Returns(product);
         var query = new GetProductById(product.Id);
 
-        var handler = new GetProductByIdHandler(executor, Mapper);
+        var handler = new GetProductByIdHandler(executor);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);
@@ -44,7 +44,7 @@ public class GetProductByIdTests : CatalogsUnitTestBase
             .Invoke(Arg.Is(notExistsProductId), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<ProductReadModel?>(null));
 
-        var handler = new GetProductByIdHandler(executor, Mapper);
+        var handler = new GetProductByIdHandler(executor);
         var notExistProductQuery = new GetProductById(notExistsProductId);
 
         // Act
@@ -62,7 +62,7 @@ public class GetProductByIdTests : CatalogsUnitTestBase
         var product = new AutoFaker<ProductReadModel>().Generate();
         var executor = Substitute.For<DbExecutors.GetProductByIdExecutor>();
         executor.Invoke(Arg.Is(product.Id), Arg.Any<CancellationToken>()).Returns(product);
-        var handler = new GetProductByIdHandler(executor, Mapper);
+        var handler = new GetProductByIdHandler(executor);
 
         // Act
         Func<Task<GetProductByIdResult>> act = () => handler.Handle(null!, CancellationToken.None);

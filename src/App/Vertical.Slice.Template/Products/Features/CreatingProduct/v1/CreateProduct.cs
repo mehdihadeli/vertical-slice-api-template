@@ -1,4 +1,3 @@
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -52,7 +51,6 @@ internal class CreateProductValidator : AbstractValidator<CreateProduct>
 
 internal class CreateProductHandler(
     DbExecuters.CreateAndSaveProductExecutor createAndSaveProductExecutor,
-    IMapper mapper,
     IMediator mediator,
     ILogger<CreateProductHandler> logger
 ) : ICommandHandler<CreateProduct, CreateProductResult>
@@ -61,7 +59,7 @@ internal class CreateProductHandler(
     {
         request.NotBeNull();
 
-        var product = mapper.Map<Product>(request);
+        var product = request.ToProduct();
 
         await createAndSaveProductExecutor(product, cancellationToken);
 

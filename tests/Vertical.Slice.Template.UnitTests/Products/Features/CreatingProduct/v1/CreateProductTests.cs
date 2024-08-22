@@ -27,7 +27,6 @@ public class CreateProductTests : CatalogsUnitTestBase
         // Arrange
         var handler = new CreateProductHandler(
             executor,
-            Mapper,
             Substitute.For<IMediator>(),
             NullLogger<CreateProductHandler>.Instance
         );

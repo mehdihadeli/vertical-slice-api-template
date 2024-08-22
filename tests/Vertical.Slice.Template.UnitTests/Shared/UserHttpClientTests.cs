@@ -9,12 +9,12 @@ using Shared.Core.Exceptions;
 using Shared.Core.Paging;
 using Vertical.Slice.Template.Shared.Clients.Users;
 using Vertical.Slice.Template.Shared.Clients.Users.Dtos;
-using Vertical.Slice.Template.UnitTests.Common;
+using Vertical.Slice.Template.Users;
 using Vertical.Slice.Template.Users.Models;
 
 namespace Vertical.Slice.Template.UnitTests.Shared;
 
-public class UserHttpClientTests(MappingFixture mappingFixture) : IClassFixture<MappingFixture>
+public class UserHttpClientTests()
 {
     [Fact]
     public async Task get_all_users_should_call_http_client_with_valid_parameters_once()
@@ -56,7 +56,7 @@ public class UserHttpClientTests(MappingFixture mappingFixture) : IClassFixture<
 
         var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
 
-        var usersHttpClient = new UsersHttpClient(client, mappingFixture.Mapper, options);
+        var usersHttpClient = new UsersHttpClient(client, options);
 
         // Act
         await usersHttpClient.GetAllUsersAsync(pageRequest);
@@ -105,11 +105,11 @@ public class UserHttpClientTests(MappingFixture mappingFixture) : IClassFixture<
 
         var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
 
-        var users = mappingFixture.Mapper.Map<IList<User>>(usersClient);
+        var users = usersClient.ToUsers();
 
         var expectedPageList = new PageList<User>(users.ToList(), page, pageSize, total);
 
-        var usersHttpClient = new UsersHttpClient(client, mappingFixture.Mapper, options);
+        var usersHttpClient = new UsersHttpClient(client, options);
 
         // Act
         var result = await usersHttpClient.GetAllUsersAsync(pageRequest);
@@ -146,7 +146,7 @@ public class UserHttpClientTests(MappingFixture mappingFixture) : IClassFixture<
 
         var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
 
-        var usersHttpClient = new UsersHttpClient(client, mappingFixture.Mapper, options);
+        var usersHttpClient = new UsersHttpClient(client, options);
 
         // Act
         Func<Task> act = () => usersHttpClient.GetAllUsersAsync(pageRequest);
@@ -184,7 +184,7 @@ public class UserHttpClientTests(MappingFixture mappingFixture) : IClassFixture<
 
         var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
 
-        var usersHttpClient = new UsersHttpClient(client, mappingFixture.Mapper, options);
+        var usersHttpClient = new UsersHttpClient(client, options);
 
         // Act
         Func<Task> act = () => usersHttpClient.GetAllUsersAsync(pageRequest);

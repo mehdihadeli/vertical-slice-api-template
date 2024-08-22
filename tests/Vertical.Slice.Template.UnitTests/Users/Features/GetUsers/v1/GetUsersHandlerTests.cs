@@ -5,7 +5,6 @@ using NSubstitute.ExceptionExtensions;
 using Shared.Core.Exceptions;
 using Shared.Core.Paging;
 using Vertical.Slice.Template.Shared.Clients.Users;
-using Vertical.Slice.Template.UnitTests.Common;
 using Vertical.Slice.Template.Users.Dtos;
 using Vertical.Slice.Template.Users.GetUsers;
 using Vertical.Slice.Template.Users.Models;
@@ -14,7 +13,7 @@ namespace Vertical.Slice.Template.UnitTests.Users.Features.GetUsers.v1;
 
 // https://www.testwithspring.com/lesson/the-best-practices-of-nested-unit-tests/
 
-public class GetUsersHandlerTests(MappingFixture mappingFixture) : IClassFixture<MappingFixture>
+public class GetUsersHandlerTests()
 {
     [Fact]
     public async Task handle_should_call_users_http_client_once()
@@ -29,7 +28,7 @@ public class GetUsersHandlerTests(MappingFixture mappingFixture) : IClassFixture
 
         usersHttpClient.GetAllUsersAsync(Arg.Any<PageRequest>(), cancellationToken).Returns(pageResult);
 
-        var handler = new GetUsersHandler(usersHttpClient, mappingFixture.Mapper);
+        var handler = new GetUsersHandler(usersHttpClient);
 
         var query = GetUsersByPage.Of(new PageRequest { PageNumber = page, PageSize = pageSize });
         await handler.Handle(query, cancellationToken);
@@ -50,7 +49,7 @@ public class GetUsersHandlerTests(MappingFixture mappingFixture) : IClassFixture
 
         usersHttpClient.GetAllUsersAsync(Arg.Any<PageRequest>(), cancellationToken).Returns(pageResult);
 
-        var handler = new GetUsersHandler(usersHttpClient, mappingFixture.Mapper);
+        var handler = new GetUsersHandler(usersHttpClient);
 
         var query = GetUsersByPage.Of(new PageRequest { PageNumber = page, PageSize = pageSize });
         var result = await handler.Handle(query, cancellationToken);
@@ -77,7 +76,7 @@ public class GetUsersHandlerTests(MappingFixture mappingFixture) : IClassFixture
             .GetAllUsersAsync(Arg.Any<PageRequest>(), cancellationToken)
             .ThrowsAsync(new HttpResponseException(404, "Not Found"));
 
-        var handler = new GetUsersHandler(usersHttpClient, mappingFixture.Mapper);
+        var handler = new GetUsersHandler(usersHttpClient);
 
         var query = GetUsersByPage.Of(new PageRequest { PageNumber = page, PageSize = pageSize });
 
@@ -98,7 +97,7 @@ public class GetUsersHandlerTests(MappingFixture mappingFixture) : IClassFixture
             .GetAllUsersAsync(Arg.Any<PageRequest>(), cancellationToken)
             .ThrowsAsync(new Exception("Internal server error"));
 
-        var handler = new GetUsersHandler(usersHttpClient, mappingFixture.Mapper);
+        var handler = new GetUsersHandler(usersHttpClient);
 
         var query = GetUsersByPage.Of(new PageRequest { PageNumber = page, PageSize = pageSize });
         var act = () => handler.Handle(query, cancellationToken);

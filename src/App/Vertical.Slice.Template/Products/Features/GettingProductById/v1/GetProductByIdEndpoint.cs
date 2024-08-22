@@ -1,4 +1,3 @@
-using AutoMapper;
 using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +32,7 @@ internal static class GetProductByIdEndpoint
             [AsParameters] GetProductByIdRequestParameters requestParameters
         )
         {
-            var (id, _, mediator, mapper, cancellationToken) = requestParameters;
+            var (id, _, mediator, cancellationToken) = requestParameters;
             var result = await mediator.Send(new GetProductById(id), cancellationToken);
 
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses
@@ -49,7 +48,6 @@ internal record GetProductByIdRequestParameters(
     [FromRoute] Guid Id,
     HttpContext HttpContext,
     IMediator Mediator,
-    IMapper Mapper,
     CancellationToken CancellationToken
 ) : IHttpQuery;
 

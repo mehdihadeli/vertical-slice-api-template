@@ -1,4 +1,3 @@
-using AutoMapper;
 using Shared.Abstractions.Core.Paging;
 
 namespace Shared.Core.Paging;
@@ -24,11 +23,5 @@ public record PageList<T>(IReadOnlyList<T> Items, int PageNumber, int PageSize, 
         where TR : class
     {
         return PageList<TR>.Create(Items.Select(map).ToList(), PageNumber, PageSize, TotalCount);
-    }
-
-    public IPageList<TR> MapTo<TR>(IMapper mapper)
-        where TR : class
-    {
-        return PageList<TR>.Create(mapper.Map<IReadOnlyList<TR>>(Items), PageNumber, PageSize, TotalCount);
     }
 }

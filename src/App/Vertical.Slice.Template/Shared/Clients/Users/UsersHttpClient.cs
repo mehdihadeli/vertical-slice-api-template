@@ -1,20 +1,16 @@
 using System.Globalization;
 using System.Net.Http.Json;
-using AutoMapper;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
 using Shared.Core.Paging;
 using Shared.Web.Extensions;
 using Vertical.Slice.Template.Shared.Clients.Users.Dtos;
+using Vertical.Slice.Template.Users;
 using Vertical.Slice.Template.Users.Models;
 
 namespace Vertical.Slice.Template.Shared.Clients.Users;
 
-public class UsersHttpClient(
-    HttpClient httpClient,
-    IMapper mapper,
-    IOptions<UsersHttpClientOptions> userHttpClientOptions
-)
+public class UsersHttpClient(HttpClient httpClient, IOptions<UsersHttpClientOptions> userHttpClientOptions)
     : IUsersHttpClient
 {
     private readonly UsersHttpClientOptions _userHttpClientOptions = userHttpClientOptions.Value;
@@ -51,7 +47,7 @@ public class UsersHttpClient(
         var mod = usersListPage.Total % usersListPage.Limit;
         var totalPageCount = (usersListPage.Total / usersListPage.Limit) + (mod == 0 ? 0 : 1);
 
-        var items = mapper.Map<IEnumerable<User>>(usersListPage.Users);
+        var items = usersListPage.Users.ToUsers();
 
         var pageList = new PageList<User>(items.ToList(), usersListPage.Skip, usersListPage.Limit, usersListPage.Total);
 

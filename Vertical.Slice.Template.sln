@@ -93,6 +93,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiClients", "ApiClients", "{66D6E224-01FF-4D8F-98C1-CEA3CD2D5F15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{AF80152C-AF0D-475E-AD69-A7867D1ACA26}"
+	ProjectSection(SolutionItems) = preProject
+		src\App\Directory.Build.props = src\App\Directory.Build.props
+		src\App\Directory.Build.targets = src\App\Directory.Build.targets
+		src\App\Directory.Packages.props = src\App\Directory.Packages.props
+		src\App\Packages.props = src\App\Packages.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{54C91A04-E128-4ADB-9B49-E0FEAC783069}"
 EndProject

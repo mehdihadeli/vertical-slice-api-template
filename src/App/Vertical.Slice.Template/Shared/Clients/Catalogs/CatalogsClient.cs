@@ -1,15 +1,15 @@
-using AutoMapper;
 using Catalogs.ApiClient;
 using Shared.Abstractions.Core.Paging;
 using Shared.Core.Exceptions;
 using Shared.Core.Extensions;
 using Shared.Core.Paging;
+using Vertical.Slice.Template.Products;
 using Vertical.Slice.Template.Products.Models;
 using Vertical.Slice.Template.Shared.Clients.Catalogs.Dtos;
 
 namespace Vertical.Slice.Template.Shared.Clients.Catalogs;
 
-public class CatalogsClient(ICatalogsApiClient catalogsApiClient, IMapper mapper) : ICatalogsClient
+public class CatalogsClient(ICatalogsApiClient catalogsApiClient) : ICatalogsClient
 {
     public const string ClientName = "CatalogsClient";
 
@@ -69,10 +69,10 @@ public class CatalogsClient(ICatalogsApiClient catalogsApiClient, IMapper mapper
                 cancellationToken
             );
 
-            var items = mapper.Map<List<Product>>(response.Products!.Items);
+            var items = response.Products!.Items.ToProducts();
 
             return PageList<Product>.Create(
-                items,
+                items.AsReadOnly(),
                 response.Products.PageNumber,
                 response.Products.PageSize,
                 response.Products.TotalCount
@@ -99,7 +99,7 @@ public class CatalogsClient(ICatalogsApiClient catalogsApiClient, IMapper mapper
             // https: //github.com/App-vNext/Polly#step-1--specify-the--exceptionsfaults-you-want-the-policy-to-handle
             var response = await catalogsApiClient.GetProductByIdAsync(id, cancellationToken);
 
-            var product = mapper.Map<Product>(response.Product);
+            var product = response.Product.ToProduct();
 
             return product;
         }
