@@ -1,34 +1,33 @@
-using Meziantou.Extensions.Logging.InMemory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Vertical.Slice.Template.Shared.Abstractions.Ef;
+using Shared.Abstractions.Persistence;
+using Shared.Abstractions.Persistence.Ef;
 using Vertical.Slice.Template.TestsShared.Fixtures;
 
 namespace Vertical.Slice.Template.TestsShared.TestBase;
 
+//https://bartwullems.blogspot.com/2019/09/xunit-async-lifetime.html
+//https://www.danclarke.com/cleaner-tests-with-iasynclifetime
+//https://xunit.net/docs/shared-context
 public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLifetime
     where TEntryPoint : class
 {
-    private readonly ITestOutputHelper _outputHelper;
+    private IServiceScope? _serviceScope;
+
     protected CancellationToken CancellationToken => CancellationTokenSource.Token;
     protected CancellationTokenSource CancellationTokenSource { get; }
     protected int Timeout => 180;
-    protected IServiceScope Scope { get; }
-    protected SharedFixture<TEntryPoint> SharedFixture { get; }
 
-    /// <summary>
-    /// Use for tracking occured log events for testing purposes
-    /// </summary>
-    protected InMemoryLoggerProvider InMemoryLogTrackerProvider { get; }
+    // Build Service Provider here
+    protected IServiceScope Scope => _serviceScope ??= SharedFixture.ServiceProvider.CreateScope();
+    protected SharedFixture<TEntryPoint> SharedFixture { get; }
 
     protected IntegrationTest(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper)
         : base(outputHelper)
     {
-        _outputHelper = outputHelper;
         SharedFixture = sharedFixture;
-
         SharedFixture.SetOutputHelper(outputHelper);
 
         CancellationTokenSource = new(TimeSpan.FromSeconds(Timeout));
@@ -42,24 +41,22 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
                 RegisterTestAppConfigurations(configurationBuilder, context.Configuration, context.HostingEnvironment);
             }
         );
-
-        // Build Service Provider here
-        Scope = SharedFixture.ServiceProvider.CreateScope();
-        InMemoryLogTrackerProvider = sharedFixture.Factory.InMemoryLogTrackerProvider;
     }
-
-    protected virtual void RegisterTestConfigureServices(IServiceCollection services) { }
-
-    protected virtual void RegisterTestAppConfigurations(
-        IConfigurationBuilder builder,
-        IConfiguration configuration,
-        IHostEnvironment environment
-    ) { }
 
     // we use IAsyncLifetime in xunit instead of constructor when we have async operation
     public virtual async Task InitializeAsync()
     {
         await RunSeedAndMigrationAsync();
+    }
+
+    public virtual async Task DisposeAsync()
+    {
+        // it is better messages delete first
+        await SharedFixture.ResetDatabasesAsync(CancellationToken);
+
+        await CancellationTokenSource.CancelAsync();
+
+        Scope.Dispose();
     }
 
     private async Task RunSeedAndMigrationAsync()
@@ -87,29 +84,21 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
         }
     }
 
-    public virtual async Task DisposeAsync()
-    {
-        // it is better messages delete first
-        await SharedFixture.ResetDatabasesAsync(CancellationToken);
+    protected virtual void RegisterTestConfigureServices(IServiceCollection services) { }
 
-        await CancellationTokenSource.CancelAsync();
-
-        Scope.Dispose();
-    }
+    protected virtual void RegisterTestAppConfigurations(
+        IConfigurationBuilder builder,
+        IConfiguration configuration,
+        IHostEnvironment environment
+    ) { }
 }
 
-public abstract class IntegrationTestBase<TEntryPoint, TContext> : IntegrationTest<TEntryPoint>
+public abstract class IntegrationTestBase<TEntryPoint, TContext>(
+    SharedFixtureWithEfCore<TEntryPoint, TContext> sharedFixture,
+    ITestOutputHelper outputHelper
+) : IntegrationTest<TEntryPoint>(sharedFixture, outputHelper)
     where TEntryPoint : class
     where TContext : DbContext
 {
-    protected IntegrationTestBase(
-        SharedFixtureWithEfCore<TEntryPoint, TContext> sharedFixture,
-        ITestOutputHelper outputHelper
-    )
-        : base(sharedFixture, outputHelper)
-    {
-        SharedFixture = sharedFixture;
-    }
-
-    public new SharedFixtureWithEfCore<TEntryPoint, TContext> SharedFixture { get; }
+    public new SharedFixtureWithEfCore<TEntryPoint, TContext> SharedFixture { get; } = sharedFixture;
 }

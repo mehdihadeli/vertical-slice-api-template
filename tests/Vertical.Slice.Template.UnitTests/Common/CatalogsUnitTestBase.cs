@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Options;
+using Shared.Core.Paging;
 using Sieve.Models;
-using Vertical.Slice.Template.Shared.Core.Paging;
 using Vertical.Slice.Template.TestsShared.XunitCategories;
 
 namespace Vertical.Slice.Template.UnitTests.Common;

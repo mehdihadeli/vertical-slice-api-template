@@ -3,25 +3,16 @@ using Vertical.Slice.Template.TestsShared.Fixtures;
 
 namespace Vertical.Slice.Template.TestsShared.TestBase;
 
-public class EndToEndTestTest<TEntryPoint> : IntegrationTest<TEntryPoint>
-    where TEntryPoint : class
-{
-    public EndToEndTestTest(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper)
-        : base(sharedFixture, outputHelper) { }
-}
+public class EndToEndTestTest<TEntryPoint>(SharedFixture<TEntryPoint> sharedFixture, ITestOutputHelper outputHelper)
+    : IntegrationTest<TEntryPoint>(sharedFixture, outputHelper)
+    where TEntryPoint : class;
 
-public abstract class EndToEndTestTestBase<TEntryPoint, TContext> : EndToEndTestTest<TEntryPoint>
+public abstract class EndToEndTestTestBase<TEntryPoint, TContext>(
+    SharedFixtureWithEfCore<TEntryPoint, TContext> sharedFixture,
+    ITestOutputHelper outputHelper
+) : EndToEndTestTest<TEntryPoint>(sharedFixture, outputHelper)
     where TEntryPoint : class
     where TContext : DbContext
 {
-    protected EndToEndTestTestBase(
-        SharedFixtureWithEfCore<TEntryPoint, TContext> sharedFixture,
-        ITestOutputHelper outputHelper
-    )
-        : base(sharedFixture, outputHelper)
-    {
-        SharedFixture = sharedFixture;
-    }
-
-    public new SharedFixtureWithEfCore<TEntryPoint, TContext> SharedFixture { get; }
+    public new SharedFixtureWithEfCore<TEntryPoint, TContext> SharedFixture { get; } = sharedFixture;
 }

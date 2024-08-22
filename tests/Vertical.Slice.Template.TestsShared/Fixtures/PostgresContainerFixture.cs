@@ -1,8 +1,7 @@
-using Dapper;
 using Npgsql;
 using Respawn;
+using Shared.Core.Extensions;
 using Testcontainers.PostgreSql;
-using Vertical.Slice.Template.Shared.Core.Extensions;
 using Vertical.Slice.Template.TestsShared.Helpers;
 using Xunit.Sdk;
 

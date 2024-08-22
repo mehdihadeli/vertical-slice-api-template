@@ -1,9 +1,8 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Core.Paging;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.Clients.Users;
-using Vertical.Slice.Template.Shared.Core.Paging;
-using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.TestsShared.Fixtures;
 using Vertical.Slice.Template.TestsShared.TestBase;
 using Vertical.Slice.Template.TestsShared.XunitCategories;
@@ -12,12 +11,10 @@ using Xunit.Abstractions;
 namespace Vertical.Slice.Template.ApiClientTests.Users;
 
 [Collection(IntegrationTestUsersCollection.Name)]
-public class UserApiClientTests : IntegrationTest<CatalogsApiMetadata>
+public class UserApiClientTests(SharedFixture<CatalogsApiMetadata> sharedFixture, ITestOutputHelper outputHelper)
+    : IntegrationTest<CatalogsApiMetadata>(sharedFixture, outputHelper)
 {
     private IUsersHttpClient? _usersHttpClient;
-
-    public UserApiClientTests(SharedFixture<CatalogsApiMetadata> sharedFixture, ITestOutputHelper outputHelper)
-        : base(sharedFixture, outputHelper) { }
 
     public IUsersHttpClient UsersClient =>
         _usersHttpClient ??= SharedFixture.ServiceProvider.GetRequiredService<IUsersHttpClient>();

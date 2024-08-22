@@ -9,14 +9,11 @@ using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.ApiClientTests.Catalogs;
 
-public class CatalogsServiceCatalogsTests : CatalogsTestBase
+public class CatalogsServiceCatalogsTests(
+    SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+    ITestOutputHelper outputHelper
+) : CatalogsTestBase(sharedFixture, outputHelper)
 {
-    public CatalogsServiceCatalogsTests(
-        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
-        ITestOutputHelper outputHelper
-    )
-        : base(sharedFixture, outputHelper) { }
-
     [Fact]
     [CategoryTrait(TestCategory.Integration)]
     public async Task create_product_can_create_product_with_valid_data()
