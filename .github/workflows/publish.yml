@@ -45,18 +45,27 @@ jobs:
         id: nbgv-version
         run: |
           version_info=$(nbgv get-version -f json)
-          nuget_version=$(echo "$version_info" | grep '"NuGetPackageVersion"' | sed 's/.*: "\(.*\)".*/\1/')
           echo "$version_info"
-          echo "version=$nuget_version" >> "$GITHUB_OUTPUT"
+          echo "Version=$(echo $version_info | grep -Po '(?<=\"Version\":\s\").*?(?=\")')" >> $GITHUB_OUTPUT
+          echo "AssemblyVersion=$(echo $version_info | grep -Po '(?<=\"AssemblyVersion\":\s\").*?(?=\")')" >> $GITHUB_OUTPUT
+          echo "NuGetPackageVersion=$(echo $version_info | grep -Po '(?<=\"NuGetPackageVersion\":\s\").*?(?=\")')" >> $GITHUB_OUTPUT
+          echo "SemVer2=$(echo $version_info | grep -Po '(?<=\"SemVer2\":\s\").*?(?=\")')" >> $GITHUB_OUTPUT
+
+      - name: Use Version Outputs
+        run: |
+          echo "BuildMetadataFragment: ${{ steps.nbgv-version.outputs.Version }}"
+          echo "NuGetPackageVersion: ${{ steps.nbgv-version.outputs.AssemblyVersion }}"
+          echo "ChocolateyPackageVersion: ${{ steps.nbgv-version.outputs.NuGetPackageVersion }}"
+          echo "NpmPackageVersion: ${{ steps.nbgv-version.outputs.SemVer2 }}"
 
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln
 
-      - name: Build Version ${{ steps.nbgv-version.outputs.version }}
+      - name: Build Version ${{ steps.nbgv-version.outputs.NuGetPackageVersion }}
         run: dotnet build  Vertical.Slice.Template.sln -c Release --no-restore
 
       # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack
-      - name: Pack NuGet Package Version ${{ steps.nbgv-version.outputs.version }}
+      - name: Pack NuGet Package Version ${{ steps.nbgv-version.outputs.NuGetPackageVersion }}
         run: dotnet pack  vertical-slice-template.csproj -c Release -o ${{ env.NuGetDirectory }}
 
         # Publish the NuGet package as an artifact, so they can be used in the following jobs
