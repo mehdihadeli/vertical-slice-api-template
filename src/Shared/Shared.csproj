@@ -10,7 +10,6 @@
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
     <PackageReference Include="Asp.Versioning.Http" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
-    <PackageReference Include="AutoMapper" />
     <PackageReference Include="CorrelationId" />
     <PackageReference Include="Dapper" />
     <PackageReference Include="DotNetEnv" />
@@ -31,6 +30,7 @@
     <PackageReference Include="Microsoft.Extensions.Http.Polly" />
     <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Riok.Mapperly" />
     <PackageReference Include="Sieve" />
     <PackageReference Include="SqlKata" />
     <PackageReference Include="Swashbuckle.AspNetCore" />

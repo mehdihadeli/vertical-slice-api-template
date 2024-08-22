@@ -58,8 +58,6 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(InvalidateCachingBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(EfTxBehavior<,>));
 
-        builder.Services.AddAutoMapper(typeof(CatalogsMetadata).Assembly);
-
         builder.Services.AddCustomValidators(typeof(CatalogsMetadata).Assembly);
 
         builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));

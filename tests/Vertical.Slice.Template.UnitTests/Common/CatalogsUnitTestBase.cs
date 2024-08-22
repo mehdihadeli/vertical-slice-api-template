@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Options;
 using Shared.Core.Paging;
 using Sieve.Models;
@@ -19,12 +18,10 @@ public class CatalogsUnitTestBase : IAsyncDisposable
     // We don't need to inject `CustomersServiceMockServersFixture` class fixture in the constructor because it initialized by `collection fixture` and its static properties are accessible in the codes
     public CatalogsUnitTestBase()
     {
-        Mapper = MapperFactory.Create();
         IOptions<SieveOptions> options = Options.Create(new SieveOptions { DefaultPageSize = 10, MaxPageSize = 10 });
         SieveProcessor = new ApplicationSieveProcessor(options);
     }
 
-    public IMapper Mapper { get; }
     public ApplicationSieveProcessor SieveProcessor { get; }
 
     public IValidator<T> GetFakeValidator<T>()

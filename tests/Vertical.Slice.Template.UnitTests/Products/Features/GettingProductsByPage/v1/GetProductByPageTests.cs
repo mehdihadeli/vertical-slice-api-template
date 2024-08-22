@@ -22,7 +22,7 @@ public class GetProductByPageTests : CatalogsUnitTestBase
         executor(Arg.Any<CancellationToken>()).Returns(productList.AsQueryable());
         var query = new GetProductsByPage();
 
-        var handler = new GetProductByPageHandler(executor, SieveProcessor, Mapper);
+        var handler = new GetProductByPageHandler(executor, SieveProcessor);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);

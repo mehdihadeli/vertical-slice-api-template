@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -64,7 +63,6 @@ public interface IMediatorMinimalEndpoint<in TRequest> : IMinimalEndpoint
         HttpContext context,
         TRequest request,
         IMediator mediator,
-        IMapper mapper,
         CancellationToken cancellationToken
     );
 }
@@ -75,7 +73,6 @@ public interface IMediatorMinimalEndpoint<in TRequest, TResult> : IMinimalEndpoi
         HttpContext context,
         TRequest request,
         IMediator mediator,
-        IMapper mapper,
         CancellationToken cancellationToken
     );
 }
@@ -86,7 +83,6 @@ public interface IMediatorMinimalEndpoint<in TRequest, in TDependency, TResult> 
         HttpContext context,
         TRequest request,
         IMediator mediator,
-        IMapper mapper,
         TDependency dependency1,
         CancellationToken cancellationToken
     );
@@ -98,7 +94,6 @@ public interface IMediatorMinimalEndpoint<in TRequest, in TDependency1, in TDepe
         HttpContext context,
         TRequest request,
         IMediator mediator,
-        IMapper mapper,
         TDependency1 dependency1,
         TDependency2 dependency2,
         CancellationToken cancellationToken

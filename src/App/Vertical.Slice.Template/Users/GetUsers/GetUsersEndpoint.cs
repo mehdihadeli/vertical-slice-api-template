@@ -1,4 +1,3 @@
-using AutoMapper;
 using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -30,9 +29,9 @@ internal static class GetUsersByPageEndpoint
             [AsParameters] GetUsersByPageRequestParameters requestParameters
         )
         {
-            var (context, mediatr, mapper, cancellationToken, _, _, _, _) = requestParameters;
+            var (context, mediatr, cancellationToken, _, _, _, _) = requestParameters;
 
-            var query = mapper.Map<GetUsersByPage>(requestParameters);
+            var query = requestParameters.ToGetUsersByPage();
 
             var result = await mediatr.Send(query, cancellationToken);
 
@@ -48,7 +47,6 @@ internal static class GetUsersByPageEndpoint
 internal record GetUsersByPageRequestParameters(
     HttpContext HttpContext,
     IMediator Mediator,
-    IMapper Mapper,
     CancellationToken CancellationToken,
     int PageSize = 10,
     int PageNumber = 1,

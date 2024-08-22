@@ -1,4 +1,3 @@
-using AutoMapper;
 using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -35,9 +34,9 @@ internal static class CreateProductEndpoint
             Results<CreatedAtRoute<CreateProductResponse>, UnAuthorizedHttpProblemResult, ValidationProblem>
         > Handle([AsParameters] CreateProductRequestParameters requestParameters)
         {
-            var (request, context, mediator, mapper, cancellationToken) = requestParameters;
+            var (request, context, mediator, cancellationToken) = requestParameters;
 
-            var command = mapper.Map<CreateProduct>(request);
+            var command = request.ToCreateProduct();
 
             var result = await mediator.Send(command, cancellationToken);
 
@@ -58,7 +57,6 @@ internal record CreateProductRequestParameters(
     [FromBody] CreateProductRequest? Request,
     HttpContext HttpContext,
     IMediator Mediator,
-    IMapper Mapper,
     CancellationToken CancellationToken
 ) : IHttpCommand<CreateProductRequest?>;
 

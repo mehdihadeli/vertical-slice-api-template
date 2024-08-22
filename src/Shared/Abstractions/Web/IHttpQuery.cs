@@ -1,4 +1,3 @@
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
@@ -12,6 +11,5 @@ public interface IHttpQuery
 {
     HttpContext HttpContext { get; init; }
     IMediator Mediator { get; init; }
-    IMapper Mapper { get; init; }
     CancellationToken CancellationToken { get; init; }
 }

@@ -1,4 +1,3 @@
-using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Shared.Abstractions.Core.CQRS;
@@ -54,8 +53,7 @@ internal class GetProductsByPageValidator : AbstractValidator<GetProductsByPage>
 
 internal class GetProductByPageHandler(
     DbExecutors.GetProductsExecutor getProductsExecutor,
-    ISieveProcessor sieveProcessor,
-    IMapper mapper
+    ISieveProcessor sieveProcessor
 ) : IQueryHandler<GetProductsByPage, GetProductsByPageResult>
 {
     public async Task<GetProductsByPageResult> Handle(GetProductsByPage request, CancellationToken cancellationToken)
@@ -66,11 +64,12 @@ internal class GetProductByPageHandler(
 
         var pageList = await query.ApplyPagingAsync<Product, ProductReadModel>(
             request,
-            mapper.ConfigurationProvider,
             sieveProcessor,
+            projectionFunc: ProductMappings.ToProductsReadModel,
             cancellationToken
         );
-        var result = pageList.MapTo<ProductDto>(mapper);
+
+        var result = pageList.MapTo<ProductDto>(ProductMappings.ToProductDto);
 
         return new GetProductsByPageResult(result);
     }
@@ -88,6 +87,7 @@ internal class DbExecutors : IDbExecutors
         services.AddTransient<GetProductsExecutor>(sp =>
         {
             var context = sp.GetRequiredService<CatalogsDbContext>();
+
             IQueryable<Product> Query(CancellationToken cancellationToken)
             {
                 var collection = context.Products.AsNoTracking();

@@ -1,14 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>Vertical.Slice.Template.ApiClient</AssemblyName>
-    <RootNamespace>Vertical.Slice.Template.ApiClient</RootNamespace>
+    <AssemblyName>Vertical.Slice.Template.ApiClients</AssemblyName>
+    <RootNamespace>Vertical.Slice.Template.ApiClients</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vertical.Slice.Template.Shared\Vertical.Slice.Template.Shared.csproj" />
-  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="NSwag.ApiDescription.Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
   <!--  https://learn.microsoft.com/en-us/aspnet/core/web-api/microsoft.dotnet-openapi-->
@@ -31,4 +33,5 @@
   <ItemGroup>
     <Folder Include="Clients\" />
   </ItemGroup>
+
 </Project>

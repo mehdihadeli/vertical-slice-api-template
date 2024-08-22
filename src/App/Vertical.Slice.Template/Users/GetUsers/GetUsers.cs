@@ -1,4 +1,3 @@
-using AutoMapper;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Core.Paging;
 using Shared.Core.Paging;
@@ -23,19 +22,18 @@ internal record GetUsersByPage : PageQuery<GetUsersByPageResult>
             PageNumber = pageNumber,
             PageSize = pageSize,
             Filters = filters,
-            SortOrder = sortOrder
+            SortOrder = sortOrder,
         };
     }
 }
 
-internal class GetUsersHandler(IUsersHttpClient usersHttpClient, IMapper mapper)
-    : IQueryHandler<GetUsersByPage, GetUsersByPageResult>
+internal class GetUsersHandler(IUsersHttpClient usersHttpClient) : IQueryHandler<GetUsersByPage, GetUsersByPageResult>
 {
     public async Task<GetUsersByPageResult> Handle(GetUsersByPage request, CancellationToken cancellationToken)
     {
         var usersList = await usersHttpClient.GetAllUsersAsync(request, cancellationToken);
 
-        var dtos = usersList.MapTo<UserDto>(mapper.Map<UserDto>);
+        var dtos = usersList.MapTo(UsersMappings.ToUserDto);
 
         return new GetUsersByPageResult(dtos);
     }

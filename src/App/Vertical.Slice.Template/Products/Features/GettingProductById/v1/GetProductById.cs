@@ -1,4 +1,3 @@
-using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Shared.Abstractions.Core.CQRS;
@@ -41,7 +40,7 @@ internal class GetProductByIdValidator : AbstractValidator<GetProductById>
     }
 }
 
-internal class GetProductByIdHandler(DbExecutors.GetProductByIdExecutor getProductByIdExecutor, IMapper mapper)
+internal class GetProductByIdHandler(DbExecutors.GetProductByIdExecutor getProductByIdExecutor)
     : IQueryHandler<GetProductById, GetProductByIdResult>
 {
     public async Task<GetProductByIdResult> Handle(GetProductById request, CancellationToken cancellationToken)
@@ -55,7 +54,7 @@ internal class GetProductByIdHandler(DbExecutors.GetProductByIdExecutor getProdu
             throw new NotFoundException($"product with id {request.Id} not found");
         }
 
-        var productDto = mapper.Map<ProductDto>(productReadModel);
+        var productDto = productReadModel.ToProductDto();
 
         return new GetProductByIdResult(productDto);
     }
@@ -72,11 +71,10 @@ internal class DbExecutors : IDbExecutors
         services.AddTransient<GetProductByIdExecutor>(sp =>
         {
             var context = sp.GetRequiredService<CatalogsDbContext>();
-            var mapper = sp.GetRequiredService<IMapper>();
 
             Task<ProductReadModel?> Query(Guid id, CancellationToken cancellationToken) =>
                 context
-                    .ProjectEntity<Product, ProductReadModel>(mapper.ConfigurationProvider, cancellationToken)
+                    .ProjectEntity<Product, ProductReadModel>(ProductMappings.ToProductsReadModel, cancellationToken)
                     .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
             return Query;

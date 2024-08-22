@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Shared.EF.Extensions;
@@ -19,9 +17,14 @@ public static class DbContextExtensions
 
     public static IQueryable<TProject> ProjectEntity<T, TProject>(
         this DbContext dbContext,
-        IConfigurationProvider configurationProvider,
+        Func<IQueryable<T>, IQueryable<TProject>> projectionFunc,
         CancellationToken ct
     )
         where T : class
-        where TProject : class => dbContext.Set<T>().AsNoTracking().ProjectTo<TProject>(configurationProvider, ct);
+        where TProject : class
+    {
+        var projectedQuery = projectionFunc(dbContext.Set<T>());
+
+        return projectedQuery.AsNoTracking();
+    }
 }
