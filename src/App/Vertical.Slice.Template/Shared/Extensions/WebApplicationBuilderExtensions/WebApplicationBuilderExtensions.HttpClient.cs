@@ -43,5 +43,7 @@ public static partial class WebApplicationBuilderExtensions
                 return new CatalogsApiClient(client);
             }
         );
+
+        builder.Services.AddTransient<ICatalogsClient, CatalogsClient>();
     }
 }

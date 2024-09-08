@@ -11,8 +11,6 @@ namespace Vertical.Slice.Template.Shared.Clients.Catalogs;
 
 public class CatalogsClient(ICatalogsApiClient catalogsApiClient) : ICatalogsClient
 {
-    public const string ClientName = "CatalogsClient";
-
     public async Task<Guid> CreateProductAsync(
         CreateProductClientDto createProductClientDto,
         CancellationToken cancellationToken

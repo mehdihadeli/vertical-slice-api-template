@@ -308,7 +308,7 @@ public static partial class ServiceCollectionExtensions
                     }
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw new($"Failed to resolve service {serviceDescriptor.ServiceType.FullName}: {ex.Message}", ex);
             }
