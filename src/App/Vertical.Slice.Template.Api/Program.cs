@@ -4,6 +4,7 @@ using Serilog.Events;
 using Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Shared.Logging;
 using Shared.Swagger;
+using Shared.Web.Extensions;
 using Shared.Web.Minimal.Extensions;
 using Vertical.Slice.Template;
 using Vertical.Slice.Template.Shared;
@@ -28,7 +29,7 @@ try
         {
             var isDevMode =
                 context.HostingEnvironment.IsDevelopment()
-                || context.HostingEnvironment.IsEnvironment("test")
+                || context.HostingEnvironment.IsTest()
                 || context.HostingEnvironment.IsStaging();
 
             // Handling Captive Dependency Problem
@@ -49,13 +50,9 @@ try
 
     var app = builder.Build();
 
-    if (app.Environment.IsDevelopment() && app.Environment.IsEnvironment("test"))
+    if (app.Environment.IsDependencyTest())
     {
-        app.Services.ValidateDependencies(
-            builder.Services,
-            typeof(CatalogsMetadata).Assembly,
-            Assembly.GetExecutingAssembly()
-        );
+        return;
     }
 
     // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling
@@ -66,7 +63,7 @@ try
     app.UseExceptionHandler(options: new ExceptionHandlerOptions { AllowStatusCode404Response = true });
 
     // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("test"))
+    if (app.Environment.IsDevelopment() || app.Environment.IsTest())
     {
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errrors
         app.UseDeveloperExceptionPage();

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
+using Shared.Web;
 
 namespace Shared.EF;
 
@@ -21,7 +22,7 @@ public abstract class DbContextDesignFactoryBase<TDbContext> : IDesignTimeDbCont
     {
         Console.WriteLine($"BaseDirectory: {AppContext.BaseDirectory}");
 
-        var environmentName = _env ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "test";
+        var environmentName = _env ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environments.Test;
 
         var builder = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory ?? "")

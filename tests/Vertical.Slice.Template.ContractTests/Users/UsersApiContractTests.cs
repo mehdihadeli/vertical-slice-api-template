@@ -4,7 +4,7 @@ using Vertical.Slice.Template.Shared.Clients.Users.Dtos;
 
 namespace Vertical.Slice.Template.ContractTests.Users;
 
-public class UsersApiTests
+public class UsersApiContractTests
 {
     private readonly HttpClient _httpClient = new() { BaseAddress = new Uri("https://dummyjson.com") };
 

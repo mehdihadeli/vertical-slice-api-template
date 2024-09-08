@@ -9,6 +9,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
 using Vertical.Slice.Template.Api;
+using Environments = Shared.Web.Environments;
 
 namespace Vertical.Slice.Template.TestsShared.Factory;
 
@@ -29,7 +30,8 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        builder.UseEnvironment("test");
+        builder.UseEnvironment(Environments.Test);
+        builder.UseContentRoot(".");
 
         // UseSerilog on WebHostBuilder is absolute so we should use IHostBuilder
         builder.UseSerilog(

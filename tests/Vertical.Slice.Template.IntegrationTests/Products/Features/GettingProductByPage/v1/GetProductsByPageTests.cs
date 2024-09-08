@@ -9,14 +9,12 @@ using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.IntegrationTests.Products.Features.GettingProductByPage.v1;
 
-public class GetProductsByPageTests : CatalogsIntegrationTestBase
+public class GetProductsByPageTests(
+    SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+    ITestOutputHelper outputHelper
+)
+    : CatalogsIntegrationTestBase(sharedFixture, outputHelper)
 {
-    public GetProductsByPageTests(
-        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
-        ITestOutputHelper outputHelper
-    )
-        : base(sharedFixture, outputHelper) { }
-
     [Fact]
     [CategoryTrait(TestCategory.Integration)]
     internal async Task can_get_existing_products_list_from_db()
