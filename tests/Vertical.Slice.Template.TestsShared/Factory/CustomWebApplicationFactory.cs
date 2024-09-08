@@ -31,6 +31,7 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
     protected override IHost CreateHost(IHostBuilder builder)
     {
         builder.UseEnvironment(Environments.Test);
+        builder.UseContentRoot(".");
 
         // UseSerilog on WebHostBuilder is absolute so we should use IHostBuilder
         builder.UseSerilog(

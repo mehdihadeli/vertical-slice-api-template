@@ -7,11 +7,8 @@ using Xunit.Abstractions;
 namespace Vertical.Slice.Template.IntegrationTests;
 
 [Collection(IntegrationTestCatalogsCollection.Name)]
-public class CatalogsIntegrationTestBase : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>
-{
-    public CatalogsIntegrationTestBase(
-        SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
-        ITestOutputHelper outputHelper
-    )
-        : base(sharedFixture, outputHelper) { }
-}
+public class CatalogsIntegrationTestBase(
+    SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
+    ITestOutputHelper outputHelper
+)
+    : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>(sharedFixture, outputHelper);
