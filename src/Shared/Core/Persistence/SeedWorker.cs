@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Persistence.Ef;
+using Shared.Web.Extensions;
 
 namespace Shared.Core.Persistence;
 
@@ -15,7 +16,7 @@ public class SeedWorker(
 {
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        if (!webHostEnvironment.IsEnvironment("test"))
+        if (!webHostEnvironment.IsTest())
         {
             logger.LogInformation("Seed worker started");
 
@@ -35,7 +36,7 @@ public class SeedWorker(
 
     public override Task StopAsync(CancellationToken cancellationToken)
     {
-        if (!webHostEnvironment.IsEnvironment("test"))
+        if (!webHostEnvironment.IsTest())
         {
             logger.LogInformation("Seed worker stopped");
         }

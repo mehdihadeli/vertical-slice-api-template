@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 
 namespace Shared.Core.Extensions.ServiceCollectionsExtensions;
 
@@ -272,8 +273,7 @@ public static partial class ServiceCollectionExtensions
         params Assembly[] assembliesToScan
     )
     {
-        var scanAssemblies = assembliesToScan.Any() ? assembliesToScan : new[] { Assembly.GetExecutingAssembly(), };
-        var exceptions = new List<string>();
+        var scanAssemblies = assembliesToScan.Length != 0 ? assembliesToScan : [Assembly.GetExecutingAssembly(),];
 
         // for resolving scoped based dependencies without errors
         using var scope = rootServiceProvider.CreateScope();
@@ -281,21 +281,37 @@ public static partial class ServiceCollectionExtensions
 
         foreach (var serviceDescriptor in services)
         {
+            // Skip services that are not typically resolved directly or are special cases
+            if (
+                serviceDescriptor.ServiceType == typeof(IHostedService)
+                || serviceDescriptor.ServiceType == typeof(IApplicationLifetime)
+            )
+            {
+                continue;
+            }
+
             try
             {
                 var serviceType = serviceDescriptor.ServiceType;
                 if (scanAssemblies.Contains(serviceType.Assembly))
-                    sp.GetRequiredService(serviceType);
-            }
-            catch (Exception e)
-            {
-                exceptions.Add($"Unable to resolve '{serviceDescriptor.ServiceType.FullName}', detail: {e.Message}");
-            }
-        }
+                {
+                    // Attempt to resolve the service
+                    var service = sp.GetService(serviceType);
 
-        if (exceptions.Any())
-        {
-            throw new Exception(string.Join("\n", exceptions));
+                    // Assert: Check that the service was resolved if it's not meant to be optional
+                    if (
+                        serviceDescriptor.ImplementationInstance == null
+                        && serviceDescriptor.ImplementationFactory == null
+                    )
+                    {
+                        service.NotBeNull();
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw new($"Failed to resolve service {serviceDescriptor.ServiceType.FullName}: {ex.Message}", ex);
+            }
         }
     }
 }
