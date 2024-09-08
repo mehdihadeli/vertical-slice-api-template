@@ -10,7 +10,7 @@ using Xunit.Abstractions;
 
 namespace Vertical.Slice.Template.ContractTests.Products;
 
-public class ProductsCatalogsIntegrationTests(
+public class ProductsApiContractTests(
     SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
     ITestOutputHelper outputHelper
 ) : CatalogsIntegrationTestBase(sharedFixture, outputHelper)
