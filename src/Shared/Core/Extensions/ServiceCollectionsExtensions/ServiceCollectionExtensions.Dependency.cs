@@ -273,7 +273,7 @@ public static partial class ServiceCollectionExtensions
         params Assembly[] assembliesToScan
     )
     {
-        var scanAssemblies = assembliesToScan.Length != 0 ? assembliesToScan : [Assembly.GetExecutingAssembly(),];
+        var scanAssemblies = assembliesToScan.Length != 0 ? assembliesToScan : [Assembly.GetExecutingAssembly()];
 
         // for resolving scoped based dependencies without errors
         using var scope = rootServiceProvider.CreateScope();

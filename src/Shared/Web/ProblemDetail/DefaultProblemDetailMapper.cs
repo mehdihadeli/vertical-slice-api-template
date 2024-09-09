@@ -18,7 +18,7 @@ internal sealed class DefaultProblemDetailMapper : IProblemDetailMapper
             HttpResponseException httpResponseException => httpResponseException.StatusCode,
             HttpRequestException httpRequestException => (int)httpRequestException.StatusCode,
             AppException appException => appException.StatusCode,
-            _ => 0
+            _ => 0,
         };
     }
 }

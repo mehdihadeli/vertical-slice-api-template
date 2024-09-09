@@ -74,7 +74,7 @@ public static class MinimalApiExtensions
             {
                 x.GroupName,
                 x.PrefixRoute,
-                x.Version
+                x.Version,
             })
             .ToDictionary(
                 x => x.Key,
@@ -87,7 +87,7 @@ public static class MinimalApiExtensions
             {
                 Verion = x.Key.Version,
                 x.Key.GroupName,
-                Endpoints = x.Select(v => v)
+                Endpoints = x.Select(v => v),
             });
 
         foreach (var endpointVersion in endpointVersions)

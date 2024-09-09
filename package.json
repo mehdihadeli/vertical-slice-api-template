@@ -2,8 +2,9 @@
   "name": "Vertical.Slice.Template",
   "version": "1.0.0",
   "scripts": {
-    "prepare": "husky install && dotnet tool restore",
-    "install-dev-cert-bash": "curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg"
+    "prepare": "husky && dotnet tool restore",
+    "install-dev-cert-bash": "curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg",
+    "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln"
   },
   "repository": {
     "type": "git",
@@ -16,8 +17,8 @@
   },
   "homepage": "https://github.com/mehdihadeli/vertical-slice-api-template#readme",
   "devDependencies": {
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
-    "husky": "^8.0.3"
+    "@commitlint/cli": "^19.4.1",
+    "@commitlint/config-conventional": "^19.4.1",
+    "husky": "^9.1.5"
   }
 }

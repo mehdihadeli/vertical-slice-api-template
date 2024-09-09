@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Core.Exceptions;
 using Vertical.Slice.Template.Api;
@@ -81,7 +82,7 @@ public class GetProductByIdTests(
             .Satisfy<ProblemDetails>(pr =>
             {
                 pr.Detail.Should().Be($"product with id {notExistsId} not found");
-                pr.Title.Should().Be(nameof(NotFoundException));
+                pr.Title.Should().Be(nameof(NotFoundException).Humanize(LetterCasing.Title));
                 pr.Type.Should().Be("https://tools.ietf.org/html/rfc9110#section-15.5.5");
             })
             .And.Be404NotFound();
@@ -89,7 +90,7 @@ public class GetProductByIdTests(
         // OR
         // response
         //     .Should()
-        //     .HaveError("title", nameof(NotFoundException))
+        //     .HaveError("title", nameof(NotFoundException).Humanize(LetterCasing.Title))
         //     .And.HaveError("detail", $"product with id {notExistsId} not found")
         //     .And.HaveError("type", "https://tools.ietf.org/html/rfc9110#section-15.5.5")
         //     .And.HaveErrorMessage($"product with id {notExistsId} not found")
@@ -113,7 +114,7 @@ public class GetProductByIdTests(
             .Satisfy<ProblemDetails>(pr =>
             {
                 pr.Detail.Should().Contain("'Id' must not be empty.");
-                pr.Title.Should().Be(nameof(ValidationException));
+                pr.Title.Should().Be(nameof(ValidationException).Humanize(LetterCasing.Title));
                 pr.Type.Should().Be("https://tools.ietf.org/html/rfc9110#section-15.5.1");
             })
             .And.Be400BadRequest();
@@ -125,7 +126,7 @@ public class GetProductByIdTests(
         //         new ProblemDetails
         //         {
         //             Detail = "'Id' must not be empty.",
-        //             Title = nameof(ValidationException),
+        //             Title = nameof(ValidationException).Humanize(LetterCasing.Title),
         //             Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
         //         }
         //     )

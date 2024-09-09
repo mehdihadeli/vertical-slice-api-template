@@ -24,7 +24,7 @@ public static class Extensions
                     {
                         config.DBConfig = new RedisDBOptions
                         {
-                            Configuration = cacheOptions.RedisCacheOptions.ConnectionString
+                            Configuration = cacheOptions.RedisCacheOptions.ConnectionString,
                         };
                         config.SerializerName = cacheOptions.SerializationType;
                     },
@@ -71,7 +71,7 @@ public static class Extensions
                 new ConfigurationOptions
                 {
                     EndPoints = { $"{redisOptions.Host}:{redisOptions.Port}" },
-                    AllowAdmin = true
+                    AllowAdmin = true,
                 }
             );
         });

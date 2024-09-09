@@ -12,8 +12,7 @@ namespace Vertical.Slice.Template.IntegrationTests.Products.Features.GettingProd
 public class GetProductsByPageTests(
     SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
     ITestOutputHelper outputHelper
-)
-    : CatalogsIntegrationTestBase(sharedFixture, outputHelper)
+) : CatalogsIntegrationTestBase(sharedFixture, outputHelper)
 {
     [Fact]
     [CategoryTrait(TestCategory.Integration)]

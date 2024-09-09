@@ -43,7 +43,7 @@ public static class TypedResultsExtensions
         {
             Detail = detail,
             Instance = instance,
-            Type = type
+            Type = type,
         };
 
         problemDetails.Title = title ?? problemDetails.Title;

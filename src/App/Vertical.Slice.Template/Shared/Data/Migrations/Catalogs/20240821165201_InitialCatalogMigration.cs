@@ -11,8 +11,7 @@ namespace Vertical.Slice.Template.Shared.Data.Migrations.Catalogs
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "catalog");
+            migrationBuilder.EnsureSchema(name: "catalog");
 
             migrationBuilder.CreateTable(
                 name: "products",
@@ -23,27 +22,27 @@ namespace Vertical.Slice.Template.Shared.Data.Migrations.Catalogs
                     price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     category_id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    description = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true)
+                    description = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_products", x => x.id);
-                });
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "ix_products_id",
                 schema: "catalog",
                 table: "products",
                 column: "id",
-                unique: true);
+                unique: true
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "products",
-                schema: "catalog");
+            migrationBuilder.DropTable(name: "products", schema: "catalog");
         }
     }
 }

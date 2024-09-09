@@ -5,12 +5,9 @@ namespace Shared.Core.Exceptions;
 /// <summary>
 /// Exception type for domain exceptions.
 /// </summary>
-public class DomainException : CustomException
-{
-    public DomainException(
-        string message,
-        int statusCode = StatusCodes.Status400BadRequest,
-        Exception? innerException = null
-    )
-        : base(message, statusCode, innerException) { }
-}
+public class DomainException(
+    string message,
+    int statusCode = StatusCodes.Status400BadRequest,
+    Exception? innerException = null
+)
+    : CustomException(message, statusCode, innerException);
