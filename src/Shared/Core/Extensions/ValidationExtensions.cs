@@ -9,7 +9,7 @@ namespace Shared.Core.Extensions;
 // https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/caller-information
 public static class ValidationExtensions
 {
-    private static readonly HashSet<string> _allowedCurrency = new() { "USD", "EUR", };
+    private static readonly HashSet<string> _allowedCurrency = new() { "USD", "EUR" };
 
     public static T NotBeNull<T>(
         [NotNull] this T? argument,

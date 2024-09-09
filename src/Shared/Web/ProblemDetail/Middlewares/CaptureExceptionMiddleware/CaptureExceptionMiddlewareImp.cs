@@ -34,7 +34,7 @@ public class CaptureExceptionMiddlewareImp
         ExceptionHandlerFeature instance = new ExceptionHandlerFeature
         {
             Path = context.Request.Path,
-            Error = exception
+            Error = exception,
         };
         context.Features.Set<IExceptionHandlerPathFeature>((IExceptionHandlerPathFeature)instance);
         context.Features.Set<IExceptionHandlerFeature>((IExceptionHandlerFeature)instance);

@@ -85,7 +85,7 @@ public static class RegistrationExtensions
                                     builder.Environment.EnvironmentName
                                 }-{
                                     DateTime.Now
-                                    :yyyy-MM}"
+                                    :yyyy-MM}",
                         }
                     );
                 }
@@ -97,7 +97,7 @@ public static class RegistrationExtensions
                         serilogOptions.GrafanaLokiUrl,
                         new[]
                         {
-                            new LokiLabel { Key = "service", Value = "vertical-slice-api-template" }
+                            new LokiLabel { Key = "service", Value = "vertical-slice-api-template" },
                         },
                         new[] { "app" }
                     );

@@ -56,9 +56,9 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         var expiredTimeSpan =
             cacheRequest.AbsoluteExpirationRelativeToNow != TimeSpan.FromMinutes(5)
                 ? cacheRequest.AbsoluteExpirationRelativeToNow
-                : TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5)
-                    ? TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute)
-                    : cacheRequest.AbsoluteExpirationRelativeToNow;
+            : TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5)
+                ? TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute)
+            : cacheRequest.AbsoluteExpirationRelativeToNow;
 
         await _cacheProvider.SetAsync(cacheKey, response, expiredTimeSpan, cancellationToken);
 
@@ -126,9 +126,9 @@ public class StreamCachingBehavior<TRequest, TResponse> : IStreamPipelineBehavio
         var expiredTimeSpan =
             cacheRequest.AbsoluteExpirationRelativeToNow != TimeSpan.FromMinutes(5)
                 ? cacheRequest.AbsoluteExpirationRelativeToNow
-                : TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5)
-                    ? TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute)
-                    : cacheRequest.AbsoluteExpirationRelativeToNow;
+            : TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5)
+                ? TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute)
+            : cacheRequest.AbsoluteExpirationRelativeToNow;
 
         await foreach (var response in next().WithCancellation(cancellationToken))
         {

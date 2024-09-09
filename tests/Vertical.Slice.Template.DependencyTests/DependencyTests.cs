@@ -15,17 +15,15 @@ public class DependencyTests
     [CategoryTrait(TestCategory.Integration)]
     public void validate_service_dependencies()
     {
-        var factory = new WebApplicationFactory<CatalogsApiMetadata>().WithWebHostBuilder(
-            webHostBuilder =>
-            {
-                webHostBuilder.UseEnvironment(Environments.DependencyTest);
+        var factory = new WebApplicationFactory<CatalogsApiMetadata>().WithWebHostBuilder(webHostBuilder =>
+        {
+            webHostBuilder.UseEnvironment(Environments.DependencyTest);
 
-                webHostBuilder.ConfigureTestServices(
-                    services =>
-                    {
-                        services.AddTransient<IServiceCollection>(_ => services);
-                    });
+            webHostBuilder.ConfigureTestServices(services =>
+            {
+                services.AddTransient<IServiceCollection>(_ => services);
             });
+        });
 
         using var scope = factory.Services.CreateScope();
         var sp = scope.ServiceProvider;

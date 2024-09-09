@@ -41,7 +41,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
             Title = "Vertical.Slice.Template",
             Version = description.ApiVersion.ToString(),
             Contact = new OpenApiContact() { Name = "Bill Mei", Email = "bill.mei@somewhere.com" },
-            License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
+            License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") },
         };
 
         if (description.IsDeprecated)

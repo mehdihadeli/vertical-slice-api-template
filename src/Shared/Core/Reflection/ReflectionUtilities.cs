@@ -120,14 +120,14 @@ public static class ReflectionUtilities
                 .Compile();
         }
 
-        var lambdaArgument = new List<ParameterExpression> { instanceArgument, };
+        var lambdaArgument = new List<ParameterExpression> { instanceArgument };
 
         var type = methodInfo.DeclaringType;
         var instanceVariable = Expression.Variable(type);
-        var blockVariables = new List<ParameterExpression> { instanceVariable, };
+        var blockVariables = new List<ParameterExpression> { instanceVariable };
         var blockExpressions = new List<Expression>
         {
-            Expression.Assign(instanceVariable, Expression.ConvertChecked(instanceArgument, type))
+            Expression.Assign(instanceVariable, Expression.ConvertChecked(instanceArgument, type)),
         };
         var callArguments = new List<ParameterExpression>();
 

@@ -10,5 +10,4 @@ namespace Vertical.Slice.Template.IntegrationTests;
 public class CatalogsIntegrationTestBase(
     SharedFixtureWithEfCore<CatalogsApiMetadata, CatalogsDbContext> sharedFixture,
     ITestOutputHelper outputHelper
-)
-    : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>(sharedFixture, outputHelper);
+) : IntegrationTestBase<CatalogsApiMetadata, CatalogsDbContext>(sharedFixture, outputHelper);

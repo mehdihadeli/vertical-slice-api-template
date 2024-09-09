@@ -589,11 +589,9 @@ public static class TypeExtensions
     }
 
     public static Type MakeNullable(this Type type, bool nullable = true) =>
-        type.IsNullableType() == nullable
-            ? type
-            : nullable
-                ? typeof(Nullable<>).MakeGenericType(type)
-                : type.UnwrapNullableType();
+        type.IsNullableType() == nullable ? type
+        : nullable ? typeof(Nullable<>).MakeGenericType(type)
+        : type.UnwrapNullableType();
 
     /// <summary>
     /// Helper method use to differentiate behavior between command/query/event handlers.
