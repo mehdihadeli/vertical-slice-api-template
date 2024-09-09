@@ -2,17 +2,10 @@ using Shared.Abstractions.Core.Domain;
 
 namespace Shared.Core.Exceptions;
 
-public class BusinessRuleValidationException : DomainException
+public class BusinessRuleValidationException(IBusinessRule brokenRule) : DomainException(brokenRule.Message)
 {
-    public IBusinessRule BrokenRule { get; }
-    public string Details { get; }
-
-    public BusinessRuleValidationException(IBusinessRule brokenRule)
-        : base(brokenRule.Message)
-    {
-        BrokenRule = brokenRule;
-        Details = brokenRule.Message;
-    }
+    public IBusinessRule BrokenRule { get; } = brokenRule;
+    public string Details { get; } = brokenRule.Message;
 
     public override string ToString()
     {

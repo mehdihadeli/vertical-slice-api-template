@@ -1,3 +1,4 @@
+using Humanizer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -100,7 +101,7 @@ public class ProblemDetailsService(
     )
     {
         // We should override ToString method in the exception for showing correct title.
-        existingProblemDetails.Title = exception.ToString();
+        existingProblemDetails.Title = exception.GetType().Name.Humanize(LetterCasing.Title);
         existingProblemDetails.Detail = exception.Message;
         existingProblemDetails.Status = statusCode;
         existingProblemDetails.Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}";

@@ -15,7 +15,11 @@ public static class ValidatorExtension
     {
         var validationResult = await validator.ValidateAsync(request, cancellationToken).ConfigureAwait(false);
         if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.ToValidationResultModel().Message);
+        {
+            throw new ValidationException(
+                validationResult.ToValidationResultModel().Errors?.FirstOrDefault()?.Message ??
+                validationResult.ToValidationResultModel().Message);
+        }
 
         return request;
     }
@@ -24,7 +28,11 @@ public static class ValidatorExtension
     {
         var validationResult = validator.Validate(request);
         if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.ToValidationResultModel().Message);
+        {
+            throw new ValidationException(
+                validationResult.ToValidationResultModel().Errors?.FirstOrDefault()?.Message ??
+                validationResult.ToValidationResultModel().Message);
+        }
 
         return request;
     }
