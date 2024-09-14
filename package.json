@@ -4,7 +4,13 @@
   "scripts": {
     "prepare": "husky && dotnet tool restore",
     "install-dev-cert-bash": "curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg",
-    "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln"
+    "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln",
+    "csharpier-apply-formatting": "dotnet csharpier . && git add -A .",
+    "format": "dotnet csharpier . --check",
+    "style": "dotnet format style Vertical.Slice.Template.sln --verify-no-changes",
+    "spell": "cspell lint **/*.cs --no-progress --no-summary",
+    "analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes",
+    "commit-lint": "npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose"
   },
   "repository": {
     "type": "git",
@@ -19,6 +25,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.4.1",
     "@commitlint/config-conventional": "^19.4.1",
+    "cspell": "^8.14.2",
     "husky": "^9.1.5"
   }
 }

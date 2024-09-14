@@ -29,7 +29,7 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
 
     public bool HasUncommittedDomainEvents()
     {
-        return _uncommittedDomainEvents.Any();
+        return !_uncommittedDomainEvents.IsEmpty;
     }
 
     public IReadOnlyList<IDomainEvent> GetUncommittedDomainEvents()
@@ -64,6 +64,6 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
 }
 
 public abstract class Aggregate<TIdentity, TId> : Aggregate<TIdentity>
-    where TIdentity : Identity<TId> { }
+    where TIdentity : Identity<TId>;
 
-public abstract class Aggregate : Aggregate<AggregateId, long>, IAggregate { }
+public abstract class Aggregate : Aggregate<AggregateId, long>, IAggregate;

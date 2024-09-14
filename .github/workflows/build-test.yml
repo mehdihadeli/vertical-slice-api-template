@@ -5,29 +5,78 @@ name: Build-Test
 
 on:
   push:
-    branches:
-      - "main"
   pull_request:
-    branches:
-      - "main"
+    branches: [main]
+
+env:
+  DOTNET_VERSION: "8.0.*"
 
 jobs:
-  build-test:
+  pre-checks:
+    name: Pre-checks (Format, Style, Analyzers, Spelling, Commitlint)
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "8.0.x"
-          
-      - name: Cache NuGet Packages
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
         uses: actions/cache@v3
         with:
-          key: vertical-template-nuget
           path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Check Conventional Commits
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+           npm run commit-lint
+          else
+            echo "Not a pull request event. Skipping Conventional Commits check."
+          fi
+          
+      - name: Run Format Task
+        run: npm run format
+
+      - name: Run Style Task
+        run: npm run style
+
+      - name: Run Analyzers Task
+        run: npm run analyzers
+
+      - name: Run Spelling Task
+        run: npm run spell
+
+  build-test:
+    runs-on: ubuntu-latest
+    needs: pre-checks
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
 
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln
@@ -38,3 +87,4 @@ jobs:
       - name: Test Version
         run: |
           dotnet test Vertical.Slice.Template.sln  -c Release --no-restore  --no-build
+

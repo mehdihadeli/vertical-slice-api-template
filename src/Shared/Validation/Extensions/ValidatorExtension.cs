@@ -17,8 +17,9 @@ public static class ValidatorExtension
         if (!validationResult.IsValid)
         {
             throw new ValidationException(
-                validationResult.ToValidationResultModel().Errors?.FirstOrDefault()?.Message ??
-                validationResult.ToValidationResultModel().Message);
+                validationResult.ToValidationResultModel().Errors?.FirstOrDefault()?.Message
+                    ?? validationResult.ToValidationResultModel().Message
+            );
         }
 
         return request;
@@ -30,8 +31,9 @@ public static class ValidatorExtension
         if (!validationResult.IsValid)
         {
             throw new ValidationException(
-                validationResult.ToValidationResultModel().Errors?.FirstOrDefault()?.Message ??
-                validationResult.ToValidationResultModel().Message);
+                validationResult.ToValidationResultModel().Errors?.FirstOrDefault()?.Message
+                    ?? validationResult.ToValidationResultModel().Message
+            );
         }
 
         return request;

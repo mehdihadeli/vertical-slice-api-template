@@ -61,11 +61,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.DependencyTests", "tests\Vertical.Slice.Template.DependencyTests\Vertical.Slice.Template.DependencyTests.csproj", "{A79D441C-D450-474E-9CFC-008335A80B13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AEFEEF63-5831-49E5-A7D9-892AF653C32D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\release-drafter.yml = .github\release-drafter.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{ED6C6F59-8A39-4D7D-BB93-888AA486AFE9}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-test.yml = .github\workflows\build-test.yml
 		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.github\workflows\release-drafter.yml = .github\workflows\release-drafter.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontainer", "{268E2B03-D9F4-4D31-84BA-6D1DC250E894}"
@@ -93,12 +97,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiClients", "ApiClients", "{66D6E224-01FF-4D8F-98C1-CEA3CD2D5F15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{AF80152C-AF0D-475E-AD69-A7867D1ACA26}"
-	ProjectSection(SolutionItems) = preProject
-		src\App\Directory.Build.props = src\App\Directory.Build.props
-		src\App\Directory.Build.targets = src\App\Directory.Build.targets
-		src\App\Directory.Packages.props = src\App\Directory.Packages.props
-		src\App\Packages.props = src\App\Packages.props
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{54C91A04-E128-4ADB-9B49-E0FEAC783069}"
 EndProject
