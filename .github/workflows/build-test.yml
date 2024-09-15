@@ -23,10 +23,6 @@ jobs:
         with:
           node-version: "18"
 
-        # npm install, runs `prepare` script automatically in the initialize step
-      - name: Install NPM Dependencies
-        run: npm install
-
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
@@ -39,6 +35,10 @@ jobs:
           key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             nuget-${{ runner.os }}-
+
+        # npm install, runs `prepare` script automatically in the initialize step
+      - name: Install NPM Dependencies
+        run: npm install
 
       - name: Run Format Task
         run: npm run format
