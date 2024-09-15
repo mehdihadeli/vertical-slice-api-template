@@ -23,10 +23,10 @@ internal static class GetProductByIdEndpoint
             .WithDisplayName(nameof(GetProductById).Humanize())
             .WithSummaryAndDescription(nameof(GetProductById).Humanize(), nameof(GetProductById).Humanize())
             .WithTags(ProductConfigurations.Tag)
-            // .Produces<GetProductByIdResponse>("Product fetched successfully.", StatusCodes.Status200OK)
-            // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
-            // .ProducesProblem("Product not found", StatusCodes.Status404NotFound)
             .MapToApiVersion(1.0);
+        // .Produces<GetProductByIdResponse>("Product fetched successfully.", StatusCodes.Status200OK)
+        // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
+        // .ProducesProblem("Product not found", StatusCodes.Status404NotFound)
 
         async Task<Results<Ok<GetProductByIdResponse>, ValidationProblem, NotFoundHttpProblemResult>> Handle(
             [AsParameters] GetProductByIdRequestParameters requestParameters

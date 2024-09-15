@@ -48,9 +48,7 @@ public static partial class WebApplicationBuilderExtensions
                 // can also be used to control the format of the API version in route templates
                 options.SubstituteApiVersionInUrl = true;
             })
-            // this enables binding ApiVersion as a endpoint callback parameter. if you don't use it, then
-            // you should remove this configuration.
-            .EnableApiVersionBinding();
+            .EnableApiVersionBinding(); // this enables binding ApiVersion as a endpoint callback parameter. if you don't use it, then you should remove this configuration.
 
         return builder;
     }

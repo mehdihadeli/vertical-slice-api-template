@@ -96,6 +96,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.Api
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{A5FB3B9E-FF0A-45F4-8D37-080C770A5AB4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".husky", ".husky", "{727B615D-D77D-4FEF-ADC6-66CA01B922C1}"
+	ProjectSection(SolutionItems) = preProject
+		.husky\commit-msg = .husky\commit-msg
+		.husky\pre-commit = .husky\pre-commit
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,6 +132,7 @@ Global
 		{AC478225-5EA9-4895-875A-0B01217C4576} = {AF80152C-AF0D-475E-AD69-A7867D1ACA26}
 		{23F3C3DD-6630-4743-BE50-9BD6F719665E} = {AF80152C-AF0D-475E-AD69-A7867D1ACA26}
 		{A5FB3B9E-FF0A-45F4-8D37-080C770A5AB4} = {54C91A04-E128-4ADB-9B49-E0FEAC783069}
+		{727B615D-D77D-4FEF-ADC6-66CA01B922C1} = {798579C1-7DEC-47A2-9C18-CA3DBE4A6573}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5F41BF51-E13B-48BF-8D81-874FBA9BC961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

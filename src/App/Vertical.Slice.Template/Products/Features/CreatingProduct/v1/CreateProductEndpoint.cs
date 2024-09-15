@@ -20,15 +20,16 @@ internal static class CreateProductEndpoint
         //     StatusCodes.Status201Created,
         //     getId: response => response.Id
         // );
+
         return app.MapPost("/", Handle)
             .WithName(nameof(CreateProduct))
             .WithDisplayName(nameof(CreateProduct).Humanize())
             .WithSummaryAndDescription(nameof(CreateProduct).Humanize(), nameof(CreateProduct).Humanize())
             .WithTags(ProductConfigurations.Tag)
-            // .Produces<CreateProductResponse>("Product created successfully.", StatusCodes.Status201Created)
-            // .ProducesValidationProblem("Invalid input for creating product.", StatusCodes.Status400BadRequest)
-            // .ProducesProblem("UnAuthorized request.", StatusCodes.Status401Unauthorized)
             .MapToApiVersion(1.0);
+        // .Produces<CreateProductResponse>("Product created successfully.", StatusCodes.Status201Created)
+        // .ProducesValidationProblem("Invalid input for creating product.", StatusCodes.Status400BadRequest)
+        // .ProducesProblem("UnAuthorized request.", StatusCodes.Status401Unauthorized)
 
         async Task<
             Results<CreatedAtRoute<CreateProductResponse>, UnAuthorizedHttpProblemResult, ValidationProblem>

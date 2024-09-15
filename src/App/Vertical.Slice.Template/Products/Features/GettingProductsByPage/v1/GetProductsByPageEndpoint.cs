@@ -22,9 +22,9 @@ internal static class GetProductsByPageEndpoint
             .WithDisplayName(nameof(GetProductsByPage).Humanize())
             .WithSummaryAndDescription(nameof(GetProductsByPage).Humanize(), nameof(GetProductsByPage).Humanize())
             .WithTags(ProductConfigurations.Tag)
-            // .Produces<GetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)
-            // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
             .MapToApiVersion(1.0);
+        // .Produces<GetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)
+        // .ProducesValidationProblem("Invalid input for getting product.", StatusCodes.Status400BadRequest)
 
         async Task<Results<Ok<GetProductsByPageResponse>, ValidationProblem>> Handle(
             [AsParameters] GetProductsByPageRequestParameters requestParameters
