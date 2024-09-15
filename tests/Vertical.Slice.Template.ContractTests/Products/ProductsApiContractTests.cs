@@ -1,7 +1,6 @@
 using AutoBogus;
 using Catalogs.ApiClient;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Shared.Data;
 using Vertical.Slice.Template.TestsShared.Fixtures;
