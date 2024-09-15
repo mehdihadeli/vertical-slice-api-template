@@ -5,8 +5,11 @@ name: Build-Test
 
 on:
   push:
+    branches:
+      - "main"
   pull_request:
-    branches: [main]
+    branches:
+      - "main"
 
 env:
   DOTNET_VERSION: "8.0.*"
@@ -20,7 +23,7 @@ jobs:
 
       - name: Conventional Commits Check
         uses: webiny/action-conventional-commits@v1.3.0
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -31,26 +34,26 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-#      - name: Cache NuGet packages
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.nuget/packages
-#          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
-#          restore-keys: |
-#            nuget-${{ runner.os }}-
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
 
-        # npm install, runs `prepare` script automatically in the initialize step
+      # npm install, runs `prepare` script automatically in the initialize step
       - name: Install NPM Dependencies
         run: npm install
 
-#      - name: Run Format Task
-#        run: npm run format
+      - name: Run Format Task
+        run: npm run format
 
       - name: Run Style Task
         run: npm run style
 
-#      - name: Run Analyzers Task
-#        run: npm run analyzers
+      - name: Run Analyzers Task
+        run: npm run analyzers
 
   build-test:
     runs-on: ubuntu-latest
