@@ -77,6 +77,11 @@ autolabeler:
   - '(fix)(\([a-z ]+\))?\/.'
   title:
   - '^(fix)(\([a-z ]+\))?: .'
+- label: 'refactor'
+  branch:
+    - '(refactor)(\([a-z ]+\))?\/.'
+  title:
+    - '^(refactor)(\([a-z ]+\))?: .'
 - label: 'test'
   branch:
   - '(test)(\([a-z ]+\))?\/.'

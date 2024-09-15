@@ -1,4 +1,3 @@
-using System.Linq;
 using Riok.Mapperly.Abstractions;
 using Vertical.Slice.Template.Products.Dtos.v1;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;

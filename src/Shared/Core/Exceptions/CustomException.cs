@@ -7,8 +7,7 @@ public class CustomException(
     int statusCode = StatusCodes.Status500InternalServerError,
     Exception? innerException = null,
     params string[] errors
-)
-    : Exception(message, innerException)
+) : Exception(message, innerException)
 {
     public IEnumerable<string> ErrorMessages { get; protected set; } = errors;
 

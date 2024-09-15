@@ -6,8 +6,6 @@ namespace Shared.Web.Extensions;
 // https://learn.microsoft.com/en-us/aspnet/core/security/cors
 public static class Extensions
 {
-    private const string CorsPolicyName = "AllowSpecificOrigins";
-
     public static WebApplicationBuilder AddCustomCors(this WebApplicationBuilder builder)
     {
         builder.Services.AddValidatedOptions<CorsOptions>();

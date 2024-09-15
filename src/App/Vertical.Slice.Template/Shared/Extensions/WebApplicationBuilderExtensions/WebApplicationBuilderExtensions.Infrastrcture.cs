@@ -5,7 +5,6 @@ using Shared.Abstractions.Persistence.Ef.Repository;
 using Shared.Cache;
 using Shared.Cache.Behaviours;
 using Shared.Core.Extensions;
-using Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Shared.EF;
 using Shared.Logging;
 using Shared.Swagger;

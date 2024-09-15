@@ -44,28 +44,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{154A
 		.config\dotnet-tools.json = .config\dotnet-tools.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".husky", ".husky", "{F21E9E8A-CA2F-4EED-895B-705733FC396A}"
-	ProjectSection(SolutionItems) = preProject
-		.husky\commit-msg = .husky\commit-msg
-		.husky\pre-commit = .husky\pre-commit
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{B77AC567-B631-47B6-9649-8030505452DB}"
-	ProjectSection(SolutionItems) = preProject
-		.husky\_\.gitignore = .husky\_\.gitignore
-		.husky\_\husky.sh = .husky\_\husky.sh
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.ApiClientTests", "tests\Vertical.Slice.Template.ApiClientTests\Vertical.Slice.Template.ApiClientTests.csproj", "{4E185D04-8B8D-4BE9-AAE3-5406C703DF83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vertical.Slice.Template.DependencyTests", "tests\Vertical.Slice.Template.DependencyTests\Vertical.Slice.Template.DependencyTests.csproj", "{A79D441C-D450-474E-9CFC-008335A80B13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AEFEEF63-5831-49E5-A7D9-892AF653C32D}"
+	ProjectSection(SolutionItems) = preProject
+		.github\release-drafter.yml = .github\release-drafter.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{ED6C6F59-8A39-4D7D-BB93-888AA486AFE9}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-test.yml = .github\workflows\build-test.yml
 		.github\workflows\publish.yml = .github\workflows\publish.yml
+		.github\workflows\release-drafter.yml = .github\workflows\release-drafter.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontainer", "{268E2B03-D9F4-4D31-84BA-6D1DC250E894}"
@@ -93,12 +85,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiClients", "ApiClients", "{66D6E224-01FF-4D8F-98C1-CEA3CD2D5F15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{AF80152C-AF0D-475E-AD69-A7867D1ACA26}"
-	ProjectSection(SolutionItems) = preProject
-		src\App\Directory.Build.props = src\App\Directory.Build.props
-		src\App\Directory.Build.targets = src\App\Directory.Build.targets
-		src\App\Directory.Packages.props = src\App\Directory.Packages.props
-		src\App\Packages.props = src\App\Packages.props
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{54C91A04-E128-4ADB-9B49-E0FEAC783069}"
 EndProject
@@ -125,8 +111,6 @@ Global
 		{70A7C0CD-C771-4942-BC74-B267AAACFF43} = {C4B80800-5430-4D4E-B473-261157D54CD4}
 		{E3C9B67C-8443-49C9-A6F3-EA099199F66F} = {C4B80800-5430-4D4E-B473-261157D54CD4}
 		{154A55C1-CE45-463D-B411-816C702D6A25} = {798579C1-7DEC-47A2-9C18-CA3DBE4A6573}
-		{F21E9E8A-CA2F-4EED-895B-705733FC396A} = {798579C1-7DEC-47A2-9C18-CA3DBE4A6573}
-		{B77AC567-B631-47B6-9649-8030505452DB} = {F21E9E8A-CA2F-4EED-895B-705733FC396A}
 		{4E185D04-8B8D-4BE9-AAE3-5406C703DF83} = {C4B80800-5430-4D4E-B473-261157D54CD4}
 		{A79D441C-D450-474E-9CFC-008335A80B13} = {C4B80800-5430-4D4E-B473-261157D54CD4}
 		{AEFEEF63-5831-49E5-A7D9-892AF653C32D} = {798579C1-7DEC-47A2-9C18-CA3DBE4A6573}

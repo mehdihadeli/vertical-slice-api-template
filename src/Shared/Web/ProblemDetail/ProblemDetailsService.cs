@@ -9,16 +9,16 @@ namespace Shared.Web.ProblemDetail;
 // https://www.strathweb.com/2022/08/problem-details-responses-everywhere-with-asp-net-core-and-net-7/
 public class ProblemDetailsService(
     IEnumerable<IProblemDetailsWriter> writers,
-    IEnumerable<IProblemDetailMapper>? problemDetailMappers = null
+    IEnumerable<IProblemDetailMapper> problemDetailMappers
 ) : IProblemDetailsService
 {
     private readonly IProblemDetailsWriter[] _writers = writers.ToArray();
 
     public ValueTask WriteAsync(ProblemDetailsContext context)
     {
-        ArgumentNullException.ThrowIfNull((object)context, nameof(context));
-        ArgumentNullException.ThrowIfNull((object)context.ProblemDetails, "context.ProblemDetails");
-        ArgumentNullException.ThrowIfNull((object)context.HttpContext, "context.HttpContext");
+        ArgumentNullException.ThrowIfNull(context, nameof(context));
+        ArgumentNullException.ThrowIfNull(context.ProblemDetails);
+        ArgumentNullException.ThrowIfNull(context.HttpContext);
 
         // with help of `capture exception middleware` for capturing actual thrown exception, in .net 8 preview 5 it will create automatically
         IExceptionHandlerFeature? exceptionFeature = context.HttpContext.Features.Get<IExceptionHandlerFeature>();
@@ -60,7 +60,7 @@ public class ProblemDetailsService(
         IExceptionHandlerFeature exceptionFeature
     )
     {
-        if (problemDetailMappers is { } && problemDetailMappers.Any())
+        if (problemDetailMappers.Any())
         {
             foreach (var problemDetailMapper in problemDetailMappers)
             {

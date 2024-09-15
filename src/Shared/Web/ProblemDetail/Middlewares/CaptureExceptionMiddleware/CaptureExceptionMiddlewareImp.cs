@@ -8,12 +8,10 @@ namespace Shared.Web.ProblemDetail.Middlewares.CaptureExceptionMiddleware;
 public class CaptureExceptionMiddlewareImp
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<CaptureExceptionMiddlewareImp> _logger;
 
     public CaptureExceptionMiddlewareImp(RequestDelegate next, ILogger<CaptureExceptionMiddlewareImp> logger)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task Invoke(HttpContext context)
@@ -36,7 +34,7 @@ public class CaptureExceptionMiddlewareImp
             Path = context.Request.Path,
             Error = exception,
         };
-        context.Features.Set<IExceptionHandlerPathFeature>((IExceptionHandlerPathFeature)instance);
-        context.Features.Set<IExceptionHandlerFeature>((IExceptionHandlerFeature)instance);
+        context.Features.Set<IExceptionHandlerPathFeature>(instance);
+        context.Features.Set<IExceptionHandlerFeature>(instance);
     }
 }

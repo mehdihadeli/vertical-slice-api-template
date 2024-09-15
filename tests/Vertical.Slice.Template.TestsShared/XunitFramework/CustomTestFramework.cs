@@ -20,15 +20,12 @@ public class CustomTestFramework : XunitTestFramework
     protected override ITestFrameworkExecutor CreateExecutor(AssemblyName assemblyName) =>
         new CustomExecutor(assemblyName, SourceInformationProvider, DiagnosticMessageSink);
 
-    private class CustomExecutor : XunitTestFrameworkExecutor
+    private class CustomExecutor(
+        AssemblyName assemblyName,
+        ISourceInformationProvider sourceInformationProvider,
+        IMessageSink diagnosticMessageSink
+    ) : XunitTestFrameworkExecutor(assemblyName, sourceInformationProvider, diagnosticMessageSink)
     {
-        public CustomExecutor(
-            AssemblyName assemblyName,
-            ISourceInformationProvider sourceInformationProvider,
-            IMessageSink diagnosticMessageSink
-        )
-            : base(assemblyName, sourceInformationProvider, diagnosticMessageSink) { }
-
         protected override async void RunTestCases(
             IEnumerable<IXunitTestCase> testCases,
             IMessageSink executionMessageSink,
@@ -46,17 +43,14 @@ public class CustomTestFramework : XunitTestFramework
         }
     }
 
-    private class CustomAssemblyRunner : XunitTestAssemblyRunner
+    private class CustomAssemblyRunner(
+        ITestAssembly testAssembly,
+        IEnumerable<IXunitTestCase> testCases,
+        IMessageSink diagnosticMessageSink,
+        IMessageSink executionMessageSink,
+        ITestFrameworkExecutionOptions executionOptions
+    ) : XunitTestAssemblyRunner(testAssembly, testCases, diagnosticMessageSink, executionMessageSink, executionOptions)
     {
-        public CustomAssemblyRunner(
-            ITestAssembly testAssembly,
-            IEnumerable<IXunitTestCase> testCases,
-            IMessageSink diagnosticMessageSink,
-            IMessageSink executionMessageSink,
-            ITestFrameworkExecutionOptions executionOptions
-        )
-            : base(testAssembly, testCases, diagnosticMessageSink, executionMessageSink, executionOptions) { }
-
         protected override Task<RunSummary> RunTestCollectionAsync(
             IMessageBus messageBus,
             ITestCollection testCollection,
@@ -74,35 +68,33 @@ public class CustomTestFramework : XunitTestFramework
             ).RunAsync();
     }
 
-    private class CustomTestCollectionRunner : XunitTestCollectionRunner
-    {
-        public CustomTestCollectionRunner(
-            ITestCollection testCollection,
-            IEnumerable<IXunitTestCase> testCases,
-            IMessageSink diagnosticMessageSink,
-            IMessageBus messageBus,
-            ITestCaseOrderer testCaseOrderer,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource
+    private class CustomTestCollectionRunner(
+        ITestCollection testCollection,
+        IEnumerable<IXunitTestCase> testCases,
+        IMessageSink diagnosticMessageSink,
+        IMessageBus messageBus,
+        ITestCaseOrderer testCaseOrderer,
+        ExceptionAggregator aggregator,
+        CancellationTokenSource cancellationTokenSource
+    )
+        : XunitTestCollectionRunner(
+            testCollection,
+            testCases,
+            diagnosticMessageSink,
+            messageBus,
+            testCaseOrderer,
+            aggregator,
+            cancellationTokenSource
         )
-            : base(
-                testCollection,
-                testCases,
-                diagnosticMessageSink,
-                messageBus,
-                testCaseOrderer,
-                aggregator,
-                cancellationTokenSource
-            ) { }
-
+    {
         protected override Task<RunSummary> RunTestClassAsync(
             ITestClass testClass,
-            IReflectionTypeInfo @class,
+            IReflectionTypeInfo typeInfo,
             IEnumerable<IXunitTestCase> testCases
         ) =>
             new CustomTestClassRunner(
                 testClass,
-                @class,
+                typeInfo,
                 testCases,
                 DiagnosticMessageSink,
                 MessageBus,
@@ -113,31 +105,29 @@ public class CustomTestFramework : XunitTestFramework
             ).RunAsync();
     }
 
-    private class CustomTestClassRunner : XunitTestClassRunner
-    {
-        public CustomTestClassRunner(
-            ITestClass testClass,
-            IReflectionTypeInfo @class,
-            IEnumerable<IXunitTestCase> testCases,
-            IMessageSink diagnosticMessageSink,
-            IMessageBus messageBus,
-            ITestCaseOrderer testCaseOrderer,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource,
-            IDictionary<Type, object> collectionFixtureMappings
+    private class CustomTestClassRunner(
+        ITestClass testClass,
+        IReflectionTypeInfo @class,
+        IEnumerable<IXunitTestCase> testCases,
+        IMessageSink diagnosticMessageSink,
+        IMessageBus messageBus,
+        ITestCaseOrderer testCaseOrderer,
+        ExceptionAggregator aggregator,
+        CancellationTokenSource cancellationTokenSource,
+        IDictionary<Type, object> collectionFixtureMappings
+    )
+        : XunitTestClassRunner(
+            testClass,
+            @class,
+            testCases,
+            diagnosticMessageSink,
+            messageBus,
+            testCaseOrderer,
+            aggregator,
+            cancellationTokenSource,
+            collectionFixtureMappings
         )
-            : base(
-                testClass,
-                @class,
-                testCases,
-                diagnosticMessageSink,
-                messageBus,
-                testCaseOrderer,
-                aggregator,
-                cancellationTokenSource,
-                collectionFixtureMappings
-            ) { }
-
+    {
         protected override Task<RunSummary> RunTestMethodAsync(
             ITestMethod testMethod,
             IReflectionMethodInfo method,
@@ -146,13 +136,13 @@ public class CustomTestFramework : XunitTestFramework
         ) =>
             new CustomTestMethodRunner(
                 testMethod,
-                this.Class,
+                Class,
                 method,
                 testCases,
-                this.DiagnosticMessageSink,
-                this.MessageBus,
-                new ExceptionAggregator(this.Aggregator),
-                this.CancellationTokenSource,
+                DiagnosticMessageSink,
+                MessageBus,
+                new ExceptionAggregator(Aggregator),
+                CancellationTokenSource,
                 constructorArguments
             ).RunAsync();
     }

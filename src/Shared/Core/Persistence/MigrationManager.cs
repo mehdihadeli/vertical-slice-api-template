@@ -11,9 +11,7 @@ public class MigrationManager(
     IWebHostEnvironment environment
 ) : IMigrationManager
 {
-    private readonly IWebHostEnvironment _environment = environment;
-
-    public async Task ExecuteAsync(CancellationToken stoppingToken)
+    public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         // https://stackoverflow.com/questions/38238043/how-and-where-to-call-database-ensurecreated-and-database-migrate
         // https://www.michalbialecki.com/2020/07/20/adding-entity-framework-core-5-migrations-to-net-5-project/
@@ -23,7 +21,7 @@ public class MigrationManager(
         foreach (var migration in migrations)
         {
             logger.LogInformation("Migration '{Migration}' started...", migrations.GetType().Name);
-            await migration.ExecuteAsync(stoppingToken);
+            await migration.ExecuteAsync(cancellationToken);
             logger.LogInformation("Migration '{Migration}' ended...", migration.GetType().Name);
         }
     }

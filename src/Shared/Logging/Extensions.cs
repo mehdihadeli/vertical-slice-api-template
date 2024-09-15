@@ -79,13 +79,7 @@ public static class RegistrationExtensions
                             AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
                             CustomFormatter = new ExceptionAsObjectJsonFormatter(renderMessage: true),
                             IndexFormat =
-                                $"{
-                                    builder.Environment.ApplicationName
-                                }-{
-                                    builder.Environment.EnvironmentName
-                                }-{
-                                    DateTime.Now
-                                    :yyyy-MM}",
+                                $"{builder.Environment.ApplicationName}-{builder.Environment.EnvironmentName}-{DateTime.Now:yyyy-MM}",
                         }
                     );
                 }

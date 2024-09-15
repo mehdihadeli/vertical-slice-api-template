@@ -1,6 +1,4 @@
 using Riok.Mapperly.Abstractions;
-using Shared.Abstractions.Core.Paging;
-using Shared.Core.Paging;
 using Vertical.Slice.Template.Shared.Clients.Users.Dtos;
 using Vertical.Slice.Template.Users.Dtos;
 using Vertical.Slice.Template.Users.GetUsers;

@@ -1,24 +1,30 @@
 {
-  "name": "Vertical.Slice.Template",
-  "version": "1.0.0",
-  "scripts": {
-    "prepare": "husky && dotnet tool restore",
-    "install-dev-cert-bash": "curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg",
-    "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mehdihadeli/vertical-slice-api-template.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mehdihadeli/vertical-slice-api-template/issues"
-  },
-  "homepage": "https://github.com/mehdihadeli/vertical-slice-api-template#readme",
-  "devDependencies": {
-    "@commitlint/cli": "^19.4.1",
-    "@commitlint/config-conventional": "^19.4.1",
-    "husky": "^9.1.5"
-  }
+    "name": "Vertical.Slice.Template",
+    "version": "1.0.0",
+    "scripts": {
+        "prepare": "husky && dotnet tool restore",
+        "install-dev-cert-bash": "curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg",
+        "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln",
+        "apply-formatting": "dotnet csharpier . && git add -A .",
+        "format": "dotnet csharpier . --check",
+        "style": "dotnet format style Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity diagnostic",
+        "analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity diagnostic"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mehdihadeli/vertical-slice-api-template.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mehdihadeli/vertical-slice-api-template/issues"
+    },
+    "homepage": "https://github.com/mehdihadeli/vertical-slice-api-template#readme",
+    "devDependencies": {
+        "@commitlint/cli": "^19.4.1",
+        "@commitlint/config-conventional": "^19.4.1",
+        "cspell": "^8.14.2",
+        "husky": "^9.1.6"
+    }
 }
+

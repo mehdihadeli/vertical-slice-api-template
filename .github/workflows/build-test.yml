@@ -11,23 +11,68 @@ on:
     branches:
       - "main"
 
-jobs:
-  build-test:
-    runs-on: ubuntu-latest
+env:
+  DOTNET_VERSION: "8.0.*"
 
+jobs:
+  pre-checks:
+    name: Pre-Checks
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Conventional Commits Check
+        uses: webiny/action-conventional-commits@v1.3.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "8.0.x"
-          
-      - name: Cache NuGet Packages
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
         uses: actions/cache@v3
         with:
-          key: vertical-template-nuget
           path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      # npm install, runs `prepare` script automatically in the initialize step
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Run Format Task
+        run: npm run format
+
+      - name: Run Style Task
+        run: npm run style
+
+      - name: Run Analyzers Task
+        run: npm run analyzers
+
+  build-test:
+    runs-on: ubuntu-latest
+    needs: pre-checks
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
 
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln

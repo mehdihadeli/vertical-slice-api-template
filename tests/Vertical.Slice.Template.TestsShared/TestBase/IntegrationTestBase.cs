@@ -69,7 +69,9 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
             foreach (var migration in migrations)
             {
                 SharedFixture.Logger.Information("Migration '{Migration}' started...", migrations.GetType().Name);
+
                 await migration.ExecuteAsync(CancellationToken);
+
                 SharedFixture.Logger.Information("Migration '{Migration}' ended...", migration.GetType().Name);
             }
 
@@ -90,7 +92,10 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
         IConfigurationBuilder builder,
         IConfiguration configuration,
         IHostEnvironment environment
-    ) { }
+    )
+    {
+        //
+    }
 }
 
 public abstract class IntegrationTestBase<TEntryPoint, TContext>(

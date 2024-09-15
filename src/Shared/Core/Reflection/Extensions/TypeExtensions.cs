@@ -12,14 +12,6 @@ public static class TypeExtensions
     private static readonly ConcurrentDictionary<Type, string> _typeCacheKeys = new();
     private static readonly ConcurrentDictionary<Type, string> _prettyPrintCache = new();
 
-    private const BindingFlags PublicInstanceMembersFlag = BindingFlags.Public | BindingFlags.Instance;
-
-    private const BindingFlags AllInstanceMembersFlag =
-        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-
-    private const BindingFlags AllStaticAndInstanceMembersFlag =
-        PublicInstanceMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
-
     /// <summary>
     /// Invoke a static generic method
     /// </summary>
@@ -204,7 +196,7 @@ public static class TypeExtensions
         params Assembly[] assemblies
     )
     {
-        var inputAssemblies = assemblies.Any() ? assemblies : AppDomain.CurrentDomain.GetAssemblies();
+        var inputAssemblies = assemblies.Length != 0 ? assemblies : AppDomain.CurrentDomain.GetAssemblies();
         return inputAssemblies.SelectMany(assembly =>
             GetAllTypesImplementingOpenGenericInterface(openGenericType, assembly)
         );
@@ -231,14 +223,18 @@ public static class TypeExtensions
         IEnumerable<Type> types
     )
     {
-        return from type in types
-            from interfaceType in type.GetInterfaces()
-            where
-                interfaceType.IsGenericType
-                && openGenericType.IsAssignableFrom(interfaceType.GetGenericTypeDefinition())
-                && type.IsClass
-                && !type.IsAbstract
-            select type;
+        foreach (Type type in types)
+        {
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                if (
+                    interfaceType.IsGenericType
+                    && openGenericType.IsAssignableFrom(interfaceType.GetGenericTypeDefinition())
+                    && type is { IsClass: true, IsAbstract: false }
+                )
+                    yield return type;
+            }
+        }
     }
 
     // https://stackoverflow.com/questions/26733/getting-all-types-that-implement-an-interface
@@ -247,7 +243,7 @@ public static class TypeExtensions
         params Assembly[] assemblies
     )
     {
-        var inputAssemblies = assemblies.Any() ? assemblies : AppDomain.CurrentDomain.GetAssemblies();
+        var inputAssemblies = assemblies.Length != 0 ? assemblies : AppDomain.CurrentDomain.GetAssemblies();
         return inputAssemblies.SelectMany(assembly => GetAllTypesImplementingInterface(interfaceType, assembly));
     }
 
@@ -283,10 +279,7 @@ public static class TypeExtensions
 
     public static bool IsDerivativeOf(this Type type, Type typeToCompare)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
+        ArgumentNullException.ThrowIfNull(type);
 
         var retVal = type.BaseType != null;
         if (retVal)
@@ -304,7 +297,7 @@ public static class TypeExtensions
 
     public static T CreateInstanceFromType<T>(this Type type, params object[] parameters)
     {
-        var instance = (T)Activator.CreateInstance(type, parameters);
+        var instance = (T)Activator.CreateInstance(type, parameters)!;
 
         return instance;
     }
@@ -827,7 +820,7 @@ public static class TypeExtensions
             return string.Empty;
         var moduleName = type.Assembly.GetName().Name;
         return type.Namespace.StartsWith(moduleName!, StringComparison.Ordinal)
-            ? type.Namespace.Split(".")[2].ToLowerInvariant()
+            ? type.Namespace.Split(".")[2]
             : string.Empty;
     }
 
@@ -841,7 +834,7 @@ public static class TypeExtensions
                 {
                     return PrettyPrintRecursive(t, 0);
                 }
-                catch (System.Exception)
+                catch (Exception)
                 {
                     return t.Name;
                 }

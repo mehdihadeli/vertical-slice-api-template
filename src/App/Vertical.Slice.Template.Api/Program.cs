@@ -1,12 +1,9 @@
-using System.Reflection;
 using Serilog;
 using Serilog.Events;
-using Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Shared.Logging;
 using Shared.Swagger;
 using Shared.Web.Extensions;
 using Shared.Web.Minimal.Extensions;
-using Vertical.Slice.Template;
 using Vertical.Slice.Template.Shared;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 
