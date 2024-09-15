@@ -5,118 +5,120 @@
 // https://dev.to/this-is-learning/set-up-github-codespaces-for-a-net-8-application-5999
 // https://audacioustux.notion.site/Getting-Started-with-Devcontainer-c727dbf9d56f4d6b9b0ef87b3111693f
 {
-  "name": "Vertical Slice Template",
-  // use existing dev container templates. More info: https://containers.dev/guide/dockerfile, https://containers.dev/templates
-  //"image": "mcr.microsoft.com/devcontainers/dotnet:1-7.0",
-  // use a Dockerfile file. More info: https://containers.dev/guide/dockerfile#dockerfile
-  // "build": {
-  //   // Path is relative to the devcontainer.json file.
-  //   "dockerfile": "Dockerfile"
-  // },
-  // using a Dockerfile with Docker Compose, https://containers.dev/guide/dockerfile#docker-compose-image
-  "dockerComposeFile": "docker-compose.yaml",
-  "service": "devcontainer",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  // Features to add to the dev container. More info: https://containers.dev/features.
-  "features": {
-    // https://github.com/devcontainers/features/tree/main/src/dotnet#dotnet-cli-dotnet
-    "ghcr.io/devcontainers/features/dotnet:2": {
-      // this version should be matched with global.json .net version for working vscode IntelliSense correctly
-      "version": "8.0.400",
-      "additionalVersions": "latest, 8.0.400",
-      "aspNetCoreRuntimeVersions": "latest"
-    },
-    // https://github.com/devcontainers/features/tree/main/src/github-cli
-    "ghcr.io/devcontainers/features/github-cli:1": {
-      "version": "2"
-    },
-    // https://github.com/devcontainers/features/tree/main/src/powershell
-    "ghcr.io/devcontainers/features/powershell:1": {
-      "version": "latest"
-    },
-    // https://github.com/devcontainers/features/tree/main/src/node
-    "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/devcontainers/features/git:1": {},
-    // https://github.com/devcontainers/features/tree/main/src/common-utils
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "configureZshAsDefaultShell": true
-    }
-  },
-  // Configure tool-specific properties.
-  "customizations": {
-    // Configure properties specific to VS Code.
-    "vscode": {
-      "settings": {
-        "git.autofetch": true,
-        "files.autoSave": "onFocusChange",
-        "editor.formatOnSave": true,
-        "editor.suggest.snippetsPreventQuickSuggestions": false,
-        "explorer.autoReveal": true,
-        "resmon.show.cpufreq": false,
-        "dotnet.defaultSolution": "Vertical.Slice.Template.sln",
-        "dotnet.server.startTimeout": 60000,
-        "omnisharp.projectLoadTimeout": 60,
-        "workbench.colorTheme": "Visual Studio Light",
-        "workbench.iconTheme": "material-icon-theme",
-        "editor.minimap.enabled": false,
-        "editor.fontFamily": "'MesloLGM Nerd Font', 'Droid Sans Mono', 'monospace', 'Droid Sans Fallback', 'Consolas'",
-        "editor.fontSize": 14,
-        "explorer.confirmDelete": false,
-        "terminal.integrated.defaultProfile.windows": "PowerShell",
-        "terminal.integrated.defaultProfile.linux": "zsh",
-        "powershell.cwd": "~",
-        "terminal.external.windowsExec": "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\pwsh.exe",
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "[jsonc]": {
-          "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "name": "Vertical Slice Template",
+    // use existing dev container templates. More info: https://containers.dev/guide/dockerfile, https://containers.dev/templates
+    //"image": "mcr.microsoft.com/devcontainers/dotnet:1-7.0",
+    // use a Dockerfile file. More info: https://containers.dev/guide/dockerfile#dockerfile
+    // "build": {
+    //   // Path is relative to the devcontainer.json file.
+    //   "dockerfile": "Dockerfile"
+    // },
+    // using a Dockerfile with Docker Compose, https://containers.dev/guide/dockerfile#docker-compose-image
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    "features": {
+        // https://github.com/devcontainers/features/tree/main/src/dotnet#dotnet-cli-dotnet
+        "ghcr.io/devcontainers/features/dotnet:2": {
+            // this version should be matched with global.json .net version for working vscode IntelliSense correctly
+            "version": "8.0.400",
+            "additionalVersions": "latest, 8.0.400",
+            "aspNetCoreRuntimeVersions": "latest"
         },
-        "editor.smoothScrolling": true,
-        "editor.wordWrap": "on",
-        "editor.guides.bracketPairs": true,
-        "explorer.experimental.fileNesting.enabled": true,
-        "[csharp]": {
-          "editor.defaultFormatter": "csharpier.csharpier-vscode",
-          "editor.formatOnSave": true
+        // https://github.com/devcontainers/features/tree/main/src/github-cli
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "version": "2"
+        },
+        // https://github.com/devcontainers/features/tree/main/src/powershell
+        "ghcr.io/devcontainers/features/powershell:1": {
+            "version": "latest"
+        },
+        // https://github.com/devcontainers/features/tree/main/src/node
+        "ghcr.io/devcontainers/features/node:1": {},
+        "ghcr.io/devcontainers/features/git:1": {},
+        // https://github.com/devcontainers/features/tree/main/src/common-utils
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true
         }
-      },
-      "extensions": [
-        "streetsidesoftware.code-spell-checker",
-        "ms-dotnettools.csdevkit",
-        "mutantdino.resourcemonitor",
-        "humao.rest-client",
-        "dzhavat.bracket-pair-toggler",
-        "ms-azuretools.vscode-docker",
-        "vivaxy.vscode-conventional-commits",
-        "emmanuelbeziat.vscode-great-icons",
-        "ms-vscode.vs-keybindings",
-        "GitHub.vscode-github-actions",
-        "PKief.material-icon-theme",
-        "EditorConfig.EditorConfig",
-        "DavidAnson.vscode-markdownlint",
-        "IBM.output-colorizer", // Colorize your output/test logs
-        "emmanuelbeziat.vscode-great-icons",
-        "esbenp.prettier-vscode",
-        "csharpier.csharpier-vscode",
-        "vscode-icons-team.vscode-icons",
-        "redhat.vscode-yaml"
-      ]
-    }
-  },
-  "hostRequirements": {
-    "cpus": 4,
-    "memory": "8gb",
-    "storage": "32gb"
-  },
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [5000, 5001],
-  // "portsAttributes": {
-  //		"5001": {
-  //			"protocol": "https"
-  //		}
-  // }
-  // https://containers.dev/implementors/json_reference/#lifecycle-scripts
-  "updateContentCommand": "chmod +x .devcontainer/scripts/update.sh",
-  "postCreateCommand": "chmod +x .devcontainer/scripts/post-create.sh"
-  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  // "remoteUser": "root"
+    },
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            "settings": {
+                "git.autofetch": true,
+                "files.autoSave": "onFocusChange",
+                "editor.formatOnSave": true,
+                "editor.suggest.snippetsPreventQuickSuggestions": false,
+                "explorer.autoReveal": true,
+                "resmon.show.cpufreq": false,
+                "dotnet.defaultSolution": "Vertical.Slice.Template.sln",
+                "dotnet.server.startTimeout": 60000,
+                "omnisharp.projectLoadTimeout": 60,
+                "workbench.colorTheme": "Visual Studio Light",
+                "workbench.iconTheme": "material-icon-theme",
+                "editor.minimap.enabled": false,
+                "editor.fontFamily": "'MesloLGM Nerd Font', 'Droid Sans Mono', 'monospace', 'Droid Sans Fallback', 'Consolas'",
+                "editor.fontSize": 14,
+                "explorer.confirmDelete": false,
+                "terminal.integrated.defaultProfile.windows": "PowerShell",
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "powershell.cwd": "~",
+                "terminal.external.windowsExec": "%LOCALAPPDATA%\\Microsoft\\WindowsApps\\pwsh.exe",
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "[jsonc]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "editor.smoothScrolling": true,
+                "editor.wordWrap": "on",
+                "editor.guides.bracketPairs": true,
+                "explorer.experimental.fileNesting.enabled": true,
+                "[csharp]": {
+                    "editor.defaultFormatter": "csharpier.csharpier-vscode",
+                    "editor.formatOnSave": true
+                }
+            },
+            "extensions": [
+                "streetsidesoftware.code-spell-checker",
+                "ms-dotnettools.csdevkit",
+                "mutantdino.resourcemonitor",
+                "humao.rest-client",
+                "dzhavat.bracket-pair-toggler",
+                "ms-azuretools.vscode-docker",
+                "vivaxy.vscode-conventional-commits",
+                "emmanuelbeziat.vscode-great-icons",
+                "ms-vscode.vs-keybindings",
+                "GitHub.vscode-github-actions",
+                "PKief.material-icon-theme",
+                "EditorConfig.EditorConfig",
+                "DavidAnson.vscode-markdownlint",
+                "IBM.output-colorizer", // Colorize your output/test logs
+                "emmanuelbeziat.vscode-great-icons",
+                "esbenp.prettier-vscode",
+                "csharpier.csharpier-vscode",
+                "vscode-icons-team.vscode-icons",
+                "redhat.vscode-yaml",
+                "kennylong.kubernetes-yaml-formatter",
+                "sonarsource.sonarlint-vscode"
+            ]
+        }
+    },
+    "hostRequirements": {
+        "cpus": 4,
+        "memory": "8gb",
+        "storage": "32gb"
+    },
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [5000, 5001],
+    // "portsAttributes": {
+    //		"5001": {
+    //			"protocol": "https"
+    //		}
+    // }
+    // https://containers.dev/implementors/json_reference/#lifecycle-scripts
+    "updateContentCommand": "chmod +x .devcontainer/scripts/update.sh",
+    "postCreateCommand": "chmod +x .devcontainer/scripts/post-create.sh"
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
 }

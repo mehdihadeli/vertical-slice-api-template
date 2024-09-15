@@ -1,8 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
-npm run csharpier-apply-formatting 
-npm run format 
-npm run style 
-npm run analyzers
-npm run spell
+
+dotnet csharpier . && git add -A .

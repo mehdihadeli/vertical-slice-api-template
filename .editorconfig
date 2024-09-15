@@ -41,6 +41,7 @@ indent_style = space
 indent_size = 4
 max_line_length = 100
 
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -48,8 +49,9 @@ csharp_new_line_before_catch = true
 csharp_new_line_before_finally = true
 csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_members_in_anonymous_types = true
-csharp_new_line_within_query_expression_clauses = true
+csharp_new_line_between_query_expression_clauses = true
 
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options#indentation-options
 # Indentation preferences
 csharp_indent_block_contents = true
 csharp_indent_braces = false
@@ -230,6 +232,9 @@ dotnet_diagnostic.IDE0051.severity = Suggestion
 dotnet_diagnostic.IDE0052.severity = error
 
 # IDE0055: Fix formatting
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/dotnet-formatting-options
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0055
 dotnet_diagnostic.IDE0055.severity = error
 
 # CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
@@ -285,7 +290,6 @@ resharper_keep_existing_declaration_parens_arrangement = false
 resharper_keep_existing_embedded_arrangement = false
 resharper_keep_existing_embedded_block_arrangement = true
 resharper_keep_existing_enum_arrangement = true
-resharper_keep_existing_initializer_arrangement = false
 resharper_keep_existing_invocation_parens_arrangement = false
 resharper_keep_existing_property_patterns_arrangement = false
 resharper_keep_existing_switch_expression_arrangement = false
