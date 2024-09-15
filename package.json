@@ -7,8 +7,8 @@
         "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln",
         "csharpier-apply-formatting": "dotnet csharpier . && git add -A .",
         "format": "dotnet csharpier . --check",
-        "style": "dotnet format style Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity detailed",
-        "analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity detailed"
+        "style": "dotnet format style Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity diagnostic",
+        "analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity diagnostic"
     },
     "repository": {
         "type": "git",
