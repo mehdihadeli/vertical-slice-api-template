@@ -1,6 +1,6 @@
 using Serilog;
 using Serilog.Events;
-using Shared.Logging;
+using Shared.Logging.Extensions;
 using Shared.Swagger;
 using Shared.Web.Extensions;
 using Shared.Web.Minimal.Extensions;

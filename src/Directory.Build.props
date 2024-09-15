@@ -69,9 +69,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="AsyncFixer" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="AsyncAwaitBestPractices" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
