@@ -1,3 +1,2 @@
 
-
-dotnet csharpier . && git add -A .
+npm run csharpier-apply-formatting 
