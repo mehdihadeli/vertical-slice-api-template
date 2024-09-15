@@ -21,8 +21,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
+        # npm install, runs `prepare` script automatically in the initialize step
       - name: Install NPM Dependencies
         run: npm install
 
@@ -42,11 +43,13 @@ jobs:
       - name: Check Conventional Commits
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-           npm run commit-lint
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+            npx commitlint --from $BASE_SHA --to $HEAD_SHA --verbose
           else
             echo "Not a pull request event. Skipping Conventional Commits check."
           fi
-          
+
       - name: Run Format Task
         run: npm run format
 
@@ -87,4 +90,3 @@ jobs:
       - name: Test Version
         run: |
           dotnet test Vertical.Slice.Template.sln  -c Release --no-restore  --no-build
-
