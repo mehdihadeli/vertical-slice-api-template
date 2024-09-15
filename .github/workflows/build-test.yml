@@ -13,7 +13,7 @@ env:
 
 jobs:
   pre-checks:
-    name: Pre-checks (Format, Style, Analyzers, Spelling, Commitlint)
+    name: Pre-Checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -40,15 +40,8 @@ jobs:
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      - name: Check Conventional Commits
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
-            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-            npx commitlint --from $BASE_SHA --to $HEAD_SHA --verbose
-          else
-            echo "Not a pull request event. Skipping Conventional Commits check."
-          fi
+      - name: Conventional Commits Check
+        uses: webiny/action-conventional-commits@v1.3.0
 
       - name: Run Format Task
         run: npm run format
