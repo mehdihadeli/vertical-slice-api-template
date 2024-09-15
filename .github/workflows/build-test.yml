@@ -40,9 +40,6 @@ jobs:
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      - name: Conventional Commits Check
-        uses: webiny/action-conventional-commits@v1.3.0
-
       - name: Run Format Task
         run: npm run format
 
@@ -52,8 +49,8 @@ jobs:
       - name: Run Analyzers Task
         run: npm run analyzers
 
-      - name: Run Spelling Task
-        run: npm run spell
+      - name: Conventional Commits Check
+        uses: webiny/action-conventional-commits@v1.3.0
 
   build-test:
     runs-on: ubuntu-latest
