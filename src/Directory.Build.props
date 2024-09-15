@@ -17,8 +17,10 @@
     <AnalysisMode>All</AnalysisMode>
     <AnalysisModeGlobalization>None</AnalysisModeGlobalization>
     <AnalysisModeSecurity>All</AnalysisModeSecurity>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>

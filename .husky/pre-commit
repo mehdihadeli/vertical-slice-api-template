@@ -2,3 +2,4 @@
 npm run csharpier-apply-formatting 
 npm run format 
 npm run style 
+npm run analyzers
