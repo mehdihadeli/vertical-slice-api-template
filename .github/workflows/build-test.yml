@@ -23,7 +23,8 @@ jobs:
 
       - name: Conventional Commits Check
         uses: amannn/action-semantic-pull-request@v5
-        if: always()
+        # Only run on pull request events
+        if: github.event_name == 'pull_request'
         id: check-pull-request-title-conventional-commits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
