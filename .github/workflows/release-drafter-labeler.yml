@@ -1,25 +1,20 @@
 name: Release Drafter Auto Labeler
 on:
+  # pull_request event is required for autolabeler
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - edited
-  pull_request_target:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - edited
+    types: [opened, reopened, synchronize]
 jobs:
   auto-labeler:
     name: Release drafter Auto Labeler
     runs-on: ubuntu-latest
+    permissions:
+      # write permission is required for autolabeler
+      # otherwise, read permission is required at least
+      pull-requests: write
     steps:
       - uses: release-drafter/release-drafter@v6
         with:
           config-name: release-drafter.yml
-          disable-releaser: true # only run auto-labeler for PRs
+          commitish: "main"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
