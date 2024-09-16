@@ -11,13 +11,17 @@ jobs:
       # write permission is required for autolabeler
       # otherwise, read permission is required at least
       pull-requests: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      contents: read
 
-      - uses: release-drafter/release-drafter@v6
+    steps:
+      - name: Apply labels based on PR title and branch name
+        uses: actions/labeler@v5
         with:
-          config-name: release-drafter.yml
-          disable-releaser: true # releaser mode is disabled.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - uses: release-drafter/release-drafter@v6
+      #   with:
+      #     config-name: release-drafter.yml
+      #     disable-releaser: true # releaser mode is disabled.
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
