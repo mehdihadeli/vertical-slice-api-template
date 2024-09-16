@@ -4,8 +4,16 @@ name: Release Drafter
 
 on:
   push:
+    # branches to consider in the event; optional, defaults to all
     branches:
-      - "main"
+      - main
+  # pull_request event is required only for autolabeler
+  pull_request:
+    # Only following types are handled by the action, but one can default to all as well
+    types: [opened, reopened, synchronize]
+  # pull_request_target event is required for autolabeler to support PRs from forks
+  pull_request_target:
+    types: [opened, reopened, synchronize]
 
 jobs:
   update_release_draft:
@@ -21,7 +29,7 @@ jobs:
 
     steps:
       - name: Update Release Draft
-        uses: release-drafter/release-drafter@v5
+        uses: release-drafter/release-drafter@v6
         id: semantic
         with:
           config-name: release-drafter.yml
