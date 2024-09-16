@@ -1,6 +1,7 @@
 name: Auto Labeler
 on:
-  - pull_request_target
+  pull_request:
+    types: [ opened, edited, synchronize, ready_for_review ]
 
 jobs:
   auto-labeler:
