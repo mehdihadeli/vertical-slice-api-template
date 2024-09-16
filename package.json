@@ -10,7 +10,11 @@
         "analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity diagnostic",
         "fix-csharpier-format": "dotnet csharpier . && git add -A .",
         "fix-style": "dotnet format style Vertical.Slice.Template.sln --severity error --verbosity diagnostic  && git add -A .",
-        "fix-analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --severity error --verbosity diagnostic  && git add -A ."
+        "fix-warn-style": "dotnet format style Vertical.Slice.Template.sln --severity warn --verbosity diagnostic",
+        "fix-info-style": "dotnet format style Vertical.Slice.Template.sln --severity info --verbosity diagnostic",
+        "fix-analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --severity error --verbosity diagnostic  && git add -A .",
+        "fix-warn-analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --severity warn --verbosity diagnostic",
+        "fix-info-analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --severity info --verbosity diagnostic"
     },
     "repository": {
         "type": "git",
