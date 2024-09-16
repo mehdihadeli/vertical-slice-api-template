@@ -2,13 +2,9 @@ name: Auto Labeler
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - labeled
-      - unlabeled
-      - edited
+    types: [opened, edited, synchronize, ready_for_review]
+
+  pull_request_target:
 
 jobs:
   auto-labeler:
@@ -19,16 +15,12 @@ jobs:
       # otherwise, read permission is required at least
       pull-requests: write
       contents: read
-      statuses: write
-      checks: write
+      ## just for multi-labeler
+      # statuses: write
+      # checks: write
 
     steps:
-      # - name: Apply labels based on PR title and branch name
-      #   uses: actions/labeler@v5
-      #   with:
-      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
-      #     configuration-path: ".github/labeler.yml"
-
+      ## doesn't work
       # - uses: release-drafter/release-drafter@v6
       #   with:
       #     config-name: release-drafter.yml
@@ -36,15 +28,23 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: fuxingloh/multi-labeler@v1
-        name: conventional-commits-pull-request-labeler
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}} # optional, default to '${{ github.token }}'
-          config-path: .github/multi-labeler.yml # optional, default to '.github/labeler.yml'
+      # - uses: fuxingloh/multi-labeler@v1
+      #   name: conventional-commits-pull-request-labeler
+      #   with:
+      #     github-token: ${{secrets.GITHUB_TOKEN}} # optional, default to '${{ github.token }}'
+      #     config-path: .github/multi-labeler.yml # optional, default to '.github/labeler.yml'
 
+      # https://github.com/actions/labeler
+      - uses: actions/labeler@v5
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          sync-labels: true
+
+        # https://docs.github.com/en/actions/using-workflows/about-workflows#creating-dependent-jobs
+        # https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
       - name: check-conventional-commits-labels
         uses: docker://agilepathway/pull-request-label-checker:latest
         if: success()
         with:
-          any_of: feature,bug,enhancement,refactor,deprecated,security,documentation,build,ci/cd,chore,performance,formatting,dependencies,test,major,minor,patch
+          any_of: feature,bug,enhancement,refactor,deprecated,security,documentation,build,ci/cd,devops,chore,performance,formatting,dependencies,test,major,minor,patch
           repo_token: ${{ secrets.GITHUB_TOKEN }}
