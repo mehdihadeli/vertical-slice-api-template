@@ -18,6 +18,7 @@ categories:
 - title: 🚀 Features
   labels:
   - feature
+  - feat
 - title: ♻️ Enhancement
   labels:
   - enhancement
@@ -29,9 +30,12 @@ categories:
 - title: 👷 CI
   labels:
   - ci
+  - ci-cd
+  - devops
 - title: ⚠️ Breaking Changes
   labels:
   - breaking-changes
+  - major
 - title: ⛔️ Deprecated
   labels:
   - deprecated
@@ -41,6 +45,9 @@ categories:
 - title: 🔐 Security
   labels:
   - security
+- title: 🎨 Style & Formatting
+  labels:
+  - style
 - title: 🧪 Test
   labels:
   - test
@@ -51,6 +58,7 @@ categories:
 - title: 🧩 Dependency Updates
   labels:
   - deps
+  - build
   - dependencies
 - title: 🧰 Maintenance
   label: 'chore'
@@ -58,7 +66,6 @@ categories:
   label: misc
 - title: 🚩 Other changes
   ## putting no labels pr to `Other Changes` category with no label - https://github.com/release-drafter/release-drafter/issues/139#issuecomment-480473934
-
 
 # https://www.trywilco.com/post/wilco-ci-cd-github-heroku
 # https://github.com/release-drafter/release-drafter#autolabeler
@@ -83,7 +90,12 @@ autolabeler:
   - '^(feat)(\([a-z ]+\))?\/.'
   title:
   - '^(feat)(\([a-z ]+\))?: .'
-- label: "ci/cd"
+- label: "style"
+  branch:
+  - '^(style)(\([a-z ]+\))?\/.'
+  title:
+  - '^(style)(\([a-z ]+\))?: .'
+- label: "ci-cd"
   branch:
   - '^(ci)(\([a-z ]+\))?\/.'
   title:
