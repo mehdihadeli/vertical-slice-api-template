@@ -4,35 +4,24 @@ name: Release Drafter
 
 on:
   push:
-    # branches to consider in the event; optional, defaults to all
     branches:
-      - main
-  # pull_request event is required only for autolabeler
-  pull_request:
-    # Only following types are handled by the action, but one can default to all as well
-    types: [opened, reopened, synchronize]
-  # pull_request_target event is required for autolabeler to support PRs from forks
-  pull_request_target:
-    types: [opened, reopened, synchronize]
+      - "main"
 
 jobs:
-  update_release_draft:
+  update-release-draft:
     name: Release drafter
     runs-on: ubuntu-latest
 
     permissions:
       # write permission is required to create a github release
       contents: write
-      # write permission is required for autolabeler
-      # otherwise, read permission is required at least
-      pull-requests: write
-
     steps:
       - name: Update Release Draft
         uses: release-drafter/release-drafter@v6
         id: semantic
         with:
           config-name: release-drafter.yml
+          disable-autolabeler: true
         ## Default versioning just increase the path version as default. but the can use minor, patch and breaking-changes labels to apply semver
         #  version: 1.29.1
         env:

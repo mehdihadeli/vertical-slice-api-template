@@ -18,6 +18,7 @@ categories:
 - title: 🚀 Features
   labels:
   - feature
+  - feat
 - title: ♻️ Enhancement
   labels:
   - enhancement
@@ -29,9 +30,12 @@ categories:
 - title: 👷 CI
   labels:
   - ci
+  - ci-cd
+  - devops
 - title: ⚠️ Breaking Changes
   labels:
   - breaking-changes
+  - major
 - title: ⛔️ Deprecated
   labels:
   - deprecated
@@ -41,6 +45,9 @@ categories:
 - title: 🔐 Security
   labels:
   - security
+- title: 🎨 Style & Formatting
+  labels:
+  - style
 - title: 🧪 Test
   labels:
   - test
@@ -51,6 +58,7 @@ categories:
 - title: 🧩 Dependency Updates
   labels:
   - deps
+  - build
   - dependencies
 - title: 🧰 Maintenance
   label: 'chore'
@@ -59,53 +67,48 @@ categories:
 - title: 🚩 Other changes
   ## putting no labels pr to `Other Changes` category with no label - https://github.com/release-drafter/release-drafter/issues/139#issuecomment-480473934
 
-
 # https://www.trywilco.com/post/wilco-ci-cd-github-heroku
 # https://github.com/release-drafter/release-drafter#autolabeler
 # https://github.com/fuxingloh/multi-labeler
 
 # Using regex for defining rules - https://regexr.com/
 # https://stackoverflow.com/questions/58899999/regexp-to-match-conventional-commit-syntax
+# Auto-labeler: Assign labels based on branch names or PR titles that follow Conventional Commits
 autolabeler:
-- label: 'chore'
+- label: "chore"
   branch:
-  - '(chore)(\([a-z ]+\))?\/.'
+  - '^(chore)(\([a-z ]+\))?\/.'
   title:
   - '^(chore)(\([a-z ]+\))?: .'
-- label: 'bug'
+- label: "bug"
   branch:
-  - '(fix)(\([a-z ]+\))?\/.'
+  - '^(fix)(\([a-z ]+\))?\/.'
   title:
   - '^(fix)(\([a-z ]+\))?: .'
-- label: 'refactor'
+- label: "feature"
   branch:
-    - '(refactor)(\([a-z ]+\))?\/.'
-  title:
-    - '^(refactor)(\([a-z ]+\))?: .'
-- label: 'test'
-  branch:
-  - '(test)(\([a-z ]+\))?\/.'
-  title:
-  - '^(test)(\([a-z ]+\))?: .'
-- label: 'feature'
-  branch:
-  - '(feat)(\([a-z ]+\))?\/.'
+  - '^(feat)(\([a-z ]+\))?\/.'
   title:
   - '^(feat)(\([a-z ]+\))?: .'
-- label: 'ci/cd'
+- label: "style"
   branch:
-  - '(ci)(\([a-z ]+\))?\/.'
+  - '^(style)(\([a-z ]+\))?\/.'
+  title:
+  - '^(style)(\([a-z ]+\))?: .'
+- label: "ci-cd"
+  branch:
+  - '^(ci)(\([a-z ]+\))?\/.'
   title:
   - '^(ci)(\([a-z ]+\))?: .'
-- label: 'minor'
+- label: "minor"
   branch:
-  - '(feat)(\([a-z ]+\))?\/.'
+  - '^(feat)(\([a-z ]+\))?\/.'
   title:
   - '^(feat)(\([a-z ]+\))?: .'
-- label: 'patch'
+- label: "patch"
   branch:
-  - '(fix)(\([a-z ]+\))?\/.'
-  - '(ci)(\([a-z ]+\))?\/.'
+  - '^(fix)(\([a-z ]+\))?\/.'
+  - '^(ci)(\([a-z ]+\))?\/.'
   title:
   - '^(fix)(\([a-z ]+\))?: .'
   - '^(ci)(\([a-z ]+\))?: .'
