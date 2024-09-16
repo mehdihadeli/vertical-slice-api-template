@@ -74,10 +74,10 @@ feature:
 ci-cd:
 - head-branch:
   - '^(ci)(\([a-z ]+\))?\/.'
-# - changed-files:
-#   - any-glob-to-any-file:
-#     - '.github/workflows/*'
-#     - '.github/*'
+- changed-files:
+  - any-glob-to-any-file:
+    - '.github/workflows/*'
+    - '.github/*'
 
 devops:
 - head-branch:
