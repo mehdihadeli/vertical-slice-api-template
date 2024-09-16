@@ -66,49 +66,63 @@ categories:
 
 # Using regex for defining rules - https://regexr.com/
 # https://stackoverflow.com/questions/58899999/regexp-to-match-conventional-commit-syntax
+# Auto-labeler: Assign labels based on branch names or PR titles that follow Conventional Commits
 autolabeler:
-- label: 'chore'
-  branch:
-  - '(chore)(\([a-z ]+\))?\/.'
-  title:
-  - '^(chore)(\([a-z ]+\))?: .'
-- label: 'bug'
-  branch:
-  - '(fix)(\([a-z ]+\))?\/.'
-  title:
-  - '^(fix)(\([a-z ]+\))?: .'
-- label: 'refactor'
-  branch:
-    - '(refactor)(\([a-z ]+\))?\/.'
-  title:
-    - '^(refactor)(\([a-z ]+\))?: .'
-- label: 'test'
-  branch:
-  - '(test)(\([a-z ]+\))?\/.'
-  title:
-  - '^(test)(\([a-z ]+\))?: .'
 - label: 'feature'
   branch:
-  - '(feat)(\([a-z ]+\))?\/.'
+  - '/feat\/.+/' # Matches branch names starting with feat/
   title:
-  - '^(feat)(\([a-z ]+\))?: .'
-- label: 'ci/cd'
+  - '/feat\: .+/' # Matches PR titles starting with feat:
+- label: 'bugfix'
   branch:
-  - '(ci)(\([a-z ]+\))?\/.'
+  - '/fix\/.+/' # Matches branch names starting with fix/
   title:
-  - '^(ci)(\([a-z ]+\))?: .'
-- label: 'minor'
+  - '/fix\: .+/' # Matches PR titles starting with fix:
+- label: 'documentation'
   branch:
-  - '(feat)(\([a-z ]+\))?\/.'
+  - '/docs\/.+/' # Matches branch names starting with docs/
   title:
-  - '^(feat)(\([a-z ]+\))?: .'
-- label: 'patch'
+  - '/docs\: .+/' # Matches PR titles starting with docs:
+- label: 'style'
   branch:
-  - '(fix)(\([a-z ]+\))?\/.'
-  - '(ci)(\([a-z ]+\))?\/.'
+  - '/style\/.+/' # Matches branch names starting with style/
   title:
-  - '^(fix)(\([a-z ]+\))?: .'
-  - '^(ci)(\([a-z ]+\))?: .'
+  - '/style\: .+/' # Matches PR titles starting with style:
+- label: 'refactor'
+  branch:
+  - '/refactor\/.+/' # Matches branch names starting with refactor/
+  title:
+  - '/refactor\: .+/' # Matches PR titles starting with refactor:
+- label: 'test'
+  branch:
+  - '/test\/.+/' # Matches branch names starting with test/
+  title:
+  - '/test\: .+/' # Matches PR titles starting with test:
+- label: 'chore'
+  branch:
+  - '/chore\/.+/' # Matches branch names starting with chore/
+  title:
+  - '/chore\: .+/' # Matches PR titles starting with chore:
+- label: 'performance'
+  branch:
+  - '/perf\/.+/' # Matches branch names starting with perf/
+  title:
+  - '/perf\: .+/' # Matches PR titles starting with perf:
+- label: 'ci'
+  branch:
+  - '/ci\/.+/' # Matches branch names starting with ci/
+  title:
+  - '/ci\: .+/' # Matches PR titles starting with ci:
+- label: 'build'
+  branch:
+  - '/build\/.+/' # Matches branch names starting with build/
+  title:
+  - '/build\: .+/' # Matches PR titles starting with build:
+- label: 'revert'
+  branch:
+  - '/revert\/.+/' # Matches branch names starting with revert/
+  title:
+  - '/revert\: .+/' # Matches PR titles starting with revert:
 
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
