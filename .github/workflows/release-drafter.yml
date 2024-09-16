@@ -24,7 +24,6 @@ jobs:
         uses: release-drafter/release-drafter@v6
         id: semantic
         with:
-          commitish: main
           config-name: release-drafter.yml
           disable-autolabeler: true
         ## Default versioning just increase the path version as default. but the can use minor, patch and breaking-changes labels to apply semver

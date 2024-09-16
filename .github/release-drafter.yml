@@ -73,51 +73,61 @@ autolabeler:
   - '/feat\/.+/' # Matches branch names starting with feat/
   title:
   - '/feat\: .+/' # Matches PR titles starting with feat:
+
 - label: 'bugfix'
   branch:
   - '/fix\/.+/' # Matches branch names starting with fix/
   title:
   - '/fix\: .+/' # Matches PR titles starting with fix:
+
 - label: 'documentation'
   branch:
   - '/docs\/.+/' # Matches branch names starting with docs/
   title:
   - '/docs\: .+/' # Matches PR titles starting with docs:
+
 - label: 'style'
   branch:
   - '/style\/.+/' # Matches branch names starting with style/
   title:
   - '/style\: .+/' # Matches PR titles starting with style:
+
 - label: 'refactor'
   branch:
   - '/refactor\/.+/' # Matches branch names starting with refactor/
   title:
   - '/refactor\: .+/' # Matches PR titles starting with refactor:
+
 - label: 'test'
   branch:
   - '/test\/.+/' # Matches branch names starting with test/
   title:
   - '/test\: .+/' # Matches PR titles starting with test:
+
 - label: 'chore'
   branch:
   - '/chore\/.+/' # Matches branch names starting with chore/
   title:
   - '/chore\: .+/' # Matches PR titles starting with chore:
+
 - label: 'performance'
   branch:
   - '/perf\/.+/' # Matches branch names starting with perf/
   title:
   - '/perf\: .+/' # Matches PR titles starting with perf:
+
 - label: 'ci'
   branch:
   - '/ci\/.+/' # Matches branch names starting with ci/
   title:
   - '/ci\: .+/' # Matches PR titles starting with ci:
+
 - label: 'build'
   branch:
   - '/build\/.+/' # Matches branch names starting with build/
   title:
   - '/build\: .+/' # Matches PR titles starting with build:
+
 - label: 'revert'
   branch:
   - '/revert\/.+/' # Matches branch names starting with revert/
