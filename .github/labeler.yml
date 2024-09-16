@@ -1,58 +1,37 @@
 # https://github.com/actions/labeler
+
 # In some configurations (like Release Drafter), regex is enclosed with slashes (e.g., /build\/.+/), which signifies the start and end of the regular expression.
 # However, in GitHub Actions' labeler.yml, you do not need to wrap your regex patterns in slashes. The tool expects just the regex itself, without the delimiters.
 
-# Feature
-'feature':
-- 'feat/.+' # Matches branch names starting with 'feat/'
-- 'feat: .+' # Matches PR titles starting with 'feat: '
+feature:
+- head-branch: ['^feat/'] # Matches branch names starting with 'feat/'
 
-# Bug Fix
-'bugfix':
-- 'fix/.+' # Matches branch names starting with 'fix/'
-- 'fix: .+' # Matches PR titles starting with 'fix: '
+bugfix:
+- head-branch: ['^fix/'] # Matches branch names starting with 'fix/'
 
-# Documentation
-'documentation':
-- 'docs/.+' # Matches branch names starting with 'docs/'
-- 'docs: .+' # Matches PR titles starting with 'docs: '
+documentation:
+- head-branch: ['^docs/']
 
-# Style
-'style':
-- 'style/.+' # Matches branch names starting with 'style/'
-- 'style: .+' # Matches PR titles starting with 'style: '
+style:
+- head-branch: ['^style/']
 
-# Refactor
-'refactor':
-- 'refactor/.+' # Matches branch names starting with 'refactor/'
-- 'refactor: .+' # Matches PR titles starting with 'refactor: '
+refactor:
+- head-branch: ['^refactor/']
 
-# Test
-'test':
-- 'test/.+' # Matches branch names starting with 'test/'
-- 'test: .+' # Matches PR titles starting with 'test: '
+test:
+- head-branch: ['^test/']
 
-# Chore
-'chore':
-- 'chore/.+' # Matches branch names starting with 'chore/'
-- 'chore: .+' # Matches PR titles starting with 'chore: '
+chore:
+- head-branch: ['^chore/']
 
-# Performance
-'performance':
-- 'perf/.+' # Matches branch names starting with 'perf/'
-- 'perf: .+' # Matches PR titles starting with 'perf: '
+performance:
+- head-branch: ['^perf/']
 
-# Continuous Integration
-'ci':
-- 'ci/.+' # Matches branch names starting with 'ci/'
-- 'ci: .+' # Matches PR titles starting with 'ci: '
+ci:
+- head-branch: ['^ci/']
 
-# Build
-'build':
-- 'build/.+' # Matches branch names starting with 'build/'
-- 'build: .+' # Matches PR titles starting with 'build: '
+build:
+- head-branch: ['^build/']
 
-# Revert
-'revert':
-- 'revert/.+' # Matches branch names starting with 'revert/'
-- 'revert: .+' # Matches PR titles starting with 'revert: '
+revert:
+- head-branch: ['^revert/']
