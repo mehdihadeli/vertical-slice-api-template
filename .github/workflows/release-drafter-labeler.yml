@@ -1,27 +1,25 @@
 name: Release Drafter Auto Labeler
 on:
-  push:
-  # pull_request event is required only for autolabeler
   pull_request:
-    # Only following types are handled by the action, but one can default to all as well
-    types: [opened, reopened, synchronize]
-
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
 jobs:
   auto-labeler:
     name: Release drafter Auto Labeler
     runs-on: ubuntu-latest
-    permissions:
-      # Setting up permissions in the workflow to limit the scope of what it can do. Optional!
-      contents: read
-      pull-requests: write
-      statuses: write
-      checks: write
-
     steps:
       - uses: release-drafter/release-drafter@v6
         with:
           config-name: release-drafter.yml
-          disable-autolabeler: false
           disable-releaser: true # only run auto-labeler for PRs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
