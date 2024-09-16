@@ -67,39 +67,58 @@ categories:
 # Using regex for defining rules - https://regexr.com/
 # https://stackoverflow.com/questions/58899999/regexp-to-match-conventional-commit-syntax
 # Auto-labeler: Assign labels based on branch names or PR titles that follow Conventional Commits
+# autolabeler:
+# - label: "chore"
+#   branch:
+#   - '^(chore)(\([a-z ]+\))?\/.'
+#   title:
+#   - '^(chore)(\([a-z ]+\))?: .'
+# - label: "bug"
+#   branch:
+#   - '^(fix)(\([a-z ]+\))?\/.'
+#   title:
+#   - '^(fix)(\([a-z ]+\))?: .'
+# - label: "feature"
+#   branch:
+#   - '^(feat)(\([a-z ]+\))?\/.'
+#   title:
+#   - '^(feat)(\([a-z ]+\))?: .'
+# - label: "ci/cd"
+#   branch:
+#   - '^(ci)(\([a-z ]+\))?\/.'
+#   title:
+#   - '^(ci)(\([a-z ]+\))?: .'
+# - label: "minor"
+#   branch:
+#   - '^(feat)(\([a-z ]+\))?\/.'
+#   title:
+#   - '^(feat)(\([a-z ]+\))?: .'
+# - label: "patch"
+#   branch:
+#   - '^(fix)(\([a-z ]+\))?\/.'
+#   - '^(ci)(\([a-z ]+\))?\/.'
+#   title:
+#   - '^(fix)(\([a-z ]+\))?: .'
+#   - '^(ci)(\([a-z ]+\))?: .'
 autolabeler:
-- label: "chore"
+- label: 'chore'
+  files:
+  - '*.md'
   branch:
-  - '^(chore)(\([a-z ]+\))?\/.'
-  title:
-  - '^(chore)(\([a-z ]+\))?: .'
-- label: "bug"
+  - '/docs{0,1}\/.+/'
+- label: 'bug'
   branch:
-  - '^(fix)(\([a-z ]+\))?\/.'
+  - '/fix\/.+/'
   title:
-  - '^(fix)(\([a-z ]+\))?: .'
-- label: "feature"
+  - '/fix/i'
+- label: 'enhancement'
   branch:
-  - '^(feat)(\([a-z ]+\))?\/.'
-  title:
-  - '^(feat)(\([a-z ]+\))?: .'
-- label: "ci/cd"
+  - '/feature\/.+/'
+- label: 'ci-cd'
   branch:
-  - '^(ci)(\([a-z ]+\))?\/.'
-  title:
-  - '^(ci)(\([a-z ]+\))?: .'
-- label: "minor"
-  branch:
-  - '^(feat)(\([a-z ]+\))?\/.'
-  title:
-  - '^(feat)(\([a-z ]+\))?: .'
-- label: "patch"
-  branch:
-  - '^(fix)(\([a-z ]+\))?\/.'
-  - '^(ci)(\([a-z ]+\))?\/.'
-  title:
-  - '^(fix)(\([a-z ]+\))?: .'
-  - '^(ci)(\([a-z ]+\))?: .'
+  - '/ci\/.+/'
+  body:
+  - '/JIRA-[0-9]{1,4}/'
 
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
