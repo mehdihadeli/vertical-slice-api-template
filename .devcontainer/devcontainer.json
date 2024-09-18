@@ -100,7 +100,8 @@
                 "vscode-icons-team.vscode-icons",
                 "redhat.vscode-yaml",
                 "kennylong.kubernetes-yaml-formatter",
-                "sonarsource.sonarlint-vscode"
+                "sonarsource.sonarlint-vscode",
+				"ms-vscode.makefile-tools"
             ]
         }
     },
