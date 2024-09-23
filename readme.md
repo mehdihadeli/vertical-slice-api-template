@@ -48,8 +48,9 @@ dotnet new install .
 
 ## Features
 
-- ✅ Using `Vertical Slice Architecture` as a high level architecture
+- ✅ Using `Vertical Slice Architecture` as a high-level architecture
 - ✅ Using `CQRS Pattern` on top of `MediatR` library
+- ✅ Using `Mapperly` source generator for the mappings
 - ✅ Using `Minimal APIs` for handling requests
 - ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
 - ✅ Using `Postgres` On Top of EfCore
