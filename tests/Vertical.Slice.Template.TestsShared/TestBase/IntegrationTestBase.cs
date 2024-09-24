@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Shared.Abstractions.Persistence;
 using Shared.Abstractions.Persistence.Ef;
 using Vertical.Slice.Template.TestsShared.Fixtures;
+using Xunit;
 
 namespace Vertical.Slice.Template.TestsShared.TestBase;
 

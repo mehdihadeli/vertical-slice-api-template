@@ -1,6 +1,6 @@
 using AutoBogus;
 using FluentAssertions;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Vertical.Slice.Template.Products.Features.CreatingProduct.v1;

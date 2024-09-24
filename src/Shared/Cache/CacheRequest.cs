@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Shared.Abstractions.Caching;
 
 namespace Shared.Cache;

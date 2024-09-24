@@ -3,6 +3,7 @@ using Respawn;
 using Shared.Core.Extensions;
 using Testcontainers.PostgreSql;
 using Vertical.Slice.Template.TestsShared.Helpers;
+using Xunit;
 using Xunit.Sdk;
 
 namespace Vertical.Slice.Template.TestsShared.Fixtures;

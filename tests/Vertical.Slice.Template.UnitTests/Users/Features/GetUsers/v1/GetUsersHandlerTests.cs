@@ -13,7 +13,7 @@ namespace Vertical.Slice.Template.UnitTests.Users.Features.GetUsers.v1;
 
 // https://www.testwithspring.com/lesson/the-best-practices-of-nested-unit-tests/
 
-public class GetUsersHandlerTests()
+public class GetUsersHandlerTests
 {
     [Fact]
     public async Task handle_should_call_users_http_client_once()
@@ -80,9 +80,9 @@ public class GetUsersHandlerTests()
 
         var query = GetUsersByPage.Of(new PageRequest { PageNumber = page, PageSize = pageSize });
 
-        var act = () => handler.Handle(query, cancellationToken);
+        var action = async () => await handler.Handle(query, cancellationToken);
 
-        await act.Should().ThrowAsync<HttpResponseException>();
+        await action.Should().ThrowAsync<HttpResponseException>();
     }
 
     [Fact]
@@ -100,8 +100,8 @@ public class GetUsersHandlerTests()
         var handler = new GetUsersHandler(usersHttpClient);
 
         var query = GetUsersByPage.Of(new PageRequest { PageNumber = page, PageSize = pageSize });
-        var act = () => handler.Handle(query, cancellationToken);
+        var action = async () => await handler.Handle(query, cancellationToken);
 
-        await act.Should().ThrowAsync<Exception>();
+        await action.Should().ThrowAsync<Exception>();
     }
 }

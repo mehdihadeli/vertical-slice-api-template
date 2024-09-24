@@ -11,7 +11,7 @@ namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 // https://codeopinion.com/leaking-value-objects-from-your-domain/
 // https://www.youtube.com/watch?v=CdanF8PWJng
 // we don't pass value-objects and domains to our commands and events, just primitive types
-internal record ProductCreated(Guid Id, string Name, Guid CategoryId, decimal Price, string? Description = null)
+public record ProductCreated(Guid Id, string Name, Guid CategoryId, decimal Price, string? Description = null)
     : DomainEvent
 {
     public static ProductCreated Of(Guid id, string? name, Guid categoryId, decimal price, string? description = null)

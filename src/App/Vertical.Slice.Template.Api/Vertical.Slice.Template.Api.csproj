@@ -7,5 +7,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Vertical.Slice.Template\Vertical.Slice.Template.csproj" />
   </ItemGroup>
-
+  
 </Project>

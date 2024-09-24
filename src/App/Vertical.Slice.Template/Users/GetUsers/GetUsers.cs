@@ -6,7 +6,7 @@ using Vertical.Slice.Template.Users.Dtos;
 
 namespace Vertical.Slice.Template.Users.GetUsers;
 
-internal record GetUsersByPage : PageQuery<GetUsersByPageResult>
+public record GetUsersByPage : PageQuery<GetUsersByPageResult>
 {
     /// <summary>
     /// GetUsersByPage query with validation.
@@ -29,7 +29,7 @@ internal record GetUsersByPage : PageQuery<GetUsersByPageResult>
 
 internal class GetUsersHandler(IUsersHttpClient usersHttpClient) : IQueryHandler<GetUsersByPage, GetUsersByPageResult>
 {
-    public async Task<GetUsersByPageResult> Handle(GetUsersByPage request, CancellationToken cancellationToken)
+    public async ValueTask<GetUsersByPageResult> Handle(GetUsersByPage request, CancellationToken cancellationToken)
     {
         var usersList = await usersHttpClient.GetAllUsersAsync(request, cancellationToken);
 

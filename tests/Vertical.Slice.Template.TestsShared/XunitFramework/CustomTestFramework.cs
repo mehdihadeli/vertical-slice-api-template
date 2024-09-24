@@ -1,4 +1,5 @@
 using System.Reflection;
+using Xunit;
 using Xunit.Sdk;
 
 [assembly: TestFramework(

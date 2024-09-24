@@ -48,10 +48,10 @@ public class GetProductByIdTests : CatalogsUnitTestBase
         var notExistProductQuery = new GetProductById(notExistsProductId);
 
         // Act
-        Func<Task<GetProductByIdResult>> act = () => handler.Handle(notExistProductQuery, CancellationToken.None);
+        Func<Task> action = async () => await handler.Handle(notExistProductQuery, CancellationToken.None);
 
         // Assert
-        await act.Should().ThrowAsync<NotFoundException>();
+        await action.Should().ThrowAsync<NotFoundException>();
         await executor.Received(1).Invoke(Arg.Is(notExistsProductId), Arg.Any<CancellationToken>());
     }
 
@@ -65,10 +65,10 @@ public class GetProductByIdTests : CatalogsUnitTestBase
         var handler = new GetProductByIdHandler(executor);
 
         // Act
-        Func<Task<GetProductByIdResult>> act = () => handler.Handle(null!, CancellationToken.None);
+        Func<Task> action = async () => await handler.Handle(null!, CancellationToken.None);
 
         // Assert
-        await act.Should().ThrowAsync<ArgumentNullException>();
+        await action.Should().ThrowAsync<ArgumentNullException>();
         await executor.Received(0).Invoke(Arg.Is(product.Id), Arg.Any<CancellationToken>());
     }
 }

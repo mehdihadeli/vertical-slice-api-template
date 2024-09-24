@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 using AutoBogus;
 using FluentAssertions;
 using FluentAssertions.Extensions;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Shared.EF;
 using Vertical.Slice.Template.TestsShared.Factory;
+using Xunit;
 using Xunit.Sdk;
 
 namespace Vertical.Slice.Template.TestsShared.Fixtures;

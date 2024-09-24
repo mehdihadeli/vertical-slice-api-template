@@ -2,7 +2,8 @@ using Shared.Abstractions.Core.Domain.Events;
 
 namespace Shared.Core.Domain.Events;
 
-public record Event : IEvent
+// https://github.com/martinothamar/Mediator/issues/138
+public abstract record Event : IEvent
 {
     public Guid EventId { get; } = Guid.NewGuid();
     public long EventVersion => -1;

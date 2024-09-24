@@ -2,7 +2,8 @@ using Shared.Abstractions.Core.Domain.Events;
 
 namespace Shared.Core.Domain.Events;
 
-public record DomainEvent : Event, IDomainEvent
+// https://github.com/martinothamar/Mediator/issues/138
+public abstract record DomainEvent : Event, IDomainEvent
 {
     public dynamic AggregateId { get; private set; } = default!;
     public long AggregateSequenceNumber { get; private set; }

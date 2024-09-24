@@ -30,13 +30,19 @@ public static class DependencyInjectionExtensions
         // add option to the dependency injection
         builder.Services.AddValidationOptions<SerilogOptions>(opt => configurator?.Invoke(opt));
 
-        // https://andrewlock.net/creating-a-rolling-file-logging-provider-for-asp-net-core-2-0/
         // https://github.com/serilog/serilog-extensions-hosting
-        // https://andrewlock.net/adding-serilog-to-the-asp-net-core-generic-host/
-        // Serilog replace `ILoggerFactory`,It replaces microsoft `LoggerFactory` class with `SerilogLoggerFactory`, so `ConsoleLoggerProvider` and other default microsoft logger providers don't instantiate at all with serilog
-        builder.Host.UseSerilog(
-            (context, serviceProvider, loggerConfiguration) =>
+        // https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
+        // Routes framework log messages through Serilog - get other sinks from top level definition
+        builder.Services.AddSerilog(
+            (sp, loggerConfiguration) =>
             {
+                // The downside of initializing Serilog in top level is that services from the ASP.NET Core host, including the appsettings.json configuration and dependency injection, aren't available yet.
+                // setup sinks that related to `configuration` here instead of top level serilog configuration
+                // https://github.com/serilog/serilog-settings-configuration
+                loggerConfiguration.ReadFrom.Configuration(
+                    builder.Configuration,
+                    new ConfigurationReaderOptions {SectionName = nameof(SerilogOptions)});
+
                 extraConfigure?.Invoke(loggerConfiguration);
 
                 loggerConfiguration
@@ -50,22 +56,16 @@ public static class DependencyInjectionExtensions
                     .Enrich.WithExceptionDetails(
                         new DestructuringOptionsBuilder()
                             .WithDefaultDestructurers()
-                            .WithDestructurers(new[] { new DbUpdateExceptionDestructurer() })
-                    );
+                            .WithDestructurers(new[] {new DbUpdateExceptionDestructurer()}));
 
-                // https://github.com/serilog/serilog-settings-configuration
-                loggerConfiguration.ReadFrom.Configuration(
-                    context.Configuration,
-                    new ConfigurationReaderOptions { SectionName = nameof(SerilogOptions) }
-                );
 
                 if (serilogOptions.UseConsole)
                 {
                     // https://github.com/serilog/serilog-sinks-async
                     // https://github.com/lucadecamillis/serilog-sinks-spectre
-                    loggerConfiguration.WriteTo.Async(writeTo =>
-                        writeTo.Spectre(outputTemplate: serilogOptions.LogTemplate)
-                    );
+                    loggerConfiguration.WriteTo.Async(
+                        writeTo =>
+                            writeTo.Spectre(outputTemplate: serilogOptions.LogTemplate));
                 }
 
                 // https://github.com/serilog/serilog-sinks-async
@@ -74,19 +74,27 @@ public static class DependencyInjectionExtensions
                     // elasticsearch sink internally is async
                     // https://www.nuget.org/packages/Elastic.Serilog.Sinks
                     loggerConfiguration.WriteTo.Elasticsearch(
-                        new[] { new Uri(serilogOptions.ElasticSearchUrl) },
+                        new[] {new Uri(serilogOptions.ElasticSearchUrl),},
                         opts =>
                         {
                             opts.DataStream = new DataStreamName(
-                                $"{builder.Environment.ApplicationName}-{builder.Environment.EnvironmentName}-{DateTime.Now:yyyy-MM}"
-                            );
+                                $"{
+                                    builder.Environment.ApplicationName
+                                }-{
+                                    builder.Environment.EnvironmentName
+                                }-{
+                                    DateTime.Now
+                                    :yyyy-MM}");
+
                             opts.BootstrapMethod = BootstrapMethod.Failure;
+
                             opts.ConfigureChannel = channelOpts =>
-                            {
-                                channelOpts.BufferOptions = new BufferOptions { ExportMaxConcurrency = 10 };
-                            };
-                        }
-                    );
+                                                    {
+                                                        channelOpts.BufferOptions =
+                                                            new BufferOptions
+                                                            {ExportMaxConcurrency = 10};
+                                                    };
+                        });
                 }
 
                 // https://github.com/serilog-contrib/serilog-sinks-grafana-loki
@@ -96,10 +104,9 @@ public static class DependencyInjectionExtensions
                         serilogOptions.GrafanaLokiUrl,
                         new[]
                         {
-                            new LokiLabel { Key = "service", Value = "food-delivery" },
+                            new LokiLabel {Key = "service", Value = "food-delivery"},
                         },
-                        ["app"]
-                    );
+                        ["app"]);
                 }
 
                 if (!string.IsNullOrEmpty(serilogOptions.SeqUrl))
@@ -117,17 +124,15 @@ public static class DependencyInjectionExtensions
 
                 if (!string.IsNullOrEmpty(serilogOptions.LogPath))
                 {
-                    loggerConfiguration.WriteTo.Async(writeTo =>
-                        writeTo.File(
-                            serilogOptions.LogPath,
-                            outputTemplate: serilogOptions.LogTemplate,
-                            rollingInterval: RollingInterval.Day,
-                            rollOnFileSizeLimit: true
-                        )
-                    );
+                    loggerConfiguration.WriteTo.Async(
+                        writeTo =>
+                            writeTo.File(
+                                serilogOptions.LogPath,
+                                outputTemplate: serilogOptions.LogTemplate,
+                                rollingInterval: RollingInterval.Day,
+                                rollOnFileSizeLimit: true));
                 }
-            }
-        );
+            });
 
         return builder;
     }

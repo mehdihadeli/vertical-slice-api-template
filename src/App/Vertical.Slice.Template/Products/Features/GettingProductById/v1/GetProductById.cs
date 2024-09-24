@@ -14,7 +14,7 @@ using Vertical.Slice.Template.Shared.Data;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductById.v1;
 
-internal record GetProductById(Guid Id) : CacheQuery<GetProductById, GetProductByIdResult>
+public record GetProductById(Guid Id) : CacheQuery<GetProductById, GetProductByIdResult>
 {
     /// <summary>
     /// GetProductById query with validation.
@@ -43,7 +43,7 @@ internal class GetProductByIdValidator : AbstractValidator<GetProductById>
 internal class GetProductByIdHandler(DbExecutors.GetProductByIdExecutor getProductByIdExecutor)
     : IQueryHandler<GetProductById, GetProductByIdResult>
 {
-    public async Task<GetProductByIdResult> Handle(GetProductById request, CancellationToken cancellationToken)
+    public async ValueTask<GetProductByIdResult> Handle(GetProductById request, CancellationToken cancellationToken)
     {
         request.NotBeNull();
 
