@@ -23,7 +23,7 @@ public class CreateProductTests(
         var command = new CreateProductFake(fakeCategoryId).Generate();
 
         // Act
-        var createdCustomerResponse = await SharedFixture.SendAsync(command);
+        var createdCustomerResponse = await SharedFixture.SendAsync(command, CancellationToken.None);
 
         // Assert
         createdCustomerResponse.Should().NotBeNull();

@@ -14,7 +14,7 @@ using Vertical.Slice.Template.Shared.Data;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
 
-internal record GetProductsByPage : PageQuery<GetProductsByPageResult>
+public record GetProductsByPage : PageQuery<GetProductsByPageResult>
 {
     /// <summary>
     /// GetProductById query with validation.
@@ -56,7 +56,10 @@ internal class GetProductByPageHandler(
     ISieveProcessor sieveProcessor
 ) : IQueryHandler<GetProductsByPage, GetProductsByPageResult>
 {
-    public async Task<GetProductsByPageResult> Handle(GetProductsByPage request, CancellationToken cancellationToken)
+    public async ValueTask<GetProductsByPageResult> Handle(
+        GetProductsByPage request,
+        CancellationToken cancellationToken
+    )
     {
         request.NotBeNull();
 

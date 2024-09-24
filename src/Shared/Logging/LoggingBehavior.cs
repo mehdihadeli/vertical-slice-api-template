@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace Shared.Logging;
@@ -9,10 +9,10 @@ public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TReque
     where TRequest : IRequest<TResponse>
     where TResponse : class
 {
-    public async Task<TResponse> Handle(
-        TRequest request,
-        RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken
+    public async ValueTask<TResponse> Handle(
+        TRequest message,
+        CancellationToken cancellationToken,
+        MessageHandlerDelegate<TRequest, TResponse> next
     )
     {
         const string prefix = nameof(LoggingBehavior<TRequest, TResponse>);
@@ -27,10 +27,11 @@ public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TReque
         var timer = new Stopwatch();
         timer.Start();
 
-        var response = await next();
+        var response = await next(message, cancellationToken);
 
         timer.Stop();
         var timeTaken = timer.Elapsed;
+
         if (timeTaken.Seconds > 3)
         {
             logger.LogWarning(
@@ -62,9 +63,9 @@ public class StreamLoggingBehavior<TRequest, TResponse>(ILogger<StreamLoggingBeh
     where TResponse : class
 {
     public async IAsyncEnumerable<TResponse> Handle(
-        TRequest request,
-        StreamHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken
+        TRequest message,
+        CancellationToken cancellationToken,
+        StreamHandlerDelegate<TRequest, TResponse> next
     )
     {
         const string prefix = nameof(StreamLoggingBehavior<TRequest, TResponse>);
@@ -79,10 +80,11 @@ public class StreamLoggingBehavior<TRequest, TResponse>(ILogger<StreamLoggingBeh
         var timer = new Stopwatch();
         timer.Start();
 
-        await foreach (var response in next().WithCancellation(cancellationToken))
+        await foreach (var response in next(message, cancellationToken))
         {
             timer.Stop();
             var timeTaken = timer.Elapsed;
+
             if (timeTaken.Seconds > 3)
             {
                 logger.LogWarning(
@@ -94,6 +96,7 @@ public class StreamLoggingBehavior<TRequest, TResponse>(ILogger<StreamLoggingBeh
             }
 
             logger.LogInformation("[{Prefix}] Handled '{RequestData}'", prefix, typeof(TRequest).Name);
+
             yield return response;
         }
     }

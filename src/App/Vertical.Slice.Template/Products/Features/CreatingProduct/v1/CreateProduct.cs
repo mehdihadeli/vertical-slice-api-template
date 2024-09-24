@@ -1,5 +1,4 @@
 using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Persistence.Ef;
@@ -19,7 +18,7 @@ namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
 // https://codeopinion.com/leaking-value-objects-from-your-domain/
 // https://www.youtube.com/watch?v=CdanF8PWJng
 // we don't pass value-objects and domains to our commands and events, just primitive types
-internal record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
+public record CreateProduct(string Name, Guid CategoryId, decimal Price, string? Description = null)
     : ICommand<CreateProductResult>
 {
     public Guid Id { get; } = IdGenerator.NewId();
@@ -55,7 +54,7 @@ internal class CreateProductHandler(
     ILogger<CreateProductHandler> logger
 ) : ICommandHandler<CreateProduct, CreateProductResult>
 {
-    public async Task<CreateProductResult> Handle(CreateProduct request, CancellationToken cancellationToken)
+    public async ValueTask<CreateProductResult> Handle(CreateProduct request, CancellationToken cancellationToken)
     {
         request.NotBeNull();
 
@@ -72,7 +71,7 @@ internal class CreateProductHandler(
     }
 }
 
-internal record CreateProductResult(Guid Id);
+public record CreateProductResult(Guid Id);
 
 internal class DbExecuters : IDbExecutors
 {

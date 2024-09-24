@@ -1,3 +1,4 @@
+using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using Shared.Logging.Extensions;
@@ -8,9 +9,11 @@ using Vertical.Slice.Template.Shared;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 
 // https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
+// https://github.com/serilog/serilog-extensions-hosting
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-    .WriteTo.Console()
+    .Enrich.FromLogContext()
+    .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level} - {Message:lj}{NewLine}{Exception}")
     .CreateBootstrapLogger();
 
 try
@@ -87,9 +90,15 @@ try
     {
         // should register as last middleware for discovering all endpoints and its versions correctly
         app.UseCustomSwagger();
-    }
-    // #endif
 
+        // https://github.com/scalar/scalar/blob/main/packages/scalar.aspnetcore/README.md
+        app.MapScalarApiReference(x =>
+        {
+            x.OpenApiRoutePattern = "/swagger/v1/swagger.json";
+        });
+    }
+
+    // #endif
     await app.RunAsync();
 }
 catch (Exception ex)

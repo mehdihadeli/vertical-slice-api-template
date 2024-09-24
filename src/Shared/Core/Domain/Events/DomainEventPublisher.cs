@@ -1,37 +1,26 @@
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Core.Domain.Events;
 using Shared.Core.Extensions;
 
 namespace Shared.Core.Domain.Events;
 
-public class DomainEventPublisher : IDomainEventPublisher
+public class DomainEventPublisher(
+    IDomainEventsAccessor domainEventsAccessor,
+    IMediator mediator,
+    ILogger<DomainEventPublisher> logger
+) : IDomainEventPublisher
 {
-    private readonly IDomainEventsAccessor _domainEventsAccessor;
-    private readonly IMediator _mediator;
-    private readonly ILogger<DomainEventPublisher> _logger;
-
-    public DomainEventPublisher(
-        IDomainEventsAccessor domainEventsAccessor,
-        IMediator mediator,
-        ILogger<DomainEventPublisher> logger
-    )
-    {
-        _domainEventsAccessor = domainEventsAccessor;
-        _mediator = mediator;
-        _logger = logger;
-    }
-
     public Task PublishAsync(IDomainEvent domainEvent, CancellationToken cancellationToken = default)
     {
-        return PublishAsync(new[] { domainEvent }, cancellationToken);
+        return PublishAsync([domainEvent], cancellationToken);
     }
 
     public async Task PublishAsync(IDomainEvent[] domainEvents, CancellationToken cancellationToken = default)
     {
         domainEvents.NotBeNull();
 
-        if (!domainEvents.Any())
+        if (domainEvents.Length == 0)
             return;
 
         // https://github.com/dotnet-architecture/eShopOnContainers/issues/700#issuecomment-461807560
@@ -43,16 +32,16 @@ public class DomainEventPublisher : IDomainEventPublisher
         // Dispatch our domain events before commit
         var eventsToDispatch = domainEvents.ToList();
 
-        if (!eventsToDispatch.Any())
+        if (eventsToDispatch.Count == 0)
         {
-            eventsToDispatch = new List<IDomainEvent>(_domainEventsAccessor.UnCommittedDomainEvents);
+            eventsToDispatch = [.. domainEventsAccessor.UnCommittedDomainEvents];
         }
 
         foreach (var domainEvent in eventsToDispatch)
         {
-            await _mediator.Publish(domainEvent, cancellationToken);
+            await mediator.Publish(domainEvent, cancellationToken);
 
-            _logger.LogDebug(
+            logger.LogDebug(
                 "Dispatched domain event {DomainEventName} with payload {DomainEventContent}",
                 domainEvent.GetType().FullName,
                 domainEvent

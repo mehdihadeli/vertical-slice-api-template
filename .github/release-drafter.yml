@@ -122,15 +122,15 @@ autolabeler:
     title:
     - '/^(feat)(\([a-z ]+\))?: .+/'
 - label: 'minor'
-  branch:
+    branch:
     - '/^(feat)(\([a-z ]+\))?\/.+/'
-  title:
+    title:
     - '/^(feat)(\([a-z ]+\))?: .+/'
 - label: 'patch'
-  branch:
+    branch:
     - '/^(fix)(\([a-z ]+\))?\/.+/'
     - '/^(ci)(\([a-z ]+\))?\/.+/'
-  title:
+    title:
     - '/^(fix)(\([a-z ]+\))?: .+/'
     - '/^(ci)(\([a-z ]+\))?: .+/'
 

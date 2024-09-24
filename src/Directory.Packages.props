@@ -17,6 +17,8 @@
     <PackageVersion Include="Ben.Demystifier" Version="0.4.1" />
     <PackageVersion Include="EventStore.Client.Grpc.Streams" Version="23.3.3" />
     <PackageVersion Include="Marten" Version="7.24.0" />
+    <PackageVersion Include="Mediator.Abstractions" Version="2.1.7" />
+    <PackageVersion Include="Mediator.SourceGenerator" Version="2.1.7" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
@@ -55,6 +57,7 @@
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.7" />
     <PackageVersion Include="Open.ChannelExtensions" Version="8.4.3" />
     <PackageVersion Include="Riok.Mapperly" Version="3.6.0" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="1.2.4" />
     <PackageVersion Include="Serilog.Exceptions.EntityFrameworkCore" Version="8.4.0" />
     <PackageVersion Include="Serilog.Sinks.Grafana.Loki" Version="8.3.0" />
     <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.1.0-dev-00336" />
@@ -147,9 +150,6 @@
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.7.1" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageVersion Include="MediatR" Version="12.4.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Bogus" Version="35.5.1" />

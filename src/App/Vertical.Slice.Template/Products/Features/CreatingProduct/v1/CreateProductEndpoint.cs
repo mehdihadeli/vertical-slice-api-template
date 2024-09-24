@@ -1,11 +1,11 @@
 using Humanizer;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.Abstractions.Web;
+using Shared.Core.Extensions;
 using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 
@@ -36,6 +36,8 @@ internal static class CreateProductEndpoint
         > Handle([AsParameters] CreateProductRequestParameters requestParameters)
         {
             var (request, context, mediator, cancellationToken) = requestParameters;
+
+            request.NotBeNull();
 
             var command = request.ToCreateProduct();
 

@@ -1,5 +1,5 @@
 using CorrelationId.DependencyInjection;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Builder;
 using Shared.Abstractions.Persistence.Ef.Repository;
 using Shared.Cache;
@@ -47,7 +47,13 @@ public static partial class WebApplicationBuilderExtensions
 
         builder.Services.AddHttpContextAccessor();
 
-        builder.Services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(CatalogsMetadata).Assembly));
+        // https://github.com/martinothamar/Mediator
+        builder.Services.AddMediator(options =>
+        {
+            options.ServiceLifetime = ServiceLifetime.Transient;
+            options.Namespace = "Vertical.Slice.Template";
+        });
+
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(StreamLoggingBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));

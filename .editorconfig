@@ -175,7 +175,7 @@ dotnet_diagnostic.CA1304.severity = error
 # CA1307: Specify StringComparison for clarity
 dotnet_diagnostic.CA1307.severity = error
 # CA1308: Normalize strings to uppercase
-dotnet_diagnostic.CA1308.severity = error
+dotnet_diagnostic.CA1308.severity = none
 # CA1309: Use ordinal StringComparison
 dotnet_diagnostic.CA1309.severity = error
 # CA1724: Type names should not match namespaces
@@ -236,7 +236,7 @@ dotnet_diagnostic.IDE0052.severity = error
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/dotnet-formatting-options
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0055
-dotnet_diagnostic.IDE0055.severity = error
+dotnet_diagnostic.IDE0055.severity = suggestion
 
 # CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
 dotnet_diagnostic.CS1574.severity = error

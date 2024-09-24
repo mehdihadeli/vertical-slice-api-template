@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace Shared.Abstractions.Web;

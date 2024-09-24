@@ -1,5 +1,5 @@
 using EasyCaching.Core;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Shared.Abstractions.Caching;
@@ -7,62 +7,53 @@ using Shared.Abstractions.Caching;
 namespace Shared.Cache.Behaviours;
 
 // Ref: https://anderly.com/2019/12/12/cross-cutting-concerns-with-mediatr-pipeline-behaviors/
-public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class CachingBehavior<TRequest, TResponse>(
+    ILogger<CachingBehavior<TRequest, TResponse>> logger,
+    IEasyCachingProviderFactory cachingProviderFactory,
+    IOptions<CacheOptions> cacheOptions
+) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse : class
 {
-    private readonly ILogger<CachingBehavior<TRequest, TResponse>> _logger;
-    private readonly IEasyCachingProvider _cacheProvider;
-    private readonly CacheOptions _cacheOptions;
+    private readonly IEasyCachingProvider _cacheProvider = cachingProviderFactory.GetCachingProvider(
+        cacheOptions.Value.DefaultCacheType
+    );
 
-    public CachingBehavior(
-        ILogger<CachingBehavior<TRequest, TResponse>> logger,
-        IEasyCachingProviderFactory cachingProviderFactory,
-        IOptions<CacheOptions> cacheOptions
+    private readonly CacheOptions _cacheOptions = cacheOptions.Value;
+
+    public async ValueTask<TResponse> Handle(
+        TRequest message,
+        CancellationToken cancellationToken,
+        MessageHandlerDelegate<TRequest, TResponse> next
     )
     {
-        _cacheOptions = cacheOptions.Value;
-        _logger = logger;
-        _cacheProvider = cachingProviderFactory.GetCachingProvider(cacheOptions.Value.DefaultCacheType);
-    }
-
-    public async Task<TResponse> Handle(
-        TRequest request,
-        RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken
-    )
-    {
-        if (request is not ICacheRequest<TRequest, TResponse> cacheRequest)
+        if (message is not ICacheRequest<TRequest, TResponse> cacheRequest)
         {
             // No cache policy found, so just continue through the pipeline
-            return await next();
+            return await next(message, cancellationToken);
         }
 
-        var cacheKey = cacheRequest.CacheKey(request);
+        var cacheKey = cacheRequest.CacheKey(message);
         var cachedResponse = await _cacheProvider.GetAsync<TResponse>(cacheKey, cancellationToken);
 
         if (cachedResponse.Value != null)
         {
-            _logger.LogDebug(
+            logger.LogDebug(
                 "Response retrieved {TRequest} from cache. CacheKey: {CacheKey}",
                 typeof(TRequest).FullName,
                 cacheKey
             );
+
             return cachedResponse.Value;
         }
 
-        var response = await next();
+        var response = await next(message, cancellationToken);
 
-        var expiredTimeSpan =
-            cacheRequest.AbsoluteExpirationRelativeToNow != TimeSpan.FromMinutes(5)
-                ? cacheRequest.AbsoluteExpirationRelativeToNow
-            : TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5)
-                ? TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute)
-            : cacheRequest.AbsoluteExpirationRelativeToNow;
+        var expiredTimeSpan = GetExpirationTime(cacheRequest);
 
         await _cacheProvider.SetAsync(cacheKey, response, expiredTimeSpan, cancellationToken);
 
-        _logger.LogDebug(
+        logger.LogDebug(
             "Caching response for {TRequest} with cache key: {CacheKey}",
             typeof(TRequest).FullName,
             cacheKey
@@ -70,37 +61,45 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         return response;
     }
+
+    private TimeSpan GetExpirationTime(ICacheRequest<TRequest, TResponse> cacheRequest)
+    {
+        if (cacheRequest.AbsoluteExpirationRelativeToNow != TimeSpan.FromMinutes(5))
+        {
+            return cacheRequest.AbsoluteExpirationRelativeToNow;
+        }
+        else if (TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5))
+        {
+            return TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute);
+        }
+
+        return cacheRequest.AbsoluteExpirationRelativeToNow;
+    }
 }
 
-public class StreamCachingBehavior<TRequest, TResponse> : IStreamPipelineBehavior<TRequest, TResponse>
+public class StreamCachingBehavior<TRequest, TResponse>(
+    ILogger<StreamCachingBehavior<TRequest, TResponse>> logger,
+    IEasyCachingProviderFactory cachingProviderFactory,
+    IOptions<CacheOptions> cacheOptions
+) : IStreamPipelineBehavior<TRequest, TResponse>
     where TRequest : IStreamRequest<TResponse>
     where TResponse : class
 {
-    private readonly ILogger<StreamCachingBehavior<TRequest, TResponse>> _logger;
-    private readonly IEasyCachingProvider _cacheProvider;
-    private readonly CacheOptions _cacheOptions;
-
-    public StreamCachingBehavior(
-        ILogger<StreamCachingBehavior<TRequest, TResponse>> logger,
-        IEasyCachingProviderFactory cachingProviderFactory,
-        IOptions<CacheOptions> cacheOptions
-    )
-    {
-        _cacheOptions = cacheOptions.Value;
-        _logger = logger;
-        _cacheProvider = cachingProviderFactory.GetCachingProvider(cacheOptions.Value.DefaultCacheType);
-    }
+    private readonly IEasyCachingProvider _cacheProvider = cachingProviderFactory.GetCachingProvider(
+        cacheOptions.Value.DefaultCacheType
+    );
+    private readonly CacheOptions _cacheOptions = cacheOptions.Value;
 
     public async IAsyncEnumerable<TResponse> Handle(
-        TRequest request,
-        StreamHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken
+        TRequest message,
+        CancellationToken cancellationToken,
+        StreamHandlerDelegate<TRequest, TResponse> next
     )
     {
-        if (request is not IStreamCacheRequest<TRequest, TResponse> cacheRequest)
+        if (message is not IStreamCacheRequest<TRequest, TResponse> cacheRequest)
         {
             // If the request does not implement IStreamCacheRequest, go to the next pipeline
-            await foreach (var response in next().WithCancellation(cancellationToken))
+            await foreach (var response in next(message, cancellationToken))
             {
                 yield return response;
             }
@@ -108,12 +107,12 @@ public class StreamCachingBehavior<TRequest, TResponse> : IStreamPipelineBehavio
             yield break;
         }
 
-        var cacheKey = cacheRequest.CacheKey(request);
-        var cachedResponse = _cacheProvider.Get<TResponse>(cacheKey);
+        var cacheKey = cacheRequest.CacheKey(message);
+        var cachedResponse = await _cacheProvider.GetAsync<TResponse>(cacheKey, cancellationToken);
 
         if (cachedResponse != null)
         {
-            _logger.LogDebug(
+            logger.LogDebug(
                 "Response retrieved {TRequest} from cache. CacheKey: {CacheKey}",
                 typeof(TRequest).FullName,
                 cacheKey
@@ -123,18 +122,13 @@ public class StreamCachingBehavior<TRequest, TResponse> : IStreamPipelineBehavio
             yield break;
         }
 
-        var expiredTimeSpan =
-            cacheRequest.AbsoluteExpirationRelativeToNow != TimeSpan.FromMinutes(5)
-                ? cacheRequest.AbsoluteExpirationRelativeToNow
-            : TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5)
-                ? TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute)
-            : cacheRequest.AbsoluteExpirationRelativeToNow;
+        var expiredTimeSpan = GetExpirationTime(cacheRequest);
 
-        await foreach (var response in next().WithCancellation(cancellationToken))
+        await foreach (var response in next(message, cancellationToken))
         {
-            _cacheProvider.SetAsync(cacheKey, response, expiredTimeSpan, cancellationToken).GetAwaiter().GetResult();
+            await _cacheProvider.SetAsync(cacheKey, response, expiredTimeSpan, cancellationToken);
 
-            _logger.LogDebug(
+            logger.LogDebug(
                 "Caching response for {TRequest} with cache key: {CacheKey}",
                 typeof(TRequest).FullName,
                 cacheKey
@@ -142,5 +136,19 @@ public class StreamCachingBehavior<TRequest, TResponse> : IStreamPipelineBehavio
 
             yield return response;
         }
+    }
+
+    private TimeSpan GetExpirationTime(IStreamCacheRequest<TRequest, TResponse> cacheRequest)
+    {
+        if (cacheRequest.AbsoluteExpirationRelativeToNow != TimeSpan.FromMinutes(5))
+        {
+            return cacheRequest.AbsoluteExpirationRelativeToNow;
+        }
+        else if (TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute) != TimeSpan.FromMinutes(5))
+        {
+            return TimeSpan.FromMinutes(_cacheOptions.ExpirationTimeInMinute);
+        }
+
+        return cacheRequest.AbsoluteExpirationRelativeToNow;
     }
 }

@@ -6,7 +6,7 @@ namespace Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
 
 public static partial class WebApplicationExtensions
 {
-    public static Task UseInfrastructure(this WebApplication app)
+    public static async Task UseInfrastructure(this WebApplication app)
     {
         app.UseCustomCors();
 
@@ -17,6 +17,6 @@ public static partial class WebApplicationExtensions
         // https://github.com/stevejgordon/CorrelationId
         app.UseCorrelationId();
 
-        return Task.CompletedTask;
+        await app.MigrateDatabases();
     }
 }

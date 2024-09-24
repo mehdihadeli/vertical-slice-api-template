@@ -17,5 +17,12 @@
     <InternalsVisibleTo Include="Vertical.Slice.Template.UnitTests" />
     <InternalsVisibleTo Include="Vertical.Slice.Template.TestsShared" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Mediator.SourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
