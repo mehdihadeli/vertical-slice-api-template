@@ -53,7 +53,7 @@ jobs:
         run: dotnet pack  vertical-slice-template.csproj -c Release -o ${{ env.NuGetDirectory }}
 
         # Publish the NuGet package as an artifact, so they can be used in the following jobs
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: nuget
           if-no-files-found: error
@@ -78,7 +78,7 @@ jobs:
         with:
           name: nuget
           ## Optional. Default is $GITHUB_WORKSPACE
-          # path: ${{ github.workspace}}
+          path: ${{ github.workspace}}
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET Core
