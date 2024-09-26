@@ -73,10 +73,12 @@ jobs:
           # https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/doc/cloudbuild.md#github-actions
           fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
       # Download the NuGet package created in the previous job
-      - uses: actions/download-artifact@v3
+      #  .nupkg should be in the same folder that we have `.template.config`, so we should put it in the root of source directory
+      - uses: actions/download-artifact@v4
         with:
           name: nuget
-          path: ${{ env.NuGetDirectory }}
+          ## Optional. Default is $GITHUB_WORKSPACE
+          # path: ${{ github.workspace}}
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET Core
@@ -91,7 +93,7 @@ jobs:
 
         # for publish package to github for each commit
       - name: Publish NuGet Package Version ${{ steps.nbgv.outputs.SemVer2 }} to GitHub
-        run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --skip-duplicate --api-key ${{ env.GHC_API_KEY }} --source ${{ env.GHC_SOURCE }}
+        run: dotnet nuget push *.nupkg --skip-duplicate --api-key ${{ env.GHC_API_KEY }} --source ${{ env.GHC_SOURCE }}
         if: github.event_name == 'push' && (startswith(github.ref, 'refs/heads') || startswith(github.ref, 'refs/tags'))
 
       # Publish all NuGet packages to NuGet.org
@@ -99,5 +101,5 @@ jobs:
       # If you retry a failed workflow, already published packages will be skipped without error.
       # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-nuget-push
       - name: Publish NuGet Package Version ${{ steps.nbgv.outputs.SemVer2 }} to Nuget
-        run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --skip-duplicate --source ${{ env.FEED_SOURCE }} --api-key ${{ env.FEED_API_KEY }}
+        run: dotnet nuget push *.nupkg --skip-duplicate --source ${{ env.FEED_SOURCE }} --api-key ${{ env.FEED_API_KEY }}
         if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')

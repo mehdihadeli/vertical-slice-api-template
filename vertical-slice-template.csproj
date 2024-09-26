@@ -5,7 +5,9 @@
 <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#package-properties -->
 <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target -->
 <!-- https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm#enable-the-dotnet-sd -->
-<!-- dotnet pack Template.csproj -o . -->
+
+<!-- .nupkg should be in the same folder that we have `.template.config` -->
+<!-- dotnet pack vertical-slice-template.csproj -o ./ -->
 <!-- dotnet new install . -->
 <Project Sdk="Microsoft.NET.Sdk">
 
@@ -35,7 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="**\*" Exclude="**\bin\**\*;**\obj\**\*;**\.template.config\**\*;vertical-slice-template.csproj.csproj;vertical-slice-template.csproj.nuspec;icon.png;**\*.user;**\*.lock.json;**\node_modules\**\*;**\.idea\**\*;**\.DS_Store;**\.git\**\*;**\.github\**\*;**\.vs\**\*;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;"/>
+    <Content Include="**\*" Exclude="**\node_modules\**;**\bin\**;**\obj\**;.\.vs\**;vertical-slice-template.nuspec;.\vertical-slice-template.csproj;icon.png;**\*.user;**\*.lock.json;**\.idea\**\*;**\.DS_Store;**\.git\**;**\.github\**;**\*LICENSE;**\*nupkg;**\*.gitattributes;**\*.gitignore;**\*nuget.config;"/>
     <Compile Remove="**\*"/>
   </ItemGroup>
 
@@ -43,6 +45,11 @@
     <None Include="icon.png" Pack="true" PackagePath="\"/>
     <None Include="readme.md" Pack="true" PackagePath="\"/>
     <None Include="readme-nuget.md" Pack="true" PackagePath="\"/>
+    <None Include=".\.github\workflows\build-test.yml"/>
+  </ItemGroup>
+
+  <ItemGroup>
+  <None Include=".template.config\**\*" Pack="true" PackagePath=".template.config\" />
   </ItemGroup>
 
 </Project>

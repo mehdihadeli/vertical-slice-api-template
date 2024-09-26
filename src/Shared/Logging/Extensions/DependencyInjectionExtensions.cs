@@ -41,7 +41,8 @@ public static class DependencyInjectionExtensions
                 // https://github.com/serilog/serilog-settings-configuration
                 loggerConfiguration.ReadFrom.Configuration(
                     builder.Configuration,
-                    new ConfigurationReaderOptions {SectionName = nameof(SerilogOptions)});
+                    new ConfigurationReaderOptions { SectionName = nameof(SerilogOptions) }
+                );
 
                 extraConfigure?.Invoke(loggerConfiguration);
 
@@ -56,16 +57,16 @@ public static class DependencyInjectionExtensions
                     .Enrich.WithExceptionDetails(
                         new DestructuringOptionsBuilder()
                             .WithDefaultDestructurers()
-                            .WithDestructurers(new[] {new DbUpdateExceptionDestructurer()}));
-
+                            .WithDestructurers(new[] { new DbUpdateExceptionDestructurer() })
+                    );
 
                 if (serilogOptions.UseConsole)
                 {
                     // https://github.com/serilog/serilog-sinks-async
                     // https://github.com/lucadecamillis/serilog-sinks-spectre
-                    loggerConfiguration.WriteTo.Async(
-                        writeTo =>
-                            writeTo.Spectre(outputTemplate: serilogOptions.LogTemplate));
+                    loggerConfiguration.WriteTo.Async(writeTo =>
+                        writeTo.Spectre(outputTemplate: serilogOptions.LogTemplate)
+                    );
                 }
 
                 // https://github.com/serilog/serilog-sinks-async
@@ -74,7 +75,7 @@ public static class DependencyInjectionExtensions
                     // elasticsearch sink internally is async
                     // https://www.nuget.org/packages/Elastic.Serilog.Sinks
                     loggerConfiguration.WriteTo.Elasticsearch(
-                        new[] {new Uri(serilogOptions.ElasticSearchUrl),},
+                        new[] { new Uri(serilogOptions.ElasticSearchUrl) },
                         opts =>
                         {
                             opts.DataStream = new DataStreamName(
@@ -84,17 +85,17 @@ public static class DependencyInjectionExtensions
                                     builder.Environment.EnvironmentName
                                 }-{
                                     DateTime.Now
-                                    :yyyy-MM}");
+                                    :yyyy-MM}"
+                            );
 
                             opts.BootstrapMethod = BootstrapMethod.Failure;
 
                             opts.ConfigureChannel = channelOpts =>
-                                                    {
-                                                        channelOpts.BufferOptions =
-                                                            new BufferOptions
-                                                            {ExportMaxConcurrency = 10};
-                                                    };
-                        });
+                            {
+                                channelOpts.BufferOptions = new BufferOptions { ExportMaxConcurrency = 10 };
+                            };
+                        }
+                    );
                 }
 
                 // https://github.com/serilog-contrib/serilog-sinks-grafana-loki
@@ -104,9 +105,10 @@ public static class DependencyInjectionExtensions
                         serilogOptions.GrafanaLokiUrl,
                         new[]
                         {
-                            new LokiLabel {Key = "service", Value = "food-delivery"},
+                            new LokiLabel { Key = "service", Value = "food-delivery" },
                         },
-                        ["app"]);
+                        ["app"]
+                    );
                 }
 
                 if (!string.IsNullOrEmpty(serilogOptions.SeqUrl))
@@ -124,15 +126,17 @@ public static class DependencyInjectionExtensions
 
                 if (!string.IsNullOrEmpty(serilogOptions.LogPath))
                 {
-                    loggerConfiguration.WriteTo.Async(
-                        writeTo =>
-                            writeTo.File(
-                                serilogOptions.LogPath,
-                                outputTemplate: serilogOptions.LogTemplate,
-                                rollingInterval: RollingInterval.Day,
-                                rollOnFileSizeLimit: true));
+                    loggerConfiguration.WriteTo.Async(writeTo =>
+                        writeTo.File(
+                            serilogOptions.LogPath,
+                            outputTemplate: serilogOptions.LogTemplate,
+                            rollingInterval: RollingInterval.Day,
+                            rollOnFileSizeLimit: true
+                        )
+                    );
                 }
-            });
+            }
+        );
 
         return builder;
     }
