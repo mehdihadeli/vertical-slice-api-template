@@ -5,7 +5,9 @@
 <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#package-properties -->
 <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target -->
 <!-- https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm#enable-the-dotnet-sd -->
-<!-- dotnet pack vertical-slice-template.csproj -o ./nuget -->
+
+<!-- .nupkg should be in the same folder that we have `.template.config` -->
+<!-- dotnet pack vertical-slice-template.csproj -o ./ -->
 <!-- dotnet new install . -->
 <Project Sdk="Microsoft.NET.Sdk">
 
