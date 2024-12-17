@@ -57,6 +57,9 @@ jobs:
     needs: pre-checks
     steps:
       - uses: actions/checkout@v4
+        with:
+          # https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/doc/cloudbuild.md#github-actions
+          fetch-depth: 0 # doing deep clone and avoid shallow clone so nbgv can do its work.
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
@@ -69,12 +72,23 @@ jobs:
           path: ~/.nuget/packages
           key: nuget-cache-${{ runner.os }}-${{ env.DOTNET_VERSION }}-build-test
 
+      # https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/doc/nbgv-cli.md
+      - name: Install Nerdbank.GitVersioning
+        run: dotnet tool install -g nbgv
+
+      - name: Get PackageVersion
+        id: get_version
+        run: |
+          nugetVersion=$(nbgv get-version | grep "NuGetPackageVersion" | awk -F': ' '{print $2}' | xargs)
+          echo "NuGetPackageVersion: $nugetVersion"
+          echo "::set-output name=nuget_version::$nugetVersion"
+
       - name: Restore dependencies
         run: dotnet restore Vertical.Slice.Template.sln
 
-      - name: Build Version
+      - name: Build Version ${{ steps.get_version.outputs.nuget_version }}
         run: dotnet build Vertical.Slice.Template.sln -c Release --no-restore
 
-      - name: Test Version
+      - name: Test Version ${{ steps.get_version.outputs.nuget_version }}
         run: |
           dotnet test Vertical.Slice.Template.sln  -c Release --no-restore  --no-build
