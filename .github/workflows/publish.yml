@@ -65,8 +65,9 @@ jobs:
 
       # https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-pack
       - name: Pack NuGet Package Version ${{ steps.get_version.outputs.nuget_version }}
-        run: nuget pack vertical-slice-template.nuspec -OutputDirectory ${{ env.NuGetDirectory }} -Properties "version=${{ steps.get_version.outputs.nuget_version }}" -NoDefaultExcludes -c Release --no-restore --no-build
-
+        # default is `no-build` for `nuget pack` command
+        run: nuget pack vertical-slice-template.nuspec -OutputDirectory ${{ env.NuGetDirectory }} -Properties "version=${{ steps.get_version.outputs.nuget_version }}" -NoDefaultExcludes -NoPackageAnalysis
+      
       # Publish the NuGet package as an artifact, so they can be used in the following jobs
       - name: Upload Package Version ${{ steps.get_version.outputs.nuget_version }}
         uses: actions/upload-artifact@v4

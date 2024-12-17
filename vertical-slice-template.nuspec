@@ -11,7 +11,7 @@
     <!-- https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-install-->
     <!-- https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-uninstall-->
     <!-- dotnet pack -p:NuspecFile=vertical-slice-template.nuspec -o nuget -c Debug /p:NuspecProperties="version=1.3.6;id=Vertical.Slice.Template" -->
-    <!-- nuget pack vertical-slice-template.nuspec -OutputDirectory ./nuget  -Properties "version=1.3.6" -NoDefaultExcludes-->
+    <!-- nuget pack vertical-slice-template.nuspec -OutputDirectory ./nuget  -Properties "version=1.3.6" -NoDefaultExcludes -Build -NoPackageAnalysis -->
     <!-- dotnet new install ./Vertical.Slice.Template.1.3.6.nupkg-->
     <!-- dotnet new uninstall-->
     <!-- dotnet new uninstall Vertical.Slice.Template-->
