@@ -18,7 +18,7 @@ env:
   FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
   GHC_API_KEY: ${{ secrets.GHC_TOKEN }}
   NuGetDirectory: ${{ github.workspace}}/nuget
-  DOTNET_VERSION: "8.0.*"
+  DOTNET_VERSION: "9.0.*"
 
 jobs:
   # https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
@@ -38,14 +38,14 @@ jobs:
       - uses: nuget/setup-nuget@v2
         name: Setup NuGet
         with:
-          nuget-version: '6.x'
-            
+          nuget-version: "6.x"
+
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
           key: nuget-cache-${{ runner.os }}-${{ env.DOTNET_VERSION }}-publish
-      
+
       # https://github.com/dotnet/Nerdbank.GitVersioning/blob/main/doc/nbgv-cli.md
       - name: Install Nerdbank.GitVersioning
         run: dotnet tool install -g nbgv
@@ -67,7 +67,7 @@ jobs:
       - name: Pack NuGet Package Version ${{ steps.get_version.outputs.nuget_version }}
         # default is `no-build` for `nuget pack` command
         run: nuget pack vertical-slice-template.nuspec -OutputDirectory ${{ env.NuGetDirectory }} -Properties "version=${{ steps.get_version.outputs.nuget_version }}" -NoDefaultExcludes -NoPackageAnalysis
-      
+
       # Publish the NuGet package as an artifact, so they can be used in the following jobs
       - name: Upload Package Version ${{ steps.get_version.outputs.nuget_version }}
         uses: actions/upload-artifact@v4
