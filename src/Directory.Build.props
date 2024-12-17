@@ -41,6 +41,45 @@
     <DefineConstants>TRACE;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
 
+  <!-- https://learn.microsoft.com/en-us/dotnet/core/tools/custom-templates#pack-a-template-into-a-nuget-package-nupkg-file -->
+  <!-- https://learn.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli -->
+  <!-- https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild -->
+  <!-- https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-dotnet-cli -->
+  <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#package-properties -->
+  <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target -->
+  <!-- https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm#enable-the-dotnet-sd -->
+
+  <!-- .nupkg should be in the same folder that we have `.template.config` -->
+  <!-- dotnet pack vertical-slice-template.csproj -o ./ -->
+  <!-- dotnet new install . -->
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Product>Vertical.Slice.Template</Product>
+    <Title>Vertical Slice Template</Title>
+    <Authors>Mehdi Hadeli</Authors>
+    <Description>An asp.net core template based on Vertical Slice Architecture, CQRS, Minimal APIs, API Versioning and Swagger.</Description>
+    <PackageTags>dotnet dotnet-core templates csharp vertical-slices vertical-slices-architecture clean-architecture cqrs minimal-api</PackageTags>
+    <PackageOutputPath>$(SolutionDir)nugets</PackageOutputPath>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/mehdihadeli/vertical-slice-api-template</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mehdihadeli/vertical-slice-api-template</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <RepositoryBranch>main</RepositoryBranch>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <Copyright>Copyright (c) 2024 Mehdi Hadeli</Copyright>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" Condition="!Exists('packages.config')"/>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Meziantou.Analyzer" Condition="$(MSBuildProjectExtension) == '.csproj'" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

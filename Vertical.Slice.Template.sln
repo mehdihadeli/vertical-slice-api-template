@@ -35,8 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-
 		package.json = package.json
 		readme.md = readme.md
 		version.json = version.json
-		vertical-slice-template.csproj = vertical-slice-template.csproj
-		Directory.Build.props = Directory.Build.props
+		vertical-slice-template.nuspec = vertical-slice-template.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{154A55C1-CE45-463D-B411-816C702D6A25}"
@@ -51,6 +50,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AEFEEF63-5831-49E5-A7D9-892AF653C32D}"
 	ProjectSection(SolutionItems) = preProject
 		.github\release-drafter.yml = .github\release-drafter.yml
+		.github\labeler.yml = .github\labeler.yml
+		.github\multi-labeler.yml = .github\multi-labeler.yml
+		.github\release.yml = .github\release.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{ED6C6F59-8A39-4D7D-BB93-888AA486AFE9}"

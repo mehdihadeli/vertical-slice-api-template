@@ -3,7 +3,7 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "Mehdi Hadeli",
   "classifications": ["Web", "WebAPI", "C#"],
-  "name": "Vertical Slice API Template",
+  "name": "Vertical Slice Template",
   "identity": "Vertical.Slice.Template",
   "shortName": "vsa",
   "sourceName": "Vertical.Slice.Template",
@@ -20,12 +20,12 @@
       "enableQuotelessLiterals": true,
       "choices": [
         {
-          "choice": "net7.0",
-          "description": "Target net7.0"
-        },
-        {
           "choice": "net8.0",
           "description": "Target net8.0"
+        },
+        {
+          "choice": "net9.0",
+          "description": "Target net9.0"
         }
       ],
       "replaces": "{TargetFramework}",

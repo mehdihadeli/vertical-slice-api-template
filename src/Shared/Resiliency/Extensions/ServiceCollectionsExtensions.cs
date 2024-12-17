@@ -121,8 +121,9 @@ public static class ServiceCollectionsExtensions
                 (serviceProvider, httpClient) =>
                 {
                     var httpClientOptions = serviceProvider.GetRequiredService<IOptions<TClientOptions>>().Value;
+                    var policyOptions = serviceProvider.GetRequiredService<IOptions<PolicyOptions>>().Value;
                     httpClient.BaseAddress = new Uri(httpClientOptions.BaseAddress);
-                    httpClient.Timeout = TimeSpan.FromSeconds(httpClientOptions.Timeout);
+                    httpClient.Timeout = TimeSpan.FromSeconds(policyOptions.TimeoutPolicyOptions.TimeoutInSeconds);
 
                     configureClient?.Invoke(serviceProvider, httpClient);
                 }
@@ -174,8 +175,9 @@ public static class ServiceCollectionsExtensions
                 (sp, httpClient) =>
                 {
                     var httpClientOptions = sp.GetRequiredService<IOptions<TClientOptions>>().Value;
+                    var policyOptions = sp.GetRequiredService<IOptions<PolicyOptions>>().Value;
                     httpClient.BaseAddress = new Uri(httpClientOptions.BaseAddress);
-                    httpClient.Timeout = TimeSpan.FromSeconds(httpClientOptions.Timeout);
+                    httpClient.Timeout = TimeSpan.FromSeconds(policyOptions.TimeoutPolicyOptions.TimeoutInSeconds);
 
                     configureClient?.Invoke(sp, httpClient);
                 }
