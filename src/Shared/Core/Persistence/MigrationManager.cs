@@ -1,15 +1,11 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Persistence;
 
 namespace Shared.Core.Persistence;
 
 // because our migration should apply first we should apply migration before running all background services with our MigrationManager and before `app.RunAsync()` for running host and workers
-public class MigrationManager(
-    IServiceScopeFactory serviceScopeFactory,
-    ILogger<MigrationManager> logger,
-    IWebHostEnvironment environment
-) : IMigrationManager
+public class MigrationManager(IServiceScopeFactory serviceScopeFactory, ILogger<MigrationManager> logger)
+    : IMigrationManager
 {
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {

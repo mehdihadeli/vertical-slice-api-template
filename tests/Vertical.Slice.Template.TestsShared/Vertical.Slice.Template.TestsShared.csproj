@@ -3,7 +3,6 @@
   <ItemGroup>
     <PackageReference Include="Meziantou.Extensions.Logging.InMemory" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-    <PackageReference Include="Mongo2Go" />
     <PackageReference Include="Serilog.Sinks.XUnit" />
     <PackageReference Include="Testcontainers.MongoDb" />
     <PackageReference Include="Testcontainers.MsSql" />
@@ -20,9 +19,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="AutoBogus" />
     <PackageReference Include="AutoBogus.NSubstitute" />
-    <PackageReference Include="WebMotions.Fake.Authentication.JwtBearer" />
-    <PackageReference Include="Bazinga.AspNetCore.Authentication.Basic" />
-    <PackageReference Include="Thinkcode.RabbitMQ.OpenAPI" />
     <PackageReference Include="EasyNetQ.Management.Client" />
   </ItemGroup>
 

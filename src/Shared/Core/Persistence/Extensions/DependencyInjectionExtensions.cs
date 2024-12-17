@@ -12,7 +12,7 @@ internal static class DependencyInjectionExtensions
     {
         services.ScanAndRegisterDbExecutors(assembliesToScan);
 
-        services.AddHostedService<SeedWorker>();
+        services.AddHostedService<MigrationAndSeedWorker>();
         services.AddScoped<IMigrationManager, MigrationManager>();
 
         return services;
