@@ -32,15 +32,14 @@ public static partial class WebApplicationBuilderExtensions
     {
         builder.Services.AddValidatedOptions<CatalogsApiClientOptions>();
         builder.Services.AddHttpClient<ICatalogsApiClient, CatalogsApiClient>(
-            (client, sp) =>
+            (sp, client) =>
             {
-                var catalogApiOptions = sp.GetRequiredService<IOptions<CatalogsApiClientOptions>>();
-                var policyOptions = sp.GetRequiredService<IOptions<PolicyOptions>>();
-                catalogApiOptions.Value.NotBeNull();
+                var catalogApiOptions = sp.GetRequiredService<IOptions<CatalogsApiClientOptions>>().Value.NotBeNull();
+                var policyOptions = sp.GetRequiredService<IOptions<PolicyOptions>>().Value.NotBeNull();
 
-                var baseAddress = catalogApiOptions.Value.BaseAddress;
+                var baseAddress = catalogApiOptions.BaseAddress;
+                client.Timeout = TimeSpan.FromSeconds(policyOptions.TimeoutPolicyOptions.TimeoutInSeconds);
                 client.BaseAddress = new Uri(baseAddress);
-                return new CatalogsApiClient(client);
             }
         );
 

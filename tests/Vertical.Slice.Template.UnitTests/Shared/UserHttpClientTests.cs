@@ -7,6 +7,7 @@ using NSubstitute;
 using RichardSzalay.MockHttp;
 using Shared.Core.Exceptions;
 using Shared.Core.Paging;
+using Shared.Resiliency.Options;
 using Vertical.Slice.Template.Shared.Clients.Users;
 using Vertical.Slice.Template.Shared.Clients.Users.Dtos;
 using Vertical.Slice.Template.Users;
@@ -25,6 +26,7 @@ public class UserHttpClientTests()
         var total = 20;
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
+        var policyOptions = Options.Create(new PolicyOptions());
         var usersHttpClientOptions = new UsersHttpClientOptions
         {
             UsersEndpoint = "users",
@@ -56,7 +58,7 @@ public class UserHttpClientTests()
 
         var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
 
-        var usersHttpClient = new UsersHttpClient(client, options);
+        var usersHttpClient = new UsersHttpClient(client, options, policyOptions);
 
         // Act
         await usersHttpClient.GetAllUsersAsync(pageRequest);
@@ -74,6 +76,7 @@ public class UserHttpClientTests()
         var total = 20;
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
+        var policyOptions = Options.Create(new PolicyOptions());
         var usersHttpClientOptions = new UsersHttpClientOptions
         {
             UsersEndpoint = "users",
@@ -109,7 +112,7 @@ public class UserHttpClientTests()
 
         var expectedPageList = new PageList<User>(users.ToList(), page, pageSize, total);
 
-        var usersHttpClient = new UsersHttpClient(client, options);
+        var usersHttpClient = new UsersHttpClient(client, options, policyOptions);
 
         // Act
         var result = await usersHttpClient.GetAllUsersAsync(pageRequest);
@@ -126,6 +129,7 @@ public class UserHttpClientTests()
         var page = 1;
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
+        var policyOptions = Options.Create(new PolicyOptions());
         var usersHttpClientOptions = new UsersHttpClientOptions
         {
             UsersEndpoint = "users",
@@ -146,7 +150,7 @@ public class UserHttpClientTests()
 
         var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
 
-        var usersHttpClient = new UsersHttpClient(client, options);
+        var usersHttpClient = new UsersHttpClient(client, options, policyOptions);
 
         // Act
         Func<Task> act = () => usersHttpClient.GetAllUsersAsync(pageRequest);
@@ -163,6 +167,7 @@ public class UserHttpClientTests()
         var page = 1;
 
         var options = Substitute.For<IOptions<UsersHttpClientOptions>>();
+        var policyOptions = Options.Create(new PolicyOptions());
         var usersHttpClientOptions = new UsersHttpClientOptions
         {
             UsersEndpoint = "users",
@@ -184,7 +189,7 @@ public class UserHttpClientTests()
 
         var pageRequest = new PageRequest { PageNumber = page, PageSize = pageSize };
 
-        var usersHttpClient = new UsersHttpClient(client, options);
+        var usersHttpClient = new UsersHttpClient(client, options, policyOptions);
 
         // Act
         Func<Task> act = () => usersHttpClient.GetAllUsersAsync(pageRequest);

@@ -207,4 +207,7 @@
   <ItemGroup>
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="Nerdbank.GitVersioning" Version="3.6.146" />
+  </ItemGroup>
 </Project>

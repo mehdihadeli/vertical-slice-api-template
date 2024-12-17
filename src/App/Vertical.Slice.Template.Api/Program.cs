@@ -92,9 +92,9 @@ try
         app.UseCustomSwagger();
 
         // https://github.com/scalar/scalar/blob/main/packages/scalar.aspnetcore/README.md
-        app.MapScalarApiReference(x =>
+        app.MapScalarApiReference(redocOptions =>
         {
-            x.OpenApiRoutePattern = "/swagger/v1/swagger.json";
+            redocOptions.WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
         });
     }
 
