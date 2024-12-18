@@ -30,8 +30,5 @@
       <Options>/ClassStyle:Record /DateTimeType:System.DateTime /UseBaseUrl:false /GenerateBaseUrlProperty:true /ExceptionClass:ApiException /GenerateClientInterfaces:true</Options>
     </OpenApiReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Clients\" />
-  </ItemGroup>
-
+  
 </Project>

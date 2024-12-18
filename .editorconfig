@@ -210,8 +210,10 @@ dotnet_diagnostic.ca1848.severity = Suggestion
 dotnet_diagnostic.ca1810.severity = Suggestion
 # CA1725: Parameter names should match base declaration
 dotnet_diagnostic.ca1725.severity = Suggestion
-
+# CA1515: Consider making public types internal
 dotnet_diagnostic.CA1515.severity = Suggestion
+# CA2000: Dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = Suggestion
 
 ##################################################################################
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
@@ -232,6 +234,9 @@ dotnet_diagnostic.IDE0051.severity = Suggestion
 
 # IDE0052: Remove unread private members (writes but no reads)
 dotnet_diagnostic.IDE0052.severity = error
+
+# Remove unnecessary using directives (IDE0005)
+dotnet_diagnostic.IDE0005.severity = none
 
 # CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
 dotnet_diagnostic.CS1574.severity = error
@@ -694,6 +699,9 @@ dotnet_diagnostic.vsthrd200.severity = Suggestion
 # https://cezarypiatek.github.io/post/async-analyzers-p2/#12-non-asynchronous-method-names-shouldnt-end-with-async
 # VSTHRD200: Use "Async" suffix for async methods
 dotnet_diagnostic.vsthrd200.severity = Suggestion
+
+# VSTHRD003 Avoid awaiting foreign Tasks
+dotnet_diagnostic.VSTHRD003.severity = Suggestion
 
 
 ##################################################################################

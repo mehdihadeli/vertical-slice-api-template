@@ -47,6 +47,8 @@
     <PackageReference Include="System.Linq.Async.Queryable" />
     <!-- `Mediator.SourceGenerator` package should reference inside of used project to source generation work correctly-->
     <PackageReference Include="Mediator.Abstractions" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" />
   </ItemGroup>
   
   <ItemGroup>

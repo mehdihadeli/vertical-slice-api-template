@@ -1,3 +1,4 @@
+using Shared.Abstractions.Persistence;
 using Shared.Abstractions.Persistence.Ef;
 
 namespace Vertical.Slice.Template.Shared.Data;

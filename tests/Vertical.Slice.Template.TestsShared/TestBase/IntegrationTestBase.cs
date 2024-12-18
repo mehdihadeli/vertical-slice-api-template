@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Shared.Abstractions.Persistence;
+using Shared.Core.Persistence;
 using Vertical.Slice.Template.TestsShared.Fixtures;
 
 namespace Vertical.Slice.Template.TestsShared.TestBase;
@@ -13,6 +15,7 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
     where TEntryPoint : class
 {
     private IServiceScope? _serviceScope;
+    private TestWorkersRunner _testWorkersRunner = default!;
 
     protected CancellationToken CancellationToken => CancellationTokenSource.Token;
     protected CancellationTokenSource CancellationTokenSource { get; }
@@ -42,7 +45,16 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
     }
 
     // we use IAsyncLifetime in xunit instead of constructor when we have async operation
-    public virtual async Task InitializeAsync() { }
+    public virtual async Task InitializeAsync()
+    {
+        // for seeding, we should run it for each test separately here.
+        var seederManager = SharedFixture.ServiceProvider.GetRequiredService<IDataSeederManager>();
+        // DataSeedWorker is removed from dependency injection in the test so we can't resolve it directly.
+        var seedWorker = new DataSeedWorker(seederManager);
+
+        _testWorkersRunner = new([seedWorker]);
+        await _testWorkersRunner.StartWorkersAsync(CancellationToken.None);
+    }
 
     public virtual async Task DisposeAsync()
     {

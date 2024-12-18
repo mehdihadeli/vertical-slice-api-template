@@ -1,12 +1,10 @@
-using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
-using Shared.Logging.Extensions;
-using Shared.Swagger;
 using Shared.Web.Extensions;
 using Shared.Web.Minimal.Extensions;
 using Vertical.Slice.Template.Shared;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
+using Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
 
 // https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
 // https://github.com/serilog/serilog-extensions-hosting
@@ -19,10 +17,6 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-
-    builder.AddCustomSerilog();
-
-    builder.AddAppProblemDetails();
 
     builder.Host.UseDefaultServiceProvider(
         (context, options) =>
@@ -46,6 +40,8 @@ try
         }
     );
 
+    builder.AddInfrastructures();
+
     builder.AddCatalogsServices();
 
     var app = builder.Build();
@@ -55,20 +51,7 @@ try
         return;
     }
 
-    // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling
-    // https://github.com/dotnet/aspnetcore/pull/26567
-    app.UseExceptionHandler(options: new ExceptionHandlerOptions { AllowStatusCode404Response = true });
-
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment() || app.Environment.IsTest())
-    {
-        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errrors
-        app.UseDeveloperExceptionPage();
-    }
-
-    // this middleware should be first middleware
-    // request logging just log in information level and above as default
-    app.UseSerilogRequestLogging();
+    await app.UseInfrastructure();
 
     await app.UseCatalogs();
 
@@ -76,20 +59,6 @@ try
 
     app.MapModulesEndpoints();
 
-    // #if EnableSwagger
-    if (app.Environment.IsDevelopment())
-    {
-        // should register as last middleware for discovering all endpoints and its versions correctly
-        app.UseCustomSwagger();
-
-        // https://github.com/scalar/scalar/blob/main/packages/scalar.aspnetcore/README.md
-        app.MapScalarApiReference(redocOptions =>
-        {
-            redocOptions.WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
-        });
-    }
-
-    // #endif
     await app.RunAsync();
 }
 catch (Exception ex)

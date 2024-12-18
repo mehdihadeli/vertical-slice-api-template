@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Shared.Abstractions.Persistence;
 using Shared.Core.Persistence;
@@ -152,12 +151,11 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
             await initCallback;
         }
 
-        var migrationWorker = new MigrationAndSeedWorker(
-            ServiceProvider.GetRequiredService<IDataSeederManager>(),
-            ServiceProvider.GetRequiredService<IMigrationManager>(),
-            ServiceProvider.GetRequiredService<IWebHostEnvironment>(),
-            ServiceProvider.GetRequiredService<ILogger<MigrationAndSeedWorker>>()
-        );
+        // for seeding, we should run it for each test separately in integration test base.
+        var migManager = ServiceProvider.GetRequiredService<IMigrationManager>();
+        // MigrationWorker is removed from dependency injection in the test so we can't resolve it directly
+        var migrationWorker = new MigrationWorker(migManager);
+
         _testWorkersRunner = new([migrationWorker]);
         await _testWorkersRunner.StartWorkersAsync(CancellationToken.None);
     }

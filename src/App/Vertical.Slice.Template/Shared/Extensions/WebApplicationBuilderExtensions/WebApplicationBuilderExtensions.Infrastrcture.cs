@@ -1,3 +1,4 @@
+using System.Reflection;
 using CorrelationId.DependencyInjection;
 using Mediator;
 using Microsoft.AspNetCore.Builder;
@@ -7,7 +8,9 @@ using Shared.Cache.Behaviours;
 using Shared.Core.Extensions;
 using Shared.EF;
 using Shared.Logging;
-using Shared.Swagger;
+using Shared.Logging.Extensions;
+using Shared.OpenApi.AspnetOpenApi.Extensions;
+using Shared.OpenApi.Swashbuckle.Extensions;
 using Shared.Validation;
 using Shared.Validation.Extensions;
 using Shared.Web.Extensions;
@@ -20,6 +23,10 @@ public static partial class WebApplicationBuilderExtensions
 {
     public static WebApplicationBuilder AddInfrastructures(this WebApplicationBuilder builder)
     {
+        builder.AddCustomSerilog();
+
+        builder.AddAppProblemDetails();
+
         builder.Services.AddCore();
 
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security
@@ -32,8 +39,7 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddDefaultCorrelationId();
 
         // #if EnableSwagger
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.AddCustomSwagger();
+        builder.AddAspnetOpenApi();
         // #endif
 
         builder.AddCustomVersioning();

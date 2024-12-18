@@ -1,4 +1,4 @@
-namespace Shared.Abstractions.Persistence.Ef;
+namespace Shared.Abstractions.Persistence;
 
 public interface IDataSeeder
 {

@@ -18,10 +18,8 @@ internal static class GetUsersByPageEndpoint
         return app.MapGet("/", Handle)
             .WithName(nameof(GetUsersByPageEndpoint))
             .WithDisplayName(nameof(GetUsersByPageEndpoint).Humanize())
-            .WithSummaryAndDescription(
-                nameof(GetUsersByPageEndpoint).Humanize(),
-                nameof(GetUsersByPageEndpoint).Humanize()
-            )
+            .WithSummary(nameof(GetUsersByPageEndpoint).Humanize())
+            .WithDescription(nameof(GetUsersByPageEndpoint).Humanize())
             .WithTags(UsersConfigurations.Tag)
             .MapToApiVersion(1.0);
 

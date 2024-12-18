@@ -88,7 +88,7 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
         builder.ConfigureTestServices(services =>
         {
             // https://andrewlock.net/converting-integration-tests-to-net-core-3/
-            // Don't run IHostedServices when running as a test
+            // Don't run IHostedServices when running as a test, we run them manually with `TestWorkersRunner` for more control
             services.RemoveAll<IHostedService>();
 
             TestConfigureServices?.Invoke(services);

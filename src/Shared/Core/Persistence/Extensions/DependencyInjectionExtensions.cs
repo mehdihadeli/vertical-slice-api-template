@@ -19,7 +19,10 @@ internal static class DependencyInjectionExtensions
         services.AddDataMigrationSchemas(assemblies);
         services.ScanAndRegisterDbExecutors(assemblies);
 
-        services.AddHostedService<MigrationAndSeedWorker>();
+        // registration order is important in the workers and running order is reverse
+        services.AddHostedService<MigrationWorker>();
+        services.AddHostedService<DataSeedWorker>();
+
         services.AddSingleton<IMigrationManager, MigrationManager>();
         services.AddSingleton<IDataSeederManager, DataSeederManager>();
 
