@@ -11,13 +11,18 @@ namespace Shared.EF;
 
 // https://learn.microsoft.com/en-us/ef/core/saving/transactions
 // https://learn.microsoft.com/en-us/ef/core/saving/
-public abstract class EfDbContextBase : DbContext, IDbFacadeResolver, IDomainEventContext
+public abstract class EfDbContextBase(DbContextOptions options)
+    : DbContext(options),
+        IDbFacadeResolver,
+        IDomainEventContext
 {
     // private readonly IDomainEventPublisher _domainEventPublisher;
     private IDbContextTransaction? _currentTransaction;
 
-    protected EfDbContextBase(DbContextOptions options)
-        : base(options) { }
+    public void ClearChangeTracker()
+    {
+        ChangeTracker.Clear();
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

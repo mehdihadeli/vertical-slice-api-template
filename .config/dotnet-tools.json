@@ -3,21 +3,21 @@
   "isRoot": true,
   "tools": {
     "altcover.global": {
-      "version": "8.9.3",
+      "version": "9.0.1",
       "commands": [
         "altcover"
       ],
       "rollForward": false
     },
     "csharpier": {
-      "version": "0.30.2",
+      "version": "0.30.3",
       "commands": [
         "dotnet-csharpier"
       ],
       "rollForward": false
     },
     "swashbuckle.aspnetcore.cli": {
-      "version": "6.7.1",
+      "version": "7.2.0",
       "commands": [
         "swagger"
       ],
@@ -31,9 +31,16 @@
       "rollForward": false
     },
     "dotnet-ef": {
-      "version": "8.0.8",
+      "version": "9.0.0",
       "commands": [
         "dotnet-ef"
+      ],
+      "rollForward": false
+    },
+    "nbgv": {
+      "version": "3.7.112",
+      "commands": [
+        "nbgv"
       ],
       "rollForward": false
     },
@@ -41,13 +48,6 @@
       "version": "4.6.4",
       "commands": [
         "dotnet-outdated"
-      ],
-      "rollForward": false
-    },
-    "nbgv": {
-      "version": "3.6.141",
-      "commands": [
-        "nbgv"
       ],
       "rollForward": false
     }

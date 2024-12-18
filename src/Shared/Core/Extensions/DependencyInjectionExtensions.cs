@@ -30,7 +30,7 @@ public static class DependencyInjectionExtensions
 
         services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
 
-        services.AddPersistenceCore(assemblies);
+        services.AddPersistenceCore();
 
         services.AddValidatedOptions<PolicyOptions>(nameof(PolicyOptions));
 

@@ -4,10 +4,8 @@ using Elastic.Ingest.Elasticsearch.DataStreams;
 using Elastic.Serilog.Sinks;
 using Microsoft.AspNetCore.Builder;
 using Serilog;
-using Serilog.Enrichers.Span;
 using Serilog.Exceptions;
 using Serilog.Exceptions.Core;
-using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 using Serilog.Settings.Configuration;
 using Serilog.Sinks.Grafana.Loki;
 using Serilog.Sinks.Spectre;
@@ -48,17 +46,9 @@ public static class DependencyInjectionExtensions
 
                 loggerConfiguration
                     .Enrich.WithProperty("Application", builder.Environment.ApplicationName)
-                    .Enrich.WithSpan()
                     .Enrich.WithBaggage()
-                    .Enrich.WithCorrelationIdHeader()
                     .Enrich.FromLogContext()
-                    .Enrich.WithEnvironmentName()
-                    .Enrich.WithMachineName()
-                    .Enrich.WithExceptionDetails(
-                        new DestructuringOptionsBuilder()
-                            .WithDefaultDestructurers()
-                            .WithDestructurers(new[] { new DbUpdateExceptionDestructurer() })
-                    );
+                    .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder().WithDefaultDestructurers());
 
                 if (serilogOptions.UseConsole)
                 {

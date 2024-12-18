@@ -16,28 +16,28 @@ Thanks a bunch for supporting me!
 
 ## Table of Contents
 
-- [Vertical Slice API Template](#vertical-slice-api-template)
-  - [⭐ Support](#-support)
-  - [Table of Contents](#table-of-contents)
-  - [Install](#install)
-  - [Features](#features)
-  - [Libraries](#libraries)
-  - [Getting Started](#getting-started)
-  - [Setup](#setup)
-    - [Dev Certificate](#dev-certificate)
-    - [Conventional Commit](#conventional-commit)
-    - [Formatting](#formatting)
-    - [Analizers](#analizers)
-  - [Application Structure](#application-structure)
-    - [High Level Structure](#high-level-structure)
-    - [Modules Structure](#modules-structure)
-    - [Folder Structure](#folder-structure)
-  - [Vertical Slice Flow](#vertical-slice-flow)
-  - [How to Run](#how-to-run)
-    - [Using PM2](#using-pm2)
-    - [Using Tye](#using-tye)
-  - [Contribution](#contribution)
-  - [License](#license)
+-   [Vertical Slice API Template](#vertical-slice-api-template)
+    -   [⭐ Support](#-support)
+    -   [Table of Contents](#table-of-contents)
+    -   [Install](#install)
+    -   [Features](#features)
+    -   [Libraries](#libraries)
+    -   [Getting Started](#getting-started)
+    -   [Setup](#setup)
+        -   [Dev Certificate](#dev-certificate)
+        -   [Conventional Commit](#conventional-commit)
+        -   [Formatting](#formatting)
+        -   [Analizers](#analizers)
+    -   [Application Structure](#application-structure)
+        -   [High Level Structure](#high-level-structure)
+        -   [Modules Structure](#modules-structure)
+        -   [Folder Structure](#folder-structure)
+    -   [Vertical Slice Flow](#vertical-slice-flow)
+    -   [How to Run](#how-to-run)
+        -   [Using PM2](#using-pm2)
+        -   [Using Tye](#using-tye)
+    -   [Contribution](#contribution)
+    -   [License](#license)
 
 ## Install
 
@@ -69,7 +69,7 @@ dotnet new install .
 
 ## Libraries
 
--   ✔️ **[`.NET 8`](https://dotnet.microsoft.com/download)** - .NET Framework and .NET Core, including ASP.NET and ASP.NET Core
+-   ✔️ **[`.NET 9`](https://dotnet.microsoft.com/download)** - .NET Framework and .NET Core, including ASP.NET and ASP.NET Core
 -   ✔️ **[`Npgsql Entity Framework Core Provider`](https://www.npgsql.org/efcore/)** - Npgsql has an Entity Framework (EF) Core provider. It behaves like other EF Core providers (e.g. SQL Server), so the general EF Core docs apply here as well
 -   ✔️ **[`FluentValidation`](https://github.com/FluentValidation/FluentValidation)** - Popular .NET validation library for building strongly-typed validation rules
 -   ✔️ **[`Swagger & Swagger UI`](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)** - Swagger tools for documenting API's built on ASP.NET Core

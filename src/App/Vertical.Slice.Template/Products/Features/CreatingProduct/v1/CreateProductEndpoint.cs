@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.Abstractions.Web;
 using Shared.Core.Extensions;
-using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 
 namespace Vertical.Slice.Template.Products.Features.CreatingProduct.v1;
@@ -24,7 +23,8 @@ internal static class CreateProductEndpoint
         return app.MapPost("/", Handle)
             .WithName(nameof(CreateProduct))
             .WithDisplayName(nameof(CreateProduct).Humanize())
-            .WithSummaryAndDescription(nameof(CreateProduct).Humanize(), nameof(CreateProduct).Humanize())
+            .WithSummary(nameof(CreateProduct).Humanize())
+            .WithDescription(nameof(CreateProduct).Humanize())
             .WithTags(ProductConfigurations.Tag)
             .MapToApiVersion(1.0);
         // .Produces<CreateProductResponse>("Product created successfully.", StatusCodes.Status201Created)

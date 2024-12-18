@@ -4,8 +4,8 @@ using Shared.Abstractions.Persistence;
 
 namespace Vertical.Slice.Template.Shared.Data;
 
-public class CatalogsMigrationExecutor(CatalogsDbContext catalogsDbContext, ILogger<CatalogsMigrationExecutor> logger)
-    : IMigrationExecutor
+public class CatalogsMigrationSchema(CatalogsDbContext catalogsDbContext, ILogger<CatalogsMigrationSchema> logger)
+    : IMigrationSchema
 {
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {

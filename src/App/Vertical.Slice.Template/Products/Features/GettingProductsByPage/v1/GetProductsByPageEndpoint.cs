@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using Shared.Abstractions.Core.Paging;
 using Shared.Abstractions.Web;
-using Shared.Web.Minimal.Extensions;
 using Vertical.Slice.Template.Products.Dtos.v1;
 
 namespace Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
@@ -19,7 +18,8 @@ internal static class GetProductsByPageEndpoint
         return app.MapGet("/", Handle)
             .WithName(nameof(GetProductsByPage))
             .WithDisplayName(nameof(GetProductsByPage).Humanize())
-            .WithSummaryAndDescription(nameof(GetProductsByPage).Humanize(), nameof(GetProductsByPage).Humanize())
+            .WithSummary(nameof(GetProductsByPage).Humanize())
+            .WithDescription(nameof(GetProductsByPage).Humanize())
             .WithTags(ProductConfigurations.Tag)
             .MapToApiVersion(1.0);
         // .Produces<GetProductsByPageResponse>("Products fetched successfully.", StatusCodes.Status200OK)

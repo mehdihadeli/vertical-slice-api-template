@@ -3,7 +3,6 @@ using Respawn;
 using Shared.Core.Extensions;
 using Testcontainers.PostgreSql;
 using Vertical.Slice.Template.TestsShared.Helpers;
-using Xunit;
 using Xunit.Sdk;
 
 namespace Vertical.Slice.Template.TestsShared.Fixtures;
@@ -53,10 +52,8 @@ public class PostgresContainerFixture : IAsyncLifetime
                 new RespawnerOptions { DbAdapter = DbAdapter.Postgres }
             );
 
-            //TODO: should update to latest version after release a new version
             // https://github.com/jbogard/Respawn/issues/108
             // https://github.com/jbogard/Respawn/pull/115 - fixed
-            // waiting for new nuget version of respawn, current is 6.
             await checkpoint.ResetAsync(connection)!;
         }
         catch (Exception e)

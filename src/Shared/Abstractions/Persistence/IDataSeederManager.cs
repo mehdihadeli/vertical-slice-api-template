@@ -1,6 +1,6 @@
 namespace Shared.Abstractions.Persistence;
 
-public interface IMigrationExecutor
+public interface IDataSeederManager
 {
     Task ExecuteAsync(CancellationToken cancellationToken);
 }

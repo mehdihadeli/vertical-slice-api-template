@@ -22,7 +22,8 @@ public static class EndpointRouteBuilderExtensions
             .MapPost(pattern, Handle)
             .WithName(typeof(TCommand).Name)
             .WithDisplayName(typeof(TCommand).Name.Humanize())
-            .WithSummaryAndDescription(typeof(TCommand).Name.Humanize(), typeof(TCommand).Name.Humanize());
+            .WithSummary(typeof(TCommand).Name.Humanize())
+            .WithDescription(typeof(TCommand).Name.Humanize());
 
         // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
         async Task<NoContent> Handle([AsParameters] HttpCommand<TRequest> requestParameters)
@@ -55,7 +56,8 @@ public static class EndpointRouteBuilderExtensions
             .MapPost(pattern, Handle)
             .WithName(typeof(TCommand).Name)
             .WithDisplayName(typeof(TCommand).Name.Humanize())
-            .WithSummaryAndDescription(typeof(TCommand).Name.Humanize(), typeof(TCommand).Name.Humanize());
+            .WithSummary(typeof(TCommand).Name.Humanize())
+            .WithDescription(typeof(TCommand).Name.Humanize());
 
         // https://github.com/dotnet/aspnetcore/issues/47630
         // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
@@ -99,7 +101,8 @@ public static class EndpointRouteBuilderExtensions
             .MapGet(pattern, Handle)
             .WithName(typeof(TQuery).Name)
             .WithDisplayName(typeof(TQuery).Name.Humanize())
-            .WithSummaryAndDescription(typeof(TQuery).Name.Humanize(), typeof(TQuery).Name.Humanize());
+            .WithSummary(typeof(TQuery).Name.Humanize())
+            .WithDescription(typeof(TQuery).Name.Humanize());
 
         // we can't generalize all possible type results for auto generating open-api metadata, because it might show unwanted response type as metadata
         async Task<Ok<TResponse>> Handle([AsParameters] TRequestParameters requestParameters)

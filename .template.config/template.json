@@ -29,7 +29,7 @@
         }
       ],
       "replaces": "{TargetFramework}",
-      "defaultValue": "net8.0"
+      "defaultValue": "net9.0"
     },
     "EnableSwagger": {
       "type": "parameter",
