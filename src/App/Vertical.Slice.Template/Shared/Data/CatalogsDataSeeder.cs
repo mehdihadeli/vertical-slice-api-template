@@ -1,6 +1,6 @@
 using Shared.Abstractions.Persistence.Ef;
 
-namespace Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
+namespace Vertical.Slice.Template.Shared.Data;
 
 public class CatalogsDataSeeder : IDataSeeder
 {

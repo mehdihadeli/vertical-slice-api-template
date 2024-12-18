@@ -2,10 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Shared.Abstractions.Persistence;
-using Shared.Abstractions.Persistence.Ef;
 using Vertical.Slice.Template.TestsShared.Fixtures;
-using Xunit;
 
 namespace Vertical.Slice.Template.TestsShared.TestBase;
 
@@ -45,10 +42,7 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
     }
 
     // we use IAsyncLifetime in xunit instead of constructor when we have async operation
-    public virtual async Task InitializeAsync()
-    {
-        await RunSeedAndMigrationAsync();
-    }
+    public virtual async Task InitializeAsync() { }
 
     public virtual async Task DisposeAsync()
     {
@@ -58,33 +52,6 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
         await CancellationTokenSource.CancelAsync();
 
         Scope.Dispose();
-    }
-
-    private async Task RunSeedAndMigrationAsync()
-    {
-        var migrations = Scope.ServiceProvider.GetServices<IMigrationExecutor>();
-        var seeders = Scope.ServiceProvider.GetServices<IDataSeeder>();
-
-        if (!SharedFixture.AlreadyMigrated)
-        {
-            foreach (var migration in migrations)
-            {
-                SharedFixture.Logger.Information("Migration '{Migration}' started...", migrations.GetType().Name);
-
-                await migration.ExecuteAsync(CancellationToken);
-
-                SharedFixture.Logger.Information("Migration '{Migration}' ended...", migration.GetType().Name);
-            }
-
-            SharedFixture.AlreadyMigrated = true;
-        }
-
-        foreach (var seeder in seeders)
-        {
-            SharedFixture.Logger.Information("Seeder '{Seeder}' started...", seeder.GetType().Name);
-            await seeder.SeedAllAsync(CancellationToken);
-            SharedFixture.Logger.Information("Seeder '{Seeder}' ended...", seeder.GetType().Name);
-        }
     }
 
     protected virtual void RegisterTestConfigureServices(IServiceCollection services) { }

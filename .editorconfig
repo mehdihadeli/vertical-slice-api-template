@@ -210,7 +210,8 @@ dotnet_diagnostic.ca1848.severity = Suggestion
 dotnet_diagnostic.ca1810.severity = Suggestion
 # CA1725: Parameter names should match base declaration
 dotnet_diagnostic.ca1725.severity = Suggestion
-# https://csharpier.com/docs/IntegratingWithLinters#code-analysis-rules
+
+dotnet_diagnostic.CA1515.severity = Suggestion
 
 ##################################################################################
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
@@ -231,12 +232,6 @@ dotnet_diagnostic.IDE0051.severity = Suggestion
 
 # IDE0052: Remove unread private members (writes but no reads)
 dotnet_diagnostic.IDE0052.severity = error
-
-# IDE0055: Fix formatting
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/dotnet-formatting-options
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0055
-dotnet_diagnostic.IDE0055.severity = suggestion
 
 # CS1574: XML comment on 'construct' has syntactically incorrect cref attribute 'name'
 dotnet_diagnostic.CS1574.severity = error
@@ -559,6 +554,7 @@ dotnet_diagnostic.MA0074.severity = none
 ## https://github.com/JosefPihrt/Roslynator/blob/main/docs/Configuration.md
 ## https://josefpihrt.github.io/docs/
 ## Roslynator
+##################################################################################
 
 # RCS1036 -	Remove redundant empty line.
 dotnet_diagnostic.rcs1036.severity = None
@@ -592,7 +588,6 @@ dotnet_diagnostic.rcs1047.severity = error
 # https://github.com/JosefPihrt/Roslynator/blob/master/docs/analyzers/RCS1174.md
 # RCS1174: Remove redundant async/await
 dotnet_diagnostic.rcs1174.severity = Suggestion
-
 
 # Combine 'Enumerable.Where' method chain. It doesn't make it more readable in all cases.
 dotnet_diagnostic.RCS1112.severity = suggestion
@@ -664,7 +659,6 @@ dotnet_diagnostic.asyncfixer04.severity = error
 # VSTHRD103: Call async methods when in an async method
 dotnet_diagnostic.vsthrd103.severity = Suggestion
 
-
 # https://cezarypiatek.github.io/post/async-analyzers-p1/#3-async-void-method
 # VSTHRD100: Avoid async void methods
 dotnet_diagnostic.vsthrd100.severity = error
@@ -715,11 +709,84 @@ dotnet_diagnostic.asyncifyinvocation.severity = error
 # AsyncifyVariable: Use Task Async
 dotnet_diagnostic.asyncifyvariable.severity = error
 
-
 ##################################################################################
-## https://github.com/cezarypiatek/ExceptionAnalyzer
-## ExceptionAnalyzer
+## https://csharpier.com/docs/IntegratingWithLinters#code-analysis-rules
+## Csharpier
 ##################################################################################
 
-dotnet_diagnostic.ex001.severity = Suggestion
+# IDE0055: Fix formatting
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/dotnet-formatting-options
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0055
 
+# https://csharpier.com/docs/IntegratingWithLinters#code-analysis-rules
+dotnet_diagnostic.IDE0055.severity = none
+
+# https://csharpier.com/docs/IntegratingWithLinters#stylecopanalyzers
+
+# StyleCopAnalyzers
+dotnet_diagnostic.SA1000.severity = none
+dotnet_diagnostic.SA1009.severity = none
+dotnet_diagnostic.SA1111.severity = none
+dotnet_diagnostic.SA1118.severity = none
+dotnet_diagnostic.SA1137.severity = none
+dotnet_diagnostic.SA1413.severity = none
+dotnet_diagnostic.SA1500.severity = none
+dotnet_diagnostic.SA1501.severity = none
+dotnet_diagnostic.SA1502.severity = none
+dotnet_diagnostic.SA1504.severity = none
+dotnet_diagnostic.SA1515.severity = none
+dotnet_diagnostic.SA1516.severity = none
+
+# for csharpier <= 0.21.0
+dotnet_diagnostic.SA1127.severity = none
+dotnet_diagnostic.SA1128.severity = none
+
+dotnet_diagnostic.SA1001.severity = none
+dotnet_diagnostic.SA1002.severity = none
+dotnet_diagnostic.SA1003.severity = none
+dotnet_diagnostic.SA1007.severity = none
+dotnet_diagnostic.SA1008.severity = none
+dotnet_diagnostic.SA1010.severity = none
+dotnet_diagnostic.SA1011.severity = none
+dotnet_diagnostic.SA1012.severity = none
+dotnet_diagnostic.SA1013.severity = none
+dotnet_diagnostic.SA1014.severity = none
+dotnet_diagnostic.SA1015.severity = none
+dotnet_diagnostic.SA1016.severity = none
+dotnet_diagnostic.SA1017.severity = none
+dotnet_diagnostic.SA1018.severity = none
+dotnet_diagnostic.SA1019.severity = none
+dotnet_diagnostic.SA1020.severity = none
+dotnet_diagnostic.SA1021.severity = none
+dotnet_diagnostic.SA1022.severity = none
+dotnet_diagnostic.SA1023.severity = none
+dotnet_diagnostic.SA1024.severity = none
+dotnet_diagnostic.SA1025.severity = none
+dotnet_diagnostic.SA1026.severity = none
+dotnet_diagnostic.SA1027.severity = none
+dotnet_diagnostic.SA1028.severity = none
+dotnet_diagnostic.SA1102.severity = none
+dotnet_diagnostic.SA1103.severity = none
+dotnet_diagnostic.SA1104.severity = none
+dotnet_diagnostic.SA1105.severity = none
+dotnet_diagnostic.SA1107.severity = none
+dotnet_diagnostic.SA1110.severity = none
+dotnet_diagnostic.SA1112.severity = none
+dotnet_diagnostic.SA1113.severity = none
+dotnet_diagnostic.SA1114.severity = none
+dotnet_diagnostic.SA1115.severity = none
+dotnet_diagnostic.SA1116.severity = none
+dotnet_diagnostic.SA1117.severity = none
+dotnet_diagnostic.SA1127.severity = none
+dotnet_diagnostic.SA1128.severity = none
+dotnet_diagnostic.SA1136.severity = none
+dotnet_diagnostic.SA1505.severity = none
+dotnet_diagnostic.SA1506.severity = none
+dotnet_diagnostic.SA1507.severity = none
+dotnet_diagnostic.SA1508.severity = none
+dotnet_diagnostic.SA1509.severity = none
+dotnet_diagnostic.SA1510.severity = none
+dotnet_diagnostic.SA1511.severity = none
+dotnet_diagnostic.SA1517.severity = none
+dotnet_diagnostic.SA1518.severity = none

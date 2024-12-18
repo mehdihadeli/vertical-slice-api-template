@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Vertical.Slice.Template.Api;
 using Vertical.Slice.Template.Products.Features.GettingProductsByPage.v1;
 using Vertical.Slice.Template.Shared.Data;
@@ -20,6 +21,7 @@ public class GetProductsByPageTests(
     {
         // Arrange
         var fakeProducts = new ProductFake().Generate(3);
+
         await SharedFixture.InsertEfDbContextAsync(fakeProducts.ToArray());
 
         // Act

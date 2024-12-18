@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -18,9 +19,10 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
         IAsyncLifetime
 {
     private ITestOutputHelper? _outputHelper;
+    private readonly Dictionary<string, string?> _inMemoryConfigs = new();
 
     public Action<IServiceCollection>? TestConfigureServices { get; set; }
-
+    public Action<IConfiguration>? ConfigurationAction { get; set; }
     public Action<WebHostBuilderContext, IConfigurationBuilder>? TestConfigureApp { get; set; }
 
     /// <summary>
@@ -74,16 +76,56 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
         builder.ConfigureAppConfiguration(
             (hostingContext, configurationBuilder) =>
             {
+                //// add in-memory configuration instead of using appestings.json and override existing settings and it is accessible via IOptions and Configuration
+                //// https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/
+                configurationBuilder.AddInMemoryCollection(_inMemoryConfigs);
+
+                ConfigurationAction?.Invoke(hostingContext.Configuration);
                 TestConfigureApp?.Invoke(hostingContext, configurationBuilder);
             }
         );
 
         builder.ConfigureTestServices(services =>
         {
+            // https://andrewlock.net/converting-integration-tests-to-net-core-3/
+            // Don't run IHostedServices when running as a test
+            services.RemoveAll<IHostedService>();
+
             TestConfigureServices?.Invoke(services);
         });
 
         base.ConfigureWebHost(builder);
+    }
+
+    public void AddOverrideInMemoryConfig(string key, string value)
+    {
+        // overriding app configs with using in-memory configs
+        // add in-memory configuration instead of using appestings.json and override existing settings and it is accessible via IOptions and Configuration
+        // https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/
+        _inMemoryConfigs.Add(key, value);
+    }
+
+    public void AddOverrideInMemoryConfig(IDictionary<string, string> inMemConfigs)
+    {
+        // overriding app configs with using in-memory configs
+        // add in-memory configuration instead of using appestings.json and override existing settings and it is accessible via IOptions and Configuration
+        // https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/
+        inMemConfigs.ToList().ForEach(x => _inMemoryConfigs.Add(x.Key, x.Value));
+    }
+
+    public void AddOverrideEnvKeyValue(string key, string value)
+    {
+        // overriding app configs with using environments
+        Environment.SetEnvironmentVariable(key, value);
+    }
+
+    public void AddOverrideEnvKeyValues(IDictionary<string, string> keyValues)
+    {
+        foreach (var (key, value) in keyValues)
+        {
+            // overriding app configs with using environments
+            Environment.SetEnvironmentVariable(key, value);
+        }
     }
 
     public Task InitializeAsync()

@@ -39,7 +39,7 @@ try
             // https://andrewlock.net/new-in-asp-net-core-3-service-provider-validation/
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/web-host?view=aspnetcore-7.0&viewFallbackFrom=aspnetcore-2.2#scope-validation
             // CreateDefaultBuilder and WebApplicationBuilder in minimal apis sets `ServiceProviderOptions.ValidateScopes` and `ServiceProviderOptions.ValidateOnBuild` to true if the app's environment is Development.
-            // check dependencies are used in a valid life time scope
+            // check dependencies are used in a valid lifetime scope
             options.ValidateScopes = isDevMode;
             // validate dependencies on the startup immediately instead of waiting for using the service
             options.ValidateOnBuild = isDevMode;
@@ -56,9 +56,6 @@ try
     }
 
     // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling
-    // Does nothing if a response body has already been provided. when our next `DeveloperExceptionMiddleware` is written response for exception (in dev mode) when we back to `ExceptionHandlerMiddlewareImpl` because `context.Response.HasStarted` it doesn't do anything
-    // By default `ExceptionHandlerMiddlewareImpl` middleware register original exceptions with `IExceptionHandlerFeature` feature, we don't have this in `DeveloperExceptionPageMiddleware` and we should handle it with a middleware like `CaptureExceptionMiddleware`
-    // Just for handling exceptions in production mode
     // https://github.com/dotnet/aspnetcore/pull/26567
     app.UseExceptionHandler(options: new ExceptionHandlerOptions { AllowStatusCode404Response = true });
 
@@ -67,12 +64,6 @@ try
     {
         // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errrors
         app.UseDeveloperExceptionPage();
-
-        // https://github.com/dotnet/aspnetcore/issues/4765
-        // https://github.com/dotnet/aspnetcore/pull/47760
-        // .net 8 will add `IExceptionHandlerFeature`in `DisplayExceptionContent` and `SetExceptionHandlerFeatures` methods `DeveloperExceptionPageMiddlewareImpl` class, exact functionality of CaptureException
-        // bet before .net 8 preview 5 we should add `IExceptionHandlerFeature` manually with our `UseCaptureException`
-        // app.UseCaptureException();
     }
 
     // this middleware should be first middleware
@@ -107,5 +98,5 @@ catch (Exception ex)
 }
 finally
 {
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }

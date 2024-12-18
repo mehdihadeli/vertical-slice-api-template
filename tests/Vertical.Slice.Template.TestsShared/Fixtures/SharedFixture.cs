@@ -7,27 +7,63 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serilog;
+using Shared.Abstractions.Persistence;
+using Shared.Core.Persistence;
 using Shared.EF;
 using Vertical.Slice.Template.TestsShared.Factory;
-using Xunit;
+using WireMock.Server;
 using Xunit.Sdk;
+using ILogger = Serilog.ILogger;
 
 namespace Vertical.Slice.Template.TestsShared.Fixtures;
 
 public class SharedFixture<TEntryPoint> : IAsyncLifetime
     where TEntryPoint : class
 {
+    // fields
+    private TestWorkersRunner _testWorkersRunner = default!;
     private readonly IMessageSink _messageSink;
     private IHttpContextAccessor? _httpContextAccessor;
     private IServiceProvider? _serviceProvider;
     private IConfiguration? _configuration;
     private HttpClient? _guestClient;
 
-    public Func<Task>? OnSharedFixtureInitialized;
-    public Func<Task>? OnSharedFixtureDisposed;
-    public bool AlreadyMigrated { get; set; }
+    // properties
+    public WireMockServer WireMockServer { get; }
+    public string WireMockServerUrl { get; } = default!;
+    public Func<Task>? OnSharedFixtureInitialized { get; set; }
+    public Func<Task>? OnSharedFixtureDisposed { get; set; }
+    public ILogger Logger { get; }
+    public PostgresContainerFixture PostgresContainerFixture { get; }
+    public CustomWebApplicationFactory Factory { get; set; }
+    public IServiceProvider ServiceProvider => _serviceProvider ??= Factory.Services;
 
+    public IConfiguration Configuration => _configuration ??= ServiceProvider.GetRequiredService<IConfiguration>();
+
+    public IHttpContextAccessor HttpContextAccessor =>
+        _httpContextAccessor ??= ServiceProvider.GetRequiredService<IHttpContextAccessor>();
+
+    /// <summary>
+    /// We should not dispose this GuestClient, because we reuse it in our tests
+    /// </summary>
+    public HttpClient GuestClient
+    {
+        get
+        {
+            if (_guestClient == null)
+            {
+                _guestClient = Factory.CreateDefaultClient();
+                // Set the media type of the request to JSON - we need this for getting problem details result for all http calls because problem details just return response for request with media type JSON
+                _guestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+
+            return _guestClient;
+        }
+    }
+
+    // constructor
     public SharedFixture(IMessageSink messageSink)
     {
         _messageSink = messageSink;
@@ -46,7 +82,6 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         // );
 
         // Service provider will build after getting with get accessors, we don't want to build our service provider here
-        MsSqlContainerFixture = new MsSqlContainerFixture(messageSink);
         PostgresContainerFixture = new PostgresContainerFixture(messageSink);
 
         AutoFaker.Configure(b =>
@@ -68,23 +103,11 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
             return options;
         });
 
-        Factory = new CustomWebApplicationFactory();
-        ConfigureTestConfigureApp(
-            (context, builder) =>
-            {
-                var dict = new Dictionary<string, string>
-                {
-                    {
-                        $"{nameof(PostgresOptions)}:{nameof(PostgresOptions.ConnectionString)}",
-                        PostgresContainerFixture.Container.GetConnectionString()
-                    },
-                };
+        // new WireMockServer() is equivalent to call WireMockServer.Start()
+        WireMockServer = WireMockServer.Start();
+        WireMockServerUrl = WireMockServer.Url!;
 
-                // add in-memory configuration instead of using appestings.json and override existing settings and it is accessible via IOptions and Configuration
-                // https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/
-                builder.AddInMemoryCollection(dict);
-            }
-        );
+        Factory = new CustomWebApplicationFactory();
     }
 
     public void SetOutputHelper(ITestOutputHelper outputHelper)
@@ -94,53 +117,53 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         Factory.SetOutputHelper(outputHelper);
     }
 
-    /// <summary>
-    /// We should not dispose this GuestClient, because we reuse it in our tests
-    /// </summary>
-    public HttpClient GuestClient
-    {
-        get
-        {
-            if (_guestClient == null)
-            {
-                _guestClient = Factory.CreateDefaultClient();
-                // Set the media type of the request to JSON - we need this for getting problem details result for all http calls because problem details just return response for request with media type JSON
-                _guestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            }
-
-            return _guestClient;
-        }
-    }
-
-    public ILogger Logger { get; }
-    public MsSqlContainerFixture MsSqlContainerFixture { get; }
-    public PostgresContainerFixture PostgresContainerFixture { get; }
-    public CustomWebApplicationFactory Factory { get; set; }
-    public IServiceProvider ServiceProvider => _serviceProvider ??= Factory.Services;
-
-    public IConfiguration Configuration => _configuration ??= ServiceProvider.GetRequiredService<IConfiguration>();
-
-    public IHttpContextAccessor HttpContextAccessor =>
-        _httpContextAccessor ??= ServiceProvider.GetRequiredService<IHttpContextAccessor>();
-
     public async Task InitializeAsync()
     {
         _messageSink.OnMessage(new DiagnosticMessage("SharedFixture Started..."));
 
         // Service provider will build after getting with get accessors, we don't want to build our service provider here
-        //await MsSqlContainerFixture.InitializeAsync();
+        await Factory.InitializeAsync();
+
+        // Service provider will build after getting with get accessors, we don't want to build our service provider here
         await PostgresContainerFixture.InitializeAsync();
+
+        // with `AddOverrideEnvKeyValues` config changes are accessible during services registration
+        Factory.AddOverrideEnvKeyValues(
+            new Dictionary<string, string>
+            {
+                {
+                    $"{nameof(PostgresOptions)}:{nameof(PostgresOptions.ConnectionString)}",
+                    PostgresContainerFixture.Container.GetConnectionString()
+                },
+            }
+        );
+
+        // with `AddOverrideInMemoryConfig` config changes are accessible after services registration and build process
+        Factory.AddOverrideInMemoryConfig(new Dictionary<string, string>());
+        Factory.ConfigurationAction += cfg =>
+        {
+            // Or we can override configuration explicitly, and it is accessible via IOptions<> and Configuration
+            cfg["WireMockUrl"] = WireMockServerUrl;
+        };
 
         var initCallback = OnSharedFixtureInitialized?.Invoke();
         if (initCallback != null)
         {
             await initCallback;
         }
+
+        var migrationWorker = new MigrationAndSeedWorker(
+            ServiceProvider.GetRequiredService<IDataSeederManager>(),
+            ServiceProvider.GetRequiredService<IMigrationManager>(),
+            ServiceProvider.GetRequiredService<IWebHostEnvironment>(),
+            ServiceProvider.GetRequiredService<ILogger<MigrationAndSeedWorker>>()
+        );
+        _testWorkersRunner = new([migrationWorker]);
+        await _testWorkersRunner.StartWorkersAsync(CancellationToken.None);
     }
 
     public async Task DisposeAsync()
     {
-        //await MsSqlContainerFixture.DisposeAsync();
         await PostgresContainerFixture.DisposeAsync();
 
         var disposeCallback = OnSharedFixtureDisposed?.Invoke();
@@ -148,6 +171,8 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         {
             await disposeCallback;
         }
+
+        await _testWorkersRunner.StopWorkersAsync(CancellationToken.None);
 
         await Factory.DisposeAsync();
 
@@ -168,7 +193,6 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
     public async Task ResetDatabasesAsync(CancellationToken cancellationToken = default)
     {
-        //await MsSqlContainerFixture.ResetDbAsync(cancellationToken);
         await PostgresContainerFixture.ResetDbAsync(cancellationToken);
     }
 
