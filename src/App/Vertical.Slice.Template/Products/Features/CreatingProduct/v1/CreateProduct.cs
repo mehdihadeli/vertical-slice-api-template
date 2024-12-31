@@ -1,6 +1,8 @@
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Core.CQRS;
+using Shared.Abstractions.Core.Messaging;
 using Shared.Abstractions.Persistence.Ef;
 using Shared.Core.Extensions;
 using Shared.Core.Id;
@@ -37,7 +39,7 @@ public record CreateProduct(string Name, Guid CategoryId, decimal Price, string?
     }
 }
 
-internal class CreateProductValidator : AbstractValidator<CreateProduct>
+public class CreateProductValidator : AbstractValidator<CreateProduct>
 {
     public CreateProductValidator()
     {
@@ -51,6 +53,7 @@ internal class CreateProductValidator : AbstractValidator<CreateProduct>
 internal class CreateProductHandler(
     DbExecuters.CreateAndSaveProductExecutor createAndSaveProductExecutor,
     IMediator mediator,
+    IExternalEventBus externalEventBus,
     ILogger<CreateProductHandler> logger
 ) : ICommandHandler<CreateProduct, CreateProductResult>
 {
@@ -63,7 +66,17 @@ internal class CreateProductHandler(
         await createAndSaveProductExecutor(product, cancellationToken);
 
         var (name, categoryId, price, description) = request;
-        await mediator.Publish(ProductCreated.Of(request.Id, name, categoryId, price, description), cancellationToken);
+        await mediator.Publish(
+            ProductCreatedDomainEvent.Of(request.Id, name, categoryId, price, description),
+            cancellationToken
+        );
+
+        // publish integration event to external broker
+        await externalEventBus.PublishAsync(
+            message: ProductCreatedIntegrationEventV1.Of(request.Id, name, categoryId, price, description),
+            metadataHeaders: null,
+            cancellationToken: cancellationToken
+        );
 
         logger.LogInformation("Product a with ID: '{ProductId} created.'", request.Id);
 

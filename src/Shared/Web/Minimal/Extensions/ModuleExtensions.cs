@@ -1,9 +1,10 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Web;
+using Shared.Core.Extensions;
 using Shared.Core.Reflection;
-using Shared.Core.Reflection.Extensions;
 
 namespace Shared.Web.Minimal.Extensions;
 
@@ -14,11 +15,14 @@ public static class ModuleExtensions
         params Assembly[] scanAssemblies
     )
     {
-        var assemblies = scanAssemblies.Any()
-            ? scanAssemblies
-            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
+        if (scanAssemblies.Length == 0)
+        {
+            // Find assemblies that reference the current assembly
+            var referencingAssemblies = Assembly.GetExecutingAssembly().GetReferencingAssemblies();
+            scanAssemblies = referencingAssemblies.ToArray();
+        }
 
-        var modulesConfiguration = assemblies
+        var modulesConfiguration = scanAssemblies
             .SelectMany(x => x.GetLoadableTypes())
             .Where(t =>
                 t!.IsClass
@@ -30,7 +34,7 @@ public static class ModuleExtensions
             )
             .ToList();
 
-        var sharedModulesConfiguration = assemblies
+        var sharedModulesConfiguration = scanAssemblies
             .SelectMany(x => x.GetLoadableTypes())
             .Where(t =>
                 t!.IsClass

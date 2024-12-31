@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Core.Domain.Events;
-using Shared.Abstractions.Persistence;
 using Shared.Abstractions.Persistence.Ef;
 using Shared.EF;
 using Shared.EF.Extensions;
@@ -24,10 +24,6 @@ public static partial class WebApplicationBuilderExtensions
         else
         {
             builder.Services.AddPostgresDbContext<CatalogsDbContext>();
-
-            // add migration and seeders dependencies
-            builder.Services.AddScoped<IMigrationExecutor, CatalogsMigrationExecutor>();
-            builder.Services.AddScoped<IDataSeeder, CatalogsDataSeeder>();
         }
     }
 }

@@ -1,0 +1,52 @@
+# https://www.richard-banks.org/2018/07/debugging-core-in-docker.html
+# https://docs.docker.com/compose/reference/#use--f-to-specify-name-and-path-of-one-or-more-compose-files
+# https://docs.docker.com/compose/extends/
+
+name: vertical-slice-template-api
+
+services:
+  vertical-slice-template:
+    image: ${REGISTRY:-ghcr.io}/mehdihadeli/vertical-slice-template-api:${TAG:-latest}
+    restart: unless-stopped
+    container_name: vertical-slice-template-api-${TAG:-latest}
+    ports:
+      - ${CATALOGS_HTTP_SVC_PORT:-4000}:80
+      - ${CATALOGS_HTTPS_SVC_PORT:-4001}:443
+    env_file:
+      - ./.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      # create a dev certificate and bind it to container for development purpose
+      # https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https
+      # https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${DEV_CERT_PASSWORD:-your_password}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - PostgresOptions__ConnectionString=Server=postgres;Port=5432;Database=catalogs;User Id=postgres;Password=postgres;Include Error Detail=true
+      - PostgresOptions__UseInMemory=false
+      - ObservabilityOptions__InstrumentationName=vertical_slice_template_api
+      - ObservabilityOptions__OTLPOptions__OTLPGrpExporterEndpoint=http://otel-collector:4317
+      - ObservabilityOptions__UsePrometheusExporter=true
+      - ObservabilityOptions__UseOTLPExporter=true
+      - ObservabilityOptions__UseAspireOTLPExporter=false
+      - ObservabilityOptions__UseGrafanaExporter=false
+      - ObservabilityOptions__ServiceName=Vertical Slice Template Api
+    volumes:
+      - ${USERPROFILE}\.aspnet\https:/https:ro
+    deploy:
+      resources:
+        reservations:
+          memory: 64M
+        limits:
+          memory: 128M
+    networks:
+      - infrastructure
+
+networks:
+  infrastructure:
+    name: infrastructure
+    driver: bridge
+    # we can use the network that will create by infrastructure docker-compose file and we use that network here by specifying existing network 'name' and set 'external' attribute to 'true'
+    # (because we want to use a network outside our docker-compose) or we can create a `infrastructure` network manually by `docker network create -d bridge infrastructure` and use this network
+    # as external network for all docker-compose files
+    external: true

@@ -1,0 +1,49 @@
+# https://prometheus.io/docs/guides/node-exporter/
+# https://grafana.com/docs/grafana-cloud/send-data/metrics/metrics-prometheus/prometheus-config-examples/docker-compose-linux/
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-exporter
+  template:
+    metadata:
+      labels:
+        app: node-exporter
+    spec:
+      containers:
+      - name: node-exporter
+        image: prom/node-exporter:latest
+        command:
+        - '--path.procfs=/host/proc'
+        - '--path.rootfs=/rootfs'
+        - '--path.sysfs=/host/sys'
+        volumeMounts:
+        - name: proc-volume
+          mountPath: /host/proc
+          readOnly: true
+        - name: sys-volume
+          mountPath: /host/sys
+          readOnly: true
+        - name: rootfs-volume
+          mountPath: /rootfs
+          readOnly: true
+        ports:
+        - containerPort: 9100 # Expose the port for node exporter
+        restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-exporter
+spec:
+  selector:
+    app: node-exporter
+  ports:
+  - protocol: TCP
+    port: 9101 # Exposing the port on the Kubernetes service
+    targetPort: 9100

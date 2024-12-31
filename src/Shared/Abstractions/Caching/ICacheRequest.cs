@@ -7,7 +7,8 @@ namespace Shared.Abstractions.Caching;
 public interface ICacheRequest<in TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    TimeSpan AbsoluteExpirationRelativeToNow { get; }
+    TimeSpan? AbsoluteExpirationRelativeToNow { get; }
+    TimeSpan? AbsoluteLocalCacheExpirationRelativeToNow { get; }
 
     // TimeSpan SlidingExpiration { get; }
     // DateTime? AbsoluteExpiration { get; }
@@ -18,7 +19,8 @@ public interface ICacheRequest<in TRequest, TResponse>
 public interface IStreamCacheRequest<in TRequest, TResponse>
     where TRequest : IStreamRequest<TResponse>
 {
-    TimeSpan AbsoluteExpirationRelativeToNow { get; }
+    TimeSpan? AbsoluteExpirationRelativeToNow { get; }
+    TimeSpan? AbsoluteLocalCacheExpirationRelativeToNow { get; }
 
     // TimeSpan SlidingExpiration { get; }
     // DateTime? AbsoluteExpiration { get; }

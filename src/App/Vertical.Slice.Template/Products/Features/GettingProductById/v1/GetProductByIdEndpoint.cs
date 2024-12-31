@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Shared.Abstractions.Web;
-using Shared.Web.Minimal.Extensions;
 using Shared.Web.ProblemDetail.HttpResults;
 using Vertical.Slice.Template.Products.Dtos.v1;
 
@@ -20,7 +19,8 @@ internal static class GetProductByIdEndpoint
         return app.MapGet("/{id:guid}", Handle)
             .WithName(nameof(GetProductById))
             .WithDisplayName(nameof(GetProductById).Humanize())
-            .WithSummaryAndDescription(nameof(GetProductById).Humanize(), nameof(GetProductById).Humanize())
+            .WithSummary(nameof(GetProductById).Humanize())
+            .WithDescription(nameof(GetProductById).Humanize())
             .WithTags(ProductConfigurations.Tag)
             .MapToApiVersion(1.0);
         // .Produces<GetProductByIdResponse>("Product fetched successfully.", StatusCodes.Status200OK)

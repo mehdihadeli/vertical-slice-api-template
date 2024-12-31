@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Persistence.Ef;
 using Shared.Cache;
@@ -32,7 +33,7 @@ public record GetProductById(Guid Id) : CacheQuery<GetProductById, GetProductByI
     }
 }
 
-internal class GetProductByIdValidator : AbstractValidator<GetProductById>
+public class GetProductByIdValidator : AbstractValidator<GetProductById>
 {
     public GetProductByIdValidator()
     {

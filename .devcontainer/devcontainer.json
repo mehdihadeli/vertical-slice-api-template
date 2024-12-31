@@ -22,9 +22,9 @@
         // https://github.com/devcontainers/features/tree/main/src/dotnet#dotnet-cli-dotnet
         "ghcr.io/devcontainers/features/dotnet:2": {
             // this version should be matched with global.json .net version for working vscode IntelliSense correctly
-            "version": "8.0.401",
-            "additionalVersions": "latest, 8.0.401",
-            "aspNetCoreRuntimeVersions": "latest"
+            "version": "9.0.101",
+            "additionalVersions": "latest, 9.0.101, 8.0.401",
+            "aspNetCoreRuntimeVersions": "latest, 9.0.101, 8.0.401"
         },
         // https://github.com/devcontainers/features/tree/main/src/github-cli
         "ghcr.io/devcontainers/features/github-cli:1": {
@@ -107,7 +107,7 @@
     },
     "hostRequirements": {
         "cpus": 4,
-        "memory": "8gb",
+        "memory": "16gb",
         "storage": "32gb"
     },
     // Use 'forwardPorts' to make a list of ports inside the container available locally.

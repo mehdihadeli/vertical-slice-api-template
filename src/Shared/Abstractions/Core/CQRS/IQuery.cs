@@ -2,8 +2,12 @@ using Mediator;
 
 namespace Shared.Abstractions.Core.CQRS;
 
-public interface IQuery<out TResponse> : IRequest<TResponse>
-    where TResponse : class;
+public interface IBaseQuery;
 
-public interface IStreamQuery<out T> : IStreamRequest<T>
+public interface IBaseStreamQuery;
+
+public interface IQuery<out TResponse> : IBaseQuery, IRequest<TResponse>
+    where TResponse : notnull;
+
+public interface IStreamQuery<out T> : IBaseStreamQuery, IStreamRequest<T>
     where T : notnull;

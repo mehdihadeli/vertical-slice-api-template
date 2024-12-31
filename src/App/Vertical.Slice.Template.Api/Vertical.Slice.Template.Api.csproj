@@ -8,4 +8,26 @@
         <ProjectReference Include="..\Vertical.Slice.Template\Vertical.Slice.Template.csproj"/>
     </ItemGroup>
 
+<!--    <ItemGroup>-->
+<!--        &lt;!&ndash; https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-9.0&tabs=visual-studio#generate-openapi-documents-at-build-time&ndash;&gt;-->
+<!--        <PackageReference Include="Microsoft.Extensions.ApiDescription.Server">-->
+<!--            <PrivateAssets>all</PrivateAssets>-->
+<!--            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
+<!--        </PackageReference>-->
+<!--    </ItemGroup>-->
+    
+<!--    &lt;!&ndash; Issue: Right now for generate build time openapi we should add `AddOpenApi` in Program.cs not in another assembly as infrastructure reference&ndash;&gt;-->
+<!--    <PropertyGroup>-->
+<!--        <OpenApiDocumentsDirectory>../../../src/ApiClients/Vertical.Slice.Template.KiotaClients</OpenApiDocumentsDirectory>-->
+<!--        <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>-->
+<!--        <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>-->
+<!--        <OpenApiGenerateDocumentsOptions>&#45;&#45;file-name catalogs-v1 &#45;&#45;document-name v1</OpenApiGenerateDocumentsOptions>-->
+<!--    </PropertyGroup>-->
+
+<!--    &lt;!&ndash; Generate swagger.json in build time&ndash;&gt;-->
+<!--    &lt;!&ndash; https://github.com/domaindrivendev/Swashbuckle.AspNetCore?tab=readme-ov-file#swashbuckleaspnetcorecli&ndash;&gt;-->
+<!--    <Target Name="GenerateSwagger" AfterTargets="Build">-->
+<!--        <Exec Command="dotnet swagger tofile &#45;&#45;output $(OutputPath)catalogs-v1.json $(TargetPath)" />-->
+<!--    </Target>-->
+
 </Project>

@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Core.Domain.Events;
 using Shared.Abstractions.Persistence.Ef;
 using Shared.Core.Extensions;

@@ -1,0 +1,43 @@
+# https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/dashboard/standalone
+# https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/dashboard/overview
+# https://devblogs.microsoft.com/dotnet/dotnet-aspire-general-availability/
+# https://anthonysimmon.com/dotnet-aspire-dashboard-best-tool-visualize-opentelemetry-local-dev/
+# https://learn.microsoft.com/en-us/samples/dotnet/aspire-samples/aspire-standalone-dashboard/
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspire-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aspire-dashboard
+  template:
+    metadata:
+      labels:
+        app: aspire-dashboard
+    spec:
+      containers:
+      - name: aspire-dashboard
+        image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
+        ports:
+        - containerPort: 18888
+        - containerPort: 18889
+        restartPolicy: Always
+---
+# aspire-dashboard-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspire-dashboard
+spec:
+  selector:
+    app: aspire-dashboard
+  ports:
+  - protocol: TCP
+    port: 18888
+    targetPort: 18888
+  - protocol: TCP
+    port: 18889
+    targetPort: 18889

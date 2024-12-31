@@ -1,0 +1,63 @@
+# https://grafana.com/docs/grafana/latest/administration/provisioning/
+# https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/
+# https://grafana.com/docs/grafana/latest/setup-grafana/configure-docker/
+# https://github.com/grafana/intro-to-mltp/blob/main/grafana/provisioning/datasources/datasources.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:latest
+        env:
+        - name: GF_INSTALL_PLUGINS
+          value: "grafana-clock-panel,grafana-simple-json-datasource"
+        - name: GF_SECURITY_ADMIN_USER
+          value: "admin"
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: "admin"
+        - name: GF_FEATURE_TOGGLES_ENABLE
+          value: "traceqlEditor"
+        ports:
+        - containerPort: 3000 # Expose Grafana on port 3000
+        volumeMounts:
+        - name: grafana-provisioning-volume
+          mountPath: /etc/grafana/provisioning
+        - name: grafana-dashboards-volume
+          mountPath: /var/lib/grafana/dashboards
+        restartPolicy: Always
+      volumes:
+      # https://kubernetes.io/docs/concepts/configuration/configmap/
+      # https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_configmap/
+      # https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+      # kubectl create configmap grafana-provisioning-config  --from-file=grafana\provisioning\dashboards\  --from-file=grafana\provisioning\datasources\ -o yaml > grafana-provisioning-configmap.yaml
+      - name: grafana-provisioning-volume
+        configMap:
+          name: grafana-provisioning-config
+      # kubectl create configmap grafana-dashboards-config  --from-file=grafana\dashboards  -o yaml > grafana-dashboards-configmap.yaml
+      - name: grafana-dashboards-volume
+        configMap:
+          name: grafana-dashboards-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+spec:
+  selector:
+    app: grafana
+  ports:
+  - protocol: TCP
+    port: 3000 # Expose Grafana on port 3000
+    targetPort: 3000

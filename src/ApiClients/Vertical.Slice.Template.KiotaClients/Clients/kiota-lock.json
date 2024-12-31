@@ -1,0 +1,34 @@
+{
+  "descriptionHash": "78FF31AF1C9005231AAB57DCC14A6A2CB2E831B60EE99719B91E77246CFFB0AD6095C5F9F525CC39B95AB92E02B6AFCF4C69360122C21D707B5DAA68F8071661",
+  "descriptionLocation": "../catalogs-v1.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.21.0",
+  "clientClassName": "CatalogsKiotaApiClient",
+  "typeAccessModifier": "Public",
+  "clientNamespaceName": "Vertical.Slice.Template.KiotaClients.Catalogs",
+  "language": "CSharp",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": true,
+  "includeAdditionalData": true,
+  "disableSSLValidation": false,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain;q=0.9",
+    "application/x-www-form-urlencoded;q=0.2",
+    "multipart/form-data;q=0.1"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}

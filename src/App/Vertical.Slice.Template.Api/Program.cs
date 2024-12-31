@@ -1,12 +1,13 @@
-using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
-using Shared.Logging.Extensions;
-using Shared.Swagger;
+using Shared.OpenApi.AspnetOpenApi.Extensions;
 using Shared.Web.Extensions;
+using Shared.Web.Extensions.WebApplicationBuilderExtensions;
 using Shared.Web.Minimal.Extensions;
 using Vertical.Slice.Template.Shared;
+using Vertical.Slice.Template.Shared.Clients;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
+using Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
 
 // https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
 // https://github.com/serilog/serilog-extensions-hosting
@@ -19,10 +20,6 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-
-    builder.AddCustomSerilog();
-
-    builder.AddAppProblemDetails();
 
     builder.Host.UseDefaultServiceProvider(
         (context, options) =>
@@ -39,14 +36,22 @@ try
             // https://andrewlock.net/new-in-asp-net-core-3-service-provider-validation/
             // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/web-host?view=aspnetcore-7.0&viewFallbackFrom=aspnetcore-2.2#scope-validation
             // CreateDefaultBuilder and WebApplicationBuilder in minimal apis sets `ServiceProviderOptions.ValidateScopes` and `ServiceProviderOptions.ValidateOnBuild` to true if the app's environment is Development.
-            // check dependencies are used in a valid life time scope
+            // check dependencies are used in a valid lifetime scope
             options.ValidateScopes = isDevMode;
             // validate dependencies on the startup immediately instead of waiting for using the service
             options.ValidateOnBuild = isDevMode;
         }
     );
 
+    // #if EnableSwagger
+    builder.AddAspnetOpenApi(["v1"]);
+    // #endif
+
+    builder.AddInfrastructures();
+
     builder.AddCatalogsServices();
+
+    builder.AddCustomVersioning();
 
     var app = builder.Build();
 
@@ -55,29 +60,7 @@ try
         return;
     }
 
-    // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling
-    // Does nothing if a response body has already been provided. when our next `DeveloperExceptionMiddleware` is written response for exception (in dev mode) when we back to `ExceptionHandlerMiddlewareImpl` because `context.Response.HasStarted` it doesn't do anything
-    // By default `ExceptionHandlerMiddlewareImpl` middleware register original exceptions with `IExceptionHandlerFeature` feature, we don't have this in `DeveloperExceptionPageMiddleware` and we should handle it with a middleware like `CaptureExceptionMiddleware`
-    // Just for handling exceptions in production mode
-    // https://github.com/dotnet/aspnetcore/pull/26567
-    app.UseExceptionHandler(options: new ExceptionHandlerOptions { AllowStatusCode404Response = true });
-
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment() || app.Environment.IsTest())
-    {
-        // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errrors
-        app.UseDeveloperExceptionPage();
-
-        // https://github.com/dotnet/aspnetcore/issues/4765
-        // https://github.com/dotnet/aspnetcore/pull/47760
-        // .net 8 will add `IExceptionHandlerFeature`in `DisplayExceptionContent` and `SetExceptionHandlerFeatures` methods `DeveloperExceptionPageMiddlewareImpl` class, exact functionality of CaptureException
-        // bet before .net 8 preview 5 we should add `IExceptionHandlerFeature` manually with our `UseCaptureException`
-        // app.UseCaptureException();
-    }
-
-    // this middleware should be first middleware
-    // request logging just log in information level and above as default
-    app.UseSerilogRequestLogging();
+    await app.UseInfrastructure();
 
     await app.UseCatalogs();
 
@@ -88,17 +71,10 @@ try
     // #if EnableSwagger
     if (app.Environment.IsDevelopment())
     {
-        // should register as last middleware for discovering all endpoints and its versions correctly
-        app.UseCustomSwagger();
-
-        // https://github.com/scalar/scalar/blob/main/packages/scalar.aspnetcore/README.md
-        app.MapScalarApiReference(redocOptions =>
-        {
-            redocOptions.WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
-        });
+        app.UseAspnetOpenApi();
     }
-
     // #endif
+
     await app.RunAsync();
 }
 catch (Exception ex)
@@ -107,5 +83,5 @@ catch (Exception ex)
 }
 finally
 {
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }

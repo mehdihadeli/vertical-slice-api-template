@@ -29,8 +29,6 @@ public static class EndpointConventionBuilderExtensions
             additionalContentTypes: additionalContentTypes
         );
 
-        // // with suing https://github.com/domaindrivendev/Swashbuckle.AspNetCore#swashbuckleaspnetcoreannotations
-        // builder.WithMetadata(new SwaggerResponseAttribute(statusCode, description, responseType));
         return builder;
     }
 
@@ -54,11 +52,6 @@ public static class EndpointConventionBuilderExtensions
             additionalContentTypes: additionalContentTypes
         );
 
-        // // with suing https://github.com/domaindrivendev/Swashbuckle.AspNetCore#swashbuckleaspnetcoreannotations
-        // builder.WithMetadata(new SwaggerResponseAttribute(
-        //     statusCode,
-        //     description,
-        //     typeof(TResponse)));
         return builder;
     }
 
@@ -77,12 +70,6 @@ public static class EndpointConventionBuilderExtensions
 
         builder.ProducesProblem(statusCode, contentType: contentType);
 
-        // // with suing https://github.com/domaindrivendev/Swashbuckle.AspNetCore#swashbuckleaspnetcoreannotations
-        // builder.WithMetadata(
-        //     new SwaggerResponseAttribute(
-        //         statusCode,
-        //         description,
-        //         typeof(ProblemDetails)));
         return builder;
     }
 
@@ -100,25 +87,6 @@ public static class EndpointConventionBuilderExtensions
         });
         builder.ProducesValidationProblem(statusCode, contentType: contentType);
 
-        return builder;
-    }
-
-    public static RouteHandlerBuilder WithSummaryAndDescription(
-        this RouteHandlerBuilder builder,
-        string summary,
-        string description
-    )
-    {
-        // https://github.com/dotnet/aspnetcore/issues/45082
-        builder.WithOpenApi(operation =>
-        {
-            operation.Summary = summary;
-            operation.Description = description;
-            return operation;
-        });
-
-        //// with suing https://github.com/domaindrivendev/Swashbuckle.AspNetCore#swashbuckleaspnetcoreannotations
-        // builder.WithMetadata(new SwaggerOperationAttribute("Summary...", "Description..."))
         return builder;
     }
 }

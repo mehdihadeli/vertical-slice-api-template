@@ -1,0 +1,20 @@
+# https://docs.docker.com/compose/reference/#use--f-to-specify-name-and-path-of-one-or-more-compose-files
+# https://docs.docker.com/compose/extends/
+# Overrid 'docker-compose.services.yaml' configs here for production mode
+
+# To build and debug the app on dev machine --> docker-compose -f docker-compose.services.yaml -f docker-compose.services.prod.yml build
+# To start and debug the app on dev machine --> docker-compose -f docker-compose.services.yaml -f docker-compose.services.prod.yaml up -d
+
+services:
+
+  vertical-slice-template:
+    # https://nickjanetakis.com/blog/docker-tip-57-using-build-and-image-in-the-same-docker-compose-service
+    image: vertical-slice-template-api:${TAG:-latest}
+    build:
+      context: ../../
+      dockerfile: src/App/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    container_name: vertical-slice-template-prod
+    restart: "no"

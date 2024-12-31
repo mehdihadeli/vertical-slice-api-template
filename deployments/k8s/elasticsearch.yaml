@@ -1,0 +1,78 @@
+# https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docker.html#docker-compose-file
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+        env:
+        - name: discovery.type
+          value: "single-node"
+        - name: cluster.name
+          value: "docker-cluster"
+        - name: node.name
+          value: "docker-node"
+        - name: ES_JAVA_OPTS
+          value: "-Xms512m -Xmx512m"
+        - name: xpack.security.enabled
+          value: "false"
+        - name: xpack.security.http.ssl.enabled
+          value: "false"
+        - name: xpack.security.transport.ssl.enabled
+          value: "false"
+        - name: network.host
+          value: "0.0.0.0"
+        - name: http.port
+          value: "9200"
+        - name: transport.host
+          value: "localhost"
+        - name: bootstrap.memory_lock
+          value: "true"
+        - name: cluster.routing.allocation.disk.threshold_enabled
+          value: "false"
+        ports:
+        - containerPort: 9200 # HTTP port
+        - containerPort: 9300 # Transport port
+        volumeMounts:
+        - name: elasticsearch-data
+          mountPath: /usr/share/elasticsearch/data
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        securityContext:
+          capabilities:
+            add:
+            - IPC_LOCK
+        restartPolicy: Always
+      volumes:
+      - name: elasticsearch-data
+        persistentVolumeClaim:
+          claimName: elasticsearch-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+spec:
+  selector:
+    app: elasticsearch
+  ports:
+  - protocol: TCP
+    port: 9200
+    targetPort: 9200
+  - protocol: TCP
+    port: 9300
+    targetPort: 9300

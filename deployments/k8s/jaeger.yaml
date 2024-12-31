@@ -1,0 +1,51 @@
+# https://www.jaegertracing.io/docs/1.64/deployment/
+# https://www.jaegertracing.io/docs/1.6/deployment/
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jaeger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jaeger
+  template:
+    metadata:
+      labels:
+        app: jaeger
+    spec:
+      containers:
+      - name: jaeger
+        image: jaegertracing/all-in-one:latest
+        ports:
+        - containerPort: 6831
+        - containerPort: 16686
+        - containerPort: 14268
+        - containerPort: 14317
+        - containerPort: 14318
+        restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger
+spec:
+  selector:
+    app: jaeger
+  ports:
+  - protocol: UDP
+    port: 6831
+    targetPort: 6831
+  - protocol: TCP
+    port: 16686
+    targetPort: 16686
+  - protocol: TCP
+    port: 14268
+    targetPort: 14268
+  - protocol: TCP
+    port: 14317
+    targetPort: 14317
+  - protocol: TCP
+    port: 14318
+    targetPort: 14318

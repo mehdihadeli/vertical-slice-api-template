@@ -4,7 +4,7 @@
     "scripts": {
         "prepare": "husky && dotnet tool restore",
         "install-dev-cert-bash": "curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg",
-        "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln",
+        "upgrade-packages": "dotnet outdated Vertical.Slice.Template.sln -u",
         "format": "dotnet csharpier . --check",
         "style": "dotnet format style Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity diagnostic",
         "analyzers": "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes --severity error --verbosity diagnostic",

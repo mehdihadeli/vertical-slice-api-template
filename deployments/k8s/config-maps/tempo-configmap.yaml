@@ -1,0 +1,66 @@
+# https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_configmap/
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tempo-config
+  namespace: default
+data:
+  tempo.yaml: |
+    # https://github.com/grafana/tempo/blob/main/example/docker-compose/otel-collector/docker-compose.yaml
+    # https://github.com/grafana/tempo/blob/main/example/docker-compose/shared
+    # https://github.com/grafana/tempo/blob/main/example/docker-compose/local
+    # https://github.com/grafana/tempo/tree/main/example/docker-compose
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: tempo
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: tempo
+      template:
+        metadata:
+          labels:
+            app: tempo
+        spec:
+          containers:
+            - name: tempo
+              image: grafana/tempo:latest
+              command:
+                - "-config.file=/etc/tempo.yaml"
+              ports:
+                - containerPort: 3200 # Tempo HTTP port
+                - containerPort: 4317 # OTLP gRPC port
+                - containerPort: 4318 # OTLP HTTP port
+              volumeMounts:
+                - name: tempo-volume
+                  mountPath: /etc/tempo.yaml
+              restartPolicy: Always
+          volumes:
+            # https://kubernetes.io/docs/concepts/configuration/configmap/
+            # https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_configmap/
+            # https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+            - name: tempo-volume
+              configMap:
+                name: tempo-config
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: tempo
+    spec:
+      selector:
+        app: tempo
+      ports:
+        - protocol: TCP
+          port: 3200
+          targetPort: 3200
+        - protocol: TCP
+          port: 24317
+          targetPort: 4317
+        - protocol: TCP
+          port: 24318
+          targetPort: 4318

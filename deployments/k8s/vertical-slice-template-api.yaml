@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vertical-slice-template-api-deployment
+  labels:
+    app: vertical-slice-template-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vertical-slice-template-api
+  template:
+    metadata:
+      labels:
+        app: vertical-slice-template-api
+    spec:
+      containers:
+      - name: vertical-slice-template-api
+        image: ghcr.io/mehdihadeli/vertical-slice-template-api:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: ASPNETCORE_URLS
+          value: "https://+:443;http://+:80"
+        # https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/
+        # kubectl create secret generic https-cert-password --from-literal=dev-cert-password=your_password
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+          valueFrom:
+            secretKeyRef:
+              name: https-cert-password
+              key: dev-cert-password
+        - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+          value: "/https/aspnetapp.pfx"
+        - name: PostgresOptions__ConnectionString
+          value: "Server=postgres;Port=5432;Database=catalogs;User Id=postgres;Password=postgres;Include Error Detail=true"
+        - name: PostgresOptions__UseInMemory
+          value: "false"
+        - name: ObservabilityOptions__InstrumentationName
+          value: "vertical_slice_template_api"
+        - name: ObservabilityOptions__OTLPOptions__OTLPGrpExporterEndpoint
+          value: "http://otel-collector:4317"
+        - name: ObservabilityOptions__UsePrometheusExporter
+          value: "true"
+        - name: ObservabilityOptions__UseOTLPExporter
+          value: "true"
+        - name: ObservabilityOptions__UseAspireOTLPExporter
+          value: "false"
+        - name: ObservabilityOptions__UseGrafanaExporter
+          value: "false"
+        - name: ObservabilityOptions__ServiceName
+          value: "Vertical Slice Template Api"
+        volumeMounts:
+        - name: https-certificates
+          mountPath: /https
+          readOnly: true
+      # create a dev certificate and bind it to container for development purpose
+      # https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https
+      # https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl
+      # https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
+      # https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/
+      # kubectl create secret generic https-certificates --from-file=aspnetapp.pfx
+      volumes:
+      - name: https-certificates
+        secret:
+          secretName: https-certificates
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vertical-slice-template-api-svc
+  labels:
+    app: vertical-slice-template-api
+spec:
+  selector:
+    app: vertical-slice-template-api
+  ports:
+  - protocol: TCP
+    port: 4000
+    targetPort: 80
+  - protocol: TCP
+    port: 4001
+    targetPort: 443
+  type: ClusterIP

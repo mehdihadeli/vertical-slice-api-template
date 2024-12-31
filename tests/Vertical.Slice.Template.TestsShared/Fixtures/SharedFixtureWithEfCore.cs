@@ -124,30 +124,27 @@ public class SharedFixtureWithEfCore<TEntryPoint, TEfCoreDbContext> : SharedFixt
     public Task ExecuteEfDbContextAsync(Func<TEfCoreDbContext, IMediator, Task> action) =>
         ExecuteScopeAsync(sp => action(sp.GetRequiredService<TEfCoreDbContext>(), sp.GetRequiredService<IMediator>()));
 
-    public Task<T> ExecuteEfDbContextAsync<T>(Func<TEfCoreDbContext, Task<T>> action) =>
+    public Task<TEntity> ExecuteEfDbContextAsync<TEntity>(Func<TEfCoreDbContext, Task<TEntity>> action) =>
         ExecuteScopeAsync(sp => action(sp.GetRequiredService<TEfCoreDbContext>()));
 
-    public Task<T> ExecuteEfDbContextAsync<T>(Func<TEfCoreDbContext, IMediator, Task<T>> action) =>
+    public Task<TEntity> ExecuteEfDbContextAsync<TEntity>(Func<TEfCoreDbContext, IMediator, Task<TEntity>> action) =>
         ExecuteScopeAsync(sp => action(sp.GetRequiredService<TEfCoreDbContext>(), sp.GetRequiredService<IMediator>()));
 
-    public async Task<int> InsertEfDbContextAsync<T>(params T[] entities)
-        where T : class
+    public async Task InsertEfDbContextAsync<TEntity>(params TEntity[] entities)
+        where TEntity : class
     {
-        return await ExecuteEfDbContextAsync(async db =>
+        await ExecuteEfDbContextAsync(db =>
         {
-            foreach (var entity in entities.ToList())
-            {
-                db.Set<T>().Add(entity);
-            }
+            db.Set<TEntity>().AddRange(entities);
 
-            return await db.SaveChangesAsync();
+            return db.SaveChangesAsync();
         });
     }
 
-    public async Task<int> InsertEfDbContextAsync<TEntity>(TEntity entity)
+    public async Task InsertEfDbContextAsync<TEntity>(TEntity entity)
         where TEntity : class
     {
-        return await ExecuteEfDbContextAsync(db =>
+        await ExecuteEfDbContextAsync(db =>
         {
             db.Set<TEntity>().Add(entity);
 
