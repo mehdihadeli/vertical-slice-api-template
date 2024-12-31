@@ -38,7 +38,7 @@ jobs:
       - uses: nuget/setup-nuget@v2
         name: Setup NuGet
         with:
-          nuget-version: "6.x"
+          nuget-version: "latest"
 
       - name: Cache NuGet packages
         uses: actions/cache@v4
