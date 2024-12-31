@@ -69,7 +69,7 @@ services:
     ports:
       - "6831:6831/udp" # UDP port for Jaeger agent
       - "16686:16686" # endpoints and Jaeger UI
-      - "14268:14268" # HTTP port for accept spans directly from clients 
+      - "14268:14268" # HTTP port for accept trace spans directly from clients 
       - "14317:4317" # OTLP gRPC receiver for jaeger
       - "14318:4318" # OTLP http receiver for jaeger
       # - "9411" # Accepts Zipkin spans - /api/v2/spans

@@ -184,13 +184,24 @@ public static class DependencyInjectionExtensions
         if (observabilityOptions.UseJaegerExporter)
         {
             ArgumentNullException.ThrowIfNull(observabilityOptions.JaegerOptions);
-            tracing.AddJaegerExporter(x => x.Endpoint = new Uri(observabilityOptions.JaegerOptions.ExporterEndpoint));
+            // https://github.com/open-telemetry/opentelemetry-dotnet/tree/e330e57b04fa3e51fe5d63b52bfff891fb5b7961/docs/trace/getting-started-jaeger
+            // `OpenTelemetry.Exporter.Jaeger` package and `AddJaegerExporter` to use Http endpoint (http://localhost:14268/api/traces) is deprecated, and we should use `OpenTelemetry.Exporter.OpenTelemetryProtocol` and `AddOtlpExporter` with OTLP port `4317` on Jaeger
+            // tracing.AddJaegerExporter(
+            //     x => x.Endpoint = new Uri(observabilityOptions.JaegerOptions.HttpExporterEndpoint)); // http://localhost:14268/api/traces
+            tracing.AddOtlpExporter(x =>
+            {
+                x.Endpoint = new Uri(observabilityOptions.JaegerOptions.OTLPGrpcExporterEndpoint);
+                x.Protocol = OtlpExportProtocol.Grpc;
+            });
         }
 
         if (observabilityOptions.UseZipkinExporter)
         {
             ArgumentNullException.ThrowIfNull(observabilityOptions.ZipkinOptions);
-            tracing.AddZipkinExporter(x => x.Endpoint = new Uri(observabilityOptions.ZipkinOptions.ExporterEndpoint));
+            // https://github.com/open-telemetry/opentelemetry-dotnet/tree/e330e57b04fa3e51fe5d63b52bfff891fb5b7961/src/OpenTelemetry.Exporter.Zipkin
+            tracing.AddZipkinExporter(x =>
+                x.Endpoint = new Uri(observabilityOptions.ZipkinOptions.HttpExporterEndpoint)
+            ); // "http://localhost:9411/api/v2/spans"
         }
 
         if (observabilityOptions.UseConsoleExporter)
@@ -203,7 +214,7 @@ public static class DependencyInjectionExtensions
             ArgumentNullException.ThrowIfNull(observabilityOptions.OTLPOptions);
             tracing.AddOtlpExporter(x =>
             {
-                x.Endpoint = new Uri(observabilityOptions.OTLPOptions.OTLPExporterEndpoint);
+                x.Endpoint = new Uri(observabilityOptions.OTLPOptions.OTLPGrpcExporterEndpoint);
                 x.Protocol = OtlpExportProtocol.Grpc;
             });
         }
@@ -214,7 +225,7 @@ public static class DependencyInjectionExtensions
             ArgumentNullException.ThrowIfNull(observabilityOptions.OTLPOptions);
             tracing.AddOtlpExporter(x =>
             {
-                x.Endpoint = new Uri(observabilityOptions.AspireDashboardOTLPOptions.OTLPExporterEndpoint);
+                x.Endpoint = new Uri(observabilityOptions.AspireDashboardOTLPOptions.OTLPGrpcExporterEndpoint);
                 x.Protocol = OtlpExportProtocol.Grpc;
             });
         }
@@ -231,10 +242,11 @@ public static class DependencyInjectionExtensions
 
     private static void AddMetricsExporter(ObservabilityOptions observabilityOptions, MeterProviderBuilder metrics)
     {
-        if (observabilityOptions.UsePrometheusOTLPMetrics)
+        if (observabilityOptions.UsePrometheusExporter)
         {
-            // for exporting app metrics to /metrics endpoint
-            metrics.AddPrometheusExporter(o => o.DisableTotalNameSuffixForCounters = true);
+            // https://github.com/open-telemetry/opentelemetry-dotnet/tree/e330e57b04fa3e51fe5d63b52bfff891fb5b7961/src/OpenTelemetry.Exporter.Prometheus.AspNetCore
+            // for exporting app metrics to `/metrics` endpoint
+            metrics.AddPrometheusExporter(o => o.DisableTotalNameSuffixForCounters = true); // http://localhost:4000/metrics
         }
 
         if (observabilityOptions.UseConsoleExporter)
@@ -247,7 +259,7 @@ public static class DependencyInjectionExtensions
             ArgumentNullException.ThrowIfNull(observabilityOptions.OTLPOptions);
             metrics.AddOtlpExporter(x =>
             {
-                x.Endpoint = new Uri(observabilityOptions.OTLPOptions.OTLPExporterEndpoint);
+                x.Endpoint = new Uri(observabilityOptions.OTLPOptions.OTLPGrpcExporterEndpoint);
                 x.Protocol = OtlpExportProtocol.Grpc;
             });
         }
@@ -258,7 +270,7 @@ public static class DependencyInjectionExtensions
             ArgumentNullException.ThrowIfNull(observabilityOptions.OTLPOptions);
             metrics.AddOtlpExporter(x =>
             {
-                x.Endpoint = new Uri(observabilityOptions.AspireDashboardOTLPOptions.OTLPExporterEndpoint);
+                x.Endpoint = new Uri(observabilityOptions.AspireDashboardOTLPOptions.OTLPGrpcExporterEndpoint);
                 x.Protocol = OtlpExportProtocol.Grpc;
             });
         }
@@ -283,7 +295,7 @@ public static class DependencyInjectionExtensions
             ArgumentNullException.ThrowIfNull(observabilityOptions.OTLPOptions);
             openTelemetryLoggerOptions.AddOtlpExporter(options =>
             {
-                options.Endpoint = new Uri(observabilityOptions.OTLPOptions.OTLPExporterEndpoint);
+                options.Endpoint = new Uri(observabilityOptions.OTLPOptions.OTLPGrpcExporterEndpoint);
                 options.Protocol = OtlpExportProtocol.Grpc;
             });
         }
@@ -294,7 +306,7 @@ public static class DependencyInjectionExtensions
             ArgumentNullException.ThrowIfNull(observabilityOptions.OTLPOptions);
             openTelemetryLoggerOptions.AddOtlpExporter(x =>
             {
-                x.Endpoint = new Uri(observabilityOptions.AspireDashboardOTLPOptions.OTLPExporterEndpoint);
+                x.Endpoint = new Uri(observabilityOptions.AspireDashboardOTLPOptions.OTLPGrpcExporterEndpoint);
                 x.Protocol = OtlpExportProtocol.Grpc;
             });
         }

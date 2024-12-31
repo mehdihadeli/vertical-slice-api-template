@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="OpenTelemetry.Exporter.Console" Version="1.10.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.Jaeger" Version="1.5.1" />
     <PackageVersion Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.10.0-beta.1" />
     <PackageVersion Include="OpenTelemetry.Exporter.Zipkin" Version="1.10.0" />
     <PackageVersion Include="Grafana.OpenTelemetry" Version="1.1.0" />

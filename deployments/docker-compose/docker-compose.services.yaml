@@ -25,8 +25,8 @@ services:
       - PostgresOptions__ConnectionString=Server=postgres;Port=5432;Database=catalogs;User Id=postgres;Password=postgres;Include Error Detail=true
       - PostgresOptions__UseInMemory=false
       - ObservabilityOptions__InstrumentationName=vertical_slice_template_api
-      - ObservabilityOptions__OTLPOptions__OTLPExporterEndpoint=http://otel-collector:4317
-      - ObservabilityOptions__UsePrometheusOTLPMetrics=true
+      - ObservabilityOptions__OTLPOptions__OTLPGrpExporterEndpoint=http://otel-collector:4317
+      - ObservabilityOptions__UsePrometheusExporter=true
       - ObservabilityOptions__UseOTLPExporter=true
       - ObservabilityOptions__UseAspireOTLPExporter=false
       - ObservabilityOptions__UseGrafanaExporter=false

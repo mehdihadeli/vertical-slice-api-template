@@ -48,9 +48,9 @@ spec:
           value: "false"
         - name: ObservabilityOptions__InstrumentationName
           value: "vertical_slice_template_api"
-        - name: ObservabilityOptions__OTLPOptions__OTLPExporterEndpoint
+        - name: ObservabilityOptions__OTLPOptions__OTLPGrpExporterEndpoint
           value: "http://otel-collector:4317"
-        - name: ObservabilityOptions__UsePrometheusOTLPMetrics
+        - name: ObservabilityOptions__UsePrometheusExporter
           value: "true"
         - name: ObservabilityOptions__UseOTLPExporter
           value: "true"

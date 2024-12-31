@@ -24,10 +24,11 @@ public static class WebApplicationExtensions
             }
         );
 
-        if (options.UsePrometheusOTLPMetrics)
+        if (options.UsePrometheusExporter)
         {
             // export application metrics in `/metrics` endpoint and should scrape in the Prometheus config file and `scrape_configs`
-            app.MapPrometheusScrapingEndpoint().AllowAnonymous();
+            // https://github.com/open-telemetry/opentelemetry-dotnet/tree/e330e57b04fa3e51fe5d63b52bfff891fb5b7961/src/OpenTelemetry.Exporter.Prometheus.AspNetCore
+            app.UseOpenTelemetryPrometheusScrapingEndpoint(); // http://localhost:4000/metrics
         }
 
         return app;
