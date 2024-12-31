@@ -39,7 +39,7 @@ public record CreateProduct(string Name, Guid CategoryId, decimal Price, string?
     }
 }
 
-internal class CreateProductValidator : AbstractValidator<CreateProduct>
+public class CreateProductValidator : AbstractValidator<CreateProduct>
 {
     public CreateProductValidator()
     {

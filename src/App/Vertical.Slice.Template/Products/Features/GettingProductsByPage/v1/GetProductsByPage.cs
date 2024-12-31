@@ -38,7 +38,7 @@ public record GetProductsByPage : PageQuery<GetProductsByPageResult>
     }
 }
 
-internal class GetProductsByPageValidator : AbstractValidator<GetProductsByPage>
+public class GetProductsByPageValidator : AbstractValidator<GetProductsByPage>
 {
     public GetProductsByPageValidator()
     {

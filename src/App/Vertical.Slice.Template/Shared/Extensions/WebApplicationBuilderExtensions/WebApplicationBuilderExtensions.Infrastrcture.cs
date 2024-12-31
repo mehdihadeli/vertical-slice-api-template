@@ -113,6 +113,8 @@ public static partial class WebApplicationBuilderExtensions
             options.Namespace = "Vertical.Slice.Template";
         });
 
+        builder.Services.AddCustomValidators(typeof(CatalogsMetadata).Assembly);
+
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(StreamLoggingBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(StreamRequestValidationBehavior<,>));
@@ -121,8 +123,6 @@ public static partial class WebApplicationBuilderExtensions
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(StreamCachingBehavior<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(InvalidateCachingBehavior<,>));
-
-        builder.Services.AddCustomValidators(typeof(CatalogsMetadata).Assembly);
 
         builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         builder.Services.AddScoped(typeof(IReadRepository<>), typeof(GenericRepository<>));

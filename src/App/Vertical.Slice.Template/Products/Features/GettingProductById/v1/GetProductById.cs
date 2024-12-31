@@ -33,7 +33,7 @@ public record GetProductById(Guid Id) : CacheQuery<GetProductById, GetProductByI
     }
 }
 
-internal class GetProductByIdValidator : AbstractValidator<GetProductById>
+public class GetProductByIdValidator : AbstractValidator<GetProductById>
 {
     public GetProductByIdValidator()
     {

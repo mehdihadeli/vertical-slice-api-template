@@ -160,7 +160,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{99A01789-D45
 		deployments\k8s\loki.yaml = deployments\k8s\loki.yaml
 		deployments\k8s\node-exporter.yaml = deployments\k8s\node-exporter.yaml
 		deployments\k8s\tempo.yaml = deployments\k8s\tempo.yaml
-		deployments\k8s\vertical-slice-template.yaml = deployments\k8s\vertical-slice-template.yaml
+		deployments\k8s\vertical-slice-template-api.yaml = deployments\k8s\vertical-slice-template-api.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config-maps", "config-maps", "{8370F7CF-C190-4982-8F1D-3A7206326BDD}"
