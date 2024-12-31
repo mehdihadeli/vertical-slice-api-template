@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
@@ -24,6 +25,17 @@ public static partial class ServiceCollectionExtensions
         services.TryAddSingleton(x => x.GetRequiredService<IOptions<T>>().Value);
 
         return services;
+    }
+
+    public static IServiceCollection AddConfigurationOptions<T>(
+        this IServiceCollection services,
+        Action<T>? configurator = null
+    )
+        where T : class
+    {
+        var key = typeof(T).Name;
+
+        return AddConfigurationOptions(services, key, configurator);
     }
 
     public static IServiceCollection AddValidationOptions<T>(

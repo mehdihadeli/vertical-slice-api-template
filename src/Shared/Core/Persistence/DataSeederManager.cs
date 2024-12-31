@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Persistence;
 using Shared.Abstractions.Persistence.Ef;
@@ -34,9 +35,10 @@ public class DataSeederManager(
 
         foreach (var seeder in seeders.OrderBy(x => x.Order))
         {
-            logger.LogInformation("Seeding '{Seed}' started...", seeder.GetType().Name);
             await seeder.SeedAllAsync(cancellationToken);
             logger.LogInformation("Seeding '{Seed}' ended...", seeder.GetType().Name);
         }
+
+        logger.LogInformation("Seeding finished");
     }
 }

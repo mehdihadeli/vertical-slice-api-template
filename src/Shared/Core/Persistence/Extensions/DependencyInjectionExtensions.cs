@@ -1,8 +1,9 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Persistence;
 using Shared.Abstractions.Persistence.Ef;
-using Shared.Core.Reflection.Extensions;
+using Shared.Core.Extensions;
 
 namespace Shared.Core.Persistence.Extensions;
 
@@ -10,23 +11,29 @@ internal static class DependencyInjectionExtensions
 {
     internal static IServiceCollection AddPersistenceCore(this IServiceCollection services)
     {
-        var assemblies = AppDomain
-            .CurrentDomain.GetAssemblies()
-            .Where(a => !a.IsDynamic) // Exclude dynamic assemblies
-            .ToArray();
+        // Find assemblies that reference the current assembly
+        var referencingAssemblies = Assembly.GetExecutingAssembly().GetReferencingAssemblies();
+        var scanAssemblies = referencingAssemblies.ToArray();
 
-        services.AddDataSeeders(assemblies);
-        services.AddDataMigrationSchemas(assemblies);
-        services.ScanAndRegisterDbExecutors(assemblies);
+        services.AddDataSeeders(scanAssemblies);
+        services.AddDataMigrationSchemas(scanAssemblies);
+        services.ScanAndRegisterDbExecutors(scanAssemblies);
 
         // registration order is important in the workers and running order is reverse
-        services.AddHostedService<MigrationWorker>();
+        AddMigration(services);
         services.AddHostedService<DataSeedWorker>();
 
         services.AddSingleton<IMigrationManager, MigrationManager>();
         services.AddSingleton<IDataSeederManager, DataSeederManager>();
 
         return services;
+    }
+
+    private static void AddMigration(IServiceCollection services)
+    {
+        // Enable migration tracing
+        services.AddOpenTelemetry().WithTracing(tracing => tracing.AddSource(MigrationWorker.ActivitySourceName));
+        services.AddHostedService<MigrationWorker>();
     }
 
     private static IServiceCollection ScanAndRegisterDbExecutors(

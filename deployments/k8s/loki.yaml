@@ -1,0 +1,48 @@
+# https://grafana.com/docs/opentelemetry/collector/send-logs-to-loki/
+# https://github.com/grafana/loki/blob/main/production/docker-compose.yaml
+# https://github.com/grafana/loki/blob/main/examples/getting-started/docker-compose.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loki
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loki
+  template:
+    metadata:
+      labels:
+        app: loki
+    spec:
+      containers:
+      - name: loki
+        image: grafana/loki:latest
+        command:
+        - "-config.file=/etc/loki/local-config.yaml"
+        ports:
+        - containerPort: 3100 # Loki HTTP API port
+        volumeMounts:
+        - name: loki-volume
+          mountPath: /etc/loki/local-config.yaml
+        restartPolicy: Always
+      volumes:
+      # https://kubernetes.io/docs/concepts/configuration/configmap/
+      # https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_configmap/
+      # https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+      - name: loki-volume
+        configMap:
+          name: loki-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki
+spec:
+  selector:
+    app: loki
+  ports:
+  - protocol: TCP
+    port: 3100
+    targetPort: 3100

@@ -211,9 +211,13 @@ dotnet_diagnostic.ca1810.severity = Suggestion
 # CA1725: Parameter names should match base declaration
 dotnet_diagnostic.ca1725.severity = Suggestion
 # CA1515: Consider making public types internal
-dotnet_diagnostic.CA1515.severity = Suggestion
+dotnet_diagnostic.CA1515.severity = None
 # CA2000: Dispose objects before losing scope
 dotnet_diagnostic.CA2000.severity = Suggestion
+# CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity = None
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = Suggestion
 
 ##################################################################################
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
@@ -233,7 +237,7 @@ dotnet_diagnostic.IDE0005.severity = warning
 dotnet_diagnostic.IDE0051.severity = Suggestion
 
 # IDE0052: Remove unread private members (writes but no reads)
-dotnet_diagnostic.IDE0052.severity = error
+dotnet_diagnostic.IDE0052.severity = warning
 
 # Remove unnecessary using directives (IDE0005)
 dotnet_diagnostic.IDE0005.severity = none
@@ -499,9 +503,6 @@ dotnet_diagnostic.SA1206.severity = None
 ## https://github.com/meziantou/Meziantou.Analyzer/tree/main/docs
 ## Meziantou.Analyzer
 
-# MA0049: Type name should not match containing namespace
-dotnet_diagnostic.ma0049.severity = Suggestion
-
 # MA0048: File name must match type name
 dotnet_diagnostic.ma0048.severity = Suggestion
 
@@ -554,6 +555,9 @@ dotnet_diagnostic.MA0047.severity = none
 
 # Use an overload of 'GetHashCode' that has a StringComparison parameter
 dotnet_diagnostic.MA0074.severity = none
+
+# MA0049: Type name should not match containing namespace
+dotnet_diagnostic.MA0049.severity = none
 
 ##################################################################################
 ## https://github.com/JosefPihrt/Roslynator/blob/main/docs/Configuration.md

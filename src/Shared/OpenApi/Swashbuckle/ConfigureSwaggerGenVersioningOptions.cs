@@ -19,7 +19,7 @@ namespace Shared.OpenApi.Swashbuckle;
 public class ConfigureSwaggerGenVersioningOptions : IConfigureOptions<SwaggerGenOptions>
 {
     private readonly IApiVersionDescriptionProvider _apiVersionDescriptionProvider;
-    private readonly SwaggerOptions _swaggerOptions;
+    private readonly OpenApiOptions _openApiOptions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigureSwaggerGenVersioningOptions"/> class.
@@ -28,11 +28,11 @@ public class ConfigureSwaggerGenVersioningOptions : IConfigureOptions<SwaggerGen
     /// <param name="options"></param>
     public ConfigureSwaggerGenVersioningOptions(
         IApiVersionDescriptionProvider apiVersionDescriptionProvider,
-        IOptions<SwaggerOptions> options
+        IOptions<OpenApiOptions> options
     )
     {
         _apiVersionDescriptionProvider = apiVersionDescriptionProvider;
-        _swaggerOptions = options.Value;
+        _openApiOptions = options.Value;
     }
 
     /// <inheritdoc />
@@ -48,15 +48,16 @@ public class ConfigureSwaggerGenVersioningOptions : IConfigureOptions<SwaggerGen
 
     private OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
     {
-        var text = new StringBuilder(_swaggerOptions.Description);
+        var text = new StringBuilder(_openApiOptions.Description);
         var info = new OpenApiInfo
         {
-            Title = _swaggerOptions.Title,
+            Title = _openApiOptions.Title ?? "OpenApi Documentation",
+            Description = _openApiOptions.Description ?? "OpenApi Documentation",
             Version = description.ApiVersion.ToString(),
             Contact = new OpenApiContact
             {
-                Name = _swaggerOptions.ContactUserName,
-                Email = _swaggerOptions.ContactEmail,
+                Name = _openApiOptions.ContactUserName ?? string.Empty,
+                Email = _openApiOptions.ContactEmail,
             },
             License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") },
         };

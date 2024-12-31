@@ -1,5 +1,6 @@
 using System.Reflection;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 
 namespace Shared.Validation.Extensions;

@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Core.Paging;
 using Shared.Abstractions.Persistence.Ef;
@@ -65,11 +66,12 @@ internal class GetProductByPageHandler(
 
         var query = getProductsExecutor(cancellationToken);
 
-        var pageList = await query.ApplyPagingAsync<Product, ProductReadModel>(
-            request,
-            sieveProcessor,
+        var pageList = await query.ApplyPagingAsync(
+            pageRequest: request,
+            sieveProcessor: sieveProcessor,
             projectionFunc: ProductMappings.ToProductsReadModel,
-            cancellationToken
+            sortExpression: x => x.Name,
+            cancellationToken: cancellationToken
         );
 
         var result = pageList.MapTo<ProductDto>(ProductMappings.ToProductDto);

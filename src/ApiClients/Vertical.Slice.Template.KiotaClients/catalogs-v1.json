@@ -1,0 +1,415 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Vertical Slice Template",
+    "description": "Vertical Slice Template<h4>Additional Information</h4>",
+    "contact": {
+      "name": "test",
+      "email": "test@test.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
+  "paths": {
+    "/api/v1/products": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Create product",
+        "description": "Create product",
+        "operationId": "CreateProduct",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProductResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get products by page",
+        "description": "Get products by page",
+        "operationId": "GetProductsByPage",
+        "parameters": [
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "Filters",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": null
+            }
+          },
+          {
+            "name": "SortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": null
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductsByPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get product by id",
+        "description": "Get product by id",
+        "operationId": "GetProductById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProductByIdResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateProductRequest": {
+        "required": [
+          "name",
+          "categoryId",
+          "price",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "CreateProductResponse": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "GetProductByIdResponse": {
+        "required": [
+          "product"
+        ],
+        "type": "object",
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/ProductDto"
+          }
+        }
+      },
+      "GetProductsByPageResponse": {
+        "required": [
+          "products"
+        ],
+        "type": "object",
+        "properties": {
+          "products": {
+            "$ref": "#/components/schemas/IPageListOfProductDto"
+          }
+        }
+      },
+      "HttpValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "IPageListOfProductDto": {
+        "type": "object",
+        "properties": {
+          "currentPageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentStartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentEndIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPrevious": {
+            "type": "boolean"
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDto"
+            }
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ProductDto": {
+        "required": [
+          "id",
+          "categoryId",
+          "name",
+          "price",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter 'Bearer' [space] and your token in the text input below.\n\nExample: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "ApiKey": {
+        "type": "apiKey",
+        "description": "Enter your API key in the text input below.\n\nExample: '12345-abcdef'",
+        "name": "X-API-KEY",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Products"
+    }
+  ]
+}

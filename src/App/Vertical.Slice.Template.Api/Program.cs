@@ -1,8 +1,11 @@
 using Serilog;
 using Serilog.Events;
+using Shared.OpenApi.AspnetOpenApi.Extensions;
 using Shared.Web.Extensions;
+using Shared.Web.Extensions.WebApplicationBuilderExtensions;
 using Shared.Web.Minimal.Extensions;
 using Vertical.Slice.Template.Shared;
+using Vertical.Slice.Template.Shared.Clients;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
 
@@ -40,9 +43,15 @@ try
         }
     );
 
+    // #if EnableSwagger
+    builder.AddAspnetOpenApi(["v1"]);
+    // #endif
+
     builder.AddInfrastructures();
 
     builder.AddCatalogsServices();
+
+    builder.AddCustomVersioning();
 
     var app = builder.Build();
 
@@ -58,6 +67,13 @@ try
     app.MapCatalogsEndpoints();
 
     app.MapModulesEndpoints();
+
+    // #if EnableSwagger
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseAspnetOpenApi();
+    }
+    // #endif
 
     await app.RunAsync();
 }

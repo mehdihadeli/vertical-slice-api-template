@@ -22,7 +22,6 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
     where TEntryPoint : class
 {
     // fields
-    private TestWorkersRunner _testWorkersRunner = default!;
     private readonly IMessageSink _messageSink;
     private IHttpContextAccessor? _httpContextAccessor;
     private IServiceProvider? _serviceProvider;
@@ -31,12 +30,12 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
     // properties
     public WireMockServer WireMockServer { get; }
-    public string WireMockServerUrl { get; } = default!;
-    public Func<Task>? OnSharedFixtureInitialized { get; set; }
-    public Func<Task>? OnSharedFixtureDisposed { get; set; }
+    public string WireMockServerUrl { get; }
+    public event Func<Task>? SharedFixtureInitialized;
+    public event Func<Task>? SharedFixtureDisposed;
     public ILogger Logger { get; }
     public PostgresContainerFixture PostgresContainerFixture { get; }
-    public CustomWebApplicationFactory Factory { get; set; }
+    public CustomWebApplicationFactory<TEntryPoint> Factory { get; set; }
     public IServiceProvider ServiceProvider => _serviceProvider ??= Factory.Services;
 
     public IConfiguration Configuration => _configuration ??= ServiceProvider.GetRequiredService<IConfiguration>();
@@ -54,6 +53,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
             if (_guestClient == null)
             {
                 _guestClient = Factory.CreateDefaultClient();
+
                 // Set the media type of the request to JSON - we need this for getting problem details result for all http calls because problem details just return response for request with media type JSON
                 _guestClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             }
@@ -95,6 +95,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
             options
                 .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
                 .WhenTypeIs<DateTime>();
+
             options
                 .Using<DateTimeOffset>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds()))
                 .WhenTypeIs<DateTimeOffset>();
@@ -106,7 +107,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         WireMockServer = WireMockServer.Start();
         WireMockServerUrl = WireMockServer.Url!;
 
-        Factory = new CustomWebApplicationFactory();
+        Factory = new CustomWebApplicationFactory<TEntryPoint>();
     }
 
     public void SetOutputHelper(ITestOutputHelper outputHelper)
@@ -118,13 +119,13 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        // for having capability of overriding dependencies in IntegrationTestBase we should not build service provider here.
         _messageSink.OnMessage(new DiagnosticMessage("SharedFixture Started..."));
 
         // Service provider will build after getting with get accessors, we don't want to build our service provider here
-        await Factory.InitializeAsync();
-
-        // Service provider will build after getting with get accessors, we don't want to build our service provider here
         await PostgresContainerFixture.InitializeAsync();
+
+        Factory.AddTestHostedService<MigrationWorker>();
 
         // with `AddOverrideEnvKeyValues` config changes are accessible during services registration
         Factory.AddOverrideEnvKeyValues(
@@ -139,54 +140,37 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
 
         // with `AddOverrideInMemoryConfig` config changes are accessible after services registration and build process
         Factory.AddOverrideInMemoryConfig(new Dictionary<string, string>());
-        Factory.ConfigurationAction += cfg =>
+
+        Factory.WithTestConfiguration(cfg =>
         {
             // Or we can override configuration explicitly, and it is accessible via IOptions<> and Configuration
             cfg["WireMockUrl"] = WireMockServerUrl;
-        };
+        });
 
-        var initCallback = OnSharedFixtureInitialized?.Invoke();
-        if (initCallback != null)
+        if (SharedFixtureInitialized is not null)
         {
-            await initCallback;
+            await SharedFixtureInitialized.Invoke();
         }
-
-        // for seeding, we should run it for each test separately in integration test base.
-        var migManager = ServiceProvider.GetRequiredService<IMigrationManager>();
-        // MigrationWorker is removed from dependency injection in the test so we can't resolve it directly
-        var migrationWorker = new MigrationWorker(migManager);
-
-        _testWorkersRunner = new([migrationWorker]);
-        await _testWorkersRunner.StartWorkersAsync(CancellationToken.None);
     }
 
     public async Task DisposeAsync()
     {
         await PostgresContainerFixture.DisposeAsync();
 
-        var disposeCallback = OnSharedFixtureDisposed?.Invoke();
-        if (disposeCallback != null)
+        if (SharedFixtureDisposed is not null)
         {
-            await disposeCallback;
+            await SharedFixtureDisposed.Invoke();
         }
-
-        await _testWorkersRunner.StopWorkersAsync(CancellationToken.None);
-
-        await Factory.DisposeAsync();
-
-        _messageSink.OnMessage(new DiagnosticMessage("SharedFixture Stopped..."));
     }
 
-    public void ConfigureTestServices(Action<IServiceCollection>? services)
+    public void WithTestConfigureServices(Action<IServiceCollection> services)
     {
-        if (services is not null)
-            Factory.TestConfigureServices += services;
+        Factory.WithTestConfigureServices(services);
     }
 
-    public void ConfigureTestConfigureApp(Action<WebHostBuilderContext, IConfigurationBuilder>? cfg)
+    public void WithTestConfigureAppConfiguration(Action<WebHostBuilderContext, IConfigurationBuilder> appConfiguration)
     {
-        if (cfg is not null)
-            Factory.TestConfigureApp += cfg;
+        Factory.WithTestConfigureAppConfiguration(appConfiguration);
     }
 
     public async Task ResetDatabasesAsync(CancellationToken cancellationToken = default)
@@ -234,6 +218,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         var startTime = DateTime.Now;
         var timeoutExpired = false;
         var meet = await conditionToMet.Invoke();
+
         while (!meet)
         {
             if (timeoutExpired)

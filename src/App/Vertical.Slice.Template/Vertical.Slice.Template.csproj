@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\..\ApiClients\ApiClients.csproj" />
+    <ProjectReference Include="..\..\ApiClients\Vertical.Slice.Template.ConnectedServiceClients\Vertical.Slice.Template.ConnectedServiceClients.csproj" />
+    <ProjectReference Include="..\..\ApiClients\Vertical.Slice.Template.KiotaClients\Vertical.Slice.Template.KiotaClients.csproj" />
     <ProjectReference Include="..\..\Shared\Shared.csproj" />
   </ItemGroup>
   
@@ -27,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
   </ItemGroup>
 
 </Project>

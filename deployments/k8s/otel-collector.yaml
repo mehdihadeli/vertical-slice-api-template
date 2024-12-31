@@ -1,0 +1,77 @@
+# https://opentelemetry.io/docs/collector/installation/#kubernetes
+# https://opentelemetry.io/docs/collector/installation/
+# https://github.com/open-telemetry/opentelemetry-collector
+# https://github.com/open-telemetry/opentelemetry-collector-contrib
+# we can use none contrib docker `otel/opentelemetry-collector` version from `https://github.com/open-telemetry/opentelemetry-collector` repository but,
+# if we need more components like `elasticsearch` we should use `otel/opentelemetry-collector-contrib` image of `https://github.com/open-telemetry/opentelemetry-collector-contrib` repository. 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+      - name: otel-collector
+        image: otel/opentelemetry-collector-contrib:latest
+        command: [ "--config=/etc/otelcol-contrib/config.yaml" ]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/otelcol-contrib/otel-collector-config.yaml
+        ports:
+        - containerPort: 11888 # pprof extension
+        - containerPort: 8888 # Prometheus metrics exposed by the Collector
+        - containerPort: 8889 # Prometheus exporter metrics
+        - containerPort: 13133 # health_check extension
+        - containerPort: 4317 # OTLP gRPC receiver
+        - containerPort: 4318 # OTLP HTTP receiver
+        - containerPort: 55679 # zpages extension
+        restartPolicy: Always
+      volumes:
+      # https://kubernetes.io/docs/concepts/configuration/configmap/
+      # https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_configmap/
+      # https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+      #  kubectl create configmap otel-collector-config --from-file=otel-collector-config.yaml -o yaml > otel-collector-configmap.yaml
+      - name: config-volume
+        configMap:
+          name: otel-collector-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+spec:
+  selector:
+    app: otel-collector
+  ports:
+  - protocol: TCP
+    port: 11888
+    targetPort: 11888
+  - protocol: TCP
+    port: 8888
+    targetPort: 8888
+  - protocol: TCP
+    port: 8889
+    targetPort: 8889
+  - protocol: TCP
+    port: 13133
+    targetPort: 13133
+  - protocol: TCP
+    port: 4317
+    targetPort: 4317
+  - protocol: TCP
+    port: 4318
+    targetPort: 4318
+  - protocol: TCP
+    port: 55679
+    targetPort: 55679
+---
+

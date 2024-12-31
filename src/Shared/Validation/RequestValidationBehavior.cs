@@ -1,6 +1,7 @@
 using System.Text.Json;
 using FluentValidation;
 using Mediator;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shared.Validation.Extensions;
 

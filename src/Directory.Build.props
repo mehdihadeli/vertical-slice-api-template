@@ -23,6 +23,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
@@ -113,7 +114,6 @@
   <ItemGroup>
     <Using Include="System.Linq"/>
     <Using Include="System"/>
-    <Using Include="Microsoft.Extensions.DependencyInjection"/>
     <Using Include="System.Collections.ObjectModel"/>
   </ItemGroup>
 </Project>

@@ -7,32 +7,37 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Network" />
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
+    <PackageReference Include="AspNetCore.HealthChecks.Prometheus.Metrics" />
+    <PackageReference Include="AspNetCore.HealthChecks.Publisher.Prometheus" />
+    <PackageReference Include="AspNetCore.HealthChecks.System" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.Diagnostics.NETCore.Client" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
     <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="EFCore.NamingConventions" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Microsoft.Extensions.Resilience" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
     <PackageReference Include="System.Net.Http.Json" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="CorrelationId" />
     <PackageReference Include="Dapper" />
     <PackageReference Include="Humanizer.Core" />
     <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
     <PackageReference Include="Asp.Versioning.Http" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
     <PackageReference Include="DotNetEnv" />
-    <PackageReference Include="EasyCaching.Core" />
-    <PackageReference Include="EasyCaching.InMemory" />
-    <PackageReference Include="EasyCaching.Redis" />
-    <PackageReference Include="EasyCaching.Serialization.Json" />
-    <PackageReference Include="EasyCaching.Serialization.MessagePack" />
     <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="LinqKit.Core" />
     <PackageReference Include="MassTransit.Abstractions" />
@@ -42,26 +47,46 @@
     <PackageReference Include="Scrutor" />
     <PackageReference Include="Sieve" />
     <PackageReference Include="SqlKata" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="System.Linq.Async" />
     <PackageReference Include="System.Linq.Async.Queryable" />
     <!-- `Mediator.SourceGenerator` package should reference inside of used project to source generation work correctly-->
     <PackageReference Include="Mediator.Abstractions" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" />
+    <PackageReference Include="MassTransit" />
+    <PackageReference Include="MassTransit.Kafka" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
+    <PackageReference Include="MessagePack" />
   </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
     <PackageReference Include="Serilog.Exceptions" />
     <PackageReference Include="Serilog.Sinks.Async" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.Spectre" />
     <PackageReference Include="Elastic.Serilog.Sinks" />
     <PackageReference Include="Serilog.Sinks.Grafana.Loki" />
-    <PackageReference Include="Serilog.Sinks.OpenTelemetry" />
     <PackageReference Include="Serilog.Sinks.Seq" />
   </ItemGroup>
-
-
+  
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Npgsql.OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.GrpcNetClient" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Process" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+    <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" />
+    <PackageReference Include="Grafana.OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" />
+    <PackageReference Include="OpenTelemetry.Exporter.Jaeger" />
+    <PackageReference Include="OpenTelemetry.Exporter.Zipkin" />
+  </ItemGroup>
+  
 </Project>

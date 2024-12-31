@@ -34,12 +34,12 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
         CancellationTokenSource = new(TimeSpan.FromSeconds(Timeout));
         CancellationToken.ThrowIfCancellationRequested();
 
-        SharedFixture.ConfigureTestServices(RegisterTestConfigureServices);
-
-        SharedFixture.ConfigureTestConfigureApp(
+        // we should not build factory service provider with getting ServiceProvider in SharedFixture construction to having capability for override
+        SharedFixture.WithTestConfigureServices(SetupTestConfigureServices);
+        SharedFixture.WithTestConfigureAppConfiguration(
             (context, configurationBuilder) =>
             {
-                RegisterTestAppConfigurations(configurationBuilder, context.Configuration, context.HostingEnvironment);
+                SetupTestAppConfigurations(configurationBuilder, context.Configuration, context.HostingEnvironment);
             }
         );
     }
@@ -47,7 +47,7 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
     // we use IAsyncLifetime in xunit instead of constructor when we have async operation
     public virtual async Task InitializeAsync()
     {
-        // for seeding, we should run it for each test separately here.
+        // for seeding, we should run it for each test separately here. but for migration we can run it just once for all tests in shared fixture
         var seederManager = SharedFixture.ServiceProvider.GetRequiredService<IDataSeederManager>();
         // DataSeedWorker is removed from dependency injection in the test so we can't resolve it directly.
         var seedWorker = new DataSeedWorker(seederManager);
@@ -66,16 +66,13 @@ public abstract class IntegrationTest<TEntryPoint> : XunitContextBase, IAsyncLif
         Scope.Dispose();
     }
 
-    protected virtual void RegisterTestConfigureServices(IServiceCollection services) { }
+    protected virtual void SetupTestConfigureServices(IServiceCollection services) { }
 
-    protected virtual void RegisterTestAppConfigurations(
+    protected virtual void SetupTestAppConfigurations(
         IConfigurationBuilder builder,
         IConfiguration configuration,
         IHostEnvironment environment
-    )
-    {
-        //
-    }
+    ) { }
 }
 
 public abstract class IntegrationTestBase<TEntryPoint, TContext>(

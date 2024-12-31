@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Kiota.Bundle" />
+  </ItemGroup>
+
+  <!--  https://learn.microsoft.com/en-us/openapi/kiota/quickstarts/dotnet-->
+  <!--  https://learn.microsoft.com/en-us/openapi/kiota/install-->
+  <!--  https://learn.microsoft.com/en-us/openapi/kiota/using-->
+  <!-- build SDK client every time we build the project. This way we don’t need to use Kiota CLI everytime -->
+  <Target Name="CatalogsGenerateClient" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
+    <Exec Command="dotnet kiota generate -l csharp -o ./Clients --namespace-name Vertical.Slice.Template.KiotaClients.Catalogs --class-name CatalogsKiotaApiClient --exclude-backward-compatible --openapi ./catalogs-v1.json" WorkingDirectory="$(ProjectDir)"/>
+  </Target>
+  
+</Project>

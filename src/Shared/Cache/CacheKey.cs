@@ -1,4 +1,4 @@
-using Shared.Core.Reflection.Extensions;
+using Shared.Core.Extensions;
 
 namespace Shared.Cache;
 

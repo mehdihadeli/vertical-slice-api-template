@@ -2,8 +2,10 @@ using System.Reflection;
 using LinqKit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using Shared.Abstractions.Web;
+using Shared.Core.Extensions;
 using Shared.Core.Reflection;
 
 namespace Shared.Web.Minimal.Extensions;
@@ -15,12 +17,15 @@ public static class MinimalApiExtensions
         params Assembly[] scanAssemblies
     )
     {
-        var assemblies = scanAssemblies.Any()
-            ? scanAssemblies
-            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
+        if (scanAssemblies.Length == 0)
+        {
+            // Find assemblies that reference the current assembly
+            var referencingAssemblies = Assembly.GetExecutingAssembly().GetReferencingAssemblies();
+            scanAssemblies = referencingAssemblies.ToArray();
+        }
 
         applicationBuilder.Services.Scan(scan =>
-            scan.FromAssemblies(assemblies)
+            scan.FromAssemblies(scanAssemblies)
                 .AddClasses(classes => classes.AssignableTo(typeof(IMinimalEndpoint)))
                 .UsingRegistrationStrategy(RegistrationStrategy.Append)
                 .As<IMinimalEndpoint>()
@@ -35,12 +40,15 @@ public static class MinimalApiExtensions
         params Assembly[] scanAssemblies
     )
     {
-        var assemblies = scanAssemblies.Any()
-            ? scanAssemblies
-            : ReflectionUtilities.GetReferencedAssemblies(Assembly.GetCallingAssembly()).Distinct().ToArray();
+        if (scanAssemblies.Length == 0)
+        {
+            // Find assemblies that reference the current assembly
+            var referencingAssemblies = Assembly.GetExecutingAssembly().GetReferencingAssemblies();
+            scanAssemblies = referencingAssemblies.ToArray();
+        }
 
         services.Scan(scan =>
-            scan.FromAssemblies(assemblies)
+            scan.FromAssemblies(scanAssemblies)
                 .AddClasses(classes => classes.AssignableTo(typeof(IMinimalEndpoint)))
                 .UsingRegistrationStrategy(RegistrationStrategy.Append)
                 .As<IMinimalEndpoint>()

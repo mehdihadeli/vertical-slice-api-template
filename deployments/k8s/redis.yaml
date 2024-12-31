@@ -1,0 +1,34 @@
+# https://developer.redis.com/howtos/quick-start
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis/redis-stack:latest
+        ports:
+        - containerPort: 6379 # Redis default port
+        restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector:
+    app: redis
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379

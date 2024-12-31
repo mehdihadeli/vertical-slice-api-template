@@ -1,0 +1,10 @@
+# https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_configmap/
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+data:
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "postgres"

@@ -50,6 +50,20 @@
         "dotnet-outdated"
       ],
       "rollForward": false
+    },
+    "microsoft.dotnet-openapi": {
+      "version": "9.0.0",
+      "commands": [
+        "dotnet-openapi"
+      ],
+      "rollForward": false
+    },
+    "microsoft.openapi.kiota": {
+      "version": "1.21.0",
+      "commands": [
+        "kiota"
+      ],
+      "rollForward": false
     }
   }
 }

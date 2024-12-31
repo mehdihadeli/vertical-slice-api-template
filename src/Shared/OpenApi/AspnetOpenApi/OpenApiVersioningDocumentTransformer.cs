@@ -10,10 +10,10 @@ namespace Shared.OpenApi.AspnetOpenApi;
 // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/customize-openapi?view=aspnetcore-9.0#customize-openapi-documents-with-transformers
 public class OpenApiVersioningDocumentTransformer(
     IApiVersionDescriptionProvider apiVersionDescriptionProvider,
-    IOptions<AspnetOptions> options
+    IOptions<OpenApiOptions> options
 ) : IOpenApiDocumentTransformer
 {
-    private readonly AspnetOptions _aspnetOptions = options.Value;
+    private readonly OpenApiOptions _openApiOptions = options.Value;
 
     public Task TransformAsync(
         OpenApiDocument document,
@@ -40,12 +40,17 @@ public class OpenApiVersioningDocumentTransformer(
 
     private OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
     {
-        var text = new StringBuilder(_aspnetOptions.Description);
+        var text = new StringBuilder(_openApiOptions.Description);
         var info = new OpenApiInfo
         {
-            Title = _aspnetOptions.Title,
+            Title = _openApiOptions.Title,
+            Description = _openApiOptions.Description,
             Version = description.ApiVersion.ToString(),
-            Contact = new OpenApiContact { Name = _aspnetOptions.ContactUserName, Email = _aspnetOptions.ContactEmail },
+            Contact = new OpenApiContact
+            {
+                Name = _openApiOptions.ContactUserName,
+                Email = _openApiOptions.ContactEmail,
+            },
             License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") },
         };
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Core.Extensions.ServiceCollectionsExtensions;
 
 namespace Shared.OpenApi.AspnetOpenApi.Extensions;
 
@@ -7,11 +8,10 @@ namespace Shared.OpenApi.AspnetOpenApi.Extensions;
 
 public static class DependencyInjectionExtensions
 {
-    public static WebApplicationBuilder AddAspnetOpenApi(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddAspnetOpenApi(this WebApplicationBuilder builder, string[] versions)
     {
-        builder.Services.AddOptions<AspnetOptions>().Bind(builder.Configuration.GetSection(nameof(AspnetOptions)));
+        builder.Services.AddConfigurationOptions<OpenApiOptions>(nameof(OpenApiOptions));
 
-        string[] versions = ["v1"];
         foreach (var documentName in versions)
         {
             builder.Services.AddOpenApi(
@@ -22,8 +22,6 @@ public static class DependencyInjectionExtensions
                     options.AddDocumentTransformer<SecuritySchemeDocumentTransformer>();
 
                     options.AddOperationTransformer<OpenApiDefaultValuesOperationTransformer>();
-                    options.AddOperationTransformer<CorrelationIdHeaderOperationTransformer>();
-
                     options.AddSchemaTransformer<EnumSchemaTransformer>();
                 }
             );

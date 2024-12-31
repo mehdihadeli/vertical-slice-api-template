@@ -9,26 +9,48 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
-using Vertical.Slice.Template.Api;
 using Environments = Shared.Web.Environments;
 
 namespace Vertical.Slice.Template.TestsShared.Factory;
 
-public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder = null)
-    : WebApplicationFactory<CatalogsApiMetadata>,
-        IAsyncLifetime
+public class CustomWebApplicationFactory<TRootMetadata>(Action<IWebHostBuilder>? webHostBuilder = null)
+    : WebApplicationFactory<TRootMetadata>
+    where TRootMetadata : class
 {
     private ITestOutputHelper? _outputHelper;
     private readonly Dictionary<string, string?> _inMemoryConfigs = new();
-
-    public Action<IServiceCollection>? TestConfigureServices { get; set; }
-    public Action<IConfiguration>? ConfigurationAction { get; set; }
-    public Action<WebHostBuilderContext, IConfigurationBuilder>? TestConfigureApp { get; set; }
+    private Action<IServiceCollection>? _testConfigureServices;
+    private Action<IConfiguration>? _testConfiguration;
+    private Action<WebHostBuilderContext, IConfigurationBuilder>? _testConfigureAppConfiguration;
+    private readonly List<Type> _testHostedServicesTypes = new();
 
     /// <summary>
     /// Use for tracking occured log events for testing purposes
     /// </summary>
     public InMemoryLoggerProvider InMemoryLogTrackerProvider { get; } = new();
+
+    public void WithTestConfigureServices(Action<IServiceCollection> services)
+    {
+        _testConfigureServices += services;
+    }
+
+    public void WithTestConfiguration(Action<IConfiguration> configurations)
+    {
+        _testConfiguration += configurations;
+    }
+
+    public void WithTestConfigureAppConfiguration(
+        Action<WebHostBuilderContext, IConfigurationBuilder> appConfigurations
+    )
+    {
+        _testConfigureAppConfiguration += appConfigurations;
+    }
+
+    public void AddTestHostedService<THostedService>()
+        where THostedService : class, IHostedService
+    {
+        _testHostedServicesTypes.Add(typeof(THostedService));
+    }
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
@@ -57,13 +79,6 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
             }
         );
 
-        // builder.ConfigureWebHost(wb =>
-        // {
-        //     wb.ConfigureTestServices(services => { });
-        //
-        //     wb.ConfigureAppConfiguration((hostingContext, configurationBuilder) => { });
-        // });
-
         return base.CreateHost(builder);
     }
 
@@ -80,18 +95,26 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
                 //// https://blog.markvincze.com/overriding-configuration-in-asp-net-core-integration-tests/
                 configurationBuilder.AddInMemoryCollection(_inMemoryConfigs);
 
-                ConfigurationAction?.Invoke(hostingContext.Configuration);
-                TestConfigureApp?.Invoke(hostingContext, configurationBuilder);
+                _testConfiguration?.Invoke(hostingContext.Configuration);
+                _testConfigureAppConfiguration?.Invoke(hostingContext, configurationBuilder);
             }
         );
 
         builder.ConfigureTestServices(services =>
         {
             // https://andrewlock.net/converting-integration-tests-to-net-core-3/
-            // Don't run IHostedServices when running as a test, we run them manually with `TestWorkersRunner` for more control
+            // - we delete default hosted services like `GenericWebHostService` which is for hosting app on the application port and host, and we just add required test hosted services
+            // - `WebApplicationFactory` create a new `GenericWebHostService` test server and add it as a `IHostedService` to the list of hosted services
+            // - we run them manually some of them with `TestWorkersRunner` for more control
             services.RemoveAll<IHostedService>();
 
-            TestConfigureServices?.Invoke(services);
+            // add test hosted services
+            foreach (var hostedServiceType in _testHostedServicesTypes)
+            {
+                services.AddSingleton(typeof(IHostedService), hostedServiceType);
+            }
+
+            _testConfigureServices?.Invoke(services);
         });
 
         base.ConfigureWebHost(builder);
@@ -126,15 +149,5 @@ public class CustomWebApplicationFactory(Action<IWebHostBuilder>? webHostBuilder
             // overriding app configs with using environments
             Environment.SetEnvironmentVariable(key, value);
         }
-    }
-
-    public Task InitializeAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public new Task DisposeAsync()
-    {
-        return Task.CompletedTask;
     }
 }

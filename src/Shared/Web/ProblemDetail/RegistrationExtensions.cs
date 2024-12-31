@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using Shared.Abstractions.Web;
 using Shared.Core.Extensions.ServiceCollectionsExtensions;

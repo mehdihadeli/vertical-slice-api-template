@@ -1,7 +1,9 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Shared.Core.Extensions.ServiceCollectionsExtensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Shared.OpenApi.Swashbuckle.Extensions;
@@ -10,7 +12,7 @@ public static class DependencyInjectionExtensions
 {
     public static WebApplicationBuilder AddSwaggerOpenApi(this WebApplicationBuilder builder, Assembly appAssembly)
     {
-        builder.Services.AddOptions<SwaggerOptions>().Bind(builder.Configuration.GetSection(nameof(SwaggerOptions)));
+        builder.Services.AddConfigurationOptions<OpenApiOptions>(nameof(OpenApiOptions));
 
         // only needed for minimal api but having it in controller based approach doesn't have any affect.
         builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Core.Extensions.ServiceCollectionsExtensions;
 
 namespace Shared.Web.Extensions;

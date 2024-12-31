@@ -10,5 +10,7 @@ public class CircuitBreakerPolicyOptions
     /// <summary>
     /// Gets or Sets an integer that specifies the number of exceptions that must occur within a specified period before the circuit breaker trips and enters the "open" state.
     /// </summary>
-    public int ExceptionsAllowedBeforeBreaking { get; set; } = 12;
+    public int ExceptionsAllowedBeforeBreaking { get; set; } = 4;
+
+    public int SamplingDuration { get; set; } = 60;
 }

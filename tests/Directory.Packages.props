@@ -12,6 +12,8 @@
   
   <ItemGroup>
     <PackageVersion Include="AutoBogus" Version="2.13.1" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="NSwag.ApiDescription.Client" Version="14.2.0" />
     <PackageVersion Include="AutoBogus.NSubstitute" Version="2.13.1" />
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
     <PackageVersion Include="FluentAssertions" Version="7.0.0" />
@@ -19,7 +21,6 @@
     <PackageVersion Include="FluentResults.Extensions.FluentAssertions" Version="2.1.2" />
     <PackageVersion Include="Hypothesist" Version="2.0.30" />
     <PackageVersion Include="Hypothesist.MassTransit" Version="2.0.30" />
-    <PackageVersion Include="MassTransit" Version="8.2.3" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
@@ -45,6 +46,6 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0" />
     <PackageVersion Include="AnyOf" Version="0.3.0" />
     <PackageVersion Include="Meziantou.Extensions.Logging.InMemory" Version="1.2.1" />
-    <PackageVersion Include="NSwag.MSBuild" Version="14.2.0" />
+    <PackageVersion Include="Microsoft.Kiota.Bundle" Version="1.16.1" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Persistence.Ef;
 using Shared.Cache;
