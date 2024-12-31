@@ -23,7 +23,8 @@ env:
 jobs:
   # https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm
   create-nuget:
-    runs-on: ubuntu-latest
+    # because of current issue of latest with nuget for now we use ubuntu-22.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
