@@ -35,10 +35,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - uses: nuget/setup-nuget@v2
+      - uses: nuget/setup-nuget@v1
         name: Setup NuGet
         with:
-          nuget-version: '5.x'
+          nuget-version: '6.x'
 
       - name: Cache NuGet packages
         uses: actions/cache@v4
