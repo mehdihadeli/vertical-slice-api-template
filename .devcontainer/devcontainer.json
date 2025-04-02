@@ -23,8 +23,8 @@
         "ghcr.io/devcontainers/features/dotnet:2": {
             // this version should be matched with global.json .net version for working vscode IntelliSense correctly
             "version": "9.0.101",
-            "additionalVersions": "latest, 9.0.101, 8.0.401",
-            "aspNetCoreRuntimeVersions": "latest, 9.0.101, 8.0.401"
+            "additionalVersions": "latest, 9.0.101",
+            "aspNetCoreRuntimeVersions": "latest, 9.0.0"
         },
         // https://github.com/devcontainers/features/tree/main/src/github-cli
         "ghcr.io/devcontainers/features/github-cli:1": {
