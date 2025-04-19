@@ -61,20 +61,20 @@ dotnet new vsa -n <YourProjectName>
 -   ✅ Using `CQRS Pattern` on top of `MediatR` library
 -   ✅ Using `Mapperly` source generator for the mappings
 -   ✅ Using `Minimal APIs` for handling requests
--   ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
 -   ✅ Using `Postgres` On Top of EfCore
--   ✅ Using different levels of tests like `Unit Tests`, `Integration Tests` and `End-To-End Tests`
--   ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
--   ✅ Using docker and `docker-compose` for deployment
 -   ✅ Using `OpenTelemetry` for collection `logs`, `metrics` and `tracings` 
 -   ✅ Using `OpenTelemetry Collector` to receive, process, and export telemetry data to various backends, including Jaeger and Tempo for tracing, Loki and Kibana for logs, and Prometheus for metrics
+-   ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
+-   ✅ Using different levels of tests like `Unit Tests`, `Integration Tests`, `Contract Test` and `End-To-End Tests`
+-   ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
+-   ✅ Using docker and `docker-compose` for deployment
 
 ## Libraries
 
 -   ✔️ **[`.NET 9`](https://dotnet.microsoft.com/download)** - .NET Framework and .NET Core, including ASP.NET and ASP.NET Core
 -   ✔️ **[`Npgsql Entity Framework Core Provider`](https://www.npgsql.org/efcore/)** - Npgsql has an Entity Framework (EF) Core provider. It behaves like other EF Core providers (e.g. SQL Server), so the general EF Core docs apply here as well
 -   ✔️ **[`FluentValidation`](https://github.com/FluentValidation/FluentValidation)** - Popular .NET validation library for building strongly-typed validation rules
--   ✔️ **[`Swagger & Swagger UI`](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)** - Swagger tools for documenting API's built on ASP.NET Core
+-   ✔️ **[`Microsoft.AspNetCore.OpenApi`](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi)** - .Net 9 Built-in Open-API
 -   ✔️ **[`Serilog`](https://github.com/serilog/serilog)** - Simple .NET logging with fully-structured events
 -   ✔️ **[`Polly`](https://github.com/App-vNext/Polly)** - Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner
 -   ✔️ **[`Scrutor`](https://github.com/khellang/Scrutor)** - Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
@@ -89,7 +89,7 @@ dotnet new vsa -n <YourProjectName>
 
 ## Getting Started
 
-1. This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
+1. This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-9.0#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
 2. Install git - [https://git-scm.com/downloads](https://git-scm.com/downloads).
 3. Install .NET Core 9.0 - [https://dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0).
 4. Install Visual Studio, Rider or VSCode.
