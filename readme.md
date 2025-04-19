@@ -67,7 +67,7 @@ dotnet new vsa -n <YourProjectName>
 -   ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
 -   ✅ Using docker and `docker-compose` for deployment
 -   ✅ Using `OpenTelemetry` for collection `logs`, `metrics` and `tracings` 
--   ✅ Using OpenTelemetry Collector to receive, process, and export telemetry data to various backends, including Jaeger and Tempo for tracing, Loki and Kibana for logs, and Prometheus for metrics
+-   ✅ Using `OpenTelemetry Collector` to receive, process, and export telemetry data to various backends, including Jaeger and Tempo for tracing, Loki and Kibana for logs, and Prometheus for metrics
 
 ## Libraries
 
