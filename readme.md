@@ -64,7 +64,7 @@ dotnet new vsa -n <YourProjectName>
 -   ✅ Using `Postgres` On Top of EfCore
 -   ✅ Using `OpenTelemetry` for collection `logs`, `metrics` and `tracings` 
 -   ✅ Using `OpenTelemetry Collector` to receive, process, and export telemetry data to various backends, including Jaeger and Tempo for tracing, Loki and Kibana for logs, and Prometheus for metrics
--   ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
+-   ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/Shared/Validation/README.md) on top of MediatR
 -   ✅ Using different levels of tests like `Unit Tests`, `Integration Tests`, `Contract Test` and `End-To-End Tests`
 -   ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
 -   ✅ Using docker and `docker-compose` for deployment
