@@ -6,7 +6,7 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/mehdihadeli/vertical-slice-api-template)
 
-> This is a An Asp.Net Core `template` based on `Vertical Slice Architecture`, CQRS, Minimal APIs, API Versioning and Swagger. Create a new project based on this template by clicking the above **Use this template** button or by installing and running the associated NuGet package (see Getting Started for full details).
+> An ASP.NET Core template based on Vertical Slice Architecture, CQRS, Minimal APIs, API versioning, OpenAPI, and .NET Aspire. Create a project from this template by clicking **Use this template** or installing the associated NuGet package.
 
 ## ⭐ Support
 
@@ -21,21 +21,20 @@ Thanks a bunch for supporting me!
     - [Table of Contents](#table-of-contents)
     - [Install](#install)
     - [Features](#features)
-    - [Libraries](#libraries)
+    - [Libraries and Infrastructure](#libraries-and-infrastructure)
     - [Getting Started](#getting-started)
     - [Setup](#setup)
         - [Dev Certificate](#dev-certificate)
         - [Conventional Commit](#conventional-commit)
         - [Formatting](#formatting)
-        - [Analizers](#analizers)
+        - [Analyzers](#analyzers)
     - [Application Structure](#application-structure)
         - [High Level Structure](#high-level-structure)
         - [Modules Structure](#modules-structure)
         - [Folder Structure](#folder-structure)
     - [Vertical Slice Flow](#vertical-slice-flow)
     - [How to Run](#how-to-run)
-        - [Using PM2](#using-pm2)
-        - [Using Tye](#using-tye)
+        - [Using .NET Aspire](#using-net-aspire)
     - [Contribution](#contribution)
     - [License](#license)
 
@@ -58,24 +57,29 @@ dotnet new vsa -n <YourProjectName>
 ## Features
 
 - ✅ Using `Vertical Slice Architecture` as a high-level architecture
-- ✅ Using `CQRS Pattern` on top of `MediatR` library
+- ✅ Using `CQRS Pattern` on top of `Mediator` source generation
 - ✅ Using `Mapperly` source generator for the mappings
 - ✅ Using `Minimal APIs` for handling requests
-- ✅ Using `Postgres` On Top of EfCore
+- ✅ Using PostgreSQL on top of Entity Framework Core
+- ✅ Using Wolverine with RabbitMQ for messaging
+- ✅ Using .NET Aspire for local orchestration and service discovery
+- ✅ Providing generated API clients with Kiota and connected service tooling
 - ✅ Using `OpenTelemetry` for collection `logs`, `metrics` and `tracings`
-- ✅ Using `OpenTelemetry Collector` to receive, process, and export telemetry data to various backends, including Jaeger and Tempo for tracing, Loki and Kibana for logs, and Prometheus for metrics
-- ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
-- ✅ Using different levels of tests like `Unit Tests`, `Integration Tests`, `Contract Test` and `End-To-End Tests`
-- ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
+- ✅ Using an OpenTelemetry Collector with Prometheus, Grafana, Loki, and Tempo deployment configurations
+- ✅ Using `FluentValidation` and a [validation pipeline behavior](./src/Shared/Validation/RequestValidationBehavior.cs) on top of Mediator
+- ✅ Using unit, integration, contract, and end-to-end test projects
 - ✅ Using docker and `docker-compose` for deployment
 
-## Libraries
+## Libraries and Infrastructure
 
-- ✔️ **[`.NET 9`](https://dotnet.microsoft.com/download)** - .NET Framework and .NET Core, including ASP.NET and ASP.NET Core
+- ✔️ **[`.NET 10`](https://dotnet.microsoft.com/download/dotnet/10.0)** - .NET runtime and ASP.NET Core target framework
+- ✔️ **[`.NET Aspire`](https://learn.microsoft.com/en-us/dotnet/aspire/)** - Local orchestration, service discovery, health checks, and dashboard
 - ✔️ **[`Npgsql Entity Framework Core Provider`](https://www.npgsql.org/efcore/)** - Npgsql has an Entity Framework (EF) Core provider. It behaves like other EF Core providers (e.g. SQL Server), so the general EF Core docs apply here as well
 - ✔️ **[`FluentValidation`](https://github.com/FluentValidation/FluentValidation)** - Popular .NET validation library for building strongly-typed validation rules
-- ✔️ **[`Microsoft.AspNetCore.OpenApi`](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi)** - .Net 9 Built-in Open-API
+- ✔️ **[`Microsoft.AspNetCore.OpenApi`](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi)** - Built-in OpenAPI document generation
 - ✔️ **[`Polly`](https://github.com/App-vNext/Polly)** - Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner
+- ✔️ **[`Wolverine`](https://wolverinemod.com/)** - Messaging, handlers, and transactional middleware
+- ✔️ **[`Scalar.AspNetCore`](https://github.com/scalar/scalar)** - Interactive OpenAPI reference UI
 - ✔️ **[`Scrutor`](https://github.com/khellang/Scrutor)** - Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
 - ✔️ **[`Opentelemetry-dotnet`](https://github.com/open-telemetry/opentelemetry-dotnet)** - The OpenTelemetry .NET Client
 - ✔️ **[`Newtonsoft.Json`](https://github.com/JamesNK/Newtonsoft.Json)** - Json.NET is a popular high-performance JSON framework for .NET
@@ -90,15 +94,20 @@ dotnet new vsa -n <YourProjectName>
 
 1. This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-9.0#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
 2. Install git - [https://git-scm.com/downloads](https://git-scm.com/downloads).
-3. Install .NET Core 9.0 - [https://dotnet.microsoft.com/download/dotnet/9.0](https://dotnet.microsoft.com/download/dotnet/9.0).
+3. Install the .NET 10 SDK - [https://dotnet.microsoft.com/download/dotnet/10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 4. Install Visual Studio, Rider or VSCode.
 5. Run `dotnet new install Vertical.Slice.Template` to install the project templates.
 6. Now with running `dotnet new --list`, we should see `Vertical.Slice.Template` in the template list.
 7. Create a folder for your solution and cd into it (the template will use it as project name)
 8. Run `dotnet new vsa -n <YourProjectName>` for short name or `dotnet new Vertical.Slice.Template -n <YourProjectName>` to create a new project template.
-9. Open [<YourProjectName>.sln](./Vertical.Slice.Template.sln) solution, make sure that's compiling.
-10. Navigate to `src/App/<YourProjectName>.Api` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
-11. Open web browser https://localhost:4000/swagger Swagger UI
+9. Open the generated solution and run `dotnet build` to verify it compiles.
+10. Run the API directly from the generated solution:
+
+    ```bash
+    dotnet run --project src/App/<YourProjectName>.Api
+    ```
+
+11. Open `http://localhost:4000/scalar` for the Scalar API reference or `http://localhost:4000/openapi/v1.json` for the OpenAPI document.
 
 ## Setup
 
@@ -132,125 +141,32 @@ Here I configured a husky hook for conventional commits:
 
 1. Install NPM:
 
-```bash
-npm init
+```text
+src
+├───App
+│   ├───Vertical.Slice.Template          # Catalog domain and vertical slices
+│   └───Vertical.Slice.Template.Api      # ASP.NET Core API host
+├───ApiClients
+│   ├───Vertical.Slice.Template.ConnectedServiceClients
+│   └───Vertical.Slice.Template.KiotaClients
+├───Aspire
+│   ├───Vertical.Slice.Template.AppHost
+│   └───Vertical.Slice.Template.ServiceDefaults
+└───Shared
+    ├───Abstractions
+    ├───Cache
+    ├───Core
+    ├───Diagnostics
+    ├───EF
+    ├───HealthCheck
+    ├───Logging
+    ├───Messaging.Wolverine
+    ├───OpenApi
+    ├───RateLimit
+    ├───Resiliency
+    ├───Validation
+    └───Web
 ```
-
-2. Install Husky:
-
-```bash
-npm install husky --save-dev
-```
-
-3. Add `prepare` and `install-dev-cert-bash` command for installing and activating `husky hooks` in the package.json file:
-
-```bash
-npm pkg set scripts.prepare="husky install && dotnet tool restore"
-
-npm pkg set scripts.install-dev-cert-bash="curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v vs2019 -l ~/vsdbg"
-```
-
-4. Install CommitLint:
-
-```bash
-npm install --save-dev @commitlint/config-conventional @commitlint/cli
-```
-
-5. Create the `commitlint.config.js` file with this content:
-
-```js
-module.exports = { extends: '@commitlint/config-conventional']};
-```
-
-6. Create the Husky folder:
-
-```bash
-mkdir .husky
-```
-
-7. Link Husky and CommitLint:
-
-```bash
-npx husky add .husky/commit-msg 'npx --no -- commitlint --edit ${1}'
-```
-
-8. Activate and installing all husky hooks with this command:
-
-```bash
-npm run prepare
-
-# this command should run in git-bash on the windows or bash in the linux
-npm run install-dev-cert-bash
-```
-
-### Formatting
-
-For formatting I use [belav/csharpier](https://github.com/belav/csharpier) but you can also use `dotnet format`, you can integrate it with your [prefered IDE](https://csharpier.com/docs/Editors).
-
-Here I configured a husky hook for formatting:
-
-1. Install NPM:
-
-```bash
-npm init
-```
-
-2. Install Husky:
-
-```bash
-npm install husky --save-dev
-```
-
-3. To install a tool for local access only (for the current directory and subdirectories), it has to be added to a manifest file. So we [Create a manifest file](https://learn.microsoft.com/en-us/dotnet/core/tools/local-tools-how-to-use#create-a-manifest-file) by running the dotnet new command:
-
-```bash
-dotnet new tool-manifest
-```
-
-4. Adds the tool to the manifest file that we created in the preceding step and then install our required packages as dependency with [dotnet tool install](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install), that will add to [dotnet-tools.json](.config/dotnet-tools.json) file in a `.config` directory:
-
-```bash
-dotnet new tool-manifest
-
-dotnet tool install csharpier
-dotnet tool install dotnet-format
-```
-
-5. Add `prepare` command for installing and activating `husky hooks` that we will add in the next steps and `restoring` our installed [dotnet tools](.config/dotnet-tools.json) in the previous step to the [package.json](package.json) file:
-
-```bash
-npm pkg set scripts.prepare="husky install && dotnet tool restore"
-```
-
-6. Create the Husky folder:
-
-```bash
-mkdir .husky
-```
-
-7. Add formatting and Linting hooks to the husky:
-
-```bash
-npx husky add .husky/pre-commit "dotnet format && git add -A ."
-
-# Or using csharpier
-npx husky add .husky/pre-commit "dotnet csharpier . && git add -A ."
-```
-
-8. Activate and installing all husky hooks with this command:
-
-```bash
-npm run prepare
-```
-
-### Analizers
-
-For roslyn analizers I use serveral analyzers and config the in `.editorconfig` file:
-
-- [StyleCop/StyleCop](https://github.com/StyleCop/StyleCop)
-- [JosefPihrt/Roslynator](https://github.com/JosefPihrt/Roslynator)
-- [meziantou/Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer)
-- [Microsoft.VisualStudio.Threading.Analyzers](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers)
 
 ## Application Structure
 
@@ -270,7 +186,7 @@ Also here I used [CQRS](https://www.eventecommerce.com/cqrs-pattern) for decompo
 - maximize performance, scalability and simplicity.
 - adding new feature to this mechanism is very easy without any breaking change in other part of our codes. New features only add code, we're not changing shared code and worrying about side effects.
 - easy to maintain and any changes only affect on one command or query (or a slice) and avoid any breaking changes on other parts
-- it gives us better separation of concerns and cross cutting concern (with help of MediatR behavior pipelines) in our code instead of a big service class for doing a lot of things.
+- it gives us better separation of concerns and cross cutting concern (with help of Mediator behavior pipelines) in our code instead of a big service class for doing a lot of things.
 
 With using [CQRS](https://event-driven.io/en/cqrs_facts_and_myths_explained/), our code will be more aligned with [SOLID principles](https://en.wikipedia.org/wiki/SOLID), especially with:
 
@@ -301,208 +217,58 @@ Keeping such a split works great with CQRS. It segregates our operations and sli
 
 ### Folder Structure
 
-```cmd
+```text
 src
-│   Directory.Build.props
-│   Directory.Build.targets
-│   Directory.Packages.props
-│
-├───Vertical.Slice.Template
-│   │   CatalogsMetadata.cs
-│   │   readme.md
-│   │   Vertical.Slice.Template.csproj
-│   │
-│   ├───Products
-│   │   │   ProductConfigurations.cs
-│   │   │   ProductMappingProfiles.cs
-│   │   │
-│   │   ├───Data
-│   │   │       ProductEntityTypeConfigurations.cs
-│   │   │       SieveProductReadConfigurations.cs
-│   │   │
-│   │   ├───Dtos
-│   │   │   └───v1
-│   │   │           ProductDto.cs
-│   │   │
-│   │   ├───Features
-│   │   │   ├───CreatingProduct
-│   │   │   │   └───v1
-│   │   │   │           CreateProduct.cs
-│   │   │   │           CreateProductEndpoint.cs
-│   │   │   │           ProductCreated.cs
-│   │   │   │
-│   │   │   ├───GettingProductById
-│   │   │   │   └───v1
-│   │   │   │           GetProductById.cs
-│   │   │   │           GetProductByIdEndpoint.cs
-│   │   │   │
-│   │   │   └───GettingProductsByPage
-│   │   │       └───v1
-│   │   │               GetProductsByPage.cs
-│   │   │               GetProductsByPageEndpoint.cs
-│   │   │
-│   │   ├───Models
-│   │   │       Product.cs
-│   │   │
-│   │   └───ReadModel
-│   │           ProductReadModel.cs
-│   │
-│   └───Shared
-│       │   DefaultProblemDetailMapper.cs
-│       │
-│       ├───Data
-│       │   │   CatalogsDbContext.cs
-│       │   │   CatalogsDbContextDesignFactory.cs
-│       │   │
-│       │   └───Migrations
-│       │       └───Catalogs
-│       │               20230502202201_InitialCatalogsMigration.cs
-│       │               20230502202201_InitialCatalogsMigration.Designer.cs
-│       │               CatalogsDbContextModelSnapshot.cs
-│       │
-│       ├───Extensions
-│       │   ├───WebApplicationBuilderExtensions
-│       │   │       WebApplicationBuilderExtensions.Infrastrcture.cs
-│       │   │       WebApplicationBuilderExtensions.ProblemDetails.cs
-│       │   │       WebApplicationBuilderExtensions.Storage.cs
-│       │   │       WebApplicationBuilderExtensions.Versioning.cs
-│       │   │
-│       │   └───WebApplicationExtensions
-│       │           WebApplicationExtensions.Infrastructure.cs
-│       │
-│       └───Workers
-│               MigrationWorker.cs
-│               SeedWorker.cs
-│
-├───Vertical.Slice.Template.Api
-│   │   appsettings.Development.json
-│   │   appsettings.json
-│   │   appsettings.test.json
-│   │   CatalogsApiMetadata.cs
-│   │   Program.cs
-│   │   Vertical.Slice.Template.Api.csproj
-│   │
-│   ├───Extensions
-│   │   └───WebApplicationBuilderExtensions
-│   └───Properties
-│           launchSettings.json
-│
-├───Vertical.Slice.Template.ApiClient
-│   │   ClientsMappingProfile.cs
-│   │   nswag.json
-│   │   swagger.json
-│   │   Vertical.Slice.Template.ApiClient.csproj
-│   │
-│   ├───Catalogs
-│   │   │   CatalogsApiClientOptions.cs
-│   │   │   CatalogsClient.cs
-│   │   │   ICatalogsClient.cs
-│   │   │   Product.cs
-│   │   │
-│   │   └───Dtos
-│   │           CreateProductClientDto.cs
-│   │           GetGetProductsByPageClientDto.cs
-│   │
-│   ├───Extensions
-│   │       ServiceCollectionExtensions.cs
-│   │
-│   └───RickAndMorty
-│       │   IRickAndMortyClient.cs
-│       │   RickAndMortyClient.cs
-│       │   RikAndMortyApiClientOptions.cs
-│       │
-│       ├───Dtos
-│       │       CharacterResponseClientDto.cs
-│       │       LocationClientDto.cs
-│       │       OriginClientDto.cs
-│       │
-│       └───Model
-│               Character.cs
-│               Location.cs
-│               Origin.cs
+├───App
+│   ├───Vertical.Slice.Template          # Catalog domain and vertical slices
+│   └───Vertical.Slice.Template.Api      # ASP.NET Core API host
+├───ApiClients
+│   ├───Vertical.Slice.Template.ConnectedServiceClients
+│   └───Vertical.Slice.Template.KiotaClients
+├───Aspire
+│   ├───Vertical.Slice.Template.AppHost
+│   └───Vertical.Slice.Template.ServiceDefaults
+└───Shared
+    ├───Abstractions
+    ├───Cache
+    ├───Core
+    ├───Diagnostics
+    ├───EF
+    ├───HealthCheck
+    ├───Logging
+    ├───Messaging.Wolverine
+    ├───OpenApi
+    ├───RateLimit
+    ├───Resiliency
+    ├───Validation
+    └───Web
 ```
 
 ## Vertical Slice Flow
 
-TODO
+Each feature groups its request, handler, endpoint, DTOs, mapping, and persistence concerns under the feature area. Shared cross-cutting behavior lives in `src/Shared`; hosting and orchestration live in `src/App` and `src/Aspire`.
 
 ## How to Run
 
-For running and debugging this application we could use our preferred Dev Environment, for example `Visual Studio`, `VsCode` Or `Rider` for me, it's Rider, So just open the [Vertical.Slice.Template.sln](./Vertical.Slice.Template.sln) solution file in the IDE and run, debug your application.
+Open `Vertical.Slice.Template.sln` in Visual Studio, Rider, or VS Code and run the Aspire AppHost for the complete local environment.
 
-### Using PM2
+### Using .NET Aspire
 
-For ruining all microservices and control on their running mode we could use [PM2](https://pm2.keymetrics.io/) tools. for installing `pm2` on our system globally we should use this command:
+The Aspire AppHost starts the API together with PostgreSQL 17 and RabbitMQ 4. It also provides service discovery, health checks, and the Aspire dashboard.
 
-```bash
-npm install pm2 -g
-```
-
-After installing pm2 on our machine, we could run all of our microservices with running bellow command in root of the application with using [pm2.yaml](./pm2.yaml) file.
+From the repository root, run:
 
 ```bash
-pm2 start pm2.yaml
+dotnet run --project src/Aspire/Vertical.Slice.Template.AppHost
 ```
 
-Some PM2 useful commands:
+Use the dashboard URL printed by Aspire to inspect resources, logs, traces, and health. The API resource is registered as `catalogs-api`; the database and broker resources are registered as `catalogsdb` and `rabbitmq`.
+
+To run only the API without Aspire infrastructure, use:
 
 ```bash
-pm2 -h
-
-pm2 list
-
-pm2 logs
-
-pm2 monit
-
-pm2 info pm2.yaml
-
-pm2 stop pm2.yaml
-
-pm2 restart pm2.yaml
-
-pm2 delete pm2.yaml
+dotnet run --project src/App/Vertical.Slice.Template.Api
 ```
-
-### Using Tye
-
-We could run our microservices with new microsoft tools with name of [Project Tye](https://devblogs.microsoft.com/dotnet/introducing-project-tye/).
-
-Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier.
-
-For installing `Tye` [local tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools#install-a-local-tool) to our existing [.Net tools](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install) we can use following command:
-
-```bash
-dotnet tool install Microsoft.Tye --version "0.11.0-alpha.22111.1"
-```
-
-Then this tool will add to [.net tools manifest file](./.config/dotnet-tools.json) and After you check in the manifest file to the repository. To install all of the tools listed in the manifest file, we run the dotnet tool restore command:
-
-```bash
-dotnet tool restore
-```
-
-For installing `Tye` [globally](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools#install-a-global-tool) on our machine we should use this command:
-
-```bash
-dotnet tool install -g Microsoft.Tye --version "0.11.0-alpha.22111.1"
-```
-
-OR if you already have Tye installed and want to update:
-
-```bash
-dotnet tool update -g Microsoft.Tye
-```
-
-After installing tye, we could run our microservices with following command in the root of our project:
-
-```bash
-tye run
-```
-
-One of key feature from tye run is a dashboard to view the state of your application. Navigate to [http://localhost:8000](http://localhost:8000) to see the dashboard running.
-
-Also We could run some [docker images](https://devblogs.microsoft.com/dotnet/introducing-project-tye/#adding-external-dependencies-redis) with Tye and Tye makes the process of deploying your application to [Kubernetes](https://devblogs.microsoft.com/dotnet/introducing-project-tye/#deploying-to-kubernetes) very simple with minimal knowlege or configuration required.
 
 ## Contribution
 
