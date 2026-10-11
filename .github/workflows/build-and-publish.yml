@@ -124,10 +124,10 @@ jobs:
       - name: Publish to NuGet.org
         continue-on-error: true
         env:
-          FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
           $package = Get-ChildItem "$env:PACKAGE_DIRECTORY/*.nupkg" | Select-Object -First 1 -ExpandProperty FullName
-          dotnet nuget push "$package" --api-key "$env:FEED_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push "$package" --api-key "$env:NUGET_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Publish matching Release Drafter draft
         uses: release-drafter/release-drafter@v7
