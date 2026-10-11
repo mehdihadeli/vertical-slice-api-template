@@ -5,7 +5,7 @@
     <!--https://docs.microsoft.com/en-us/aspnet/core/fundamentals/target-aspnetcore-->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Network" />
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
@@ -28,9 +28,10 @@
     <PackageReference Include="EFCore.NamingConventions" />
     <PackageReference Include="Microsoft.Extensions.Resilience" />
     <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="System.Net.Http.Json" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Dapper" />
     <PackageReference Include="Humanizer.Core" />
@@ -40,40 +41,29 @@
     <PackageReference Include="DotNetEnv" />
     <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="LinqKit.Core" />
-    <PackageReference Include="MassTransit.Abstractions" />
+    <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.RuntimeCompilation" />
+    <PackageReference Include="WolverineFx.EntityFrameworkCore" />
+    <PackageReference Include="WolverineFx.PostgreSQL" />
+    <PackageReference Include="WolverineFx.RabbitMQ" />
     <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Riok.Mapperly" />
     <PackageReference Include="Scalar.AspNetCore" />
     <PackageReference Include="Scrutor" />
     <PackageReference Include="Sieve" />
     <PackageReference Include="SqlKata" />
-    <PackageReference Include="System.Linq.Async" />
-    <PackageReference Include="System.Linq.Async.Queryable" />
     <!-- `Mediator.SourceGenerator` package should reference inside of used project to source generation work correctly-->
     <PackageReference Include="Mediator.Abstractions" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" />
-    <PackageReference Include="MassTransit" />
-    <PackageReference Include="MassTransit.Kafka" />
-    <PackageReference Include="MassTransit.RabbitMQ" />
     <PackageReference Include="MessagePack" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Serilog.AspNetCore" />
-    <PackageReference Include="Serilog.Settings.Configuration" />
-    <PackageReference Include="Serilog.Exceptions" />
-    <PackageReference Include="Serilog.Sinks.Async" />
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="Serilog.Sinks.Spectre" />
-    <PackageReference Include="Elastic.Serilog.Sinks" />
-    <PackageReference Include="Serilog.Sinks.Grafana.Loki" />
-    <PackageReference Include="Serilog.Sinks.Seq" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Npgsql.OpenTelemetry" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
@@ -87,5 +77,5 @@
     <PackageReference Include="OpenTelemetry.Exporter.Console" />
     <PackageReference Include="OpenTelemetry.Exporter.Zipkin" />
   </ItemGroup>
-  
+
 </Project>

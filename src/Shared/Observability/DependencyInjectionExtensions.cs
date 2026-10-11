@@ -27,6 +27,21 @@ namespace Shared.Observability;
 
 public static class DependencyInjectionExtensions
 {
+    public static WebApplicationBuilder AddCustomDiagnostics(this WebApplicationBuilder builder)
+    {
+        Activity.DefaultIdFormat = ActivityIdFormat.W3C;
+        builder.Services.AddSingleton<IDiagnosticsProvider, DiagnosticsProvider>();
+        builder.AddCoreDiagnostics();
+
+        builder.Services.AddConfigurationOptions<ObservabilityOptions>(nameof(ObservabilityOptions));
+        var observabilityOptions = builder.Configuration.BindOptions<ObservabilityOptions>();
+
+        ArgumentException.ThrowIfNullOrEmpty(observabilityOptions.InstrumentationName);
+        ObservabilityConstant.InstrumentationName = observabilityOptions.InstrumentationName;
+
+        return builder;
+    }
+
     public static WebApplicationBuilder AddCustomObservability(
         this WebApplicationBuilder builder,
         Action<ObservabilityOptionsConfigurator>? configureOptions = null
@@ -65,7 +80,6 @@ public static class DependencyInjectionExtensions
         if (observabilityOptions.LoggingEnabled)
         {
             // logging
-            // opentelemtry logging works with .net default logging providers and doesn't work for `serilog`, in serilog we should enable `WriteToProviders=true`
             builder.Logging.AddOpenTelemetry(options =>
             {
                 var resourceBuilder = ResourceBuilder.CreateDefault();
@@ -117,7 +131,6 @@ public static class DependencyInjectionExtensions
                     .AddHttpClientInstrumentation()
                     .AddProcessInstrumentation()
                     .AddRuntimeInstrumentation()
-                    .AddMeter(MassTransit.Monitoring.InstrumentationOptions.MeterName)
                     .AddMeter(observabilityOptions.InstrumentationName)
                     // metrics provides by ASP.NET Core in .NET 8
                     .AddView(
@@ -162,7 +175,6 @@ public static class DependencyInjectionExtensions
                     {
                         instrumentationOptions.SetDbStatementForText = true;
                     })
-                    .AddSource(MassTransit.Logging.DiagnosticHeaders.DefaultListenerName)
                     .AddNpgsql()
                     // `AddSource` for adding custom activity sources
                     .AddSource(observabilityOptions.InstrumentationName)

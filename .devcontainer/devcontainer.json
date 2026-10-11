@@ -22,9 +22,9 @@
         // https://github.com/devcontainers/features/tree/main/src/dotnet#dotnet-cli-dotnet
         "ghcr.io/devcontainers/features/dotnet:2": {
             // this version should be matched with global.json .net version for working vscode IntelliSense correctly
-            "version": "9.0.101",
-            "additionalVersions": "latest, 9.0.101",
-            "aspNetCoreRuntimeVersions": "latest, 9.0.0"
+            "version": "10.0.100",
+            "additionalVersions": "latest, 10.0.100",
+            "aspNetCoreRuntimeVersions": "latest, 10.0.0"
         },
         // https://github.com/devcontainers/features/tree/main/src/github-cli
         "ghcr.io/devcontainers/features/github-cli:1": {
@@ -101,7 +101,7 @@
                 "redhat.vscode-yaml",
                 "kennylong.kubernetes-yaml-formatter",
                 "sonarsource.sonarlint-vscode",
-				"ms-vscode.makefile-tools"
+                "ms-vscode.makefile-tools"
             ]
         }
     },
@@ -118,8 +118,8 @@
     //		}
     // }
     // https://containers.dev/implementors/json_reference/#lifecycle-scripts
-    "updateContentCommand": "chmod +x .devcontainer/scripts/update.sh",
-    "postCreateCommand": "chmod +x .devcontainer/scripts/post-create.sh"
+    "updateContentCommand": "chmod +x .devcontainer/scripts/*.sh",
+    "postCreateCommand": "chmod +x .devcontainer/scripts/*.sh && .devcontainer/scripts/post-create.sh"
     // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
     // "remoteUser": "root"
 }

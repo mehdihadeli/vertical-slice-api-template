@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Shared.Web.Minimal.Extensions;
 using Vertical.Slice.Template.Products;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 
@@ -36,6 +37,14 @@ public static class CatalogsConfigurations
 
         // Modules
         endpoints.MapProductsModuleEndpoints();
+
+        return endpoints;
+    }
+
+    public static IEndpointRouteBuilder MapApplicationEndpoints(this IEndpointRouteBuilder endpoints)
+    {
+        endpoints.MapCatalogsEndpoints();
+        endpoints.MapModulesEndpoints();
 
         return endpoints;
     }

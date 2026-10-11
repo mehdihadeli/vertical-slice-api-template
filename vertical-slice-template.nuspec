@@ -42,7 +42,7 @@
     <files>
         <!-- use `\` in windows, using `/` created invalid package-->
 		<file src=".\**" target="content" exclude="**\bin\**;**\obj\**;**\.git\**;**\.github\**;**\*.user;**\.vs\**;**\.vscode\**;**\.gitignore;**\sample\**;**\node_modules\**;**\.idea\**" />
-		<file src=".\.github\**" target="content\.github" exclude=".\.github\workflows\labeler.yml;.\.github\workflows\publish.yml;.\.github\workflows\release-drafter.yml;.\.github\labeler.yml;.\.github\multi-labeler.yml;.\.github\release-drafter.yml" />
+        <file src=".\.github\**" target="content\.github" exclude=".\.github\workflows\labeler.yml;.\.github\workflows\build-and-publish.yml;.\.github\workflows\publish.yml;.\.github\workflows\release-drafter.yml;.\.github\labeler.yml;.\.github\multi-labeler.yml;.\.github\release-drafter.yml" />
         <file src="icon.png" target=""/>
         <file src="readme.md" target=""/>
     </files>

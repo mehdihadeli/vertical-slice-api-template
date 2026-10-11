@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Shared.HealthCheck;
-using Shared.Observability;
 using Shared.Web.Extensions;
 
 namespace Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
@@ -38,8 +37,6 @@ public static partial class WebApplicationExtensions
         // https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/health-checks#non-development-environments
         app.UseRequestTimeouts();
         app.UseOutputCache();
-
-        app.UseObservability();
 
         return Task.CompletedTask;
     }

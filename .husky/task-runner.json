@@ -1,0 +1,140 @@
+{
+    "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+    "tasks": [
+        {
+            "name": "format",
+            "group": "pre-commit",
+            "command": "dotnet",
+            "args": ["tool", "run", "dotnet-csharpier", "--", "."],
+            "include": [
+                "**/*.cs",
+                "**/*.csproj",
+                "**/*.props",
+                "**/*.targets",
+                "**/*.editorconfig",
+                "**/*.sln",
+                ".csharpier"
+            ]
+        },
+        {
+            "name": "style",
+            "group": "pre-commit",
+            "command": "dotnet",
+            "args": [
+                "format",
+                "style",
+                "Vertical.Slice.Template.sln",
+                "--verify-no-changes",
+                "--severity",
+                "error",
+                "--verbosity",
+                "diagnostic"
+            ],
+            "include": [
+                "**/*.cs",
+                "**/*.csproj",
+                "**/*.props",
+                "**/*.targets",
+                "**/*.editorconfig",
+                "**/*.sln"
+            ]
+        },
+        {
+            "name": "analyzers",
+            "group": "pre-commit",
+            "command": "dotnet",
+            "args": [
+                "format",
+                "analyzers",
+                "Vertical.Slice.Template.sln",
+                "--verify-no-changes",
+                "--severity",
+                "error",
+                "--verbosity",
+                "diagnostic"
+            ],
+            "include": [
+                "**/*.cs",
+                "**/*.csproj",
+                "**/*.props",
+                "**/*.targets",
+                "**/*.editorconfig",
+                "**/*.sln"
+            ]
+        },
+        {
+            "name": "setup-tools-restore",
+            "command": "dotnet",
+            "args": ["tool", "restore"]
+        },
+        {
+            "name": "setup-husky-install",
+            "command": "dotnet",
+            "args": ["tool", "run", "husky", "--", "install"]
+        },
+        {
+            "name": "setup-solution-restore",
+            "command": "dotnet",
+            "args": ["restore", "Vertical.Slice.Template.sln"]
+        },
+        {
+            "name": "build",
+            "group": "pre-push",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "Vertical.Slice.Template.sln",
+                "--configuration",
+                "Release"
+            ],
+            "include": [
+                "**/*.cs",
+                "**/*.csproj",
+                "**/*.props",
+                "**/*.targets",
+                "**/*.editorconfig",
+                "**/*.sln"
+            ]
+        },
+        {
+            "name": "build-ci",
+            "group": "ci",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "Vertical.Slice.Template.sln",
+                "--no-restore",
+                "--configuration",
+                "Release"
+            ],
+            "include": [
+                "**/*.cs",
+                "**/*.csproj",
+                "**/*.props",
+                "**/*.targets",
+                "**/*.editorconfig",
+                "**/*.sln"
+            ]
+        },
+        {
+            "name": "test",
+            "group": "pre-push",
+            "command": "dotnet",
+            "args": [
+                "test",
+                "--solution",
+                "Vertical.Slice.Template.sln",
+                "--configuration",
+                "Release"
+            ],
+            "include": [
+                "src/**/*",
+                "tests/**/*",
+                "**/*.csproj",
+                "**/*.props",
+                "**/*.targets",
+                "**/*.sln"
+            ]
+        }
+    ]
+}

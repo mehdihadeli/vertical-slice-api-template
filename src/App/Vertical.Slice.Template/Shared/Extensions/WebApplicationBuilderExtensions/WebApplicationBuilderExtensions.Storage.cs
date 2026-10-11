@@ -14,6 +14,12 @@ public static partial class WebApplicationBuilderExtensions
 {
     public static void AddStorage(this WebApplicationBuilder builder)
     {
+        var catalogsConnectionString = builder.Configuration.GetConnectionString("catalogsdb");
+        if (!string.IsNullOrWhiteSpace(catalogsConnectionString))
+        {
+            builder.Configuration["PostgresOptions:ConnectionString"] = catalogsConnectionString;
+        }
+
         if (builder.Configuration.GetValue<bool>($"{nameof(PostgresOptions)}:{nameof(PostgresOptions.UseInMemory)}"))
         {
             builder.Services.AddDbContext<CatalogsDbContext>(options => options.UseInMemoryDatabase("Catalogs"));

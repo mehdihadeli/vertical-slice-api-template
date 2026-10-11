@@ -4,6 +4,6 @@ public static class IdGenerator
 {
     public static Guid NewId()
     {
-        return MassTransit.NewId.NextGuid();
+        return Guid.CreateVersion7();
     }
 }
