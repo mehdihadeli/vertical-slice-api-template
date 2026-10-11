@@ -125,14 +125,14 @@ jobs:
         continue-on-error: true
         env:
           FEED_API_KEY: ${{ secrets.FEED_API_KEY }}
-        run: >-
-          dotnet nuget push "$env:PACKAGE_DIRECTORY/*.nupkg"
-          --api-key "$env:FEED_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: |
+          $package = Get-ChildItem "$env:PACKAGE_DIRECTORY/*.nupkg" | Select-Object -First 1 -ExpandProperty FullName
+          dotnet nuget push "$package" --api-key "$env:FEED_API_KEY" --source https://api.nuget.org/v3/index.json --skip-duplicate
 
       - name: Publish matching Release Drafter draft
         uses: release-drafter/release-drafter@v7
         with:
-          config-name: release-drafter.yml
+          config-name: file:.github/release-drafter.yml
           version: ${{ needs['calculate-version'].outputs.version }}
           name: v${{ needs['calculate-version'].outputs.version }}
           tag: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || format('v{0}', needs['calculate-version'].outputs.version) }}
