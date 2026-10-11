@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Persistence;
-using Shared.Observability;
+using Shared.Diagnostics;
 
 namespace Shared.Core.Persistence;
 

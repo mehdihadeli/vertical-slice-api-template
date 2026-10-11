@@ -1,4 +1,4 @@
-namespace Shared.Observability;
+namespace Shared.Diagnostics;
 
 /// <summary>
 /// Telemetry tags use for adding tags to activities as tag name

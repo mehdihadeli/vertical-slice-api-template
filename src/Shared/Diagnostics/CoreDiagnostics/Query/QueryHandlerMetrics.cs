@@ -3,7 +3,7 @@ using System.Diagnostics.Metrics;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Observability;
 
-namespace Shared.Observability.CoreDiagnostics.Query;
+namespace Shared.Diagnostics.CoreDiagnostics.Query;
 
 public class QueryHandlerMetrics
 {

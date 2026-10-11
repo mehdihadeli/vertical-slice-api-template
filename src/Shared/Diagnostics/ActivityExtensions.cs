@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Globalization;
 
-namespace Shared.Observability;
+namespace Shared.Diagnostics;
 
 internal static class ActivityExtensions
 {

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using OpenTelemetry;
 using OpenTelemetry.Context.Propagation;
 
-namespace Shared.Observability;
+namespace Shared.Diagnostics;
 
 // ref: https://github.com/oskardudycz/EventSourcing.NetCore/blob/main/Core/OpenTelemetry/TelemetryPropagator.cs
 public static class TelemetryPropagator

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Observability;
 
-namespace Shared.Observability.CoreDiagnostics.Commands;
+namespace Shared.Diagnostics.CoreDiagnostics.Commands;
 
 public class CommandHandlerActivity(IDiagnosticsProvider diagnosticsProvider)
 {

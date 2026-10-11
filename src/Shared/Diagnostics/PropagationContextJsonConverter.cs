@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using OpenTelemetry.Context.Propagation;
 
-namespace Shared.Observability;
+namespace Shared.Diagnostics;
 
 public class PropagationContextJsonConverter : JsonConverter<PropagationContext>
 {

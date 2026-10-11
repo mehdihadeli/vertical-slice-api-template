@@ -5,9 +5,9 @@ using Microsoft.Extensions.Options;
 using Shared.Abstractions.Observability;
 using Shared.Core.Extensions;
 
-namespace Shared.Observability;
+namespace Shared.Diagnostics;
 
-public class DiagnosticsProvider(IMeterFactory meterFactory, IOptions<ObservabilityOptions> options)
+public class DiagnosticsProvider(IMeterFactory meterFactory, IOptions<DiagnosticsOptions> options)
     : IDiagnosticsProvider
 {
     private readonly Version? _version = Assembly.GetCallingAssembly().GetName().Version;
@@ -58,13 +58,6 @@ public class DiagnosticsProvider(IMeterFactory meterFactory, IOptions<Observabil
         CancellationToken cancellationToken = default
     )
     {
-        if (!options.Value.TracingEnabled)
-        {
-            await action(null, cancellationToken);
-
-            return;
-        }
-
         using var activity =
             ActivitySource
                 .CreateActivity(
@@ -94,11 +87,6 @@ public class DiagnosticsProvider(IMeterFactory meterFactory, IOptions<Observabil
         CancellationToken cancellationToken = default
     )
     {
-        if (!options.Value.TracingEnabled)
-        {
-            return await action(null, cancellationToken);
-        }
-
         using var activity =
             ActivitySource
                 .CreateActivity(

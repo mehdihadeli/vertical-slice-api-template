@@ -14,6 +14,7 @@ public static class Extensions
 {
     private const string HealthEndpointPath = "/health";
     private const string AlivenessEndpointPath = "/alive";
+    private const string DatabaseMigrationSourceName = "DbMigrations";
 
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder
@@ -35,6 +36,10 @@ public static class Extensions
     private static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder)
         where TBuilder : IHostApplicationBuilder
     {
+        var applicationInstrumentationName = builder.Configuration[
+            "DiagnosticsOptions:InstrumentationName"
+        ];
+
         var openTelemetry = builder
             .Services.AddOpenTelemetry()
             .WithMetrics(metrics =>
@@ -43,11 +48,17 @@ public static class Extensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation();
+
+                if (!string.IsNullOrWhiteSpace(applicationInstrumentationName))
+                {
+                    metrics.AddMeter(applicationInstrumentationName);
+                }
             })
             .WithTracing(tracing =>
             {
                 tracing
                     .AddSource(builder.Environment.ApplicationName)
+                    .AddSource(DatabaseMigrationSourceName)
                     .AddAspNetCoreInstrumentation(options =>
                     {
                         options.Filter = context =>
@@ -61,6 +72,11 @@ public static class Extensions
                             );
                     })
                     .AddHttpClientInstrumentation();
+
+                if (!string.IsNullOrWhiteSpace(applicationInstrumentationName))
+                {
+                    tracing.AddSource(applicationInstrumentationName);
+                }
             })
             .WithLogging(logging =>
             {

@@ -1,10 +1,10 @@
 using Mediator;
-using Shared.Observability.CoreDiagnostics.Commands;
-using Shared.Observability.CoreDiagnostics.Query;
+using Shared.Diagnostics.CoreDiagnostics.Commands;
+using Shared.Diagnostics.CoreDiagnostics.Query;
 using IBaseCommand = Shared.Abstractions.Core.CQRS.IBaseCommand;
 using IBaseQuery = Shared.Abstractions.Core.CQRS.IBaseQuery;
 
-namespace Shared.Observability.Behaviors;
+namespace Shared.Diagnostics.Behaviors;
 
 public class ObservabilityPipelineBehavior<TRequest, TResponse>(
     CommandHandlerActivity commandActivity,

@@ -1,4 +1,4 @@
-namespace Shared.Observability;
+namespace Shared.Diagnostics;
 
 public static class ObservabilityConstant
 {

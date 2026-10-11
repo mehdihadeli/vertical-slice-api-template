@@ -100,7 +100,7 @@ public class SharedFixture<TEntryPoint> : IAsyncLifetime
         WireMockServerUrl = WireMockServer.Url!;
 
         Factory = new CustomWebApplicationFactory<TEntryPoint>();
-        Factory.AddOverrideInMemoryConfig("ObservabilityOptions:InstrumentationName", "vertical_slice_template_tests");
+        Factory.AddOverrideInMemoryConfig("DiagnosticsOptions:InstrumentationName", "vertical_slice_template_tests");
     }
 
     public void SetOutputHelper(ITestOutputHelper outputHelper)

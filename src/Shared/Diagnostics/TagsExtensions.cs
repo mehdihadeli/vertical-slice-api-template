@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Shared.Observability;
+namespace Shared.Diagnostics;
 
 public static class TagsExtensions
 {
