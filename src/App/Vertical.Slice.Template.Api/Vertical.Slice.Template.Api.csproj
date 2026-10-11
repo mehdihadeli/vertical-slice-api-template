@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Vertical.Slice.Template\Vertical.Slice.Template.csproj"/>
+        <ProjectReference Include="..\..\Aspire\Vertical.Slice.Template.ServiceDefaults\Vertical.Slice.Template.ServiceDefaults.csproj" />
     </ItemGroup>
 
 <!--    <ItemGroup>-->
@@ -15,7 +16,7 @@
 <!--            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
 <!--        </PackageReference>-->
 <!--    </ItemGroup>-->
-    
+
 <!--    &lt;!&ndash; Issue: Right now for generate build time openapi we should add `AddOpenApi` in Program.cs not in another assembly as infrastructure reference&ndash;&gt;-->
 <!--    <PropertyGroup>-->
 <!--        <OpenApiDocumentsDirectory>../../../src/ApiClients/Vertical.Slice.Template.KiotaClients</OpenApiDocumentsDirectory>-->

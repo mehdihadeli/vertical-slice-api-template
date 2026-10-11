@@ -1,5 +1,4 @@
-using Serilog;
-using Serilog.Events;
+using Vertical.Slice.Template.ServiceDefaults;
 using Shared.OpenApi.AspnetOpenApi.Extensions;
 using Shared.Web.Extensions;
 using Shared.Web.Extensions.WebApplicationBuilderExtensions;
@@ -9,17 +8,11 @@ using Vertical.Slice.Template.Shared.Clients;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationBuilderExtensions;
 using Vertical.Slice.Template.Shared.Extensions.WebApplicationExtensions;
 
-// https://github.com/serilog/serilog-aspnetcore#two-stage-initialization
-// https://github.com/serilog/serilog-extensions-hosting
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-    .Enrich.FromLogContext()
-    .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level} - {Message:lj}{NewLine}{Exception}")
-    .CreateBootstrapLogger();
-
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.AddServiceDefaults();
 
     builder.Host.UseDefaultServiceProvider(
         (context, options) =>
@@ -60,13 +53,11 @@ try
         return;
     }
 
+    app.UseDefaultServices();
     await app.UseInfrastructure();
-
     await app.UseCatalogs();
-
-    app.MapCatalogsEndpoints();
-
-    app.MapModulesEndpoints();
+    app.MapApplicationEndpoints();
+    app.MapDefaultEndpoints();
 
     // #if EnableSwagger
     if (app.Environment.IsDevelopment())
@@ -79,9 +70,5 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application terminated unexpectedly");
-}
-finally
-{
-    await Log.CloseAndFlushAsync();
+    Console.Error.WriteLine($"Application terminated unexpectedly: {ex}");
 }

@@ -66,7 +66,7 @@ public static class QueryableExtensions
             queryable = queryable.Where(predicate);
         }
 
-        queryable = queryable.OrderByDescending(sortExpression);
+        queryable = queryable.OrderBy(sortExpression);
 
         var sieveModel = new SieveModel
         {

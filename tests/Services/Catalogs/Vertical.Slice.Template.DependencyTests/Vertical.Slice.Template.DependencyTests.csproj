@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!--  We should add this reference in each test project-->
+  <ItemGroup>
+    <PackageReference Include="coverlet.msbuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\App\Vertical.Slice.Template.Api\Vertical.Slice.Template.Api.csproj" />
+    <ProjectReference Include="..\Vertical.Slice.Template.Catalogs.TestShared\Vertical.Slice.Template.Catalogs.TestShared.csproj" />
+  </ItemGroup>
+
+</Project>

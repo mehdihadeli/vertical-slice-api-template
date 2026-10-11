@@ -1,57 +1,61 @@
 //https://github.com/dotnet/templating/wiki/Reference-for-template.json
 {
-  "$schema": "http://json.schemastore.org/template",
-  "author": "Mehdi Hadeli",
-  "classifications": ["Web", "WebAPI", "C#"],
-  "name": "Vertical Slice Template",
-  "identity": "Vertical.Slice.Template",
-  "shortName": "vsa",
-  "sourceName": "Vertical.Slice.Template",
-  "preferNameDirectory": true,
-  "tags": {
-    "language": "C#",
-    "type": "project"
-  },
-  "symbols": {
-    "Framework": {
-      "type": "parameter",
-      "description": "The target framework for the project.",
-      "datatype": "choice",
-      "enableQuotelessLiterals": true,
-      "choices": [
-        {
-          "choice": "net8.0",
-          "description": "Target net8.0"
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Mehdi Hadeli",
+    "classifications": ["Web", "WebAPI", "C#"],
+    "name": "Vertical Slice Template",
+    "identity": "Vertical.Slice.Template",
+    "shortName": "vsa",
+    "sourceName": "Vertical.Slice.Template",
+    "preferNameDirectory": true,
+    "tags": {
+        "language": "C#",
+        "type": "project"
+    },
+    "symbols": {
+        "Framework": {
+            "type": "parameter",
+            "description": "The target framework for the project.",
+            "datatype": "choice",
+            "enableQuotelessLiterals": true,
+            "choices": [
+                {
+                    "choice": "net8.0",
+                    "description": "Target net8.0"
+                },
+                {
+                    "choice": "net9.0",
+                    "description": "Target net9.0"
+                },
+                {
+                    "choice": "net10.0",
+                    "description": "Target net10.0"
+                }
+            ],
+            "replaces": "{TargetFramework}",
+            "defaultValue": "net10.0"
         },
-        {
-          "choice": "net9.0",
-          "description": "Target net9.0"
+        "EnableSwagger": {
+            "type": "parameter",
+            "description": "enables swagger support",
+            "dataType": "bool",
+            "defaultValue": "true"
+        },
+        "IncludeDevAppSettings": {
+            "type": "parameter",
+            "description": "adds appsettings.Development.json",
+            "dataType": "bool",
+            "defaultValue": "true"
         }
-      ],
-      "replaces": "{TargetFramework}",
-      "defaultValue": "net9.0"
     },
-    "EnableSwagger": {
-      "type": "parameter",
-      "description": "enables swagger support",
-      "dataType": "bool",
-      "defaultValue": "true"
-    },
-    "IncludeDevAppSettings": {
-      "type": "parameter",
-      "description": "adds appsettings.Development.json",
-      "dataType": "bool",
-      "defaultValue": "true"
-    }
-  },
-  "sources": [
-    {
-      "modifiers": [
+    "sources": [
         {
-          "condition": "(!IncludeDevAppSettings)",
-          "exclude": ["**/appsettings.Development.json"]
+            "modifiers": [
+                {
+                    "condition": "(!IncludeDevAppSettings)",
+                    "exclude": ["**/appsettings.Development.json"]
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

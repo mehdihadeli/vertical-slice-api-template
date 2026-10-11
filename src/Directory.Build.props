@@ -1,58 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build -->
 <Project>
+  <Import Project="../Directory.Build.props" />
 
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <!-- https://endjin.com/blog/2022/01/raising-coding-standard-dotnet-analyzers -->
-  <!--  https://nikiforovall.github.io/dotnet/2024/09/14/quality-gates-dotnet.html-->
-  <!--  https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#code-analysis-properties-->
-  <PropertyGroup>
-    <AnalysisLevel>latest-All</AnalysisLevel>
-    <AnalysisMode>All</AnalysisMode>
-    <AnalysisModeGlobalization>None</AnalysisModeGlobalization>
-    <AnalysisModeSecurity>All</AnalysisModeSecurity>
-    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
-    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-  </PropertyGroup>
-
-  <!-- full is default for debug mode -->
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugType>full</DebugType>
-    <DefineConstants>DEBUG;TRACE;$(DefineConstants)</DefineConstants>
-  </PropertyGroup>
-
-  <!-- https://stackoverflow.com/questions/5457095/release-generating-pdb-files-why -->
-  <!-- pdb-only is default for release mode -->
-  <!-- the <DefineConstants> element is used to specify a list of preprocessor symbols to define for the project. These symbols can be used in the code to conditionally compile certain sections of code like 'if(DEBUG){}' or 'if(TRACE){}' in code -->
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <DefineConstants>TRACE;$(DefineConstants)</DefineConstants>
-  </PropertyGroup>
-
-  <!-- https://learn.microsoft.com/en-us/dotnet/core/tools/custom-templates#pack-a-template-into-a-nuget-package-nupkg-file -->
-  <!-- https://learn.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-the-dotnet-cli -->
-  <!-- https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-msbuild -->
-  <!-- https://learn.microsoft.com/en-us/nuget/create-packages/creating-a-package-dotnet-cli -->
-  <!-- https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#package-properties -->
-  <!-- https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target -->
-  <!-- https://www.meziantou.net/publishing-a-nuget-package-following-best-practices-using-github.htm#enable-the-dotnet-sd -->
-
-  <!-- .nupkg should be in the same folder that we have `.template.config` -->
-  <!-- dotnet pack vertical-slice-template.csproj -o ./ -->
-  <!-- dotnet new install . -->
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <PackageId>$(AssemblyName)</PackageId>
@@ -76,44 +24,8 @@
     <EnablePackageValidation>true</EnablePackageValidation>
     <Copyright>Copyright (c) 2024 Mehdi Hadeli</Copyright>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" Condition="!Exists('packages.config')"/>
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Meziantou.Analyzer" Condition="$(MSBuildProjectExtension) == '.csproj'" PrivateAssets="all">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="SerilogAnalyzer" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="AsyncAwaitBestPractices" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="ErrorProne.NET.CoreAnalyzers" PrivateAssets="all" Condition="$(MSBuildProjectExtension) == '.csproj'">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Using Include="System.Linq"/>
-    <Using Include="System"/>
-    <Using Include="System.Collections.ObjectModel"/>
+    <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="all" Condition="!Exists('packages.config')" />
   </ItemGroup>
 </Project>

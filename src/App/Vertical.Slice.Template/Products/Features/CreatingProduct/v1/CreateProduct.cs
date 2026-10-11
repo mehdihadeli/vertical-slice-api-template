@@ -1,12 +1,9 @@
 using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shared.Abstractions.Core.CQRS;
 using Shared.Abstractions.Core.Messaging;
-using Shared.Abstractions.Persistence.Ef;
 using Shared.Core.Extensions;
 using Shared.Core.Id;
-using Shared.EF.Extensions;
 using Shared.Validation.Extensions;
 using Vertical.Slice.Template.Products.Models;
 using Vertical.Slice.Template.Shared.Data;
@@ -51,7 +48,7 @@ public class CreateProductValidator : AbstractValidator<CreateProduct>
 }
 
 internal class CreateProductHandler(
-    DbExecuters.CreateAndSaveProductExecutor createAndSaveProductExecutor,
+    CatalogsDbContext dbContext,
     IMediator mediator,
     IExternalEventBus externalEventBus,
     ILogger<CreateProductHandler> logger
@@ -63,7 +60,8 @@ internal class CreateProductHandler(
 
         var product = request.ToProduct();
 
-        await createAndSaveProductExecutor(product, cancellationToken);
+        dbContext.Products.Add(product);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         var (name, categoryId, price, description) = request;
         await mediator.Publish(
@@ -85,18 +83,3 @@ internal class CreateProductHandler(
 }
 
 public record CreateProductResult(Guid Id);
-
-internal class DbExecuters : IDbExecutors
-{
-    public delegate ValueTask CreateAndSaveProductExecutor(Product product, CancellationToken cancellationToken);
-
-    public void Register(IServiceCollection services)
-    {
-        // Db related operations for injection as dependencies
-        services.AddTransient<CreateAndSaveProductExecutor>(sp =>
-        {
-            var context = sp.GetRequiredService<CatalogsDbContext>();
-            return (entity, cancellationToken) => context.InsertAndSaveAsync(entity, cancellationToken);
-        });
-    }
-}

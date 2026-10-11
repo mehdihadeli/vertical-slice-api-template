@@ -31,8 +31,6 @@ internal static class DependencyInjectionExtensions
 
     private static void AddMigration(IServiceCollection services)
     {
-        // Enable migration tracing
-        services.AddOpenTelemetry().WithTracing(tracing => tracing.AddSource(MigrationWorker.ActivitySourceName));
         services.AddHostedService<MigrationWorker>();
     }
 

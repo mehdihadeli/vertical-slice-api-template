@@ -16,28 +16,28 @@ Thanks a bunch for supporting me!
 
 ## Table of Contents
 
--   [Vertical Slice API Template](#vertical-slice-api-template)
-    -   [⭐ Support](#-support)
-    -   [Table of Contents](#table-of-contents)
-    -   [Install](#install)
-    -   [Features](#features)
-    -   [Libraries](#libraries)
-    -   [Getting Started](#getting-started)
-    -   [Setup](#setup)
-        -   [Dev Certificate](#dev-certificate)
-        -   [Conventional Commit](#conventional-commit)
-        -   [Formatting](#formatting)
-        -   [Analizers](#analizers)
-    -   [Application Structure](#application-structure)
-        -   [High Level Structure](#high-level-structure)
-        -   [Modules Structure](#modules-structure)
-        -   [Folder Structure](#folder-structure)
-    -   [Vertical Slice Flow](#vertical-slice-flow)
-    -   [How to Run](#how-to-run)
-        -   [Using PM2](#using-pm2)
-        -   [Using Tye](#using-tye)
-    -   [Contribution](#contribution)
-    -   [License](#license)
+- [Vertical Slice API Template](#vertical-slice-api-template)
+    - [⭐ Support](#-support)
+    - [Table of Contents](#table-of-contents)
+    - [Install](#install)
+    - [Features](#features)
+    - [Libraries](#libraries)
+    - [Getting Started](#getting-started)
+    - [Setup](#setup)
+        - [Dev Certificate](#dev-certificate)
+        - [Conventional Commit](#conventional-commit)
+        - [Formatting](#formatting)
+        - [Analizers](#analizers)
+    - [Application Structure](#application-structure)
+        - [High Level Structure](#high-level-structure)
+        - [Modules Structure](#modules-structure)
+        - [Folder Structure](#folder-structure)
+    - [Vertical Slice Flow](#vertical-slice-flow)
+    - [How to Run](#how-to-run)
+        - [Using PM2](#using-pm2)
+        - [Using Tye](#using-tye)
+    - [Contribution](#contribution)
+    - [License](#license)
 
 ## Install
 
@@ -57,35 +57,34 @@ dotnet new vsa -n <YourProjectName>
 
 ## Features
 
--   ✅ Using `Vertical Slice Architecture` as a high-level architecture
--   ✅ Using `CQRS Pattern` on top of `MediatR` library
--   ✅ Using `Mapperly` source generator for the mappings
--   ✅ Using `Minimal APIs` for handling requests
--   ✅ Using `Postgres` On Top of EfCore
--   ✅ Using `OpenTelemetry` for collection `logs`, `metrics` and `tracings` 
--   ✅ Using `OpenTelemetry Collector` to receive, process, and export telemetry data to various backends, including Jaeger and Tempo for tracing, Loki and Kibana for logs, and Prometheus for metrics
--   ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
--   ✅ Using different levels of tests like `Unit Tests`, `Integration Tests`, `Contract Test` and `End-To-End Tests`
--   ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
--   ✅ Using docker and `docker-compose` for deployment
+- ✅ Using `Vertical Slice Architecture` as a high-level architecture
+- ✅ Using `CQRS Pattern` on top of `MediatR` library
+- ✅ Using `Mapperly` source generator for the mappings
+- ✅ Using `Minimal APIs` for handling requests
+- ✅ Using `Postgres` On Top of EfCore
+- ✅ Using `OpenTelemetry` for collection `logs`, `metrics` and `tracings`
+- ✅ Using `OpenTelemetry Collector` to receive, process, and export telemetry data to various backends, including Jaeger and Tempo for tracing, Loki and Kibana for logs, and Prometheus for metrics
+- ✅ Using `Fluent Validation` and a [Validation Pipeline Behaviour](./src/BuildingBlocks/BuildingBlocks.Validation/RequestValidationBehavior.cs) on top of MediatR
+- ✅ Using different levels of tests like `Unit Tests`, `Integration Tests`, `Contract Test` and `End-To-End Tests`
+- ✅ Using [Microsoft Tye](https://github.com/dotnet/tye) and `Pm2` for running the application
+- ✅ Using docker and `docker-compose` for deployment
 
 ## Libraries
 
--   ✔️ **[`.NET 9`](https://dotnet.microsoft.com/download)** - .NET Framework and .NET Core, including ASP.NET and ASP.NET Core
--   ✔️ **[`Npgsql Entity Framework Core Provider`](https://www.npgsql.org/efcore/)** - Npgsql has an Entity Framework (EF) Core provider. It behaves like other EF Core providers (e.g. SQL Server), so the general EF Core docs apply here as well
--   ✔️ **[`FluentValidation`](https://github.com/FluentValidation/FluentValidation)** - Popular .NET validation library for building strongly-typed validation rules
--   ✔️ **[`Microsoft.AspNetCore.OpenApi`](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi)** - .Net 9 Built-in Open-API
--   ✔️ **[`Serilog`](https://github.com/serilog/serilog)** - Simple .NET logging with fully-structured events
--   ✔️ **[`Polly`](https://github.com/App-vNext/Polly)** - Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner
--   ✔️ **[`Scrutor`](https://github.com/khellang/Scrutor)** - Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
--   ✔️ **[`Opentelemetry-dotnet`](https://github.com/open-telemetry/opentelemetry-dotnet)** - The OpenTelemetry .NET Client
--   ✔️ **[`Newtonsoft.Json`](https://github.com/JamesNK/Newtonsoft.Json)** - Json.NET is a popular high-performance JSON framework for .NET
--   ✔️ **[`AspNetCore.Diagnostics.HealthChecks`](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks)** - Enterprise HealthChecks for ASP.NET Core Diagnostics Package
--   ✔️ **[`NSubstitute`](https://github.com/nsubstitute/NSubstitute)** - A friendly substitute for .NET mocking libraries.
--   ✔️ **[`StyleCopAnalyzers`](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)** - An implementation of StyleCop rules using the .NET Compiler Platform
--   ✔️ **[`Mapperly`](https://github.com/riok/mapperly)** - A .NET source generator for generating object mappings, No runtime reflection.
--   ✔️ **[`Mediator`](https://github.com/martinothamar/Mediator)** - A high performance implementation of Mediator pattern in .NET using source generators.
--   ✔️ **[`NewID`](https://masstransit.io/documentation/patterns/newid)** - NewId generates sequential unique identifiers that are 128-bit (16-bytes) and fit nicely into a Guid
+- ✔️ **[`.NET 9`](https://dotnet.microsoft.com/download)** - .NET Framework and .NET Core, including ASP.NET and ASP.NET Core
+- ✔️ **[`Npgsql Entity Framework Core Provider`](https://www.npgsql.org/efcore/)** - Npgsql has an Entity Framework (EF) Core provider. It behaves like other EF Core providers (e.g. SQL Server), so the general EF Core docs apply here as well
+- ✔️ **[`FluentValidation`](https://github.com/FluentValidation/FluentValidation)** - Popular .NET validation library for building strongly-typed validation rules
+- ✔️ **[`Microsoft.AspNetCore.OpenApi`](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi)** - .Net 9 Built-in Open-API
+- ✔️ **[`Polly`](https://github.com/App-vNext/Polly)** - Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner
+- ✔️ **[`Scrutor`](https://github.com/khellang/Scrutor)** - Assembly scanning and decoration extensions for Microsoft.Extensions.DependencyInjection
+- ✔️ **[`Opentelemetry-dotnet`](https://github.com/open-telemetry/opentelemetry-dotnet)** - The OpenTelemetry .NET Client
+- ✔️ **[`Newtonsoft.Json`](https://github.com/JamesNK/Newtonsoft.Json)** - Json.NET is a popular high-performance JSON framework for .NET
+- ✔️ **[`AspNetCore.Diagnostics.HealthChecks`](https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks)** - Enterprise HealthChecks for ASP.NET Core Diagnostics Package
+- ✔️ **[`NSubstitute`](https://github.com/nsubstitute/NSubstitute)** - A friendly substitute for .NET mocking libraries.
+- ✔️ **[`StyleCopAnalyzers`](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)** - An implementation of StyleCop rules using the .NET Compiler Platform
+- ✔️ **[`Mapperly`](https://github.com/riok/mapperly)** - A .NET source generator for generating object mappings, No runtime reflection.
+- ✔️ **[`Mediator`](https://github.com/martinothamar/Mediator)** - A high performance implementation of Mediator pattern in .NET using source generators.
+- ✔️ **[`NewID`](https://masstransit.io/documentation/patterns/newid)** - NewId generates sequential unique identifiers that are 128-bit (16-bytes) and fit nicely into a Guid
 
 ## Getting Started
 
@@ -107,7 +106,7 @@ dotnet new vsa -n <YourProjectName>
 
 This application uses `Https` for hosting apis, to setup a valid certificate on your machine, you can create a [Self-Signed Certificate](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https#macos-or-linux), see more about enforce certificate [here](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide) and [here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl).
 
--   Setup on windows and [`powershell`](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide#with-dotnet-dev-certs):
+- Setup on windows and [`powershell`](https://learn.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide#with-dotnet-dev-certs):
 
 ```powershell
 dotnet dev-certs https --clean
@@ -115,7 +114,7 @@ dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\aspnetapp.pfx -p <CRED
 dotnet dev-certs https --trust
 ```
 
--   Setup in [`linux and wsl`](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0#macos-or-linux):
+- Setup in [`linux and wsl`](https://learn.microsoft.com/en-us/aspnet/core/security/docker-https?view=aspnetcore-7.0#macos-or-linux):
 
 ```bash
 dotnet dev-certs https --clean
@@ -248,19 +247,19 @@ npm run prepare
 
 For roslyn analizers I use serveral analyzers and config the in `.editorconfig` file:
 
--   [StyleCop/StyleCop](https://github.com/StyleCop/StyleCop)
--   [JosefPihrt/Roslynator](https://github.com/JosefPihrt/Roslynator)
--   [meziantou/Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer)
--   [Microsoft.VisualStudio.Threading.Analyzers](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers)
+- [StyleCop/StyleCop](https://github.com/StyleCop/StyleCop)
+- [JosefPihrt/Roslynator](https://github.com/JosefPihrt/Roslynator)
+- [meziantou/Meziantou.Analyzer](https://github.com/meziantou/Meziantou.Analyzer)
+- [Microsoft.VisualStudio.Threading.Analyzers](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers)
 
 ## Application Structure
 
 In this project I used [vertical slice architecture](https://jimmybogard.com/vertical-slice-architecture/) or [Restructuring to a Vertical Slice Architecture](https://codeopinion.com/restructuring-to-a-vertical-slice-architecture/) also I used [feature folder structure](http://www.kamilgrzybek.com/design/feature-folders/) in this project.
 
--   We treat each request as a distinct use case or slice, encapsulating and grouping all concerns from front-end to back.
--   When We adding or changing a feature in an application in n-tire architecture, we are typically touching many different "layers" in an application. we are changing the user interface, adding fields to models, modifying validation, and so on. Instead of coupling across a layer, we couple vertically along a slice and each change affects only one slice.
--   We `Minimize coupling` `between slices`, and `maximize coupling` `in a slice`.
--   With this approach, each of our vertical slices can decide for itself how to best fulfill the request. New features only add code, we're not changing shared code and worrying about side effects. For implementing vertical slice architecture using cqrs pattern is a good match.
+- We treat each request as a distinct use case or slice, encapsulating and grouping all concerns from front-end to back.
+- When We adding or changing a feature in an application in n-tire architecture, we are typically touching many different "layers" in an application. we are changing the user interface, adding fields to models, modifying validation, and so on. Instead of coupling across a layer, we couple vertically along a slice and each change affects only one slice.
+- We `Minimize coupling` `between slices`, and `maximize coupling` `in a slice`.
+- With this approach, each of our vertical slices can decide for itself how to best fulfill the request. New features only add code, we're not changing shared code and worrying about side effects. For implementing vertical slice architecture using cqrs pattern is a good match.
 
 ![](./assets/vertical-slice-architecture.jpg)
 
@@ -268,25 +267,25 @@ In this project I used [vertical slice architecture](https://jimmybogard.com/ver
 
 Also here I used [CQRS](https://www.eventecommerce.com/cqrs-pattern) for decompose my features to very small parts that makes our application:
 
--   maximize performance, scalability and simplicity.
--   adding new feature to this mechanism is very easy without any breaking change in other part of our codes. New features only add code, we're not changing shared code and worrying about side effects.
--   easy to maintain and any changes only affect on one command or query (or a slice) and avoid any breaking changes on other parts
--   it gives us better separation of concerns and cross cutting concern (with help of MediatR behavior pipelines) in our code instead of a big service class for doing a lot of things.
+- maximize performance, scalability and simplicity.
+- adding new feature to this mechanism is very easy without any breaking change in other part of our codes. New features only add code, we're not changing shared code and worrying about side effects.
+- easy to maintain and any changes only affect on one command or query (or a slice) and avoid any breaking changes on other parts
+- it gives us better separation of concerns and cross cutting concern (with help of MediatR behavior pipelines) in our code instead of a big service class for doing a lot of things.
 
 With using [CQRS](https://event-driven.io/en/cqrs_facts_and_myths_explained/), our code will be more aligned with [SOLID principles](https://en.wikipedia.org/wiki/SOLID), especially with:
 
--   [Single Responsibility](https://en.wikipedia.org/wiki/Single-responsibility_principle) rule - because logic responsible for a given operation is enclosed in its own type.
--   [Open-Closed](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle) rule - because to add new operation you don’t need to edit any of the existing types, instead you need to add a new file with a new type representing that operation.
+- [Single Responsibility](https://en.wikipedia.org/wiki/Single-responsibility_principle) rule - because logic responsible for a given operation is enclosed in its own type.
+- [Open-Closed](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle) rule - because to add new operation you don’t need to edit any of the existing types, instead you need to add a new file with a new type representing that operation.
 
 Here instead of some [Technical Splitting](http://www.kamilgrzybek.com/design/feature-folders/) for example a folder or layer for our `services`, `controllers` and `data models` which increase dependencies between our technical splitting and also jump between layers or folders, We cut each business functionality into some vertical slices, and inner each of these slices we have [Technical Folders Structure](http://www.kamilgrzybek.com/design/feature-folders/) specific to that feature (command, handlers, infrastructure, repository, controllers, data models, ...).
 
 Usually, when we work on a given functionality we need some technical things for example:
 
--   API endpoint (Controller)
--   Request Input (Dto)
--   Request Output (Dto)
--   Some class to handle Request, For example Command and Command Handler or Query and Query Handler
--   Data Model
+- API endpoint (Controller)
+- Request Input (Dto)
+- Request Output (Dto)
+- Some class to handle Request, For example Command and Command Handler or Query and Query Handler
+- Data Model
 
 Now we could all of these things beside each other and it decrease jumping and dependencies between some layers or folders.
 

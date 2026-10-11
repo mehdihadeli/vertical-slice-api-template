@@ -12,10 +12,9 @@ using Shared.Core.Messaging;
 using Shared.EF;
 using Shared.HealthCheck;
 using Shared.Logging;
-using Shared.Logging.Extensions;
-using Shared.Messaging.MassTransit;
-using Shared.Observability;
-using Shared.Observability.Behaviors;
+using Shared.Messaging.Wolverine;
+using Shared.Diagnostics;
+using Shared.Diagnostics.Behaviors;
 using Shared.RateLimit;
 using Shared.Resiliency;
 using Shared.Validation;
@@ -35,22 +34,13 @@ public static partial class WebApplicationBuilderExtensions
 
         builder.Services.AddCore();
 
-        var serilogOptions = builder.Configuration.BindOptions<SerilogOptions>(nameof(SerilogOptions));
-        if (serilogOptions.Enabled && (builder.Environment.IsDevelopment() || builder.Environment.IsTest()))
-        {
-            // - for production, we use OpenTelemetry
-            // - we can use serilog to send logs to opentemetry with using`writeToProviders` and `builder.Logging.AddOpenTelemetry` to write logs event to `ILoggerProviders` which use by opentelemtry and .net default logging use it,
-            // and here we used .net default logging without any configuration, and it is fully compatible with `builder.Logging.AddOpenTelemetry` for sending logs to opentelemetry
-            builder.AddCustomSerilog();
-        }
-
-        builder.AddMasstransitEventBus();
+        builder.AddWolverineEventBus();
 
         // https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/health-checks#non-development-environments
         builder.Services.AddRequestTimeouts();
         builder.Services.AddOutputCache();
 
-        builder.AddCustomObservability();
+        builder.AddCustomDiagnostics();
 
         builder.AddCustomRateLimit();
 

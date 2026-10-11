@@ -1,0 +1,37 @@
+[tools]
+dotnet = "10"
+node = "24"
+
+[settings]
+task.run_auto_install = false
+idiomatic_version_file_enable_tools = ["dotnet"]
+
+[tasks.restore]
+description = "Restore solution and local tools"
+run = ["dotnet restore Vertical.Slice.Template.sln", "dotnet tool restore"]
+
+[tasks.build]
+description = "Build release configuration"
+depends = ["restore"]
+run = "dotnet build Vertical.Slice.Template.sln --configuration Release"
+
+[tasks.test]
+description = "Run all tests with Microsoft Testing Platform"
+depends = ["build"]
+run = "dotnet test --solution Vertical.Slice.Template.sln --configuration Release --no-build"
+
+[tasks.quality]
+description = "Run formatting and analyzer checks"
+run = [
+  "dotnet csharpier check .",
+  "dotnet format style Vertical.Slice.Template.sln --verify-no-changes --severity error",
+  "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes --severity error"
+]
+
+[tasks.hook]
+description = "Install Husky.Net Git hooks"
+run = ["git config core.hooksPath .husky", "dotnet tool run husky -- install"]
+
+[tasks.prepare]
+description = "First-time repository setup"
+depends = ["restore", "hook"]
