@@ -20,14 +20,14 @@ Thanks a bunch for supporting me!
     - [⭐ Support](#-support)
     - [Table of Contents](#table-of-contents)
     - [Install](#install)
+        - [From NuGet](#from-nuget)
+        - [From a Local Clone](#from-a-local-clone)
     - [Features](#features)
     - [Libraries and Infrastructure](#libraries-and-infrastructure)
     - [Getting Started](#getting-started)
     - [Setup](#setup)
         - [Dev Certificate](#dev-certificate)
         - [Conventional Commit](#conventional-commit)
-        - [Formatting](#formatting)
-        - [Analyzers](#analyzers)
     - [Application Structure](#application-structure)
         - [High Level Structure](#high-level-structure)
         - [Modules Structure](#modules-structure)
@@ -40,14 +40,36 @@ Thanks a bunch for supporting me!
 
 ## Install
 
-For installing `vertical slice api template` from [nuget container registry](https://www.nuget.org/packages/Vertical.Slice.Template) run this dotnet cli command:
+Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) before using the template.
 
-```bash
-dotnet new install Vertical.Slice.Template
-dotnet new vsa -n <YourProjectName>
-```
+### From NuGet
 
-Or for installing the template locally you can clone the project and run this command in the root of this repository:
+The template is published on [NuGet.org as Vertical.Slice.Template](https://www.nuget.org/packages/Vertical.Slice.Template). You do not need to clone this repository.
+
+1. Install the latest stable template package:
+
+    ```bash
+    dotnet new install Vertical.Slice.Template --nuget-source https://api.nuget.org/v3/index.json
+    ```
+
+2. Verify that the template is available with the short name `vsa`:
+
+    ```bash
+    dotnet new list vsa
+    ```
+
+3. Create a solution in a new folder, replacing `MyProject` with your project name:
+
+    ```bash
+    dotnet new vsa -n MyProject -o MyProject
+    cd MyProject
+    ```
+
+To install a specific version, use `Vertical.Slice.Template@<version>` instead of `Vertical.Slice.Template` in the install command. Replace `<version>` with a version listed on the NuGet package page.
+
+### From a Local Clone
+
+Clone this repository and run these commands from its root:
 
 ```bash
 dotnet new install .

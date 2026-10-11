@@ -132,7 +132,7 @@ jobs:
       - name: Publish matching Release Drafter draft
         uses: release-drafter/release-drafter@v7
         with:
-          config-name: file:.github/release-drafter.yml
+          config-name: file:release-drafter.yml
           version: ${{ needs['calculate-version'].outputs.version }}
           name: v${{ needs['calculate-version'].outputs.version }}
           tag: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || format('v{0}', needs['calculate-version'].outputs.version) }}
