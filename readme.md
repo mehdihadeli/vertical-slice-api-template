@@ -24,6 +24,8 @@ Thanks a bunch for supporting me!
         - [From a Local Clone](#from-a-local-clone)
     - [Features](#features)
     - [Libraries and Infrastructure](#libraries-and-infrastructure)
+    - [Repository Tooling](#repository-tooling)
+    - [Testing](#testing)
     - [Getting Started](#getting-started)
     - [Setup](#setup)
         - [Dev Certificate](#dev-certificate)
@@ -78,19 +80,22 @@ dotnet new vsa -n <YourProjectName>
 
 ## Features
 
-- ✅ Using `Vertical Slice Architecture` as a high-level architecture
-- ✅ Using `CQRS Pattern` on top of `Mediator` source generation
-- ✅ Using `Mapperly` source generator for the mappings
-- ✅ Using `Minimal APIs` for handling requests
-- ✅ Using PostgreSQL on top of Entity Framework Core
-- ✅ Using Wolverine with RabbitMQ for messaging
-- ✅ Using .NET Aspire for local orchestration and service discovery
-- ✅ Providing generated API clients with Kiota and connected service tooling
-- ✅ Using `OpenTelemetry` for collection `logs`, `metrics` and `tracings`
-- ✅ Using an OpenTelemetry Collector with Prometheus, Grafana, Loki, and Tempo deployment configurations
-- ✅ Using `FluentValidation` and a [validation pipeline behavior](./src/Shared/Validation/RequestValidationBehavior.cs) on top of Mediator
-- ✅ Using unit, integration, contract, and end-to-end test projects
-- ✅ Using docker and `docker-compose` for deployment
+- ✅ Vertical Slice Architecture with feature folders and CQRS
+- ✅ Mediator source generation for commands, queries, notifications, and pipeline behaviors
+- ✅ Minimal APIs with API versioning and OpenAPI documentation
+- ✅ Mapperly source-generated mappings and FluentValidation request validation
+- ✅ PostgreSQL persistence with Entity Framework Core, Dapper, SqlKata, and an in-memory option for local tests
+- ✅ Wolverine messaging with RabbitMQ, PostgreSQL message persistence, and transactional middleware
+- ✅ Hybrid caching with Redis support and MessagePack serialization
+- ✅ JWT authentication, authorization, CORS, header propagation, compression, rate limiting, and request timeouts
+- ✅ HTTP resilience using the .NET resilience libraries and Polly
+- ✅ Health checks with `/health` and `/alive` endpoints
+- ✅ OpenAPI tooling with Scalar, Swagger UI, and ReDoc
+- ✅ Generated API clients with Kiota and NSwag connected-service tooling
+- ✅ OpenTelemetry logs, metrics, and traces with OTLP export support
+- ✅ Local .NET Aspire orchestration with service discovery and dashboard diagnostics
+- ✅ Docker Compose and Kubernetes deployment assets
+- ✅ Unit, integration, contract, dependency, client, and end-to-end test projects
 
 ## Libraries and Infrastructure
 
@@ -111,6 +116,51 @@ dotnet new vsa -n <YourProjectName>
 - ✔️ **[`Mapperly`](https://github.com/riok/mapperly)** - A .NET source generator for generating object mappings, No runtime reflection.
 - ✔️ **[`Mediator`](https://github.com/martinothamar/Mediator)** - A high performance implementation of Mediator pattern in .NET using source generators.
 - ✔️ **[`NewID`](https://masstransit.io/documentation/patterns/newid)** - NewId generates sequential unique identifiers that are 128-bit (16-bytes) and fit nicely into a Guid
+
+## Repository Tooling
+
+The repository uses [Husky.Net](https://alirezanet.github.io/Husky.Net/) for Git hooks and task execution. The task definitions are in [.husky/task-runner.json](./.husky/task-runner.json).
+
+Restore the local tools and install the hooks with:
+
+```bash
+dotnet tool restore
+dotnet tool run husky -- install
+```
+
+The configured tasks are:
+
+| Task        | Group        | Purpose                                         |
+| ----------- | ------------ | ----------------------------------------------- |
+| `format`    | `pre-commit` | Run CSharpier over the repository.              |
+| `style`     | `pre-commit` | Verify .NET style rules without changing files. |
+| `analyzers` | `pre-commit` | Verify analyzer diagnostics at error severity.  |
+| `build`     | `pre-push`   | Build the Release configuration.                |
+| `test`      | `pre-push`   | Run the complete test suite.                    |
+| `build-ci`  | `ci`         | Build Release without restoring packages.       |
+
+The repository also provides equivalent [mise](https://mise.jdx.dev/) tasks:
+
+```bash
+mise run restore
+mise run build
+mise run test
+mise run quality
+```
+
+## Testing
+
+Tests use [xUnit v3](https://xunit.net/) with the `xunit.v3.mtp-v2` integration package and are configured for [Microsoft Testing Platform](https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-intro). The SDK and test runner are pinned in [global.json](./global.json), while the test projects enable Microsoft Testing Platform in [tests/Directory.Build.props](./tests/Directory.Build.props).
+
+The test suite includes unit, integration, contract, dependency, generated-client, and end-to-end tests. Shared test infrastructure uses ASP.NET Core `WebApplicationFactory`, Testcontainers, WireMock.NET, Respawn, SQLite, FluentAssertions, and NSubstitute.
+
+Run all tests from the repository root:
+
+```bash
+dotnet test --solution Vertical.Slice.Template.sln --configuration Release
+```
+
+Docker is required for tests that start PostgreSQL, RabbitMQ, MongoDB, or SQL Server containers.
 
 ## Getting Started
 
@@ -155,40 +205,18 @@ dotnet dev-certs https --trust
 
 `dotnet dev-certs https --trust` is only supported on macOS and Windows. You need to trust certs on Linux in the way that is supported by your distribution. It is likely that you need to trust the certificate in your browser(with this certificate we don't get an exception for https port because of not found certificate but browser shows us this certificate is not trusted).
 
-### Conventional Commit
+### Conventional Commits and Git Hooks
 
-In this app I use [Conventional Commit](https://www.conventionalcommits.org/en/) and for enforcing its rule I use [conventional-changelog/commitlint](https://github.com/conventional-changelog/commitlint) and [typicode/husky](https://github.com/typicode/husky) with a pre-commit hook. For read more about its setup see [commitlint docs](https://github.com/conventional-changelog/commitlint#getting-started) and [this article](https://betterprogramming.pub/how-to-lint-commit-messages-with-husky-and-commitlint-b51d20a5e514) and [this article](https://www.code4it.dev/blog/conventional-commit-with-githooks).
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/) and are checked with [commitlint](https://github.com/conventional-changelog/commitlint). Git hooks are managed with Husky.Net rather than the Node.js Husky package.
 
-Here I configured a husky hook for conventional commits:
+After restoring tools, install the hooks:
 
-1. Install NPM:
-
-```text
-src
-├───App
-│   ├───Vertical.Slice.Template          # Catalog domain and vertical slices
-│   └───Vertical.Slice.Template.Api      # ASP.NET Core API host
-├───ApiClients
-│   ├───Vertical.Slice.Template.ConnectedServiceClients
-│   └───Vertical.Slice.Template.KiotaClients
-├───Aspire
-│   ├───Vertical.Slice.Template.AppHost
-│   └───Vertical.Slice.Template.ServiceDefaults
-└───Shared
-    ├───Abstractions
-    ├───Cache
-    ├───Core
-    ├───Diagnostics
-    ├───EF
-    ├───HealthCheck
-    ├───Logging
-    ├───Messaging.Wolverine
-    ├───OpenApi
-    ├───RateLimit
-    ├───Resiliency
-    ├───Validation
-    └───Web
+```bash
+dotnet tool restore
+dotnet tool run husky -- install
 ```
+
+The pre-commit hook runs formatting, style, and analyzer checks. The pre-push hook runs the Release build and complete test suite. See [.husky/task-runner.json](./.husky/task-runner.json) for the exact commands and file filters.
 
 ## Application Structure
 
