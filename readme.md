@@ -1,6 +1,6 @@
 # Vertical Slice API Template
 
-[![NuGet](https://img.shields.io/nuget/v/Vertical.Slice.Template?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/Vertical.Slice.Template)
+[![NuGet](https://img.shields.io/nuget/v/Vertical.Slice.ApiTemplate?label=nuget%20template&logo=nuget&logoColor=white&style=for-the-badge)](https://www.nuget.org/packages/Vertical.Slice.ApiTemplate)
 [![Build_Test](https://img.shields.io/github/actions/workflow/status/mehdihadeli/vertical-slice-api-template/build-test.yml?label=Build-Test&logo=github&style=for-the-badge)](https://github.com/mehdihadeli/vertical-slice-api-template/actions/workflows/build-test.yml)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?logoColor=white&style=for-the-badge)](http://commitizen.github.io/cz-cli/)
 
@@ -46,12 +46,12 @@ Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) bef
 
 ### From NuGet
 
-The template is published on [NuGet.org as Vertical.Slice.Template](https://www.nuget.org/packages/Vertical.Slice.Template). You do not need to clone this repository.
+The template is published on [NuGet.org as Vertical.Slice.ApiTemplate](https://www.nuget.org/packages/Vertical.Slice.ApiTemplate). You do not need to clone this repository.
 
 1. Install the latest stable template package:
 
     ```bash
-    dotnet new install Vertical.Slice.Template --nuget-source https://api.nuget.org/v3/index.json
+    dotnet new install Vertical.Slice.ApiTemplate --nuget-source https://api.nuget.org/v3/index.json
     ```
 
 2. Verify that the template is available with the short name `vsa`:
@@ -67,7 +67,7 @@ The template is published on [NuGet.org as Vertical.Slice.Template](https://www.
     cd MyProject
     ```
 
-To install a specific version, use `Vertical.Slice.Template@<version>` instead of `Vertical.Slice.Template` in the install command. Replace `<version>` with a version listed on the NuGet package page.
+To install a specific version, use `Vertical.Slice.ApiTemplate@<version>` instead of `Vertical.Slice.ApiTemplate` in the install command. Replace `<version>` with a version listed on the NuGet package page.
 
 ### From a Local Clone
 
@@ -157,7 +157,7 @@ The test suite includes unit, integration, contract, dependency, generated-clien
 Run all tests from the repository root:
 
 ```bash
-dotnet test --solution Vertical.Slice.Template.sln --configuration Release
+dotnet test --solution Vertical.Slice.ApiTemplate.sln --configuration Release
 ```
 
 Docker is required for tests that start PostgreSQL, RabbitMQ, MongoDB, or SQL Server containers.
@@ -168,7 +168,7 @@ Docker is required for tests that start PostgreSQL, RabbitMQ, MongoDB, or SQL Se
 2. Install git - [https://git-scm.com/downloads](https://git-scm.com/downloads).
 3. Install the .NET 10 SDK - [https://dotnet.microsoft.com/download/dotnet/10.0](https://dotnet.microsoft.com/download/dotnet/10.0).
 4. Install Visual Studio, Rider or VSCode.
-5. Run `dotnet new install Vertical.Slice.Template` to install the project templates.
+5. Run `dotnet new install Vertical.Slice.ApiTemplate` to install the project templates.
 6. Now with running `dotnet new --list`, we should see `Vertical.Slice.Template` in the template list.
 7. Create a folder for your solution and cd into it (the template will use it as project name)
 8. Run `dotnet new vsa -n <YourProjectName>` for short name or `dotnet new Vertical.Slice.Template -n <YourProjectName>` to create a new project template.
@@ -300,7 +300,7 @@ Each feature groups its request, handler, endpoint, DTOs, mapping, and persisten
 
 ## How to Run
 
-Open `Vertical.Slice.Template.sln` in Visual Studio, Rider, or VS Code and run the Aspire AppHost for the complete local environment.
+Open `Vertical.Slice.ApiTemplate.sln` in Visual Studio, Rider, or VS Code and run the Aspire AppHost for the complete local environment.
 
 ### Using .NET Aspire
 

@@ -34,13 +34,13 @@ jobs:
         run: dotnet tool restore
 
       - name: Restore
-        run: dotnet restore Vertical.Slice.Template.sln
+        run: dotnet restore Vertical.Slice.ApiTemplate.sln
 
       - name: Build
-        run: dotnet build Vertical.Slice.Template.sln --configuration Release --no-restore
+        run: dotnet build Vertical.Slice.ApiTemplate.sln --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test --solution Vertical.Slice.Template.sln --configuration Release --no-build
+        run: dotnet test --solution Vertical.Slice.ApiTemplate.sln --configuration Release --no-build
 
   calculate-version:
     name: Calculate release version

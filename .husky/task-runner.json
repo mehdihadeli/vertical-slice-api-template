@@ -23,7 +23,7 @@
             "args": [
                 "format",
                 "style",
-                "Vertical.Slice.Template.sln",
+                "Vertical.Slice.ApiTemplate.sln",
                 "--verify-no-changes",
                 "--severity",
                 "error",
@@ -46,7 +46,7 @@
             "args": [
                 "format",
                 "analyzers",
-                "Vertical.Slice.Template.sln",
+                "Vertical.Slice.ApiTemplate.sln",
                 "--verify-no-changes",
                 "--severity",
                 "error",
@@ -75,7 +75,7 @@
         {
             "name": "setup-solution-restore",
             "command": "dotnet",
-            "args": ["restore", "Vertical.Slice.Template.sln"]
+            "args": ["restore", "Vertical.Slice.ApiTemplate.sln"]
         },
         {
             "name": "build",
@@ -83,7 +83,7 @@
             "command": "dotnet",
             "args": [
                 "build",
-                "Vertical.Slice.Template.sln",
+                "Vertical.Slice.ApiTemplate.sln",
                 "--configuration",
                 "Release"
             ],
@@ -102,7 +102,7 @@
             "command": "dotnet",
             "args": [
                 "build",
-                "Vertical.Slice.Template.sln",
+                "Vertical.Slice.ApiTemplate.sln",
                 "--no-restore",
                 "--configuration",
                 "Release"
@@ -123,7 +123,7 @@
             "args": [
                 "test",
                 "--solution",
-                "Vertical.Slice.Template.sln",
+                "Vertical.Slice.ApiTemplate.sln",
                 "--configuration",
                 "Release"
             ],
