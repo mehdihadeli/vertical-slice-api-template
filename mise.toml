@@ -8,24 +8,24 @@ idiomatic_version_file_enable_tools = ["dotnet"]
 
 [tasks.restore]
 description = "Restore solution and local tools"
-run = ["dotnet restore Vertical.Slice.Template.sln", "dotnet tool restore"]
+run = ["dotnet restore Vertical.Slice.ApiTemplate.sln", "dotnet tool restore"]
 
 [tasks.build]
 description = "Build release configuration"
 depends = ["restore"]
-run = "dotnet build Vertical.Slice.Template.sln --configuration Release"
+run = "dotnet build Vertical.Slice.ApiTemplate.sln --configuration Release"
 
 [tasks.test]
 description = "Run all tests with Microsoft Testing Platform"
 depends = ["build"]
-run = "dotnet test --solution Vertical.Slice.Template.sln --configuration Release --no-build"
+run = "dotnet test --solution Vertical.Slice.ApiTemplate.sln --configuration Release --no-build"
 
 [tasks.quality]
 description = "Run formatting and analyzer checks"
 run = [
   "dotnet csharpier check .",
-  "dotnet format style Vertical.Slice.Template.sln --verify-no-changes --severity error",
-  "dotnet format analyzers Vertical.Slice.Template.sln --verify-no-changes --severity error"
+  "dotnet format style Vertical.Slice.ApiTemplate.sln --verify-no-changes --severity error",
+  "dotnet format analyzers Vertical.Slice.ApiTemplate.sln --verify-no-changes --severity error"
 ]
 
 [tasks.hook]

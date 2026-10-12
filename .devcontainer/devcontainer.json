@@ -53,7 +53,7 @@
                 "editor.suggest.snippetsPreventQuickSuggestions": false,
                 "explorer.autoReveal": true,
                 "resmon.show.cpufreq": false,
-                "dotnet.defaultSolution": "Vertical.Slice.Template.sln",
+                "dotnet.defaultSolution": "Vertical.Slice.ApiTemplate.sln",
                 "dotnet.server.startTimeout": 60000,
                 "omnisharp.projectLoadTimeout": 60,
                 "workbench.colorTheme": "Visual Studio Light",

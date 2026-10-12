@@ -10,13 +10,13 @@
 
     <!-- https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-install-->
     <!-- https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-new-uninstall-->
-    <!-- dotnet pack -p:NuspecFile=vertical-slice-template.nuspec -o nuget -c Debug /p:NuspecProperties="version=1.3.6;id=Vertical.Slice.Template" -->
+    <!-- dotnet pack -p:NuspecFile=vertical-slice-template.nuspec -o nuget -c Debug /p:NuspecProperties="version=1.3.6;id=Vertical.Slice.ApiTemplate" -->
     <!-- nuget pack vertical-slice-template.nuspec -OutputDirectory ./nuget  -Properties "version=1.3.6" -NoDefaultExcludes -Build -NoPackageAnalysis -->
-    <!-- dotnet new install ./Vertical.Slice.Template.1.3.6.nupkg-->
+    <!-- dotnet new install ./Vertical.Slice.ApiTemplate.1.3.6.nupkg-->
     <!-- dotnet new uninstall-->
-    <!-- dotnet new uninstall Vertical.Slice.Template-->
+    <!-- dotnet new uninstall Vertical.Slice.ApiTemplate-->
     <metadata>
-        <id>Vertical.Slice.Template</id>
+        <id>Vertical.Slice.ApiTemplate</id>
         <version>$version$</version>
         <title>Vertical Slice Template</title>
         <authors>Mehdi Hadeli</authors>
